@@ -1,0 +1,15 @@
+---
+// src/pages/admin.astro
+import Admin from '../components/Admin.jsx';
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Content Manager</title>
+    <link rel="stylesheet" href="https://unpkg.com/decap-cms-app@3.1.1/dist/main.css" />
+  </head>
+  <body>
+    <Admin client:only="react" />
+  </body>
+</html>
