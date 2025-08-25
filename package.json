@@ -1,5 +1,5 @@
 {
-  "name": "hopewell-ecopto",
+  "name": "hopewell-pto",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -7,16 +7,18 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "cms": "npx decap-server"
+  },
+  "overrides": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
   },
   "dependencies": {
     "@astrojs/mdx": "^3.1.2",
+    "@astrojs/react": "^4.3.0",
     "@astrojs/tailwind": "^5.1.0",
     "astro": "^4.11.3",
-    "decap-cms-app": "^3.1.1",
+    "decap-cms-app": "3.1.1",
     "tailwindcss": "^3.4.4"
-  },
-  "devDependencies": {
-    "decap-server": "^3.0.2"
   }
 }
