@@ -1,0 +1,9 @@
+---
+const { event } = Astro.props;
+---
+<div class="border p-4 rounded-lg">
+  <h3 class="text-xl font-bold">{event.data.title}</h3>
+  <p>{event.data.eventDate.toDateString()}</p>
+  <p>{event.data.location}</p>
+  <a href={`/events/${event.slug}/`}>Read More</a>
+</div>

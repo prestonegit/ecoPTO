@@ -1,0 +1,12 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
+const aboutPage = await getEntry('pages', 'about-us');
+const { Content } = await aboutPage.render();
+---
+
+<Layout title="About Us">
+  <h1>{aboutPage.data.title}</h1>
+  <Content />
+</Layout>

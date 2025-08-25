@@ -1,0 +1,82 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import globalSettings from '../content/settings/global.json';
+
+const { title } = Astro.props;
+const themeClass = globalSettings.theme;
+---
+<!doctype html>
+<html lang="en" class={themeClass}>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="description" content="HVRSD ecoPTO Website" />
+	<meta name="viewport" content="width=device-width" />
+	<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+	<title>{title} | {globalSettings.site_name}</title>
+	<ViewTransitions />
+    <style is:global>
+    /* Define theme variables */
+    .theme-district-maroon {
+        --primary-color: #8C1D40;   /* Deep Maroon from crest ribbon */
+        --secondary-color: #C89D4B;  /* Antique Gold from crest scrollwork */
+        --accent-color: #002366;    /* Royal Blue from crest shield */
+        --text-color: #333333;
+        --bg-color: #F8F7F2;        /* Off-white from crest shield */
+        --font-sans: 'Helvetica', 'Arial', sans-serif;
+        --font-serif: 'Georgia', serif;
+    }
+    .theme-district-blue {
+        --primary-color: #002366;    /* Royal Blue from crest shield */
+        --secondary-color: #C89D4B;  /* Antique Gold from crest scrollwork */
+        --accent-color: #8C1D40;   /* Deep Maroon from crest ribbon */
+        --text-color: #333333;
+        --bg-color: #FFFFFF;
+        --font-sans: 'Helvetica', 'Arial', sans-serif;
+        --font-serif: 'Georgia', serif;
+    }
+    .theme-summer {
+        --primary-color: #2E8B57;   /* Garden Green */
+        --secondary-color: #FFDAB9; /* Peach */
+        --accent-color: #87CEEB;   /* Sky Blue */
+        --text-color: #333333;
+        --bg-color: #F5FFFA;
+        --font-sans: 'Helvetica', 'Arial', sans-serif;
+        --font-serif: 'Georgia', serif;
+    }
+    .theme-fall {
+        --primary-color: #795548;   /* Brown */
+        --secondary-color: #FF9800; /* Orange */
+        --accent-color: #A1887F;   /* Light Brown/Tan */
+        --text-color: #FFFFFF;     /* White text on the darker primary */
+        --bg-color: #F5F5DC;
+        --font-sans: 'Helvetica', 'Arial', sans-serif;
+        --font-serif: 'Georgia', serif;
+    }
+    body {
+        background-color: var(--bg-color);
+        color: var(--text-color);
+        font-family: var(--font-sans);
+    }
+    h1, h2, h3 {
+        font-family: var(--font-serif);
+        color: var(--primary-color);
+    }
+    a {
+        color: var(--primary-color);
+        text-decoration: none;
+    }
+    a:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body class="min-h-screen flex flex-col">
+	<Header />
+	<main class="flex-grow container mx-auto px-4 py-8">
+		<slot />
+	</main>
+	<Footer />
+</body>
+</html>

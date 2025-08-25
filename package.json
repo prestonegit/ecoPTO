@@ -1,0 +1,22 @@
+{
+  "name": "hopewell-ecopto",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^3.1.2",
+    "@astrojs/tailwind": "^5.1.0",
+    "astro": "^4.11.3",
+    "decap-cms-app": "^3.1.1",
+    "tailwindcss": "^3.4.4"
+  },
+  "devDependencies": {
+    "decap-server": "^3.0.2"
+  }
+}
