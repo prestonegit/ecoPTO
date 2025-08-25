@@ -1,0 +1,14 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import NewsCard from '../../components/NewsCard.astro';
+
+const news = await getCollection('news');
+---
+
+<Layout title="News">
+  <h1>News</h1>
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+    {news.map(item => <NewsCard news={item} />)}
+  </div>
+</Layout>
