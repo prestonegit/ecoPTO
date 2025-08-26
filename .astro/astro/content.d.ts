@@ -157,14 +157,14 @@ declare module 'astro:content' {
   slug: "2025-09-16-back-to-school-night";
   body: string;
   collection: "events";
-  data: InferEntrySchema<"events">
+  data: any
 } & { render(): Render[".mdx"] };
 "2025-10-25-fall-harvest-festival.mdx": {
 	id: "2025-10-25-fall-harvest-festival.mdx";
   slug: "2025-10-25-fall-harvest-festival";
   body: string;
   collection: "events";
-  data: InferEntrySchema<"events">
+  data: any
 } & { render(): Render[".mdx"] };
 };
 "news": {
@@ -173,17 +173,24 @@ declare module 'astro:content' {
   slug: "2025-08-07-welcome-from-the-ecopto-president";
   body: string;
   collection: "news";
-  data: InferEntrySchema<"news">
+  data: any
 } & { render(): Render[".mdx"] };
 };
 "pages": {
-"about-us.mdx": {
-	id: "about-us.mdx";
+"about-us.md": {
+	id: "about-us.md";
   slug: "about-us";
   body: string;
   collection: "pages";
   data: InferEntrySchema<"pages">
-} & { render(): Render[".mdx"] };
+} & { render(): Render[".md"] };
+"impact.md": {
+	id: "impact.md";
+  slug: "impact";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
+} & { render(): Render[".md"] };
 };
 
 	};

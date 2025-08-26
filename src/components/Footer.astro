@@ -1,3 +1,9 @@
-<footer class="bg-theme-primary text-white p-4 text-center">
-  <p>&copy; {new Date().getFullYear()} HVRSD ecoPTO</p>
+---
+// src/components/Footer.astro
+const year = new Date().getFullYear();
+---
+<footer class="bg-theme-primary text-theme-secondary mt-12">
+  <div class="container mx-auto px-4 py-4 text-center">
+    &copy; {year} HVRSD ecoPTO
+  </div>
 </footer>

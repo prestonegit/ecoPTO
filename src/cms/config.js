@@ -39,16 +39,41 @@ export const config = {
       label: "Pages",
       files: [
         {
-          file: "src/content/pages/about-us.mdx",
+          file: "src/content/pages/about-us.md", // <-- This was about-us.mdx, should be .md
           label: "About Us Page",
           name: "about",
           fields: [
             { label: "Title", name: "title", widget: "string" },
             { label: "Body", name: "body", widget: "markdown" }
           ]
+        },
+        // THIS IS THE CORRECTED PLACEMENT FOR THE IMPACT PAGE
+        {
+          file: "src/content/pages/community-impact.md",
+          label: "Community Impact Page",
+          name: "impact",
+          fields: [
+            { label: "Main Title", name: "title", widget: "string", default: "Community Impact" },
+            { label: "Subtitle", name: "subtitle", widget: "string" },
+            { label: "Achievements Title", name: "achievements_title", widget: "string", default: "Achievements This Year" },
+            {
+              label: "Achievements List",
+              name: "achievements",
+              widget: "list",
+              fields: [
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Description", name: "description", widget: "text" }
+              ]
+            },
+            // Added the image fields back in
+            { label: "Image 1 (Top-Left)", name: "image1", widget: "image" },
+            { label: "Image 2 (Top-Right)", name: "image2", widget: "image" },
+            { label: "Image 3 (Bottom-Left)", name: "image3", widget: "image" },
+            { label: "Image 4 (Bottom-Right)", name: "image4", widget: "image" }
+          ]
         }
       ]
     },
-    // Add your other collections (events, news) here if needed
+    // your other collections (events, news) would go here
   ]
 };

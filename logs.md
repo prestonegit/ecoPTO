@@ -1,10 +1,10 @@
-11:18:33 [200] /admin 4ms
-11:18:33 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
-11:18:38 [200] /admin 3ms
-11:18:38 [404] /.well-known/appspecific/com.chrome.devtools.json 1ms
-
-
-
-Uncaught SyntaxError: "undefined" is not valid JSON
-    at JSON.parse (<anonymous>)
-    at user-config:6:16
+react-dom-client.production.js:229 Uncaught TypeError: Cannot read properties of undefined (reading '__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE')
+86974	@	react-dom-client.production.js:229
+__webpack_require__	@	bootstrap:19
+25873	@	client.js:35
+__webpack_require__	@	bootstrap:19
+(anonymous)	@	decap-cms-app.js:8
+(anonymous)	@	decap-cms-app.js:491
+(anonymous)	@	decap-cms-app.js:491
+(anonymous)	@	universalModuleDefinition:9
+(anonymous)	@	universalModuleDefinition:1

@@ -1,34 +1,23 @@
 import { z, defineCollection } from 'astro:content';
 
-const eventsCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    eventDate: z.date(),
-    location: z.string(),
-    image: z.string().optional(),
-  }),
-});
-
-const newsCollection = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    pubDate: z.date(),
-    author: z.string(),
-    image: z.string().optional(),
-  }),
-});
-
 const pagesCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
+    subtitle: z.string().optional(),
+    achievements_title: z.string().optional(),
+    achievements: z.array(z.object({
+        title: z.string(),
+        description: z.string(),
+    })).optional(),
+    image1: z.string().optional(),
+    image2: z.string().optional(),
+    image3: z.string().optional(),
+    image4: z.string().optional(),
   }),
 });
 
 export const collections = {
-  events: eventsCollection,
-  news: newsCollection,
   pages: pagesCollection,
+  // Your other collections like 'events' can be defined here too
 };
