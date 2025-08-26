@@ -1,0 +1,98 @@
+---
+---
+<dialog id="signup-modal" class="modal">
+  <div class="modal-box">
+    <h3 class="font-bold text-lg">Join the ecoPTO Community!</h3>
+    <p class="py-4">Please fill out the form below to join our community.</p>
+    <form method="dialog" class="py-4">
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">First Name</span>
+        </label>
+        <input type="text" placeholder="First Name" class="input input-bordered" required />
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">Email Address</span>
+        </label>
+        <input type="email" placeholder="Email Address" class="input input-bordered" required />
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">School(s) Affiliation</span>
+        </label>
+        <input type="text" placeholder="e.g., Hopewell Elementary, Central High" class="input input-bordered" />
+      </div>
+      <div class="form-control">
+        <label class="label">
+          <span class="label-text">What impact would you like to see ecoPTO focus on?</span>
+        </label>
+        <textarea class="textarea textarea-bordered" placeholder="Your ideas here..."></textarea>
+      </div>
+      <div class="form-control mt-4">
+        <label class="label cursor-pointer">
+          <span class="label-text">I'd like to receive updates about ecoPTO events and initiatives</span>
+          <input type="checkbox" checked="checked" class="checkbox" />
+        </label>
+      </div>
+      <div class="form-control">
+        <label class="label cursor-pointer">
+          <span class="label-text">I'd like to play a more active role</span>
+          <input type="checkbox" class="checkbox" />
+        </label>
+      </div>
+      <div class="modal-action">
+        <button class="btn">Close</button>
+        <button class="btn btn-primary">Join ecoPTO Community</button>
+      </div>
+    </form>
+  </div>
+</dialog>
+
+<style>
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-box {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 8px;
+  }
+
+  .modal.modal-open {
+    display: flex;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const modal = document.getElementById('signup-modal');
+    const closeButton = modal.querySelector('.btn'); // Assuming the first button is 'Close'
+
+    closeButton.addEventListener('click', () => {
+      modal.classList.remove('modal-open');
+    });
+
+    // Close modal when clicking outside
+    modal.addEventListener('click', (event) => {
+      if (event.target === modal) {
+        modal.classList.remove('modal-open');
+      }
+      });
+  });
+</script>

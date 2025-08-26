@@ -1,12 +1,27 @@
 ---
-import Layout from '../layouts/Layout.astro';
 import { getEntry } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+import { marked } from 'marked';
 
+// Fetch the about-us content entry
 const aboutPage = await getEntry('pages', 'about-us');
-const { Content } = await aboutPage.render();
----
 
-<Layout title="About Us">
-  <h1>{aboutPage.data.title}</h1>
-  <Content />
+if (!aboutPage) {
+  return new Response(null, { status: 404, statusText: 'Not Found' });
+}
+
+// Get the title from the frontmatter and the raw body text
+const { title } = aboutPage.data;
+const { body } = aboutPage;
+
+// Use the 'marked' library to convert the Markdown body into HTML
+const renderedHTML = await marked.parse(body);
+---
+<Layout title={title}>
+  <article class="prose lg:prose-xl mx-auto">
+    <h1>{title}</h1>
+
+    <Fragment set:html={renderedHTML} />
+    
+  </article>
 </Layout>

@@ -1,0 +1,23 @@
+---
+title: Community Impact
+subtitle: See how ecoPTO is nurturing youth and earth wellbeing in our schools and community
+achievements_title: Achievements in 2025
+achievements:
+  - title: Native Seed Planting
+    description: >-
+      We did that.
+  - title: Outdoor Learning Sessions
+    description: >-
+      That too.
+  - title: Indigenous Dance Sessions
+    description: >-
+      Yup even that.
+  - title: Youth & Earth Wellbeing Programs
+    description: >-
+      Working towards integrating earth connection and youth wellbeing curriculum into grade K-12
+      across all district schools.
+image1: /src/assets/impact1.jpg
+image2: /src/assets/impact2.jpg
+image3: /src/assets/impact3.jpg
+image4: /src/assets/impact4.jpg
+---
