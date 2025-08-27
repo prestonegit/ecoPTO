@@ -1,25 +1,24 @@
 ---
 // src/components/Contact.astro
 ---
-<section id="contact" class="py-20 bg-[#1A472A] text-white">
+<section id="contact" class="py-20 bg-primary text-bg-primary">
   <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
-    <div>
-      <h2 class="text-4xl font-bold">Get In Touch</h2>
-      <p class="mt-4 text-lg text-green-100">
-        Have questions about our programs? Want to get involved? We'd love to hear from you.
+    <div class="">
+      <h2 class="text-4xl font-bold text-bg-primary mt-6">Get In Touch</h2>
+      <p class="mt-4 text-lg text-bg-primary">
+        Have questions about our programs? Want to get involved? We'd love to hear from you. <br> Send us a note and one of our members will be in touch shortly.
       </p>
       <div class="mt-8 space-y-4">
         <p><strong>Email Us:</strong> info@ecopto-hv.org</p>
-        <p><strong>Visit Us:</strong> Hopewell Valley School District</p>
       </div>
     </div>
     <div>
-      <h3 class="text-2xl font-bold">Send us a message</h3>
-      <form name="contact" netlify class="mt-6 space-y-4">
-        <input type="text" name="name" placeholder="Full Name" class="w-full p-3 rounded-md bg-white/10 border border-green-300 focus:outline-none focus:ring-2 focus:ring-orange-300" />
-        <input type="email" name="email" placeholder="Email Address" class="w-full p-3 rounded-md bg-white/10 border border-green-300 focus:outline-none focus:ring-2 focus:ring-orange-300" />
-        <textarea name="message" rows="5" placeholder="Message" class="w-full p-3 rounded-md bg-white/10 border border-green-300 focus:outline-none focus:ring-2 focus:ring-orange-300"></textarea>
-        <button type="submit" class="w-full bg-orange-300 text-green-900 font-bold px-8 py-3 rounded-full hover:bg-orange-200 transition-colors">
+      <form name="contact" method="POST" data-netlify="true" class="mt-6 space-y-4">
+        <input type="hidden" name="form-name" value="contact" />
+        <input type="text" name="name" placeholder="Name" class="w-full p-3 rounded-md bg-white/10 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" />
+        <input type="email" name="email" placeholder="Email Address" class="w-full p-3 rounded-md bg-white/10 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" />
+        <textarea name="message" rows="5" placeholder="Message" class="w-full p-3 rounded-md bg-white/10 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+        <button type="submit" class="w-full bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-secondary">
           Send Message
         </button>
       </form>

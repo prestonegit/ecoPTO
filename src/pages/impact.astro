@@ -1,9 +1,55 @@
 ---
-import Layout from '../layouts/Layout.astro';
 ---
-<Layout title="Community Impact">
-  <div class="container mx-auto px-6 py-12">
-    <h1 class="text-4xl font-bold">Community Impact</h1>
-    <p class="mt-4">This is the community impact page. Content will be added here soon.</p>
-  </div>
+import { getEntry, render } from 'astro:content';
+---
+import { getEntry, render } from 'astro:content';
+import Layout from '../layouts/Layout.astro';
+
+const impactPage = await getEntry('pages', 'impact');
+
+const { title, subtitle, achievements_title, achievements, image1, image2, image3, image4 } = impactPage.data;
+const { Content } = await render(impactPage);
+---
+<Layout title={title}>
+  <section class="py-20 bg-bg-secondary">
+    <div class="container mx-auto px-6 text-center">
+      <h1 class="text-4xl font-bold text-primary">{title}</h1>
+      <p class="mt-4 text-lg text-text-secondary max-w-3xl mx-auto">{subtitle}</p>
+    </div>
+  </section>
+
+  <section class="py-20">
+    <div class="container mx-auto px-6">
+      <h2 class="text-3xl font-bold text-center text-primary">{achievements_title}</h2>
+      <div class="mt-12 grid md:grid-cols-2 gap-8">
+        {achievements.map(achievement => (
+          <div class="bg-bg-primary p-8 rounded-xl shadow-sm">
+            <h3 class="text-2xl font-bold text-primary">{achievement.title}</h3>
+            <p class="mt-4 text-text-secondary">{achievement.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="py-20 bg-bg-secondary">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid gap-4">
+          {image1 && <img class="h-auto max-w-full rounded-lg" src={image1} alt="">}
+        </div>
+        <div class="grid gap-4">
+          {image2 && <img class="h-auto max-w-full rounded-lg" src={image2} alt="">}
+        </div>
+        <div class="grid gap-4">
+          {image3 && <img class="h-auto max-w-full rounded-lg" src={image3} alt="">}
+        </div>
+        <div class="grid gap-4">
+          {image4 && <img class="h-auto max-w-full rounded-lg" src={image4} alt="">}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Content />
 </Layout>

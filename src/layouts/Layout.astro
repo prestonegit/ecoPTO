@@ -23,31 +23,67 @@ const themeClass = globalSettings.theme;
 
 	<ViewTransitions />
     <style is:global>
-        .theme-district-maroon {
-            --primary-color: #8C1D40;
-            --secondary-color: #C89D4B;
-            --accent-color: #002366;
-            --text-color: #333333; /* Dark gray for body text */
-            --bg-color: #FFFFFF; /* White background for main content */
+        :root {
             --font-sans: 'Lato', sans-serif;
             --font-serif: 'Montserrat', sans-serif;
         }
-        /* You can define your other themes here as well */
 
-        /* Base styles */
+        .theme-district-maroon {
+            --primary: #8C1D40;
+            --secondary: #C89D4B;
+            --accent: #002366;
+            --text-primary: #333333;
+            --text-secondary: #555555;
+            --bg-primary: #FFFFFF;
+            --bg-secondary: #F5F5F5;
+        }
+
+        .theme-summer {
+            --primary: #FFD700;
+            --secondary: #40E0D0;
+            --accent: #FF7F50;
+            --text-primary: #002D40;
+            --text-secondary: #5B7A87;
+            --bg-primary: #FAF8F0;
+            --bg-secondary: #E0F7FA;
+        }
+
+        .theme-fall {
+            --primary: #D2691E;
+            --secondary: #8B4513;
+            --accent: #DAA520;
+            --text-primary: #4A4A4A;
+            --text-secondary: #7A7A7A;
+            --bg-primary: #FFF8E1;
+            --bg-secondary: #EFEBE9;
+        }
+
+        .theme-winter-spring {
+            --primary: #4682B4;
+            --secondary: #90EE90;
+            --accent: #D3D3D3;
+            --text-primary: #363636;
+            --text-secondary: #666666;
+            --bg-primary: #F5F5F5;
+            --bg-secondary: #E6F0F3;
+        }
+
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
             font-family: var(--font-sans);
         }
+
         h1, h2, h3, h4, h5, h6 {
             font-family: var(--font-serif);
-            color: var(--primary-color);
+            color: var(--primary);
         }
+
         a {
-            color: var(--primary-color);
+            color: var(--primary);
             text-decoration: none;
         }
+
         a:hover {
             text-decoration: underline;
         }

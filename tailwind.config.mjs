@@ -4,11 +4,13 @@ export default {
   theme: {
     extend: {
       colors: {
-        'theme-primary': 'var(--primary-color)',
-        'theme-secondary': 'var(--secondary-color)',
-        'theme-accent': 'var(--accent-color)',
-        'theme-text': 'var(--text-color)',
-        'theme-bg': 'var(--bg-color)',
+        primary: 'var(--primary)',
+        secondary: 'var(--secondary)',
+        accent: 'var(--accent)',
+        'text-primary': 'var(--text-primary)',
+        'text-secondary': 'var(--text-secondary)',
+        'bg-primary': 'var(--bg-primary)',
+        'bg-secondary': 'var(--bg-secondary)',
       },
       fontFamily: {
         sans: 'var(--font-sans)',
