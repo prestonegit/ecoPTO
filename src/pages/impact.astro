@@ -1,14 +1,9 @@
 ---
----
-import { getEntry, render } from 'astro:content';
----
-import { getEntry, render } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 
-const impactPage = await getEntry('pages', 'impact');
+const [impactPage] = await Astro.glob('../content/pages/impact.mdx');
 
-const { title, subtitle, achievements_title, achievements, image1, image2, image3, image4 } = impactPage.data;
-const { Content } = await render(impactPage);
+const { title, subtitle, achievements_title, achievements, image1, image2, image3, image4 } = impactPage.frontmatter;
 ---
 <Layout title={title}>
   <section class="py-20 bg-bg-secondary">
@@ -51,5 +46,5 @@ const { Content } = await render(impactPage);
     </div>
   </section>
 
-  <Content />
+  <impactPage.Content />
 </Layout>
