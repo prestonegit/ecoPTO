@@ -23,10 +23,10 @@ export const config = {
               name: "theme",
               widget: "select",
               options: [
-                { label: "Official District Colors (Maroon & Gold)", value: "theme-district-maroon" },
-                { label: "Alternate District Colors (Blue & Gold)", value: "theme-district-blue" },
-                { label: "Seasonal - Summer", value: "theme-summer" },
-                { label: "Seasonal - Fall", value: "theme-fall" }
+                { label: "School Colors (Maroon & Gold)", value: "theme-district-maroon" },
+                { label: "Summer", value: "theme-summer" },
+                { label: "Fall", value: "theme-fall" },
+                { label: "Winter/Spring", value: "theme-winter-spring" }
               ],
               default: "theme-district-maroon"
             }
@@ -39,17 +39,19 @@ export const config = {
       label: "Pages",
       files: [
         {
-          file: "src/content/pages/about-us.md", // <-- This was about-us.mdx, should be .md
+          file: "src/content/pages/about-us.mdx", // <-- This was about-us.mdx, should be .md
           label: "About Us Page",
           name: "about",
           fields: [
             { label: "Title", name: "title", widget: "string" },
-            { label: "Body", name: "body", widget: "markdown" }
+            { label: "Body", name: "body", widget: "markdown" },
+            { label: "Image 1", name: "image1", widget: "image" },
+            { label: "Image 2", name: "image2", widget: "image" }
           ]
         },
         // THIS IS THE CORRECTED PLACEMENT FOR THE IMPACT PAGE
         {
-          file: "src/content/pages/community-impact.md",
+          file: "src/content/pages/impact.mdx",
           label: "Community Impact Page",
           name: "impact",
           fields: [
