@@ -1,29 +1,38 @@
 ---
-// src/components/UpcomingEvents.astro
 import { getCollection } from 'astro:content';
+import EventCard from './EventCard.astro'; // Import EventCard
 
-// Fetch all events and sort them by date
+// Fetch all events
 const allEvents = await getCollection('events');
-const sortedEvents = allEvents.sort((a, b) => new Date(a.data.eventDate) - new Date(b.data.eventDate));
+
+// Filter for upcoming events and sort them by date
+const today = new Date();
+today.setHours(0, 0, 0, 0); // Set to start of today for comparison
+
+const upcomingEvents = allEvents
+  .filter(event => new Date(event.data.eventDate) >= today)
+  .sort((a, b) => new Date(a.data.eventDate).getTime() - new Date(b.data.eventDate).getTime());
+
+// Take only the next 2 upcoming events
+const eventsToShow = upcomingEvents.slice(0, 2);
 ---
-<section id="events" class="py-20 bg-gray-50">
+<section id="events" class="py-20 bg-bg-secondary">
   <div class="container mx-auto px-6">
-    <h2 class="text-4xl font-bold text-green-900 text-center">Upcoming Events</h2>
-    <p class="mt-4 text-lg text-gray-600 text-center">
+    <h2 class="text-4xl font-bold text-primary text-center">Upcoming Events</h2>
+    <p class="mt-4 text-lg text-text-secondary text-center max-w-3xl mx-auto">
       Join us for workshops, community actions, and family-friendly events.
     </p>
     <div class="mt-12 grid md:grid-cols-2 gap-8">
-      {sortedEvents.map(event => (
-        <a href={`/events/${event.slug}`} class="block bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow overflow-hidden">
-          <img src={event.data.image} alt={event.data.title} class="w-full h-56 object-cover" />
-          <div class="p-6">
-            <p class="text-gray-500">{new Date(event.data.eventDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
-            <h3 class="mt-2 text-2xl font-bold text-green-900">{event.data.title}</h3>
-            <p class="mt-4 text-gray-700">{event.data.description}</p>
-            <span class="mt-6 inline-block font-bold text-green-600 hover:text-green-800">Learn More →</span>
-          </div>
-        </a>
-      ))}
+      {eventsToShow.length > 0 ? (
+        eventsToShow.map(event => <EventCard event={event} />)
+      ) : (
+        <p class="text-center text-text-secondary col-span-full">No upcoming events at the moment. Check back soon!</p>
+      )}
+    </div>
+    <div class="mt-12 text-center">
+      <a href="/events" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+        See All Events &rarr;
+      </a>
     </div>
   </div>
 </section>
