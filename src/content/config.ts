@@ -17,7 +17,19 @@ const pagesCollection = defineCollection({
   }),
 });
 
+const leadershipCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    name: z.string(),
+    title: z.string(),
+    bio: z.string().optional(),
+    image: z.string().optional(),
+    order: z.number().optional(),
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
+  leadership: leadershipCollection,
   // Your other collections like 'events' can be defined here too
 };

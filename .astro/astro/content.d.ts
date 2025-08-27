@@ -167,6 +167,29 @@ declare module 'astro:content' {
   data: any
 } & { render(): Render[".mdx"] };
 };
+"leadership": {
+"jane-smith.mdx": {
+	id: "jane-smith.mdx";
+  slug: "jane-smith";
+  body: string;
+  collection: "leadership";
+  data: InferEntrySchema<"leadership">
+} & { render(): Render[".mdx"] };
+"john-doe.mdx": {
+	id: "john-doe.mdx";
+  slug: "john-doe";
+  body: string;
+  collection: "leadership";
+  data: InferEntrySchema<"leadership">
+} & { render(): Render[".mdx"] };
+"peter-jones.mdx": {
+	id: "peter-jones.mdx";
+  slug: "peter-jones";
+  body: string;
+  collection: "leadership";
+  data: InferEntrySchema<"leadership">
+} & { render(): Render[".mdx"] };
+};
 "news": {
 "2025-08-07-welcome-from-the-ecoPTO-president.mdx": {
 	id: "2025-08-07-welcome-from-the-ecoPTO-president.mdx";
@@ -177,6 +200,20 @@ declare module 'astro:content' {
 } & { render(): Render[".mdx"] };
 };
 "pages": {
+"about-us-history.mdx": {
+	id: "about-us-history.mdx";
+  slug: "about-us-history";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
+} & { render(): Render[".mdx"] };
+"about-us-who-we-are.mdx": {
+	id: "about-us-who-we-are.mdx";
+  slug: "about-us-who-we-are";
+  body: string;
+  collection: "pages";
+  data: InferEntrySchema<"pages">
+} & { render(): Render[".mdx"] };
 "about-us.mdx": {
 	id: "about-us.mdx";
   slug: "about-us";

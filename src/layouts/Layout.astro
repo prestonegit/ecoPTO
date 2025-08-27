@@ -35,7 +35,7 @@ const themeClass = globalSettings.theme;
             --text-primary: #333333;
             --text-secondary: #555555;
             --bg-primary: #FFFFFF;
-            --bg-secondary: #F5F5F5;
+            --bg-secondary: var(--primary);
         }
 
         .theme-summer {
@@ -89,7 +89,7 @@ const themeClass = globalSettings.theme;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col bg-gray-50">
+<body class="min-h-screen flex flex-col">
 	<Header />
 	<main class="flex-grow">
 		<slot />
