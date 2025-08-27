@@ -7,8 +7,20 @@ const events = await getCollection('events');
 ---
 
 <Layout title="Events">
-  <h1>Events</h1>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    {events.map(event => <EventCard {event} />)}
-  </div>
+  <section class="relative py-16 sm:py-24 bg-bg-secondary text-center">
+    <div class="container mx-auto px-6">
+      <h1 class="text-5xl font-extrabold text-primary mb-4">Upcoming Events</h1>
+      <p class="text-text-secondary text-lg max-w-3xl mx-auto">
+        Join us for our exciting events throughout the year! From community gatherings to educational workshops, there's something for everyone.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-12 sm:py-16">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {events.map(event => <EventCard {event} />)}
+      </div>
+    </div>
+  </section>
 </Layout>

@@ -2,20 +2,24 @@
 import globalSettings from '../content/settings/global.json';
 ---
 <header class="bg-bg-primary backdrop-blur-md sticky top-0 z-50 border-b border-bg-secondary">
-  <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-    <a href="/" class="text-2xl font-bold text-primary">
-      eco<span class="text-secondary">PTO</span>
-    </a>
-    <div class="hidden md:flex items-center space-x-6">
+    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+    <div>
+      <a href="/" class="text-2xl font-bold text-primary">
+        eco<span class="text-secondary">PTO</span>
+      </a>
+    </div>
+    <div class="hidden md:flex items-center flex-grow justify-evenly">
       <a href="/#mission" class="text-text-secondary hover:text-primary">Our Mission</a>
       <a href="/#events" class="text-text-secondary hover:text-primary">Events</a>
       <a href="/#contact" class="text-text-secondary hover:text-primary">Contact</a>
       <a href="/impact" class="text-text-secondary hover:text-primary">Community Impact</a>
       <a href="/about" class="text-text-secondary hover:text-primary">About Us</a>
     </div>
-    <button id="join-us-header-btn" class="bg-primary text-bg-primary px-5 py-2 rounded-full hover:bg-secondary transition-colors">
-      Join Us
-    </button>
+    <div>
+      <button id="join-us-header-btn" class="bg-primary text-bg-primary px-5 py-2 rounded-full hover:bg-secondary transition-colors">
+        Join Us
+      </button>
+    </div>
   </nav>
 </header>
 
