@@ -1,4 +1,8 @@
 {
   "site_name": "Hopewell ecoPTO",
-  "theme": "theme-district-maroon"
+  "theme": "theme-district-maroon",
+  "hero_animation_file": "/assets/animations/hero-animation.json",
+  "earth_connection_icon": "/assets/icons/placeholder.svg",
+  "community_engagement_icon": "/assets/icons/placeholder.svg",
+  "youth_wellbeing_icon": "/assets/icons/placeholder.svg"
 }

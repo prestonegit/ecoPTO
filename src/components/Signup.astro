@@ -72,23 +72,26 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('signup-modal');
-    const closeButton = modal.querySelector('.btn-close');
-    const joinUsHeroBtn = document.getElementById('join-us-hero-btn');
 
-    if (joinUsHeroBtn) {
-      joinUsHeroBtn.addEventListener('click', () => {
-        modal.classList.add('modal-open');
+    if (modal) { // Add this check
+      const closeButton = modal.querySelector('.btn-close');
+      const joinUsHeroBtn = document.getElementById('join-us-hero-btn');
+
+      if (joinUsHeroBtn) {
+        joinUsHeroBtn.addEventListener('click', () => {
+          modal.classList.add('modal-open');
+        });
+      }
+
+      closeButton.addEventListener('click', () => {
+        modal.classList.remove('modal-open');
+      });
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          modal.classList.remove('modal-open');
+        }
       });
     }
-
-    closeButton.addEventListener('click', () => {
-      modal.classList.remove('modal-open');
-    });
-
-    modal.addEventListener('click', (event) => {
-      if (event.target === modal) {
-        modal.classList.remove('modal-open');
-      }
-    });
   });
 </script>

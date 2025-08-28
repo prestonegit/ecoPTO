@@ -13,6 +13,15 @@
         "hero_animation_file": {
           "type": "string"
         },
+        "earth_connection_icon": {
+          "type": "string"
+        },
+        "community_engagement_icon": {
+          "type": "string"
+        },
+        "youth_wellbeing_icon": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         }
