@@ -40,6 +40,39 @@ export const config = {
                   accept: "application/json"
                 }
               }
+            },
+            {
+              label: "Earth Connection Icon",
+              name: "earth_connection_icon",
+              widget: "image",
+              media_library: {
+                config: {
+                  multiple: false,
+                  accept: "image/svg+xml"
+                }
+              }
+            },
+            {
+              label: "Community Engagement Icon",
+              name: "community_engagement_icon",
+              widget: "image",
+              media_library: {
+                config: {
+                  multiple: false,
+                  accept: "image/svg+xml"
+                }
+              }
+            },
+            {
+              label: "Youth Wellbeing Icon",
+              name: "youth_wellbeing_icon",
+              widget: "image",
+              media_library: {
+                config: {
+                  multiple: false,
+                  accept: "image/svg+xml"
+                }
+              }
             }
           ]
         }
@@ -75,7 +108,25 @@ export const config = {
               widget: "list",
               fields: [
                 { label: "Title", name: "title", widget: "string" },
-                { label: "Description", name: "description", widget: "text" }
+                { label: "Description", name: "description", widget: "text" },
+                {
+                  label: "Icon",
+                  name: "icon",
+                  widget: "image",
+                  required: false,
+                  media_library: {
+                    config: {
+                      multiple: false,
+                      accept: "image/svg+xml"
+                    }
+                  }
+                },
+                {
+                  label: "Image",
+                  name: "image",
+                  widget: "image",
+                  required: false,
+                }
               ]
             },
             // Added the image fields back in

@@ -9,6 +9,8 @@ const pagesCollection = defineCollection({
     achievements: z.array(z.object({
         title: z.string(),
         description: z.string(),
+        icon: z.string().optional(),
+        image: z.string().optional(),
     })).optional(),
     image1: z.string().optional(),
     image2: z.string().optional(),
@@ -34,6 +36,9 @@ const settingsCollection = defineCollection({
     site_name: z.string(),
     theme: z.string(),
     hero_animation_file: z.string().optional(),
+    earth_connection_icon: z.string().optional(),
+    community_engagement_icon: z.string().optional(),
+    youth_wellbeing_icon: z.string().optional(),
   }),
 });
 
