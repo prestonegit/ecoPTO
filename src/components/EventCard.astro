@@ -2,28 +2,24 @@
 const { event } = Astro.props;
 import { Image } from "astro:assets";
 ---
-<a href={`/events/${event.slug}/`} class="block bg-bg-primary rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden h-full flex flex-col">
+<a
+  href={event.data.externalUrl || `/events/${event.slug}/`}
+  class="block rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 overflow-hidden h-full flex flex-col relative group"
+  style={`background-image: ${event.data.image ? `url(${event.data.image})` : 'none'}; background-size: cover; background-position: center;`}
+>
   {event.data.image && (
-    <div class="relative h-48 w-full overflow-hidden">
-      <Image
-        src={event.data.image}
-        alt={event.data.title}
-        class="object-cover w-full h-full"
-        widths={[400, 800]}
-        sizes="(max-width: 768px) 100vw, 50vw"
-        loading="lazy"
-      />
-    </div>
+    <div class="absolute inset-0 bg-black opacity-50 group-hover:opacity-60 transition-opacity duration-300"></div>
   )}
-  <div class="p-6 flex-grow flex flex-col">
-    <h3 class="text-2xl font-bold text-primary mb-2">{event.data.title}</h3>
-    <p class="text-text-secondary text-sm mb-1">
+  <div class="p-6 flex-grow flex flex-col relative z-10 ${event.data.image ? 'text-white' : 'text-text-primary'}">
+    <h3 class="text-2xl font-bold mb-2">{event.data.title}</h3>
+    <p class="text-sm mb-1">
       <i class="fas fa-calendar-alt mr-2"></i>{new Date(event.data.eventDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
     </p>
-    <p class="text-text-secondary text-sm mb-4">
+    <p class="text-sm mb-4">
       <i class="fas fa-map-marker-alt mr-2"></i>{event.data.location}
     </p>
-    <p class="text-text-secondary text-base mb-4 flex-grow">{event.data.description}</p>
-    <span class="text-primary font-semibold hover:underline mt-auto">Read More &rarr;</span>
+    <p class="text-base mb-4 flex-grow">{event.data.description}</p>
+    <span class="font-semibold hover:underline mt-auto">Read More &rarr;</span>
   </div>
+  {!event.data.image && <div class="absolute inset-0 bg-bg-secondary"></div>}
 </a>

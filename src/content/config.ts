@@ -42,9 +42,21 @@ const settingsCollection = defineCollection({
   }),
 });
 
+const eventsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    eventDate: z.date(),
+    location: z.string().optional(),
+    image: z.string().optional(),
+    externalUrl: z.string().url().optional(), // New field for external URL
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
   leadership: leadershipCollection,
   settings: settingsCollection,
-  // Your other collections like 'events' can be defined here too
+  events: eventsCollection,
 };

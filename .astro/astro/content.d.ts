@@ -173,21 +173,21 @@ declare module 'astro:content' {
   slug: "jane-smith";
   body: string;
   collection: "leadership";
-  data: InferEntrySchema<"leadership">
+  data: any
 } & { render(): Render[".mdx"] };
 "john-doe.mdx": {
 	id: "john-doe.mdx";
   slug: "john-doe";
   body: string;
   collection: "leadership";
-  data: InferEntrySchema<"leadership">
+  data: any
 } & { render(): Render[".mdx"] };
 "peter-jones.mdx": {
 	id: "peter-jones.mdx";
   slug: "peter-jones";
   body: string;
   collection: "leadership";
-  data: InferEntrySchema<"leadership">
+  data: any
 } & { render(): Render[".mdx"] };
 };
 "news": {
@@ -205,28 +205,35 @@ declare module 'astro:content' {
   slug: "about-us-history";
   body: string;
   collection: "pages";
-  data: InferEntrySchema<"pages">
+  data: any
 } & { render(): Render[".mdx"] };
 "about-us-who-we-are.mdx": {
 	id: "about-us-who-we-are.mdx";
   slug: "about-us-who-we-are";
   body: string;
   collection: "pages";
-  data: InferEntrySchema<"pages">
+  data: any
 } & { render(): Render[".mdx"] };
 "about-us.mdx": {
 	id: "about-us.mdx";
   slug: "about-us";
   body: string;
   collection: "pages";
-  data: InferEntrySchema<"pages">
+  data: any
 } & { render(): Render[".mdx"] };
 "impact.mdx": {
 	id: "impact.mdx";
   slug: "impact";
   body: string;
   collection: "pages";
-  data: InferEntrySchema<"pages">
+  data: any
+} & { render(): Render[".mdx"] };
+"our-vision.mdx": {
+	id: "our-vision.mdx";
+  slug: "our-vision";
+  body: string;
+  collection: "pages";
+  data: any
 } & { render(): Render[".mdx"] };
 };
 
@@ -237,7 +244,7 @@ declare module 'astro:content' {
 "global": {
 	id: "global";
   collection: "settings";
-  data: InferEntrySchema<"settings">
+  data: any
 };
 };
 
@@ -245,5 +252,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = typeof import("./../../src/content/config.js");
+	export type ContentConfig = never;
 }

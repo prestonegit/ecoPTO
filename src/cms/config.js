@@ -152,6 +152,20 @@ export const config = {
         { label: "Image", name: "image", widget: "image", required: false },
         { label: "Order", name: "order", widget: "number", required: false }
       ]
+    },
+    {
+      name: "events",
+      label: "Events",
+      folder: "src/content/events",
+      create: true,
+      slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+      fields: [
+        { label: "Title", name: "title", widget: "string" },
+        { label: "Description", name: "description", widget: "markdown" },
+        { label: "Event Date", name: "eventDate", widget: "datetime" },
+        { label: "Image", name: "image", widget: "image", required: false },
+        { label: "External URL", name: "externalUrl", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
+      ]
     }
   ]
 };
