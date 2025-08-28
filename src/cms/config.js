@@ -29,6 +29,17 @@ export const config = {
                 { label: "Winter/Spring", value: "theme-winter-spring" }
               ],
               default: "theme-district-maroon"
+            },
+            { 
+              label: "Hero Animation File", 
+              name: "hero_animation_file", 
+              widget: "file",
+              media_library: {
+                config: {
+                  multiple: false,
+                  accept: "application/json"
+                }
+              }
             }
           ]
         }

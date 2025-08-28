@@ -1,0 +1,28 @@
+{
+  "$ref": "#/definitions/settings",
+  "definitions": {
+    "settings": {
+      "type": "object",
+      "properties": {
+        "site_name": {
+          "type": "string"
+        },
+        "theme": {
+          "type": "string"
+        },
+        "hero_animation_file": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "site_name",
+        "theme"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

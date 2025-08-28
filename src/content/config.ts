@@ -28,8 +28,18 @@ const leadershipCollection = defineCollection({
   }),
 });
 
+const settingsCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    site_name: z.string(),
+    theme: z.string(),
+    hero_animation_file: z.string().optional(),
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
   leadership: leadershipCollection,
+  settings: settingsCollection,
   // Your other collections like 'events' can be defined here too
 };
