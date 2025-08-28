@@ -10,16 +10,10 @@
         "theme": {
           "type": "string"
         },
-        "hero_animation_file": {
+        "favicon": {
           "type": "string"
         },
-        "earth_connection_icon": {
-          "type": "string"
-        },
-        "community_engagement_icon": {
-          "type": "string"
-        },
-        "youth_wellbeing_icon": {
+        "global_svg_icon": {
           "type": "string"
         },
         "$schema": {

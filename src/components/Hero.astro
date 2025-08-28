@@ -1,23 +1,22 @@
 ---
 import LottiePlayer from "./LottiePlayer.jsx";
-import { getEntry } from "astro:content";
 
-const globalSettings = await getEntry("settings", "global");
-const animationSrc = globalSettings.data.hero_animation_file || "/assets/animations/hero-animation.json";
+const { content } = Astro.props;
+const animationSrc = content.hero_animation_file || "/assets/animations/hero-animation.json";
 ---
 
 <section id="home" class="bg-primary text-text-primary">
   <div class="container mx-auto px-6 py-24 grid md:grid-cols-2 gap-12 items-center">
     <div>
       <h1 class="text-6xl md:text-7xl font-extrabold leading-tight text-secondary">
-        Building a <span class="text-secondary">Sustainable Future</span> Together
+        {content.hero_title}
       </h1>
       <p class="mt-6 text-lg text-bg-primary">
-        ecoPTO brings together families, educators, and community members in the Hopewell Valley School District to nurture youth wellbeing through deeper connections with community and earth.
+        {content.hero_subtitle}
       </p>
       <div class="mt-8 flex gap-4">
         <button id="join-us-hero-btn" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-secondary">
-          Join Our Community
+          {content.hero_button_text}
         </button>
         
       </div>
