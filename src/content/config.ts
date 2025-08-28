@@ -16,6 +16,24 @@ const pagesCollection = defineCollection({
     image2: z.string().optional(),
     image3: z.string().optional(),
     image4: z.string().optional(),
+    hero_title: z.string().optional(),
+    hero_subtitle: z.string().optional(),
+    hero_button_text: z.string().optional(),
+    mission_title: z.string().optional(),
+    mission_subtitle: z.string().optional(),
+    mission_item_1_title: z.string().optional(),
+    mission_item_1_text: z.string().optional(),
+    mission_item_2_title: z.string().optional(),
+    mission_item_2_text: z.string().optional(),
+    mission_item_3_title: z.string().optional(),
+    mission_item_3_text: z.string().optional(),
+    events_title: z.string().optional(),
+    events_subtitle: z.string().optional(),
+    events_section_title: z.string().optional(),
+    volunteer_section_title: z.string().optional(),
+    contact_title: z.string().optional(),
+    contact_subtitle: z.string().optional(),
+    contact_email: z.string().optional(),
   }),
 });
 
@@ -35,10 +53,8 @@ const settingsCollection = defineCollection({
   schema: z.object({
     site_name: z.string(),
     theme: z.string(),
-    hero_animation_file: z.string().optional(),
-    earth_connection_icon: z.string().optional(),
-    community_engagement_icon: z.string().optional(),
-    youth_wellbeing_icon: z.string().optional(),
+    favicon: z.string().optional(),
+    global_svg_icon: z.string().optional(),
   }),
 });
 
@@ -64,8 +80,37 @@ const volunteerOpportunitiesCollection = defineCollection({
   }),
 });
 
+const homepageCollection = defineCollection({
+  type: 'data',
+  schema: z.object({
+    hero_title: z.string().optional(),
+    hero_subtitle: z.string().optional(),
+    hero_button_text: z.string().optional(),
+    hero_animation_file: z.string().optional(),
+    mission_title: z.string().optional(),
+    mission_subtitle: z.string().optional(),
+    earth_connection_icon: z.string().optional(),
+    community_engagement_icon: z.string().optional(),
+    youth_wellbeing_icon: z.string().optional(),
+    mission_item_1_title: z.string().optional(),
+    mission_item_1_text: z.string().optional(),
+    mission_item_2_title: z.string().optional(),
+    mission_item_2_text: z.string().optional(),
+    mission_item_3_title: z.string().optional(),
+    mission_item_3_text: z.string().optional(),
+    events_title: z.string().optional(),
+    events_subtitle: z.string().optional(),
+    events_section_title: z.string().optional(),
+    volunteer_section_title: z.string().optional(),
+    contact_title: z.string().optional(),
+    contact_subtitle: z.string().optional(),
+    contact_email: z.string().optional(),
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
+  homepage: homepageCollection,
   leadership: leadershipCollection,
   settings: settingsCollection,
   events: eventsCollection,

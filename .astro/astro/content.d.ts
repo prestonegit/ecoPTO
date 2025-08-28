@@ -284,7 +284,14 @@ declare module 'astro:content' {
 	};
 
 	type DataEntryMap = {
-		"settings": {
+		"homepage": {
+"home": {
+	id: "home";
+  collection: "homepage";
+  data: InferEntrySchema<"homepage">
+};
+};
+"settings": {
 "global": {
 	id: "global";
   collection: "settings";

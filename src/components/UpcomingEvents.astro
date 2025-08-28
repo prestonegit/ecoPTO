@@ -19,15 +19,17 @@ const upcomingEvents = allEvents
 
 // Take only the next 2 upcoming events
 const eventsToShow = upcomingEvents.slice(0, 2);
+
+const { content } = Astro.props;
 ---
 <section id="events" class="py-20 bg-secondary">
   <div class="container mx-auto px-6">
-    <h2 class="text-4xl font-bold text-primary text-center">Make an Impact</h2>
+    <h2 class="text-4xl font-bold text-primary text-center">{content.events_title}</h2>
     <p class="mt-4 text-lg text-text-secondary text-center max-w-3xl mx-auto">
-      Join us for workshops, community actions, and family-friendly events.
+      {content.events_subtitle}
     </p>
     <div class="mt-12">
-      <h3 class="text-3xl font-bold text-primary mb-8">Attend an Event</h3>
+      <h3 class="text-3xl font-bold text-primary mb-8">{content.events_section_title}</h3>
       <div class="grid md:grid-cols-2 gap-8">
         {eventsToShow.length > 0 ? (
           eventsToShow.map(event => <EventCard event={event} />)
@@ -44,7 +46,7 @@ const eventsToShow = upcomingEvents.slice(0, 2);
 
     {/* Volunteer Opportunities Section */}
     <div class="mt-20">
-      <h3 class="text-3xl font-bold text-primary mb-8">Volunteer Opportunities</h3>
+      <h3 class="text-3xl font-bold text-primary mb-8">{content.volunteer_section_title}</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         {volunteerOpportunities.length > 0 ? (
           volunteerOpportunities.map(opportunity => (

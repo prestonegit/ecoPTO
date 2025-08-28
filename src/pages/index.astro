@@ -5,7 +5,9 @@ import Mission from '../components/Mission.astro';
 import UpcomingEvents from '../components/UpcomingEvents.astro';
 import GetInvolved from '../components/GetInvolved.astro'; 
 import Contact from '../components/Contact.astro';
+import { getEntry } from 'astro:content';
 
+const homeContent = await getEntry('homepage', 'home');
 const [whoWeAreContent] = await Astro.glob('../content/pages/about-us-who-we-are.mdx');
 const allLeaders = await Astro.glob('../content/leadership/*.mdx');
 
@@ -19,8 +21,8 @@ allLeaders.sort((a, b) => {
 });
 ---
 <Layout title="Home | Hopewell Valley ecoPTO">
-  <Hero />
-  <Mission />
+  <Hero content={homeContent.data} />
+  <Mission content={homeContent.data} />
   
 
   {/* Who We Are Section */}
@@ -59,7 +61,7 @@ allLeaders.sort((a, b) => {
     </div>
   </section>
 
-  <UpcomingEvents />
+  <UpcomingEvents content={homeContent.data} />
 
-  <Contact />
+  <Contact content={homeContent.data} />
 </Layout>

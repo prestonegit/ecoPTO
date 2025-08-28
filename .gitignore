@@ -29,3 +29,6 @@ yarn-error.log*
 enhancements.md
 newprompt.md
 logs.md
+
+/src/assets/
+/.astro/

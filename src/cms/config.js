@@ -1,5 +1,3 @@
-// src/cms/config.js
-
 export const config = {
   backend: {
     name: 'test-repo',
@@ -10,7 +8,7 @@ export const config = {
   collections: [
     {
       name: "settings",
-      label: "Site Settings",
+      label: "Global Site Settings",
       files: [
         {
           file: "src/content/settings/global.json",
@@ -30,6 +28,24 @@ export const config = {
               ],
               default: "theme-district-maroon"
             },
+            { label: "Favicon", name: "favicon", widget: "image", media_library: { config: { multiple: false, accept: "image/x-icon" } } },
+            { label: "Global SVG Icon", name: "global_svg_icon", widget: "image", media_library: { config: { multiple: false, accept: "image/svg+xml" } } }
+          ]
+        }
+      ]
+    },
+    {
+      name: "homepage",
+      label: "Homepage",
+      files: [
+        {
+          file: "src/content/homepage/home.json",
+          label: "Homepage",
+          name: "home",
+          fields: [
+            { label: "Hero Title", name: "hero_title", widget: "string" },
+            { label: "Hero Subtitle", name: "hero_subtitle", widget: "text" },
+            { label: "Hero Button Text", name: "hero_button_text", widget: "string" },
             { 
               label: "Hero Animation File", 
               name: "hero_animation_file", 
@@ -41,6 +57,8 @@ export const config = {
                 }
               }
             },
+            { label: "Mission Title", name: "mission_title", widget: "string" },
+            { label: "Mission Subtitle", name: "mission_subtitle", widget: "text" },
             {
               label: "Earth Connection Icon",
               name: "earth_connection_icon",
@@ -73,7 +91,14 @@ export const config = {
                   accept: "image/svg+xml"
                 }
               }
-            }
+            },
+            { label: "Events Title", name: "events_title", widget: "string" },
+            { label: "Events Subtitle", name: "events_subtitle", widget: "text" },
+            { label: "Events Section Title", name: "events_section_title", widget: "string" },
+            { label: "Volunteer Section Title", name: "volunteer_section_title", widget: "string" },
+            { label: "Contact Title", name: "contact_title", widget: "string" },
+            { label: "Contact Subtitle", name: "contact_subtitle", widget: "text" },
+            { label: "Contact Email", name: "contact_email", widget: "string" }
           ]
         }
       ]
@@ -83,7 +108,7 @@ export const config = {
       label: "Pages",
       files: [
         {
-          file: "src/content/pages/about-us.mdx", // <-- This was about-us.mdx, should be .md
+          file: "src/content/pages/about-us.mdx",
           label: "About Us Page",
           name: "about",
           fields: [
@@ -93,7 +118,6 @@ export const config = {
             { label: "Image 2", name: "image2", widget: "image" }
           ]
         },
-        // THIS IS THE CORRECTED PLACEMENT FOR THE IMPACT PAGE
         {
           file: "src/content/pages/impact.mdx",
           label: "Community Impact Page",
@@ -129,7 +153,6 @@ export const config = {
                 }
               ]
             },
-            // Added the image fields back in
             { label: "Image 1 (Top-Left)", name: "image1", widget: "image" },
             { label: "Image 2 (Top-Right)", name: "image2", widget: "image" },
             { label: "Image 3 (Bottom-Left)", name: "image3", widget: "image" },
@@ -138,13 +161,14 @@ export const config = {
         }
       ]
     },
-    // your other collections (events, news) would go here
     {
       name: "leaders",
       label: "Leaders",
       folder: "src/content/leadership",
       create: true,
       slug: "{{slug}}",
+      extension: "mdx",
+      format: "frontmatter",
       fields: [
         { label: "Name", name: "name", widget: "string" },
         { label: "Title", name: "title", widget: "string" },
@@ -159,6 +183,8 @@ export const config = {
       folder: "src/content/events",
       create: true,
       slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+      extension: "mdx",
+      format: "frontmatter",
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "Description", name: "description", widget: "markdown" },

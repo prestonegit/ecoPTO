@@ -1,15 +1,13 @@
 ---
-// src/components/Contact.astro
+const { content } = Astro.props;
 ---
 <section id="contact" class="py-20 bg-primary text-bg-primary">
   <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12">
     <div class="">
-      <h2 class="text-4xl font-bold text-bg-primary mt-6">Get In Touch</h2>
-      <p class="mt-4 text-lg text-bg-primary">
-        Have questions about ecoPTO? We'd love to hear from you. Send us a note and one of our members will be in touch shortly.<br><br> If you'd like to join, please use our sign up form <button id="contact-join-us-btn" class="text-secondary underline focus:outline-none">here</button>
-      </p>
+      <h2 class="text-4xl font-bold text-bg-primary mt-6">{content.contact_title}</h2>
+      <p class="mt-4 text-lg text-bg-primary" set:html={content.contact_subtitle}></p>
       <div class="mt-8 space-y-4">
-        <p><strong>Email Us:</strong> info@ecopto-hv.org</p>
+        <p><strong>Email Us:</strong> {content.contact_email}</p>
       </div>
     </div>
     <div>
