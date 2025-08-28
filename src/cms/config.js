@@ -166,6 +166,19 @@ export const config = {
         { label: "Image", name: "image", widget: "image", required: false },
         { label: "External URL", name: "externalUrl", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
       ]
+    },
+    {
+      name: "volunteer_opportunities",
+      label: "Volunteer Opportunities",
+      folder: "src/content/volunteerOpportunities",
+      create: true,
+      slug: "{{slug}}",
+      fields: [
+        { label: "Title", name: "title", widget: "string" },
+        { label: "Description", name: "description", widget: "markdown", required: false },
+        { label: "Icon", name: "icon", widget: "string", required: false },
+        { label: "Learn More URL", name: "learnMore", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
+      ]
     }
   ]
 };

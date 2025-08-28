@@ -54,9 +54,20 @@ const eventsCollection = defineCollection({
   }),
 });
 
+const volunteerOpportunitiesCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    icon: z.string().optional(),
+    learnMore: z.string().url().optional(),
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
   leadership: leadershipCollection,
   settings: settingsCollection,
   events: eventsCollection,
+  volunteerOpportunities: volunteerOpportunitiesCollection,
 };

@@ -157,15 +157,29 @@ declare module 'astro:content' {
   slug: "2025-09-16-back-to-school-night";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2025-10-25-fall-harvest-festival.mdx": {
 	id: "2025-10-25-fall-harvest-festival.mdx";
   slug: "2025-10-25-fall-harvest-festival";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
+"2025-11-15-winter-fair.md": {
+	id: "2025-11-15-winter-fair.md";
+  slug: "2025-11-15-winter-fair";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".md"] };
+"2025-12-10-holiday-concert.md": {
+	id: "2025-12-10-holiday-concert.md";
+  slug: "2025-12-10-holiday-concert";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".md"] };
 };
 "leadership": {
 "jane-smith.mdx": {
@@ -173,21 +187,21 @@ declare module 'astro:content' {
   slug: "jane-smith";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "john-doe.mdx": {
 	id: "john-doe.mdx";
   slug: "john-doe";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "peter-jones.mdx": {
 	id: "peter-jones.mdx";
   slug: "peter-jones";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 };
 "news": {
@@ -205,36 +219,66 @@ declare module 'astro:content' {
   slug: "about-us-history";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 "about-us-who-we-are.mdx": {
 	id: "about-us-who-we-are.mdx";
   slug: "about-us-who-we-are";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 "about-us.mdx": {
 	id: "about-us.mdx";
   slug: "about-us";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 "impact.mdx": {
 	id: "impact.mdx";
   slug: "impact";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 "our-vision.mdx": {
 	id: "our-vision.mdx";
   slug: "our-vision";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
+};
+"volunteerOpportunities": {
+"communications-team.md": {
+	id: "communications-team.md";
+  slug: "communications-team";
+  body: string;
+  collection: "volunteerOpportunities";
+  data: InferEntrySchema<"volunteerOpportunities">
+} & { render(): Render[".md"] };
+"events-team.md": {
+	id: "events-team.md";
+  slug: "events-team";
+  body: string;
+  collection: "volunteerOpportunities";
+  data: InferEntrySchema<"volunteerOpportunities">
+} & { render(): Render[".md"] };
+"fundraising-committee.md": {
+	id: "fundraising-committee.md";
+  slug: "fundraising-committee";
+  body: string;
+  collection: "volunteerOpportunities";
+  data: InferEntrySchema<"volunteerOpportunities">
+} & { render(): Render[".md"] };
+"garden-club.md": {
+	id: "garden-club.md";
+  slug: "garden-club";
+  body: string;
+  collection: "volunteerOpportunities";
+  data: InferEntrySchema<"volunteerOpportunities">
+} & { render(): Render[".md"] };
 };
 
 	};
@@ -244,7 +288,7 @@ declare module 'astro:content' {
 "global": {
 	id: "global";
   collection: "settings";
-  data: any
+  data: InferEntrySchema<"settings">
 };
 };
 
@@ -252,5 +296,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = never;
+	export type ContentConfig = typeof import("./../../src/content/config.js");
 }
