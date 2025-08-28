@@ -6,7 +6,7 @@
     <div class="">
       <h2 class="text-4xl font-bold text-bg-primary mt-6">Get In Touch</h2>
       <p class="mt-4 text-lg text-bg-primary">
-        Have questions about our programs? Want to get involved? We'd love to hear from you. <br> Send us a note and one of our members will be in touch shortly.
+        Have questions about ecoPTO? We'd love to hear from you. Send us a note and one of our members will be in touch shortly.<br><br> If you'd like to join, please use our sign up form <button id="contact-join-us-btn" class="text-secondary underline focus:outline-none">here</button>
       </p>
       <div class="mt-8 space-y-4">
         <p><strong>Email Us:</strong> info@ecopto-hv.org</p>
@@ -25,3 +25,16 @@
     </div>
   </div>
 </section>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const contactJoinUsBtn = document.getElementById('contact-join-us-btn');
+    const signupModal = document.getElementById('signup-modal');
+
+    if (contactJoinUsBtn && signupModal) {
+      contactJoinUsBtn.addEventListener('click', () => {
+        signupModal.classList.add('modal-open');
+      });
+    }
+  });
+</script>

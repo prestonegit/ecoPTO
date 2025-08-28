@@ -12,6 +12,12 @@ export async function getStaticPaths() {
 }
 
 const { event } = Astro.props;
+
+// Redirect to externalUrl if it exists
+if (event.data.externalUrl) {
+  return Astro.redirect(event.data.externalUrl);
+}
+
 const { Content } = await event.render();
 ---
 

@@ -18,7 +18,7 @@ const eventsToShow = upcomingEvents.slice(0, 2);
 ---
 <section id="events" class="py-20 bg-secondary">
   <div class="container mx-auto px-6">
-    <h2 class="text-4xl font-bold text-primary text-center">Upcoming Events</h2>
+    <h2 class="text-4xl font-bold text-primary text-center">Make an Impact</h2>
     <p class="mt-4 text-lg text-text-secondary text-center max-w-3xl mx-auto">
       Join us for workshops, community actions, and family-friendly events.
     </p>
@@ -29,10 +29,17 @@ const eventsToShow = upcomingEvents.slice(0, 2);
         <p class="text-center text-text-secondary col-span-full">No upcoming events at the moment. Check back soon!</p>
       )}
     </div>
-    <div class="mt-12 text-center">
-      <a href="/events" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:bg-secondary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-        See All Events &rarr;
-      </a>
+    <div class="mt-12 grid md:grid-cols-2 gap-8">
+      <div class="flex justify-end">
+        <a href="/events" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          View Upcoming Events
+        </a>
+      </div>
+      <div class="flex justify-start">
+        <a href="/impact" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          View Past Impact
+        </a>
+      </div>
     </div>
   </div>
 </section>
