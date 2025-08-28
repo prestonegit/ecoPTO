@@ -1,0 +1,21 @@
+---
+const { opportunity } = Astro.props;
+---
+<div class="bg-bg-primary p-4 rounded-xl shadow-sm flex flex-col items-center justify-between h-full hover:shadow-lg hover:scale-105 transition-all duration-300">
+  {opportunity.data.icon && (
+    <div class="w-12 h-12 bg-secondary rounded-full flex items-center justify-center mb-2">
+      <span class="text-white text-xl">{opportunity.data.icon}</span>
+    </div>
+  )}
+  <h3 class="text-base font-semibold text-primary text-center">{opportunity.data.title}</h3>
+  {opportunity.data.description && (
+    <p class="mt-1 text-text-secondary text-center text-sm flex-grow">
+      {opportunity.data.description}
+    </p>
+  )}
+  {opportunity.data.learnMore && (
+    <a href={opportunity.data.learnMore} target="_blank" rel="noopener noreferrer" class="mt-2 text-primary font-semibold hover:underline text-sm">
+      Learn More &rarr;
+    </a>
+  )}
+</div>

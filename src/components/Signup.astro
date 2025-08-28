@@ -1,8 +1,7 @@
 ---
----
----
----
----
+import { getCollection } from 'astro:content';
+
+const volunteerOpportunities = await getCollection('volunteerOpportunities');
 ---
 <dialog id="signup-modal" class="modal">
   <div class="modal-box bg-bg-primary text-text-primary p-8 rounded-lg shadow-lg max-w-lg w-full relative">
@@ -42,6 +41,24 @@
         <input type="checkbox" id="active-role" name="active-role" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
         <label for="active-role" class="ml-2 text-text-secondary">I'd like to play a more active role</label>
       </div>
+
+      {/* Hidden section for volunteer roles */}
+      <div id="volunteer-roles-section" class="hidden mt-4 space-y-2">
+        <p class="text-sm font-bold text-text-secondary">Select areas you're interested in:</p>
+        {volunteerOpportunities.length > 0 ? (
+          volunteerOpportunities.map(opportunity => (
+            <div>
+              <label class="flex items-center">
+                <input type="checkbox" name="volunteer-role" value={opportunity.data.title} class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mr-2" />
+                <span class="text-text-secondary">{opportunity.data.title}</span>
+              </label>
+            </div>
+          ))
+        ) : (
+          <p class="text-text-secondary text-sm">No specific volunteer roles available at the moment.</p>
+        )}
+      </div>
+
       <div class="modal-action mt-6 flex justify-center gap-4">
         <button type="submit" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-secondary">Join ecoPTO</button>
       </div>
@@ -76,6 +93,8 @@
     if (modal) { // Add this check
       const closeButton = modal.querySelector('.btn-close');
       const joinUsHeroBtn = document.getElementById('join-us-hero-btn');
+      const activeRoleCheckbox = document.getElementById('active-role');
+      const volunteerRolesSection = document.getElementById('volunteer-roles-section');
 
       if (joinUsHeroBtn) {
         joinUsHeroBtn.addEventListener('click', () => {
@@ -92,6 +111,18 @@
           modal.classList.remove('modal-open');
         }
       });
+
+      // Handle active role checkbox
+      if (activeRoleCheckbox && volunteerRolesSection) {
+        activeRoleCheckbox.addEventListener('change', () => {
+          if (activeRoleCheckbox.checked) {
+            volunteerRolesSection.classList.remove('hidden');
+            // Optional: Add smooth animation classes here (e.g., opacity-0 -> opacity-100, transition-opacity)
+          } else {
+            volunteerRolesSection.classList.add('hidden');
+          }
+        });
+      }
     }
   });
 </script>
