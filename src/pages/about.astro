@@ -2,18 +2,6 @@
 import Layout from '../layouts/Layout.astro';
 
 const [historyContent] = await Astro.glob('../content/pages/about-us-history.mdx');
-const [whoWeAreContent] = await Astro.glob('../content/pages/about-us-who-we-are.mdx');
-
-const allLeaders = await Astro.glob('../content/leadership/*.mdx');
-
-// Sort leaders by the 'order' field, if available, otherwise by name
-allLeaders.sort((a, b) => {
-  if (a.frontmatter.order && b.frontmatter.order) {
-    return a.frontmatter.order - b.frontmatter.order;
-  } else {
-    return a.frontmatter.name.localeCompare(b.frontmatter.name);
-  }
-});
 ---
 <Layout title="About Us">
   <section class="py-20 bg-primary">
@@ -22,41 +10,6 @@ allLeaders.sort((a, b) => {
       <article class="prose lg:prose-xl mx-auto text-bg-primary">
         <historyContent.Content />
       </article>
-    </div>
-  </section>
-
-  <section class="py-20 bg-bg-secondary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-primary mb-8">{whoWeAreContent.frontmatter.title}</h2>
-      <article class="prose lg:prose-xl mx-auto text-text-primary">
-        <whoWeAreContent.Content />
-      </article>
-    </div>
-  </section>
-
-  <section class="py-20 bg-bg-secondary">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-4xl font-bold text-primary mb-12">Leadership</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
-        {allLeaders.map(leader => (
-          <div class="bg-bg-primary p-8 rounded-xl shadow-lg text-center">
-            {leader.frontmatter.image && (
-              <img
-                src={leader.frontmatter.image}
-                alt={leader.frontmatter.name}
-                class="w-32 h-32 rounded-full mx-auto mb-6 object-cover border-4 border-secondary"
-              />
-            )}
-            <h3 class="text-2xl font-bold text-primary">{leader.frontmatter.name}</h3>
-            <p class="text-lg text-text-secondary mb-4">{leader.frontmatter.title}</p>
-            {leader.frontmatter.bio && (
-              <div class="prose mx-auto text-text-primary">
-                <leader.Content />
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
     </div>
   </section>
 </Layout>
