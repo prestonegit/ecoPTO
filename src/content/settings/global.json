@@ -1,7 +1,7 @@
 {
   "site_name": "Hopewell Valley PTO",
-  "favicon": "",
-  "global_svg_icon": "",
+  "favicon": "/assets/images/ecoptoyewlogo.svg",
+  "global_svg_icon": "/assets/images/ecoptoyewlogo.svg",
   "theme": "theme-ecopto",
   "attributions": [
     {
