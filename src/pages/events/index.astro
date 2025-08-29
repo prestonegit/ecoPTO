@@ -19,13 +19,13 @@ const events = await getCollection('events');
     <div class="container mx-auto px-6">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {events.map(event => (
-          <div class="bg-bg-primary p-8 rounded-xl shadow-md text-center">
+          <a href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`} target={event.data.externalUrl ? '_blank' : '_self'} class="bg-bg-primary p-8 rounded-xl shadow-md text-center block">
             <h3 class="text-2xl font-bold text-primary">{event.data.title}</h3>
             <p class="text-lg text-text-secondary mb-4">{event.data.description}</p>
-            <a href={`/events/${event.slug}`} class="font-bold text-primary">
+            <span class="font-bold text-primary">
               Learn More &rarr;
-            </a>
-          </div>
+            </span>
+          </a>
         ))}
       </div>
     </div>
