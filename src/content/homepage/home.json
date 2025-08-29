@@ -13,12 +13,12 @@
     {
       "title": "Community Engagement",
       "text": "Building strong connections between families, schools, and local organizations to create lasting positive change.",
-      "icon": "/src/assets/images/acroyoga.png"
+      "icon": "/assets/images/acroyoga.png"
     },
     {
       "title": "Youth Wellbeing",
       "text": "Nurturing the whole child - their physical, mental, emotional, and spiritual wellbeing.",
-      "icon": "/src/assets/images/guru.png"
+      "icon": "/assets/images/guru.png"
     }
   ],
   "global_svg_icon": "/ecoPTOYEWlogo.svg",
