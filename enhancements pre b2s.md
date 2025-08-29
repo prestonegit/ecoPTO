@@ -1,12 +1,9 @@
 High level:
 * Admin changes for content editing
-* Animation and image uploads
-* Get icon into the site
-* Form setup to send in right way
-* change colors to match icon
 * Make sure that it renders on mobile ok
+* Form setup to send in right way (database friendly)
 * Remember that admin stuff can wait for day 1 (but would be nice)
-
+* icon attribution
  
 prompt 3
 

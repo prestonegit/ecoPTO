@@ -65,7 +65,7 @@ const eventsCollection = defineCollection({
     description: z.string().optional(),
     eventDate: z.date(),
     location: z.string().optional(),
-    image: z.string().optional(),
+    image: z.string().nullable().optional(),
     externalUrl: z.string().url().optional(), // New field for external URL
   }),
 });
