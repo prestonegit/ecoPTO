@@ -1,10 +1,20 @@
 {
-  "site_name": "Hopewell ecoPTO",
+  "site_name": "Hopewell Valley PTO",
+  "favicon": "",
+  "global_svg_icon": "",
   "theme": "theme-ecopto",
-  "hero_animation_file": "/assets/animations/hero-animation.json",
-  "earth_connection_icon": "/assets/icons/placeholder.svg",
-  "community_engagement_icon": "/assets/icons/placeholder.svg",
-  "youth_wellbeing_icon": "/assets/icons/placeholder.svg",
-  "favicon": "/ecoPTOYEWlogo.svg",
-  "global_svg_icon": "/ecoPTOYEWlogo.svg"
+  "attributions": [
+    {
+      "text": "Mindfulness icons created by Flat-icons-com - Flaticon",
+      "url": "https://www.flaticon.com/free-icons/mindfulness"
+    },
+    {
+      "text": "Kids yoga icons created by Paul J. - Flaticon",
+      "url": "https://www.flaticon.com/free-icons/kids-yoga"
+    },
+    {
+      "text": "Acroyoga icons created by Flat-icons-com - Flaticon",
+      "url": "https://www.flaticon.com/free-icons/acroyoga"
+    }
+  ]
 }
