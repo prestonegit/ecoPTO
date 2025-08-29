@@ -32,7 +32,7 @@ const { content } = Astro.props;
       <div class="grid md:grid-cols-2 gap-8">
         {eventsToShow.length > 0 ? (
           eventsToShow.map(event => (
-            <a href={`/events/${event.slug}`} class="flex flex-col rounded-xl shadow-sm overflow-hidden group bg-bg-primary">
+            <a href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`} target={event.data.externalUrl ? '_blank' : '_self'} class="flex flex-col rounded-xl shadow-sm overflow-hidden group bg-bg-primary">
               <div class="md:flex flex-grow">
                 <div class="md:w-1/2 flex flex-col justify-center">
                   <div class="p-6">
