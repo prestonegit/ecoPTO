@@ -1,6 +1,5 @@
 ---
 import { getCollection } from 'astro:content';
-import EventCard from './EventCard.astro'; // Import EventCard
 import VolunteerOpportunityCard from './VolunteerOpportunityCard.astro'; // Import VolunteerOpportunityCard
 
 // Fetch all events
@@ -32,7 +31,22 @@ const { content } = Astro.props;
       <h3 class="text-3xl font-bold text-primary mb-8">{content.events_section_title}</h3>
       <div class="grid md:grid-cols-2 gap-8">
         {eventsToShow.length > 0 ? (
-          eventsToShow.map(event => <EventCard event={event} />)
+          eventsToShow.map(event => (
+            <div class="bg-bg-primary p-8 rounded-xl shadow-sm text-center">
+              {event.data.image && (
+                <img
+                  src={event.data.image}
+                  alt={event.data.title}
+                  class="w-full h-auto object-cover mb-4"
+                />
+              )}
+              <h3 class="text-2xl font-bold text-primary">{event.data.title}</h3>
+              <p class="text-lg text-text-secondary mb-4">{event.data.description}</p>
+              <a href={`/events/${event.slug}`} class="font-bold text-primary">
+                Learn More &rarr;
+              </a>
+            </div>
+          ))
         ) : (
           <p class="text-center text-text-secondary col-span-full">No upcoming events at the moment. Check back soon!</p>
         )}

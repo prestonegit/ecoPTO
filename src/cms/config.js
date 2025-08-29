@@ -4,7 +4,7 @@ export const config = {
   },
   local_backend: true,
   media_folder: "public/assets/images",
-  public_folder: "/src/assets/images",
+  public_folder: "/assets/images",
   collections: [
     {
       name: "settings",
@@ -163,7 +163,7 @@ export const config = {
         { label: "Description", name: "description", widget: "markdown" },
         { label: "Event Date", name: "eventDate", widget: "datetime" },
         { label: "Location", name: "location", widget: "string", required: false },
-        
+        { label: "Image", name: "image", widget: "image", required: false },
         { label: "External URL", name: "externalUrl", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
       ]
     },
