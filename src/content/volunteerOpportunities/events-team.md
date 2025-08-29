@@ -1,6 +1,6 @@
 ---
-title: "Events Team"
-description: "Help plan and execute our community events."
-icon: "calendar"
-learnMore: "https://example.com/events-team"
+title: Website event updater
+description: Posting takes up some time that this web developer doesn't have time to do!
+icon: calendar
+learnMore: ""
 ---
