@@ -1,19 +1,23 @@
 ---
 // src/components/Footer.astro
+import { getEntry } from 'astro:content';
+
 const year = new Date().getFullYear();
+const globalSettings = await getEntry('settings', 'global');
 ---
 <footer class="bg-theme-primary text-theme-secondary mt-12">
-  <div class="container mx-auto px-4 py-8 text-center">
-    <p>&copy; {year} HVRSD ecoPTO</p>
+  <div class="container mx-auto px-4 py-4 text-center">
+    <p class="py-4">&copy; {year} HVRSD ecoPTO</p>
 
-    <div class="mt-4 text-xs opacity-70">
-      <p class="mb-2">Icon Attributions:</p>
-      <div class="flex justify-center items-center space-x-4">
-        <a href="https://www.flaticon.com/free-icons/mindfulness" title="mindfulness icons" class="hover:underline">Mindfulness icons created by Flat-icons-com - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/kids-yoga" title="kids yoga icons" class="hover:underline">Kids yoga icons created by Paul J. - Flaticon</a>
-        <a href="https://www.flaticon.com/free-icons/acroyoga" title="acroyoga icons" class="hover:underline">Acroyoga icons created by Flat-icons-com - Flaticon</a>
+    {globalSettings.data.attributions && globalSettings.data.attributions.length > 0 && (
+      <div class="mt-4 text-[0.65rem] opacity-70">
+        <p class="mb-1">Attributions:</p>
+        <div class="flex flex-wrap justify-center items-center space-x-2">
+          {globalSettings.data.attributions.map(attr => (
+            <a href={attr.url} title={attr.text} class="hover:underline" target="_blank" rel="noopener noreferrer">{attr.text}</a>
+          ))}
+        </div>
       </div>
-    </div>
-    
+    )}
   </div>
 </footer>
