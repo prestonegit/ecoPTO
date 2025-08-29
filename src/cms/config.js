@@ -16,20 +16,21 @@ export const config = {
           name: "settings",
           fields: [
             { label: "Site Name", name: "site_name", widget: "string", default: "Hopewell Valley PTO" },
+            { label: "Favicon", name: "favicon", widget: "image", media_library: { config: { multiple: false, accept: "image/x-icon" } } },
+            { label: "Global SVG Icon", name: "global_svg_icon", widget: "image", media_library: { config: { multiple: false, accept: "image/svg+xml" } } },
             {
               label: "Color Theme",
               name: "theme",
               widget: "select",
               options: [
+                { label: "Default ecoPTO Theme (Terracotta & Red)", value: "theme-ecopto" },
                 { label: "School Colors (Maroon & Gold)", value: "theme-district-maroon" },
                 { label: "Summer", value: "theme-summer" },
                 { label: "Fall", value: "theme-fall" },
                 { label: "Winter/Spring", value: "theme-winter-spring" }
               ],
               default: "theme-district-maroon"
-            },
-            { label: "Favicon", name: "favicon", widget: "image", media_library: { config: { multiple: false, accept: "image/x-icon" } } },
-            { label: "Global SVG Icon", name: "global_svg_icon", widget: "image", media_library: { config: { multiple: false, accept: "image/svg+xml" } } }
+            }
           ]
         }
       ]

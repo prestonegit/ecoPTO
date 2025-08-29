@@ -21,12 +21,12 @@ const volunteerOpportunities = await getCollection('volunteerOpportunities');
       <div>
         <label class="text-sm font-bold text-text-secondary">School(s) Affiliation</label>
         <div class="grid grid-cols-2 gap-2 mt-2">
-          <div><label class="flex items-center"><input type="checkbox" name="school" value="Central High School" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mr-2">Central High School</label></div>
-          <div><label class="flex items-center"><input type="checkbox" name="school" value="Timberlane Middle School" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mr-2">Timberlane Middle School</label></div>
-          <div><label class="flex items-center"><input type="checkbox" name="school" value="Bear Tavern Elementary School" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mr-2">Bear Tavern Elementary School</label></div>
-          <div><label class="flex items-center"><input type="checkbox" name="school" value="Hopewell Elementary School" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mr-2">Hopewell Elementary School</label></div>
-          <div><label class="flex items-center"><input type="checkbox" name="school" value="Stony Brook Elementary" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mr-2">Stony Brook Elementary</label></div>
-          <div><label class="flex items-center"><input type="checkbox" name="school" value="Toll Gate Grammar School" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mr-2">Toll Gate Grammar School</label></div>
+          <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Central High" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Central High</label></div>
+          <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Timberlane Middle" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Timberlane Middle</label></div>
+          <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Bear Tavern Elementary" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Bear Tavern Elementary</label></div>
+          <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Hopewell Elementary" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Hopewell Elementary</label></div>
+          <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Stony Brook" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Stony Brook</label></div>
+          <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Toll Gate Grammar" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Toll Gate Grammar</label></div>
         </div>
       </div>
       <div>
@@ -49,7 +49,7 @@ const volunteerOpportunities = await getCollection('volunteerOpportunities');
           volunteerOpportunities.map(opportunity => (
             <div>
               <label class="flex items-center">
-                <input type="checkbox" name="volunteer-role" value={opportunity.data.title} class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary mr-2" />
+                <input type="checkbox" name="volunteer-role" value={opportunity.data.title} class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
                 <span class="text-text-secondary">{opportunity.data.title}</span>
               </label>
             </div>
@@ -60,7 +60,7 @@ const volunteerOpportunities = await getCollection('volunteerOpportunities');
       </div>
 
       <div class="modal-action mt-6 flex justify-center gap-4">
-        <button type="submit" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-secondary">Join ecoPTO</button>
+        <button type="submit" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-accent">Join ecoPTO</button>
       </div>
     </form>
   </div>
