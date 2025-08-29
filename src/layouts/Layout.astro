@@ -111,5 +111,24 @@ const themeClass = globalSettings.theme;
 	</main>
 	<Footer />
 	<Signup />
+
+	<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+	<script is:inline>
+		if (window.netlifyIdentity) {
+			// Handle invite tokens
+			const match = window.location.hash.match(/invite_token=([^&]+)/);
+			if (match) {
+				window.netlifyIdentity.open('signup', { token: match[1] });
+			}
+
+			window.netlifyIdentity.on("init", user => {
+				if (!user) {
+					window.netlifyIdentity.on("login", () => {
+						document.location.href = "/admin/";
+					});
+				}
+			});
+		}
+	</script>
 </body>
 </html>

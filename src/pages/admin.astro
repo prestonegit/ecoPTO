@@ -12,22 +12,5 @@ import Admin from '../components/Admin.jsx';
   </head>
   <body>
     <Admin client:only="react" />
-    <script>
-      if (window.netlifyIdentity) {
-        window.netlifyIdentity.on("init", user => {
-          if (!user) {
-            window.netlifyIdentity.on("login", () => {
-              document.location.href = "/admin/";
-            });
-          }
-        });
-
-        // Handle invite tokens
-        const match = window.location.hash.match(/invite_token=([^&]+)/);
-        if (match) {
-          window.netlifyIdentity.open('signup', { token: match[1] });
-        }
-      }
-    </script>
   </body>
 </html>
