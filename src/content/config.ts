@@ -80,7 +80,6 @@ const volunteerOpportunitiesCollection = defineCollection({
     title: z.string(),
     description: z.string().optional(),
     icon: z.string().optional(),
-    learnMore: z.string().url().optional(),
   }),
 });
 
