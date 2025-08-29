@@ -87,20 +87,12 @@ export const config = {
             { label: "Volunteer Section Title", name: "volunteer_section_title", widget: "string" },
             { label: "Contact Title", name: "contact_title", widget: "string" },
             { label: "Contact Subtitle", name: "contact_subtitle", widget: "text" },
-            { label: "Contact Email", name: "contact_email", widget: "string" }
+            { label: "Contact Email", name: "contact_email", widget: "string" },
+            { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
+            { label: "Who We Are Text", name: "who_we_are_text", widget: "markdown" }
           ]
         },
-        {
-          file: "src/content/pages/about-us.mdx",
-          label: "About Us Page",
-          name: "about",
-          fields: [
-            { label: "Title", name: "title", widget: "string" },
-            { label: "Body", name: "body", widget: "markdown" },
-            { label: "Image 1", name: "image1", widget: "image" },
-            { label: "Image 2", name: "image2", widget: "image" }
-          ]
-        },
+        
         {
           file: "src/content/pages/impact.mdx",
           label: "Community Impact Page",
