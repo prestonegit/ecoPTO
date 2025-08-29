@@ -1,7 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
-import { Image } from "astro:assets";
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
@@ -22,17 +21,14 @@ const { Content } = await event.render();
 ---
 
 <Layout title={event.data.title}>
-  <section class="relative py-16 sm:py-24 bg-bg-secondary">
+  <section class="relative py-16 sm:py-24 bg-bg-secondary text-center">
     <div class="container mx-auto px-6 text-center">
       {event.data.image && (
         <div class="mb-8 max-w-3xl mx-auto">
-          <Image
+          <img
             src={event.data.image}
             alt={event.data.title}
             class="rounded-lg shadow-lg w-full h-auto object-cover"
-            widths={[800, 1200, 1600]}
-            sizes="(max-width: 768px) 100vw, 80vw"
-            loading="eager"
           />
         </div>
       )}
