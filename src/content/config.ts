@@ -55,6 +55,10 @@ const settingsCollection = defineCollection({
     theme: z.string(),
     favicon: z.string().optional(),
     global_svg_icon: z.string().optional(),
+    attributions: z.array(z.object({
+      text: z.string(),
+      url: z.string().url().optional(),
+    })).optional(),
   }),
 });
 
