@@ -30,6 +30,16 @@ export const config = {
                 { label: "Winter/Spring", value: "theme-winter-spring" }
               ],
               default: "theme-district-maroon"
+            },
+            {
+              label: "Attributions",
+              name: "attributions",
+              widget: "list",
+              required: false,
+              fields: [
+                { label: "Text", name: "text", widget: "string" },
+                { label: "URL", name: "url", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
+              ]
             }
           ]
         }
