@@ -76,11 +76,23 @@ const { content } = Astro.props;
         )}
       </div>
       <div class="mt-12 text-center">
-        <a href="/impact" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
-          View Past Impact
-        
-        </a>
+        <button id="signup-button-events-section" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-primary hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+          Sign Up Here
+        </button>
       </div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const signupButton = document.getElementById('signup-button-events-section');
+    const signupModal = document.getElementById('signup-modal');
+
+    if (signupButton && signupModal) {
+      signupButton.addEventListener('click', () => {
+        signupModal.classList.add('modal-open');
+      });
+    }
+  });
+</script>
     </div>
   </div>
 </section>

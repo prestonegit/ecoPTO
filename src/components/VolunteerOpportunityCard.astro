@@ -9,9 +9,5 @@ const { opportunity } = Astro.props;
       {opportunity.data.description}
     </p>
   )}
-  {opportunity.data.learnMore && (
-    <a href={opportunity.data.learnMore} target="_blank" rel="noopener noreferrer" class="mt-2 text-primary font-semibold hover:underline text-sm">
-      Learn More &rarr;
-    </a>
-  )}
+  
 </div>
