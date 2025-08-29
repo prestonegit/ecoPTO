@@ -13,7 +13,7 @@ const { content } = Astro.props;
             <div class="w-24 h-24 bg-secondary rounded-full flex items-center justify-center mb-6">
               <img src={item.icon} alt={item.title + " Icon"} class="w-16 h-16" />
             </div>
-            <h3 class="text-2xl font-bold text-primary text-center">{item.title}</h3>
+            <h3 class="text-2xl font-bold text-primary text-center min-h-[3rem]">{item.title}</h3>
             <p class="mt-4 text-text-secondary">
               {item.text}
             </p>
