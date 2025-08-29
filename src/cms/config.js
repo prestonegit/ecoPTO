@@ -35,9 +35,10 @@ export const config = {
         }
       ]
     },
+    
     {
-      name: "homepage",
-      label: "Homepage",
+      name: "pages",
+      label: "Pages",
       files: [
         {
           file: "src/content/homepage/home.json",
@@ -61,37 +62,25 @@ export const config = {
             { label: "Mission Title", name: "mission_title", widget: "string" },
             { label: "Mission Subtitle", name: "mission_subtitle", widget: "text" },
             {
-              label: "Earth Connection Icon",
-              name: "earth_connection_icon",
-              widget: "image",
-              media_library: {
-                config: {
-                  multiple: false,
-                  accept: "image/svg+xml"
+              label: "Mission Items",
+              name: "mission_items",
+              widget: "list",
+              fields: [
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Text", name: "text", widget: "text" },
+                {
+                  label: "Icon",
+                  name: "icon",
+                  widget: "image",
+                  required: false,
+                  media_library: {
+                    config: {
+                      multiple: false,
+                      accept: "image/svg+xml,image/png"
+                    }
+                  }
                 }
-              }
-            },
-            {
-              label: "Community Engagement Icon",
-              name: "community_engagement_icon",
-              widget: "image",
-              media_library: {
-                config: {
-                  multiple: false,
-                  accept: "image/svg+xml"
-                }
-              }
-            },
-            {
-              label: "Youth Wellbeing Icon",
-              name: "youth_wellbeing_icon",
-              widget: "image",
-              media_library: {
-                config: {
-                  multiple: false,
-                  accept: "image/svg+xml"
-                }
-              }
+              ]
             },
             { label: "Events Title", name: "events_title", widget: "string" },
             { label: "Events Subtitle", name: "events_subtitle", widget: "text" },
@@ -101,13 +90,7 @@ export const config = {
             { label: "Contact Subtitle", name: "contact_subtitle", widget: "text" },
             { label: "Contact Email", name: "contact_email", widget: "string" }
           ]
-        }
-      ]
-    },
-    {
-      name: "pages",
-      label: "Pages",
-      files: [
+        },
         {
           file: "src/content/pages/about-us.mdx",
           label: "About Us Page",
