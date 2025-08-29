@@ -1,6 +1,6 @@
 ---
-title: "Communications Team"
-description: "Assist with newsletters, social media, and website updates."
-icon: "bullhorn"
-learnMore: "https://example.com/communications"
+title: Central High Representation
+description: Be the ecoPTO voice for Central High!
+icon: bullhorn
+learnMore: ""
 ---
