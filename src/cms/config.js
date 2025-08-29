@@ -3,7 +3,7 @@ export const config = {
     name: 'test-repo',
   },
   local_backend: true,
-  media_folder: "src/assets/images",
+  media_folder: "public/assets/images",
   public_folder: "/assets/images",
   collections: [
     {
