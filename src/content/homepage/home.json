@@ -1,25 +1,37 @@
 {
-  "community_engagement_icon": "/assets/images/acroyoga.png",
   "mission_title": "Our Mission & Values",
-  "earth_connection_icon": "/assets/images/mindfulness.png",
-  "volunteer_section_title": "Volunteer Opportunities",
   "mission_subtitle": "We believe in nurturing youth wellbeing through meaningful connections to community and earth, fostering deep relationships that support both our children's growth and our planet's health.",
-  "mission_item_1_title": "Earth Connection",
-  "mission_item_3_text": "Nurturing the whole child - their physical, mental, emotional, and spiritual wellbeing.",
-  "mission_item_2_title": "Community Engagement",
-  "events_title": "Make an Impact",
-  "mission_item_2_text": "Building strong connections between families, schools, and local organizations to create lasting positive change.",
-  "hero_title": "Building a Sustainable Future Together",
-  "mission_item_3_title": "Youth Wellbeing",
-  "youth_wellbeing_icon": "/assets/images/guru.png",
-  "mission_item_1_text": "Helping students and families develop deep, meaningful relationships with the natural world through hands-on experiences.",
-  "hero_button_text": "Join Our Community",
-  "contact_subtitle": "Have questions about ecoPTO? We'd love to hear from you. Send us a note and one of our members will be in touch shortly.",
-  "title": "Homepage",
-  "events_section_title": "Attend an Event",
-  "contact_title": "Get In Touch",
+  "mission_items": [
+    {
+      "title": "Earth Connection",
+      "text": "Helping students and families develop deep, meaningful relationships with the natural world through hands-on experiences.",
+      "icon": "/assets/images/mindfulness.png"
+    },
+    {
+      "title": "Community Engagement",
+      "text": "Building strong connections between families, schools, and local organizations to create lasting positive change.",
+      "icon": "/assets/images/acroyoga.png"
+    },
+    {
+      "title": "Youth Wellbeing",
+      "text": "Nurturing the whole child - their physical, mental, emotional, and spiritual wellbeing.",
+      "icon": "/assets/images/guru.png"
+    }
+  ],
+  "site_name": "Hopewell ecoPTO",
+  "theme": "theme-ecopto",
   "hero_animation_file": "/assets/images/ecoptoyewlogo.svg",
+  "hero_title": "Building a Sustainable Future Together",
   "hero_subtitle": "ecoPTO brings together families, educators, and community members in the Hopewell Valley School District to nurture youth wellbeing through deeper connections with community and earth.",
+  "hero_button_text": "Join Our Community",
+  "events_title": "Make an Impact",
+  "events_subtitle": "Join us for workshops, community actions, and family-friendly events.",
+  "events_section_title": "Attend an Event",
+  "volunteer_section_title": "Volunteer Opportunities",
+  "contact_title": "Get In Touch",
+  "contact_subtitle": "Have questions about ecoPTO? We'd love to hear from you. Send us a note and one of our members will be in touch shortly.",
   "contact_email": "info@ecopto-hv.org",
-  "events_subtitle": "Join us for workshops, community actions, and family-friendly events."
+  "title": "Homepage",
+  "favicon": "/ecoPTOYEWlogo.svg",
+  "global_svg_icon": "/ecoPTOYEWlogo.svg"
 }
