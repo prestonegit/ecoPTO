@@ -8,8 +8,7 @@ import Contact from '../components/Contact.astro';
 import { getEntry } from 'astro:content';
 
 const homeContent = await getEntry('homepage', 'home');
-const whoWeAreEntry = await getEntry('pages', 'about-us'); // Renamed for clarity
-const { Content: WhoWeAreContent } = await whoWeAreEntry.render(); // Correct way to get MDX component
+
 const allLeaders = await Astro.glob('../content/leadership/*.mdx');
 
 // Sort leaders by the 'order' field, if available, otherwise by name
@@ -30,9 +29,9 @@ allLeaders.sort((a, b) => {
   {/* Who We Are Section */}
   <section class="py-8 bg-bg-secondary">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-primary mb-4">{whoWeAreEntry.data.title}</h2>
+      <h2 class="text-4xl font-bold text-primary mb-4">{homeContent.data.who_we_are_title}</h2>
       <article class="prose prose-lg text-text-secondary !mb-0 max-w-none mb-12">
-        <WhoWeAreContent />
+        <div set:html={homeContent.data.who_we_are_text}></div>
       </article>
 
       {/* Leadership Section */}
