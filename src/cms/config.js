@@ -4,7 +4,7 @@ export const config = {
   },
   local_backend: true,
   media_folder: "public/assets/images",
-  public_folder: "/assets/images",
+  public_folder: "/src/assets/images",
   collections: [
     {
       name: "settings",
@@ -35,7 +35,6 @@ export const config = {
         }
       ]
     },
-    
     {
       name: "pages",
       label: "Pages",
@@ -48,17 +47,7 @@ export const config = {
             { label: "Hero Title", name: "hero_title", widget: "string" },
             { label: "Hero Subtitle", name: "hero_subtitle", widget: "text" },
             { label: "Hero Button Text", name: "hero_button_text", widget: "string" },
-            { 
-              label: "Hero Animation File", 
-              name: "hero_animation_file", 
-              widget: "file",
-              media_library: {
-                config: {
-                  multiple: false,
-                  accept: "application/json"
-                }
-              }
-            },
+            
             { label: "Mission Title", name: "mission_title", widget: "string" },
             { label: "Mission Subtitle", name: "mission_subtitle", widget: "text" },
             {
@@ -173,7 +162,8 @@ export const config = {
         { label: "Title", name: "title", widget: "string" },
         { label: "Description", name: "description", widget: "markdown" },
         { label: "Event Date", name: "eventDate", widget: "datetime" },
-        { label: "Image", name: "image", widget: "image", required: false },
+        { label: "Location", name: "location", widget: "string", required: false },
+        
         { label: "External URL", name: "externalUrl", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
       ]
     },

@@ -166,20 +166,6 @@ declare module 'astro:content' {
   collection: "events";
   data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
-"2025-11-15-winter-fair.md": {
-	id: "2025-11-15-winter-fair.md";
-  slug: "2025-11-15-winter-fair";
-  body: string;
-  collection: "events";
-  data: InferEntrySchema<"events">
-} & { render(): Render[".md"] };
-"2025-12-10-holiday-concert.md": {
-	id: "2025-12-10-holiday-concert.md";
-  slug: "2025-12-10-holiday-concert";
-  body: string;
-  collection: "events";
-  data: InferEntrySchema<"events">
-} & { render(): Render[".md"] };
 };
 "leadership": {
 "jane-smith.mdx": {

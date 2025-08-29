@@ -5,22 +5,21 @@
     {
       "title": "Earth Connection",
       "text": "Helping students and families develop deep, meaningful relationships with the natural world through hands-on experiences.",
-      "icon": "/assets/images/mindfulness.png"
+      "icon": "/src/assets/images/mindfulness.png"
     },
     {
       "title": "Community Engagement",
       "text": "Building strong connections between families, schools, and local organizations to create lasting positive change.",
-      "icon": "/assets/images/acroyoga.png"
+      "icon": "/src/assets/images/acroyoga.png"
     },
     {
       "title": "Youth Wellbeing",
       "text": "Nurturing the whole child - their physical, mental, emotional, and spiritual wellbeing.",
-      "icon": "/assets/images/guru.png"
+      "icon": "/src/assets/images/guru.png"
     }
   ],
   "site_name": "Hopewell ecoPTO",
   "theme": "theme-ecopto",
-  "hero_animation_file": "/assets/images/ecoptoyewlogo.svg",
   "hero_title": "Building a Sustainable Future Together",
   "hero_subtitle": "ecoPTO brings together families, educators, and community members in the Hopewell Valley School District to nurture youth wellbeing through deeper connections with community and earth.",
   "hero_button_text": "Join Our Community",

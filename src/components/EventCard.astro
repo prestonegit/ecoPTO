@@ -1,25 +1,17 @@
----
+--- 
+// src/components/EventCard.astro
 const { event } = Astro.props;
-import { Image } from "astro:assets";
 ---
-<a
-  href={event.data.externalUrl || `/events/${event.slug}/`}
-  class="block rounded-lg shadow-md hover:shadow-lg hover:scale-105 transition-all duration-300 overflow-hidden h-full flex flex-col relative group"
-  style={`background-image: ${event.data.image ? `url(${event.data.image})` : 'none'}; background-size: cover; background-position: center;`}
->
-  {event.data.image && (
-    <div class="absolute inset-0 bg-black opacity-50 group-hover:opacity-60 transition-opacity duration-300"></div>
-  )}
-  <div class="p-6 flex-grow flex flex-col relative z-10 ${event.data.image ? 'text-white' : 'text-text-primary'}">
-    <h3 class="text-2xl font-bold mb-2">{event.data.title}</h3>
-    <p class="text-sm mb-1">
-      <i class="fas fa-calendar-alt mr-2"></i>{new Date(event.data.eventDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-    </p>
-    <p class="text-sm mb-4">
-      <i class="fas fa-map-marker-alt mr-2"></i>{event.data.location}
-    </p>
-    <p class="text-base mb-4 flex-grow">{event.data.description}</p>
-    <span class="font-semibold hover:underline mt-auto">Read More &rarr;</span>
+<div class="flex flex-col bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 p-6">
+  
+  <p class="text-sm text-gray-500">{new Date(event.data.eventDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
+  <h3 class="mt-2 text-xl font-bold text-primary">{event.data.title}</h3> 
+  <p class="mt-2 text-gray-600 line-clamp-3 flex-grow">{event.data.description}</p>
+  <div class="mt-4">
+    <a href={event.data.externalUrl || `/events/${event.slug}`} 
+       target={event.data.externalUrl ? "_blank" : "_self"} 
+       class="font-bold text-primary">
+      Learn More &rarr;
+    </a>
   </div>
-  {!event.data.image && <div class="absolute inset-0 bg-bg-secondary"></div>}
-</a>
+</div>
