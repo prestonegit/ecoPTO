@@ -15,14 +15,14 @@ const animationSrc = content.hero_animation_file || "/assets/animations/hero-ani
         {content.hero_subtitle}
       </p>
       <div class="mt-8 flex gap-4">
-        <button id="join-us-hero-btn" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-secondary">
+        <button id="join-us-hero-btn" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-accent">
           {content.hero_button_text}
         </button>
         
       </div>
     </div>
     <div class="flex items-center justify-center">
-      <LottiePlayer client:load animationSrc={animationSrc} />
+      <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-full h-auto">
     </div>
   </div>
 </section>
