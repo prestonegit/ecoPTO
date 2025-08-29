@@ -25,6 +25,8 @@ import Admin from '../components/Admin.jsx';
 
       // Handle invite tokens
       if (window.location.hash.includes("invite_token")) {
+        const token = window.location.hash.split('=').pop();
+        window.location.hash = '#invite_token=' + token;
         window.netlifyIdentity.open();
       }
     </script>
