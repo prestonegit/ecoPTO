@@ -1,8 +1,8 @@
 export const config = {
   backend: {
-    name: 'test-repo',
+    name: 'git-gateway',
+    branch: 'main',
   },
-  local_backend: true,
   media_folder: "public/assets/images",
   public_folder: "/assets/images",
   collections: [
