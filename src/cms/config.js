@@ -198,6 +198,21 @@ export const config = {
         { label: "Featured Image", name: "image", widget: "image", required: false },
         { label: "Body", name: "body", widget: "markdown" }
       ]
+    },
+    {
+      name: "transparency",
+      label: "Transparency Documents",
+      folder: "src/content/transparency",
+      create: true,
+      slug: "{{slug}}",
+      extension: "md",
+      format: "frontmatter",
+      fields: [
+        { label: "Title", name: "title", widget: "string" },
+        { label: "Subtitle", name: "subtitle", widget: "text" },
+        { label: "Document Link", name: "link", widget: "string", pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
+        { label: "Publish Date", name: "pubDate", widget: "datetime" }
+      ]
     }
   ]
 };

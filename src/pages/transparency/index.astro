@@ -1,0 +1,38 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+
+const allDocuments = await getCollection('transparency');
+
+// Sort documents by publish date, newest first
+allDocuments.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
+---
+
+<Layout title="Transparency">
+  <section class="relative py-16 sm:py-24 bg-bg-secondary text-center">
+    <div class="container mx-auto px-6">
+      <h1 class="text-5xl font-extrabold text-primary mb-4">Transparency & Documents</h1>
+      <p class="text-text-secondary text-lg max-w-3xl mx-auto">
+        Access our meeting notes, minutes, and other important documents.
+      </p>
+    </div>
+  </section>
+
+  <section class="py-12 sm:py-16">
+    <div class="container mx-auto px-6">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {allDocuments.length > 0 ? (
+          allDocuments.map(doc => (
+            <a href={doc.data.link} target="_blank" rel="noopener noreferrer" class="block bg-bg-primary p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300">
+              <h3 class="text-2xl font-bold text-primary mb-2">{doc.data.title}</h3>
+              <p class="text-text-secondary mb-4">{doc.data.subtitle}</p>
+              <span class="text-primary font-semibold">View Document &rarr;</span>
+            </a>
+          ))
+        ) : (
+          <p class="text-center text-text-secondary col-span-full">No documents available yet. Check back soon!</p>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>
