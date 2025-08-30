@@ -107,6 +107,17 @@ const homepageCollection = defineCollection({
   }),
 });
 
+const newsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    author: z.string(),
+    pubDate: z.date(),
+    image: z.string().optional(),
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
   homepage: homepageCollection,
@@ -114,4 +125,5 @@ export const collections = {
   settings: settingsCollection,
   events: eventsCollection,
   volunteerOpportunities: volunteerOpportunitiesCollection,
+  news: newsCollection,
 };
