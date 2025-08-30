@@ -18,7 +18,7 @@ const { Content } = await entry.render();
   <section class="relative py-16 sm:py-24 bg-bg-secondary">
     <div class="container mx-auto px-6">
       <article class="prose lg:prose-xl mx-auto text-text-primary">
-        <h1 class="text-primary">{entry.data.title}</h1>
+        <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-primary mb-4">{entry.data.title}</h1>
         <p class="text-text-secondary text-sm">
           By {entry.data.author} on {entry.data.pubDate.toLocaleDateString()}
         </p>
