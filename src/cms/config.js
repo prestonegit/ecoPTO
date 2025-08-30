@@ -75,7 +75,7 @@ export const config = {
                   media_library: {
                     config: {
                       multiple: false,
-                      accept: "image/svg+xml,image/png"
+                      accept: "image/svg+xml,image/png,image/gif"
                     }
                   }
                 }
