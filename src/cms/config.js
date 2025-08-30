@@ -181,6 +181,23 @@ export const config = {
         { label: "Icon", name: "icon", widget: "string", required: false },
         { label: "Learn More URL", name: "learnMore", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
       ]
+    },
+    {
+      name: "news",
+      label: "News Posts",
+      folder: "src/content/news",
+      create: true,
+      slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
+      extension: "mdx",
+      format: "frontmatter",
+      fields: [
+        { label: "Title", name: "title", widget: "string" },
+        { label: "Description", name: "description", widget: "text" },
+        { label: "Author", name: "author", widget: "string" },
+        { label: "Publish Date", name: "pubDate", widget: "datetime" },
+        { label: "Featured Image", name: "image", widget: "image", required: false },
+        { label: "Body", name: "body", widget: "markdown" }
+      ]
     }
   ]
 };
