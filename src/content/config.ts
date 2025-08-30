@@ -107,6 +107,16 @@ const homepageCollection = defineCollection({
   }),
 });
 
+const transparencyCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    subtitle: z.string(),
+    link: z.string().url(),
+    pubDate: z.date(),
+  }),
+});
+
 const newsCollection = defineCollection({
   type: 'content',
   schema: z.object({
@@ -126,4 +136,5 @@ export const collections = {
   events: eventsCollection,
   volunteerOpportunities: volunteerOpportunitiesCollection,
   news: newsCollection,
+  transparency: transparencyCollection,
 };
