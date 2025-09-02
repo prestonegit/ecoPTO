@@ -4,6 +4,7 @@ import { getCollection } from 'astro:content';
 import ProjectsVisualization from '../components/ProjectsVisualization.jsx';
 
 const projects = await getCollection('projects');
+console.log("Projects Collection:", projects);
 ---
 
 <Layout title="Projects">
