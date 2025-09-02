@@ -92,7 +92,7 @@ export const config = {
             { label: "Who We Are Text", name: "who_we_are_text", widget: "markdown" }
           ]
         },
-                {
+        {
           file: "src/content/pages/impact.mdx",
           label: "Community Impact Page",
           name: "impact",
@@ -148,10 +148,23 @@ export const config = {
         }
       ]
     },
-          ]
-    },
+    // CORRECTED "leaders" collection below
     {
       name: "leaders",
+      label: "Leaders",
+      folder: "src/content/leadership",
+      create: true,
+      slug: "{{slug}}",
+      extension: "mdx",
+      format: "frontmatter",
+      fields: [
+        { label: "Name", name: "name", widget: "string" },
+        { label: "Title", name: "title", widget: "string" },
+        { label: "Bio", name: "bio", widget: "markdown", required: false },
+        { label: "Image", name: "image", widget: "image", required: false },
+        { label: "Display Order", name: "order", widget: "number", required: false }
+      ]
+    },
     {
       name: "events",
       label: "Events",
