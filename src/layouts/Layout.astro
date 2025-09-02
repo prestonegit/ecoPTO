@@ -1,12 +1,13 @@
 ---
 import { ViewTransitions } from 'astro:transitions';
+import { getEntry } from 'astro:content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import globalSettings from '../content/settings/global.json';
+const globalSettings = await getEntry('settings', 'global');
 import Signup from '../components/Signup.astro';
 
 const { title } = Astro.props;
-const themeClass = globalSettings.theme; // Force rebuild
+const themeClass = globalSettings.data.theme; // Force rebuild
 ---
 <!doctype html>
 <html lang="en" class={themeClass}>
@@ -15,7 +16,7 @@ const themeClass = globalSettings.theme; // Force rebuild
 	<meta name="description" content="Hopewell Valley PTO Website" />
 	<meta name="viewport" content="width=device-width" />
 	<link rel="icon" type="image/svg+xml" href="/logo-icon.svg" />
-	<title>{title} | {globalSettings.site_name}</title>
+	<title>{title} | {globalSettings.data.site_name}</title>
 	
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
