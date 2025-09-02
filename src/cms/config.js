@@ -92,7 +92,7 @@ export const config = {
             { label: "Who We Are Text", name: "who_we_are_text", widget: "markdown" }
           ]
         },
-                {
+                        {
           file: "src/content/pages/about-us.mdx",
           label: "About Us Page",
           name: "about",
@@ -104,7 +104,7 @@ export const config = {
             { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
             { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" }
           ]
-        },
+        },,
         
         {
           file: "src/content/pages/impact.mdx",
