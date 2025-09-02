@@ -40,7 +40,18 @@ export const config = {
                 { label: "Text", name: "text", widget: "string" },
                 { label: "URL", name: "url", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
               ]
-            }
+            },
+            { label: "Signup Modal Title", name: "signup_modal_title", widget: "string" },
+            { label: "Signup Modal Subtitle", name: "signup_modal_subtitle", widget: "text" },
+            { label: "Signup Name Label", name: "signup_name_label", widget: "string" },
+            { label: "Signup Email Label", name: "signup_email_label", widget: "string" },
+            { label: "Signup School Affiliation Label", name: "signup_school_affiliation_label", widget: "string" },
+            { label: "Signup Impact Focus Label", name: "signup_impact_focus_label", widget: "text" },
+            { label: "Signup Receive Updates Label", name: "signup_receive_updates_label", widget: "string" },
+            { label: "Signup Active Role Label", name: "signup_active_role_label", widget: "string" },
+            { label: "Signup Volunteer Roles Prompt", name: "signup_volunteer_roles_prompt", widget: "string" },
+            { label: "Signup No Volunteer Roles Message", name: "signup_no_volunteer_roles_message", widget: "string" },
+            { label: "Signup Button Text", name: "signup_button_text", widget: "string" }
           ]
         }
       ]

@@ -12,5 +12,16 @@
       "text": "Impact animated icons created by Freepik",
       "url": "https://www.flaticon.com/free-animated-icons/impact\" title=\"impact animated icons"
     }
-  ]
+  ],
+  "signup_modal_title": "Join the ecoPTO Community!",
+  "signup_modal_subtitle": "Please fill out the form below to join our community.",
+  "signup_name_label": "Name",
+  "signup_email_label": "Email Address",
+  "signup_school_affiliation_label": "School(s) Affiliation",
+  "signup_impact_focus_label": "What impact would you like to see ecoPTO focus on?",
+  "signup_receive_updates_label": "I'd like to receive updates about ecoPTO events and initiatives",
+  "signup_active_role_label": "I'd like to play a more active role",
+  "signup_volunteer_roles_prompt": "Select areas you're interested in:",
+  "signup_no_volunteer_roles_message": "No specific volunteer roles available at the moment.",
+  "signup_button_text": "Join ecoPTO"
 }

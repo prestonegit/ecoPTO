@@ -70,6 +70,17 @@ const settingsCollection = defineCollection({
       text: z.string(),
       url: z.string().url().optional(),
     })).optional(),
+    signup_modal_title: z.string().optional(),
+    signup_modal_subtitle: z.string().optional(),
+    signup_name_label: z.string().optional(),
+    signup_email_label: z.string().optional(),
+    signup_school_affiliation_label: z.string().optional(),
+    signup_impact_focus_label: z.string().optional(),
+    signup_receive_updates_label: z.string().optional(),
+    signup_active_role_label: z.string().optional(),
+    signup_volunteer_roles_prompt: z.string().optional(),
+    signup_no_volunteer_roles_message: z.string().optional(),
+    signup_button_text: z.string().optional(),
   }),
 });
 
