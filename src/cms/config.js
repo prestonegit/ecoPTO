@@ -139,6 +139,7 @@ export const config = {
           extension: "mdx",
           format: "frontmatter",
           fields: [
+            { label: "Title", name: "title", widget: "string" },
             { label: "History Title", name: "history_title", widget: "string" },
             { label: "History Content", name: "history_content", widget: "markdown" },
             { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
