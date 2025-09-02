@@ -1,6 +1,7 @@
 ---
 ---
 import Layout from '../layouts/Layout.astro';
+const MyLayout = Layout;
 
 const aboutContent = (await Astro.glob('../content/pages/about-us.mdx'))[0];
 const leadership = await Astro.glob('../content/leadership/*.mdx');
@@ -8,7 +9,7 @@ const leadership = await Astro.glob('../content/leadership/*.mdx');
 console.log('aboutContent.frontmatter:', aboutContent.frontmatter);
 console.log('leadership:', leadership);
 ---
-<Layout title="About Us">
+<MyLayout title="About Us">
   <section class="py-20 bg-primary text-secondary">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold mb-2">{aboutContent.frontmatter.history_title}</h2>
