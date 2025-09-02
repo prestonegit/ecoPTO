@@ -9,31 +9,27 @@ const leadership = await getCollection('leadership');
   <section class="py-20 bg-primary text-secondary">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold mb-2">{aboutContent.data.history_title}</h2>
-      <div class="prose lg:prose-xl mx-auto text-secondary">
-        <p>{aboutContent.data.history_content}</p>
-      </div>
+      <div class="prose lg:prose-xl mx-auto text-secondary" set:html={aboutContent.data.history_content}></div>
     </div>
   </section>
 
-  <section class="py-20 bg-secondary text-primary">
+  <section class="py-20 bg-bg-secondary text-primary">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold mb-2">{aboutContent.data.who_we_are_title}</h2>
-      <div class="prose lg:prose-xl mx-auto text-primary">
-       <p>{aboutContent.data.who_we_are_content}</p>
-      </div>
+      <div class="prose lg:prose-xl mx-auto text-primary" set:html={aboutContent.data.who_we_are_content}></div>
     </div>
   </section>
 
-  <section class="py-20 bg-primary text-secondary">
+  <section class="py-20 bg-bg-primary text-secondary">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold mb-8 text-center">Our Leaders</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {leadership.map(leader => (
           <div class="bg-secondary rounded-lg shadow-lg p-8 text-primary">
-            <img class="w-32 h-32 rounded-full mx-auto mb-4" src={leader.data.image} alt={leader.data.name}>
+            <img class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" src={leader.data.image} alt={leader.data.name}>
             <h3 class="text-xl font-bold text-center mb-2">{leader.data.name}</h3>
             <p class="text-center text-sm mb-4">{leader.data.title}</p>
-            <p class="text-sm">{leader.data.bio}</p>
+            <div class="text-sm prose mx-auto" set:html={leader.data.bio}></div>
           </div>
         ))}
       </div>
