@@ -1,4 +1,22 @@
+<<<<<<< HEAD
 const aboutContent = await getEntry('pages', 'about-us');
+=======
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { marked } from 'marked';
+
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection, getEntry } from 'astro:content';
+import { marked } from 'marked';
+
+const aboutContent = await getEntry('aboutUs', 'about-us');
+const leadership = await getCollection('leadership');
+
+const historyHtml = aboutContent.data.history_content;
+const whoWeAreHtml = aboutContent.data.about_who_we_are_content;
+>>>>>>> b026fb89016e9c0839f0ce3aef591c16f09f55cd
 const leadership = await getCollection('leadership');
 
 const historyHtml = aboutContent.data.history_content;

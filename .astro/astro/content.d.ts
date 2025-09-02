@@ -151,7 +151,15 @@ declare module 'astro:content' {
 	>;
 
 	type ContentEntryMap = {
-		"events": {
+		"aboutUs": Record<string, {
+  id: string;
+  slug: string;
+  body: string;
+  collection: "aboutUs";
+  data: InferEntrySchema<"aboutUs">;
+  render(): Render[".md"];
+}>;
+"events": {
 "2025-09-16-back-to-school-night.mdx": {
 	id: "2025-09-16-back-to-school-night.mdx";
   slug: "2025-09-16-back-to-school-night";

@@ -5,10 +5,11 @@ const pagesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
-    history_title: z.string().optional(),
-    history_content: z.string().optional(),
-    about_who_we_are_title: z.string().optional(),
-    about_who_we_are_content: z.string().optional(),
+<<<<<<< HEAD
+    subtitle: z.string().optional(),
+    achievements_title: z.string().optional(),
+=======
+>>>>>>> b026fb89016e9c0839f0ce3aef591c16f09f55cd
     achievements_title: z.string().optional(),
     achievements: z.array(z.object({
         title: z.string().optional(),
@@ -38,6 +39,17 @@ const pagesCollection = defineCollection({
     contact_title: z.string().optional(),
     contact_subtitle: z.string().optional(),
     contact_email: z.string().optional(),
+  }),
+});
+
+const aboutUsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    history_title: z.string().optional(),
+    history_content: z.string().optional(),
+    who_we_are_title: z.string().optional(),
+    who_we_are_content: z.string().optional(),
   }),
 });
 
@@ -134,6 +146,7 @@ const newsCollection = defineCollection({
 
 export const collections = {
   pages: pagesCollection,
+  aboutUs: aboutUsCollection,
   homepage: homepageCollection,
   leadership: leadershipCollection,
   settings: settingsCollection,

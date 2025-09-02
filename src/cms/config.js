@@ -95,7 +95,7 @@ export const config = {
         {
           file: "src/content/pages/about-us.mdx",
           label: "About Us Page",
-          name: "about",
+          name: "aboutUs",
           extension: "mdx",
           format: "frontmatter",
           fields: [
