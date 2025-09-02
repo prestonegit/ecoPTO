@@ -132,21 +132,6 @@ export const config = {
             { label: "Image 4 (Bottom-Right)", name: "image4", widget: "image" }
           ]
         },
-        {
-          file: "src/content/aboutUs/about-us.mdx",
-          label: "About Us Page",
-          name: "about_us_page_data",
-          extension: "mdx",
-          format: "frontmatter",
-          fields: [
-            { label: "Title", name: "title", widget: "string" },
-            { label: "History Title", name: "history_title", widget: "string" },
-            { label: "History Content", name: "history_content", widget: "markdown" },
-            { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
-            { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" },
-            { label: "Body", name: "body", widget: "hidden" }
-          ]
-        }
       ]
     },
     // CORRECTED "leaders" collection below
@@ -250,6 +235,22 @@ export const config = {
         { label: "Document Link", name: "link", widget: "string", pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
         { label: "Publish Date", name: "pubDate", widget: "datetime" }
       ]
-    }
+    },
+    {
+      name: "about-us",
+      label: "About Us Page",
+      files: [
+        {
+          file: "src/content/aboutUs/about-us.mdx",
+          label: "About Us Page Content",
+          name: "about-us-content",
+          fields: [
+            { label: "Title", name: "title", widget: "string" },
+            { label: "History Title", name: "history_title", widget: "string" },
+            { label: "History Content", name: "history_content", widget: "markdown" },
+            { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
+            { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" }
+          ]
+        }
   ]
 };
