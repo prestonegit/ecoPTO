@@ -103,7 +103,7 @@ export const config = {
             { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" },
             { label: "Body", name: "body", widget: "markdown", required: false }
           ]
-        },,
+        },
         
         {
           file: "src/content/pages/impact.mdx",
