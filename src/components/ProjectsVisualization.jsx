@@ -41,8 +41,8 @@ const ProjectsVisualization = ({ projects }) => {
     svg.selectAll('*').remove(); // Clear previous render
     const container = svg.node().parentElement;
     if (!container) return;
-    const width = container.getBoundingClientRect().width;
-    const height = 800;
+    const width = 800; // Fixed width
+    const height = 800; // Fixed height
 
     svg.attr('height', height).attr('viewBox', `0 0 ${width} ${height}`);
 
@@ -56,7 +56,7 @@ const ProjectsVisualization = ({ projects }) => {
     
     const projectKeywords = projects.map(p => ({
       id: p.slug,
-      keywords: new Set(getKeywords((p.data.goal ?? '') + ' ' + (p.data.description ?? '')))
+      keywords: new Set(getKeywords((p.data.goal ?? '') + ' ' + (p.data.description ?? ''))),
     }));
 
     const links = projects.map(p => ({ source: p.slug, target: 'ecopto' }));
@@ -95,7 +95,7 @@ const ProjectsVisualization = ({ projects }) => {
           setSelectedProject(d);
         }
       })
-      .call(drag(simulation));
+      .call(d3.drag(simulation));
 
     node.append('circle')
       .attr('r', d => d.isRoot ? 80 : 60)
@@ -122,7 +122,7 @@ const ProjectsVisualization = ({ projects }) => {
         .style('align-items', 'center')
         .style('height', '100%')
         .style('text-align', 'center')
-        .html(d => d.data?.title || d.title)
+        .html(d => d.data?.title || d.title);
 
     simulation.on('tick', () => {
       link
