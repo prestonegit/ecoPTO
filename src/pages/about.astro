@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-const aboutContent = await getEntry('pages', 'about-us');
-=======
----
-import Layout from '../layouts/Layout.astro';
-import { getCollection, getEntry } from 'astro:content';
-import { marked } from 'marked';
-
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection, getEntry } from 'astro:content';
@@ -23,11 +15,6 @@ if (!aboutContent) {
 const leadership = await getCollection('leadership');
 
 const historyHtml = aboutContent.data.history_content;
-const whoWeAreHtml = aboutContent.data.about_who_we_are_content;
->>>>>>> b026fb89016e9c0839f0ce3aef591c16f09f55cd
-const leadership = await getCollection('leadership');
-
-const historyHtml = aboutContent.data.history_content;
 const whoWeAreHtml = aboutContent.data.who_we_are_content;
 ---
 <Layout title="About Us">
@@ -41,20 +28,6 @@ const whoWeAreHtml = aboutContent.data.who_we_are_content;
   <section class="py-20 bg-bg-secondary text-primary">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold mb-2">{aboutContent.data.who_we_are_title}</h2>
-      <div class="text-primary" set:html={whoWeAreHtml}></div>
-    </div>
-  </section>
-<Layout title="About Us">
-    <section class="py-20 bg-primary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2 text-secondary">{aboutContent.data.history_title}</h2>
-      <div class="prose text-secondary" set:html={historyHtml}></div>
-    </div>
-  </section>
-
-  <section class="py-20 bg-bg-secondary text-primary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2">{aboutContent.data.about_who_we_are_title}</h2>
       <div class="text-primary" set:html={whoWeAreHtml}></div>
     </div>
   </section>
