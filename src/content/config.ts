@@ -9,10 +9,6 @@ const pagesCollection = defineCollection({
     history_content: z.string().optional(),
     who_we_are_title: z.string().optional(),
     who_we_are_content: z.string().optional(),
-    history_title: z.string().optional(),
-    history_content: z.string().optional(),
-    who_we_are_title: z.string().optional(),
-    who_we_are_content: z.string().optional(),
     achievements_title: z.string().optional(),
     achievements: z.array(z.object({
         title: z.string().optional(),
