@@ -57,7 +57,6 @@ export const config = {
             { label: "Hero Title", name: "hero_title", widget: "string" },
             { label: "Hero Subtitle", name: "hero_subtitle", widget: "text" },
             { label: "Hero Button Text", name: "hero_button_text", widget: "string" },
-            
             { label: "Mission Title", name: "mission_title", widget: "string" },
             { label: "Mission Subtitle", name: "mission_subtitle", widget: "text" },
             {
@@ -96,6 +95,9 @@ export const config = {
           file: "src/content/pages/impact.mdx",
           label: "Community Impact Page",
           name: "impact",
+          extension: "mdx",
+          format: "frontmatter",
+          frontmatter_format: 'yaml', // ADDED THIS LINE
           fields: [
             { label: "Main Title", name: "title", widget: "string", default: "Community Impact" },
             { label: "Subtitle", name: "subtitle", widget: "string" },
@@ -131,10 +133,23 @@ export const config = {
             { label: "Image 3 (Bottom-Left)", name: "image3", widget: "image" },
             { label: "Image 4 (Bottom-Right)", name: "image4", widget: "image" }
           ]
-        },
+        }
       ]
     },
-    // CORRECTED "leaders" collection below
+    {
+      name: "about-us",
+      label: "About Us Page",
+      folder: "src/content/aboutUs",
+      create: false,
+      frontmatter_format: 'yaml', // ADDED THIS LINE
+      fields: [
+        { label: "Title", name: "title", widget: "string" },
+        { label: "History Title", name: "history_title", widget: "string" },
+        { label: "History Content", name: "history_content", widget: "markdown" },
+        { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
+        { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" }
+      ]
+    },
     {
       name: "leaders",
       label: "Leaders",
@@ -143,6 +158,7 @@ export const config = {
       slug: "{{slug}}",
       extension: "mdx",
       format: "frontmatter",
+      frontmatter_format: 'yaml', // ADDED THIS LINE
       fields: [
         { label: "Name", name: "name", widget: "string" },
         { label: "Title", name: "title", widget: "string" },
@@ -159,6 +175,7 @@ export const config = {
       slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
       extension: "mdx",
       format: "frontmatter",
+      frontmatter_format: 'yaml', // ADDED THIS LINE
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "Description", name: "description", widget: "markdown" },
@@ -174,6 +191,7 @@ export const config = {
       folder: "src/content/volunteerOpportunities",
       create: true,
       slug: "{{slug}}",
+      frontmatter_format: 'yaml', // ADDED THIS LINE
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "Description", name: "description", widget: "markdown", required: false },
@@ -189,6 +207,7 @@ export const config = {
       slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
       extension: "mdx",
       format: "frontmatter",
+      frontmatter_format: 'yaml', // ADDED THIS LINE
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "Description", name: "description", widget: "text" },
@@ -206,6 +225,7 @@ export const config = {
       slug: "{{slug}}",
       extension: "mdx",
       format: "frontmatter",
+      frontmatter_format: 'yaml', // ADDED THIS LINE
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "Goal", name: "goal", widget: "markdown" },
@@ -229,25 +249,12 @@ export const config = {
       slug: "{{slug}}",
       extension: "md",
       format: "frontmatter",
+      frontmatter_format: 'yaml', // ADDED THIS LINE
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "Subtitle", name: "subtitle", widget: "text" },
         { label: "Document Link", name: "link", widget: "string", pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
         { label: "Publish Date", name: "pubDate", widget: "datetime" }
-      ]
-    },
-    {
-      name: "about-us",
-      label: "About Us Page",
-      folder: "src/content/aboutUs", // We now point to the folder
-      create: false, // This prevents users from creating new files here
-      // The "files" array is removed entirely
-      fields: [
-        { label: "Title", name: "title", widget: "string" },
-        { label: "History Title", name: "history_title", widget: "string" },
-        { label: "History Content", name: "history_content", widget: "markdown" },
-        { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
-        { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" }
       ]
     }
   ]
