@@ -56,7 +56,7 @@ const ProjectsVisualization = ({ projects }) => {
     
     const projectKeywords = projects.map(p => ({
       id: p.slug,
-      keywords: new Set(getKeywords(p.data.goal + ' ' + p.data.description))
+      keywords: new Set(getKeywords((p.data.goal ?? '') + ' ' + (p.data.description ?? '')))
     }));
 
     const links = projects.map(p => ({ source: p.slug, target: 'ecopto' }));
