@@ -137,21 +137,15 @@ export const config = {
     {
       name: "about_us_page",
       label: "About Us Page",
-      files: [
-        {
-          file: "src/content/aboutUs/about-us.mdx",
-          label: "About Us Content",
-          name: "about_us_content",
-          extension: "mdx",
-          format: "frontmatter",
-          fields: [
-            { label: "History Title", name: "history_title", widget: "string" },
-            { label: "History Content", name: "history_content", widget: "markdown" },
-            { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
-            { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" },
-            { label: "Body", name: "body", widget: "hidden" }
-          ]
-        }
+      file: "src/content/aboutUs/about-us.mdx",
+      extension: "mdx",
+      format: "frontmatter",
+      fields: [
+        { label: "History Title", name: "history_title", widget: "string" },
+        { label: "History Content", name: "history_content", widget: "markdown" },
+        { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
+        { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" },
+        { label: "Body", name: "body", widget: "hidden" }
       ]
     },
     {
