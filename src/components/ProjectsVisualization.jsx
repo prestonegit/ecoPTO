@@ -39,10 +39,10 @@ const ProjectsVisualization = ({ projects }) => {
   useEffect(() => {
     const svg = d3.select(ref.current);
     svg.selectAll('*').remove(); // Clear previous render
-    const width = svg.node().getBoundingClientRect().width;
+    const width = ref.current.parentElement.clientWidth;
     const height = 800;
 
-    svg.attr('width', width).attr('height', height);
+    svg.attr('width', '100%').attr('height', height).attr('viewBox', `0 0 ${width} ${height}`);
 
     // Get computed styles for CSS variables
     const computedStyle = getComputedStyle(document.documentElement);

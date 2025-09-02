@@ -5,6 +5,9 @@ import { getCollection, getEntry } from 'astro:content';
 
 const aboutContent = await getEntry('pages', 'about-us');
 const leadership = await getCollection('leadership');
+
+console.log('aboutContent.data:', aboutContent.data);
+console.log('leadership:', leadership);
 ---
 <Layout title="About Us">
   <section class="py-20 bg-primary text-secondary">
