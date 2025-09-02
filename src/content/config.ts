@@ -5,11 +5,6 @@ const pagesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
-<<<<<<< HEAD
-    subtitle: z.string().optional(),
-    achievements_title: z.string().optional(),
-=======
->>>>>>> b026fb89016e9c0839f0ce3aef591c16f09f55cd
     achievements_title: z.string().optional(),
     achievements: z.array(z.object({
         title: z.string().optional(),
