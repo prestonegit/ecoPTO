@@ -143,3 +143,10 @@ export const collections = {
   pages: pagesCollection,
   aboutUs: aboutUsCollection,
   homepage: homepageCollection,
+  leadership: leadershipCollection,
+  settings: settingsCollection,
+  events: eventsCollection,
+  volunteerOpportunities: volunteerOpportunitiesCollection,
+  news: newsCollection,
+  transparency: transparencyCollection,
+};

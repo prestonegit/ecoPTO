@@ -151,20 +151,28 @@ declare module 'astro:content' {
 	>;
 
 	type ContentEntryMap = {
-		"events": {
+		"aboutUs": Record<string, {
+  id: string;
+  slug: string;
+  body: string;
+  collection: "aboutUs";
+  data: InferEntrySchema<"aboutUs">;
+  render(): Render[".md"];
+}>;
+"events": {
 "2025-09-16-back-to-school-night.mdx": {
 	id: "2025-09-16-back-to-school-night.mdx";
   slug: "2025-09-16-back-to-school-night";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2025-10-25-fall-harvest-festival.mdx": {
 	id: "2025-10-25-fall-harvest-festival.mdx";
   slug: "2025-10-25-fall-harvest-festival";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 };
 "leadership": {
@@ -173,28 +181,28 @@ declare module 'astro:content' {
   slug: "co-president";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "jane-smith.mdx": {
 	id: "jane-smith.mdx";
   slug: "jane-smith";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "john-doe.mdx": {
 	id: "john-doe.mdx";
   slug: "john-doe";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "peter-jones.mdx": {
 	id: "peter-jones.mdx";
   slug: "peter-jones";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 };
 "news": {
@@ -203,7 +211,7 @@ declare module 'astro:content' {
   slug: "2025-08-07-welcome-from-the-ecopto-president";
   body: string;
   collection: "news";
-  data: any
+  data: InferEntrySchema<"news">
 } & { render(): Render[".mdx"] };
 };
 "pages": {
@@ -212,28 +220,28 @@ declare module 'astro:content' {
   slug: "about-us-history";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 "about-us.mdx": {
 	id: "about-us.mdx";
   slug: "about-us";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 "impact.mdx": {
 	id: "impact.mdx";
   slug: "impact";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 "our-vision.mdx": {
 	id: "our-vision.mdx";
   slug: "our-vision";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 };
 "projects": {
@@ -278,7 +286,7 @@ declare module 'astro:content' {
   slug: string;
   body: string;
   collection: "transparency";
-  data: any;
+  data: InferEntrySchema<"transparency">;
   render(): Render[".md"];
 }>;
 "volunteerOpportunities": {
@@ -287,35 +295,35 @@ declare module 'astro:content' {
   slug: "communications-team";
   body: string;
   collection: "volunteerOpportunities";
-  data: any
+  data: InferEntrySchema<"volunteerOpportunities">
 } & { render(): Render[".md"] };
 "events-team.md": {
 	id: "events-team.md";
   slug: "events-team";
   body: string;
   collection: "volunteerOpportunities";
-  data: any
+  data: InferEntrySchema<"volunteerOpportunities">
 } & { render(): Render[".md"] };
 "fundraising-committee.md": {
 	id: "fundraising-committee.md";
   slug: "fundraising-committee";
   body: string;
   collection: "volunteerOpportunities";
-  data: any
+  data: InferEntrySchema<"volunteerOpportunities">
 } & { render(): Render[".md"] };
 "garden-club.md": {
 	id: "garden-club.md";
   slug: "garden-club";
   body: string;
   collection: "volunteerOpportunities";
-  data: any
+  data: InferEntrySchema<"volunteerOpportunities">
 } & { render(): Render[".md"] };
 "your-idea-here.md": {
 	id: "your-idea-here.md";
   slug: "your-idea-here";
   body: string;
   collection: "volunteerOpportunities";
-  data: any
+  data: InferEntrySchema<"volunteerOpportunities">
 } & { render(): Render[".md"] };
 };
 
@@ -326,14 +334,14 @@ declare module 'astro:content' {
 "home": {
 	id: "home";
   collection: "homepage";
-  data: any
+  data: InferEntrySchema<"homepage">
 };
 };
 "settings": {
 "global": {
 	id: "global";
   collection: "settings";
-  data: any
+  data: InferEntrySchema<"settings">
 };
 };
 
@@ -341,5 +349,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = never;
+	export type ContentConfig = typeof import("./../../src/content/config.js");
 }
