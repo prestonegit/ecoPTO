@@ -11,7 +11,15 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection, getEntry } from 'astro:content';
 import { marked } from 'marked';
 
-const aboutContent = await getEntry('aboutUs', 'about-us');
+const allAboutUsEntries = await getCollection('aboutUs');
+const aboutContent = allAboutUsEntries.find(entry => entry.slug === 'about-us');
+
+if (!aboutContent) {
+  console.error("About Us content entry not found!");
+  // You might want to redirect or display a fallback here
+  // For now, we'll let the build fail if it's truly not found
+}
+
 const leadership = await getCollection('leadership');
 
 const historyHtml = aboutContent.data.history_content;
