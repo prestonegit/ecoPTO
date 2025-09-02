@@ -43,7 +43,12 @@ const ProjectsVisualization = ({ projects }) => {
     const width = container.getBoundingClientRect().width;
     const height = 800;
 
-    svg.attr('width', width).attr('height', height);
+    svg.attr('width', '100%').attr('height', height).attr('viewBox', `0 0 ${width} ${height}`);
+
+    // Get computed styles for CSS variables
+    const computedStyle = getComputedStyle(document.documentElement);
+    const primaryColor = computedStyle.getPropertyValue('--primary').trim();
+    const sansFont = computedStyle.getPropertyValue('--font-sans').trim();
 
     const root = { id: 'ecopto', title: 'ecoPTO', isRoot: true };
     const nodes = [root, ...projects.map(p => ({ ...p, id: p.slug }))];
@@ -84,6 +89,7 @@ const ProjectsVisualization = ({ projects }) => {
       .join('g')
       .attr('class', 'cursor-pointer')
       .on('click', (event, d) => {
+        console.log('Circle clicked:', d);
         if (!d.isRoot) {
           setSelectedProject(d);
         }
@@ -92,7 +98,7 @@ const ProjectsVisualization = ({ projects }) => {
 
     node.append('circle')
       .attr('r', d => d.isRoot ? 80 : 60)
-      .attr('fill', d => d.isRoot ? '#f97316' : 'var(--primary)')
+      .attr('fill', d => d.isRoot ? '#f97316' : primaryColor)
       .attr('stroke', '#fff')
       .attr('stroke-width', 1.5)
       .on('mouseover', function (event, d) {
@@ -108,7 +114,7 @@ const ProjectsVisualization = ({ projects }) => {
         .attr('width', 100)
         .attr('height', 50)
         .append('xhtml:div')
-        .style('font', '14px var(--font-sans)')
+        .style('font', `14px ${sansFont}`)
         .style('color', 'white')
         .style('display', 'flex')
         .style('justify-content', 'center')
