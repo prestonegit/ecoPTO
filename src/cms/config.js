@@ -252,5 +252,7 @@ export const config = {
             { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" }
           ]
         }
+      ]
+    }
   ]
 };
