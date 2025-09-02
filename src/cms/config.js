@@ -134,7 +134,7 @@ export const config = {
                     }
                   }
                 },
-                {n                  label: "Image",
+                { label: "Image",
                   name: "image",
                   widget: "image",
                   required: false,
