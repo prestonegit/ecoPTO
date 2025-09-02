@@ -31,16 +31,6 @@ export const config = {
               ],
               default: "theme-district-maroon"
             },
-            {
-              label: "Attributions",
-              name: "attributions",
-              widget: "list",
-              required: false,
-              fields: [
-                { label: "Text", name: "text", widget: "string" },
-                { label: "URL", name: "url", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
-              ]
-            },
             { label: "Signup Modal Title", name: "signup_modal_title", widget: "string" },
             { label: "Signup Modal Subtitle", name: "signup_modal_subtitle", widget: "text" },
             { label: "Signup Name Label", name: "signup_name_label", widget: "string" },
@@ -51,10 +41,36 @@ export const config = {
             { label: "Signup Active Role Label", name: "signup_active_role_label", widget: "string" },
             { label: "Signup Volunteer Roles Prompt", name: "signup_volunteer_roles_prompt", widget: "string" },
             { label: "Signup No Volunteer Roles Message", name: "signup_no_volunteer_roles_message", widget: "string" },
-            { label: "Signup Button Text", name: "signup_button_text", widget: "string" }
+            { label: "Signup Button Text", name: "signup_button_text", widget: "string" },
+            {
+              label: "Attributions",
+              name: "attributions",
+              widget: "list",
+              required: false,
+              fields: [
+                { label: "Text", name: "text", widget: "string" },
+                { label: "URL", name: "url", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
+              ]
+            },
+            
           ]
         }
       ]
+    },
+    {
+      name: "signup",
+      label: "Signup Form",
+      files: [
+        {
+          file: "src/content/signup/signup.json",
+          label: "Signup Form Content",
+          name: "signup",
+          fields: [
+            { label: "Signup Form Title", name: "signupFormTitle", widget: "string" },
+            { label: "Signup Form Placeholder", name: "signupFormPlaceholder", widget: "string" },
+          ],
+        },
+      ],
     },
     {
       name: "pages",

@@ -35,6 +35,39 @@
             "additionalProperties": false
           }
         },
+        "signup_modal_title": {
+          "type": "string"
+        },
+        "signup_modal_subtitle": {
+          "type": "string"
+        },
+        "signup_name_label": {
+          "type": "string"
+        },
+        "signup_email_label": {
+          "type": "string"
+        },
+        "signup_school_affiliation_label": {
+          "type": "string"
+        },
+        "signup_impact_focus_label": {
+          "type": "string"
+        },
+        "signup_receive_updates_label": {
+          "type": "string"
+        },
+        "signup_active_role_label": {
+          "type": "string"
+        },
+        "signup_volunteer_roles_prompt": {
+          "type": "string"
+        },
+        "signup_no_volunteer_roles_message": {
+          "type": "string"
+        },
+        "signup_button_text": {
+          "type": "string"
+        },
         "$schema": {
           "type": "string"
         }

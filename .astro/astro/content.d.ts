@@ -216,23 +216,9 @@ declare module 'astro:content' {
 } & { render(): Render[".mdx"] };
 };
 "pages": {
-"about-us-history.mdx": {
-	id: "about-us-history.mdx";
-  slug: "about-us-history";
-  body: string;
-  collection: "pages";
-  data: InferEntrySchema<"pages">
-} & { render(): Render[".mdx"] };
 "impact.mdx": {
 	id: "impact.mdx";
   slug: "impact";
-  body: string;
-  collection: "pages";
-  data: InferEntrySchema<"pages">
-} & { render(): Render[".mdx"] };
-"our-vision.mdx": {
-	id: "our-vision.mdx";
-  slug: "our-vision";
   body: string;
   collection: "pages";
   data: InferEntrySchema<"pages">
@@ -244,45 +230,46 @@ declare module 'astro:content' {
   slug: "communications-team";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 "events-team.mdx": {
 	id: "events-team.mdx";
   slug: "events-team";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 "fundraising-committee.mdx": {
 	id: "fundraising-committee.mdx";
   slug: "fundraising-committee";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 "garden-club.mdx": {
 	id: "garden-club.mdx";
   slug: "garden-club";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 "green-team.mdx": {
 	id: "green-team.mdx";
   slug: "green-team";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 };
-"transparency": Record<string, {
-  id: string;
-  slug: string;
+"transparency": {
+"placeholder.md": {
+	id: "placeholder.md";
+  slug: "placeholder";
   body: string;
   collection: "transparency";
-  data: InferEntrySchema<"transparency">;
-  render(): Render[".md"];
-}>;
+  data: InferEntrySchema<"transparency">
+} & { render(): Render[".md"] };
+};
 "volunteerOpportunities": {
 "communications-team.md": {
 	id: "communications-team.md";
@@ -336,6 +323,13 @@ declare module 'astro:content' {
 	id: "global";
   collection: "settings";
   data: InferEntrySchema<"settings">
+};
+};
+"signup": {
+"signup": {
+	id: "signup";
+  collection: "signup";
+  data: any
 };
 };
 
