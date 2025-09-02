@@ -13,7 +13,9 @@ const projects = await getCollection('projects');
       <div class="mb-8">
         <input type="text" id="search" placeholder="Search for projects..." class="w-full p-4 border border-gray-300 rounded-lg">
       </div>
-      <ProjectsVisualization projects={projects} client:load />
+      <div class="flex justify-center">
+        <ProjectsVisualization projects={projects} client:load />
+      </div>
     </div>
   </section>
 </Layout>

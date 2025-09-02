@@ -14,13 +14,13 @@ const ProjectModal = ({ project, onClose }) => {
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onClose}>
       <div className="bg-white rounded-lg shadow-lg p-8 max-w-2xl w-full text-gray-800" onClick={e => e.stopPropagation()}>
-        <h2 className="text-3xl font-bold mb-4">{project.data.title}</h2>
-        <h3 className="text-xl font-semibold mb-2">Goal</h3>
-        <p className="mb-4">{project.data.goal}</p>
-        <h3 className="text-xl font-semibold mb-2">Description</h3>
-        <div className="prose" dangerouslySetInnerHTML={{ __html: project.data.description }}></div>
-        <h3 className="text-xl font-semibold mt-4 mb-2">Participants</h3>
-        <ul>
+        <h2 className="text-3xl font-bold mb-4 font-sans">{project.data.title}</h2>
+        <h3 className="text-xl font-semibold mb-2 font-sans">Goal</h3>
+        <p className="mb-4 font-sans">{project.data.goal}</p>
+        <h3 className="text-xl font-semibold mb-2 font-sans">Description</h3>
+        <div className="prose font-sans" dangerouslySetInnerHTML={{ __html: project.data.description }}></div>
+        <h3 className="text-xl font-semibold mt-4 mb-2 font-sans">Participants</h3>
+        <ul className="font-sans">
           {project.data.participants.map(p => (
             <li key={p.name}>{p.name} - {p.contact}</li>
           ))}
@@ -66,8 +66,8 @@ const ProjectsVisualization = ({ projects }) => {
     }
 
     const simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.id).distance(150))
-      .force('charge', d3.forceManyBody().strength(-2000))
+      .force('link', d3.forceLink(links).id(d => d.id).distance(200))
+      .force('charge', d3.forceManyBody().strength(-2500))
       .force('center', d3.forceCenter(width / 2, height / 2));
 
     const link = svg.append('g')
@@ -90,23 +90,31 @@ const ProjectsVisualization = ({ projects }) => {
       .call(drag(simulation));
 
     node.append('circle')
-      .attr('r', d => d.isRoot ? 60 : 40)
-      .attr('fill', d => d.isRoot ? '#f97316' : '#3b82f6')
+      .attr('r', d => d.isRoot ? 80 : 60)
+      .attr('fill', d => d.isRoot ? '#f97316' : 'var(--primary)')
       .attr('stroke', '#fff')
       .attr('stroke-width', 1.5)
       .on('mouseover', function (event, d) {
-        d3.select(this).transition().duration(200).attr('r', d.isRoot ? 70 : 50);
+        d3.select(this).transition().duration(200).attr('r', d.isRoot ? 90 : 70);
       })
       .on('mouseout', function (event, d) {
-        d3.select(this).transition().duration(200).attr('r', d.isRoot ? 60 : 40);
+        d3.select(this).transition().duration(200).attr('r', d.isRoot ? 80 : 60);
       });
 
-    node.append('text')
-      .attr('dy', '0.3em')
-      .attr('text-anchor', 'middle')
-      .text(d => d.data?.title || d.title)
-      .attr('fill', 'white')
-      .style('font-size', '12px');
+    node.append('foreignObject')
+        .attr('x', -50)
+        .attr('y', -25)
+        .attr('width', 100)
+        .attr('height', 50)
+        .append('xhtml:div')
+        .style('font', '14px var(--font-sans)')
+        .style('color', 'white')
+        .style('display', 'flex')
+        .style('justify-content', 'center')
+        .style('align-items', 'center')
+        .style('height', '100%')
+        .style('text-align', 'center')
+        .html(d => d.data?.title || d.title)
 
     simulation.on('tick', () => {
       link
