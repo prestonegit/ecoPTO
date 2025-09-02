@@ -3,6 +3,7 @@ import { getCollection, getEntry } from 'astro:content';
 
 const volunteerOpportunities = await getCollection('volunteerOpportunities');
 const signupContent = await getEntry('signup', 'signup');
+const globalSettings = await getEntry('settings', 'global');
 ---
 <dialog id="signup-modal" class="modal">
   <div class="modal-box bg-bg-primary text-text-primary p-8 rounded-lg shadow-lg max-w-lg w-full relative">
