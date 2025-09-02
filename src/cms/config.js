@@ -151,7 +151,7 @@ export const config = {
           ]
     },
     {
-      name: "leaders",,
+      name: "leaders",
     {
       name: "events",
       label: "Events",
