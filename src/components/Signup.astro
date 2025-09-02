@@ -3,25 +3,25 @@ import { getCollection, getEntry } from 'astro:content';
 
 const volunteerOpportunities = await getCollection('volunteerOpportunities');
 const signupContent = await getEntry('signup', 'signup');
-const globalSettings = await getEntry('settings', 'global');
+
 ---
 <dialog id="signup-modal" class="modal">
   <div class="modal-box bg-bg-primary text-text-primary p-8 rounded-lg shadow-lg max-w-lg w-full relative">
     <button class="btn-close absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
     <h3 class="font-bold text-2xl text-primary">{signupContent.data.signupFormTitle}</h3>
-    <p class="py-4 text-text-secondary">{signupContent.data.signupFormPlaceholder}</p>
+    <p class="py-4 text-text-secondary">{signupContent.data.signupFormSubtitle}</p>
     <form name="signup" method="POST" data-netlify="true" class="space-y-4">
       <input type="hidden" name="form-name" value="signup" />
       <div>
-        <label for="name" class="text-sm font-bold text-text-secondary">{globalSettings.data.signup_name_label}</label>
+        <label for="name" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_name_label}</label>
         <input type="text" id="first-name" name="first-name" placeholder="First Name" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
       </div>
       <div>
-        <label for="email" class="text-sm font-bold text-text-secondary">{globalSettings.data.signup_email_label}</label>
-        <input type="email" id="email" name="email" placeholder="Email Address" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
+        <label for="email" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_email_label}</label>
+        <input type="email" id="email" name="email" placeholder={signupContent.data.signupFormPlaceholder} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
       </div>
       <div>
-        <label class="text-sm font-bold text-text-secondary">{globalSettings.data.signup_school_affiliation_label}</label>
+        <label class="text-sm font-bold text-text-secondary">{signupContent.data.signup_school_affiliation_label}</label>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
           <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Central High" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Central High</label></div>
           <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Timberlane Middle" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Timberlane Middle</label></div>
@@ -32,21 +32,21 @@ const globalSettings = await getEntry('settings', 'global');
         </div>
       </div>
       <div>
-        <label for="impact-focus" class="text-sm font-bold text-text-secondary">{globalSettings.data.signup_impact_focus_label}</label>
+        <label for="impact-focus" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_impact_focus_label}</label>
         <textarea id="impact-focus" name="impact-focus" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" placeholder="Your ideas here..."></textarea>
       </div>
       <div class="flex items-center">
         <input type="checkbox" id="receive-updates" name="receive-updates" checked class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
-        <label for="receive-updates" class="ml-2 text-text-secondary">{globalSettings.data.signup_receive_updates_label}</label>
+        <label for="receive-updates" class="ml-2 text-text-secondary">{signupContent.data.signup_receive_updates_label}</label>
       </div>
       <div class="flex items-center">
         <input type="checkbox" id="active-role" name="active-role" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
-        <label for="active-role" class="ml-2 text-text-secondary">{globalSettings.data.signup_active_role_label}</label>
+        <label for="active-role" class="ml-2 text-text-secondary">{signupContent.data.signup_active_role_label}</label>
       </div>
 
       {/* Hidden section for volunteer roles */}
       <div id="volunteer-roles-section" class="hidden mt-4 space-y-2">
-        <p class="text-sm font-bold text-text-secondary">{globalSettings.data.signup_volunteer_roles_prompt}</p>
+        <p class="text-sm font-bold text-text-secondary">{signupContent.data.signup_volunteer_roles_prompt}</p>
         {volunteerOpportunities.length > 0 ? (
           volunteerOpportunities.map(opportunity => (
             <div>
@@ -57,12 +57,12 @@ const globalSettings = await getEntry('settings', 'global');
             </div>
           ))
         ) : (
-          <p class="text-text-secondary text-sm">{globalSettings.data.signup_no_volunteer_roles_message}</p>
+          <p class="text-text-secondary text-sm">{signupContent.data.signup_no_volunteer_roles_message}</p>
         )}
       </div>
 
       <div class="modal-action mt-6 flex justify-center gap-4">
-        <button type="submit" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-accent">{globalSettings.data.signup_button_text}</button>
+        <button type="submit" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-accent">{signupContent.data.signup_button_text}</button>
       </div>
     </form>
   </div>
