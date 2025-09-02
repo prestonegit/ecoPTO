@@ -96,7 +96,7 @@ const eventsCollection = defineCollection({
   }),
 });
 
-const volunteerOpportunitiesCollection = defineCollection({
+const getInvolvedCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
@@ -170,7 +170,7 @@ export const collections = {
   leadership: leadershipCollection,
   settings: settingsCollection,
   events: eventsCollection,
-  volunteerOpportunities: volunteerOpportunitiesCollection,
+  getInvolved: getInvolvedCollection,
   news: newsCollection,
   transparency: transparencyCollection,
   projects: projectsCollection,

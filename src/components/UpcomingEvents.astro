@@ -1,12 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-import VolunteerOpportunityCard from './VolunteerOpportunityCard.astro'; // Import VolunteerOpportunityCard
+import GetInvolvedCard from './GetInvolvedCard.astro'; // Import VolunteerOpportunityCard
 
 // Fetch all events
 const allEvents = await getCollection('events');
 
 // Fetch volunteer opportunities
-const volunteerOpportunities = await getCollection('volunteerOpportunities');
+const getInvolved = await getCollection('get-involved');
 
 // Filter for upcoming events and sort them by date
 const today = new Date();
@@ -67,12 +67,12 @@ const { content } = Astro.props;
     <div class="mt-20">
       <h3 class="text-3xl font-bold text-primary mb-8">{content.volunteer_section_title}</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {volunteerOpportunities.length > 0 ? (
-          volunteerOpportunities.map(opportunity => (
-            <VolunteerOpportunityCard opportunity={opportunity} />
+        {getInvolved.length > 0 ? (
+          getInvolved.map(opportunity => (
+            <GetInvolvedCard opportunity={opportunity} />
           ))
         ) : (
-          <p class="text-text-secondary">No volunteer opportunities available at the moment. Check back soon!</p>
+          <p class="text-text-secondary">No ways to get involved available at the moment. Check back soon!</p>
         )}
       </div>
       <div class="mt-12 text-center">

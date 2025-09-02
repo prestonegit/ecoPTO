@@ -1,7 +1,7 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 
-const volunteerOpportunities = await getCollection('volunteerOpportunities');
+const getInvolved = await getCollection('get-involved');
 const signupContent = await getEntry('signup', 'signup');
 
 ---
@@ -47,8 +47,8 @@ const signupContent = await getEntry('signup', 'signup');
       {/* Hidden section for volunteer roles */}
       <div id="volunteer-roles-section" class="hidden mt-4 space-y-2">
         <p class="text-sm font-bold text-text-secondary">{signupContent.data.signup_volunteer_roles_prompt}</p>
-        {volunteerOpportunities.length > 0 ? (
-          volunteerOpportunities.map(opportunity => (
+        {getInvolved.length > 0 ? (
+          getInvolved.map(opportunity => (
             <div>
               <label class="flex items-center">
                 <input type="checkbox" name="volunteer-role" value={opportunity.data.title} class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />

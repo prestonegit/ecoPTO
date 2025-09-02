@@ -176,31 +176,76 @@ declare module 'astro:content' {
   data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 };
+"get-involved": {
+"communications-team.md": {
+	id: "communications-team.md";
+  slug: "communications-team";
+  body: string;
+  collection: "get-involved";
+  data: any
+} & { render(): Render[".md"] };
+"events-team.md": {
+	id: "events-team.md";
+  slug: "events-team";
+  body: string;
+  collection: "get-involved";
+  data: any
+} & { render(): Render[".md"] };
+"fundraising-committee.md": {
+	id: "fundraising-committee.md";
+  slug: "fundraising-committee";
+  body: string;
+  collection: "get-involved";
+  data: any
+} & { render(): Render[".md"] };
+"garden-club.md": {
+	id: "garden-club.md";
+  slug: "garden-club";
+  body: string;
+  collection: "get-involved";
+  data: any
+} & { render(): Render[".md"] };
+"your-idea-here.md": {
+	id: "your-idea-here.md";
+  slug: "your-idea-here";
+  body: string;
+  collection: "get-involved";
+  data: any
+} & { render(): Render[".md"] };
+};
+"getInvolved": Record<string, {
+  id: string;
+  slug: string;
+  body: string;
+  collection: "getInvolved";
+  data: InferEntrySchema<"getInvolved">;
+  render(): Render[".md"];
+}>;
 "leadership": {
-"co-president.mdx": {
-	id: "co-president.mdx";
-  slug: "co-president";
+"julie-cesari.mdx": {
+	id: "julie-cesari.mdx";
+  slug: "julie-cesari";
   body: string;
   collection: "leadership";
   data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
-"jane-smith.mdx": {
-	id: "jane-smith.mdx";
-  slug: "jane-smith";
+"kristin-broderick.mdx": {
+	id: "kristin-broderick.mdx";
+  slug: "kristin-broderick";
   body: string;
   collection: "leadership";
   data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
-"john-doe.mdx": {
-	id: "john-doe.mdx";
-  slug: "john-doe";
+"marian-lobos.mdx": {
+	id: "marian-lobos.mdx";
+  slug: "marian-lobos";
   body: string;
   collection: "leadership";
   data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
-"peter-jones.mdx": {
-	id: "peter-jones.mdx";
-  slug: "peter-jones";
+"monica-carlson.mdx": {
+	id: "monica-carlson.mdx";
+  slug: "monica-carlson";
   body: string;
   collection: "leadership";
   data: InferEntrySchema<"leadership">
@@ -268,43 +313,6 @@ declare module 'astro:content' {
   body: string;
   collection: "transparency";
   data: InferEntrySchema<"transparency">
-} & { render(): Render[".md"] };
-};
-"volunteerOpportunities": {
-"communications-team.md": {
-	id: "communications-team.md";
-  slug: "communications-team";
-  body: string;
-  collection: "volunteerOpportunities";
-  data: InferEntrySchema<"volunteerOpportunities">
-} & { render(): Render[".md"] };
-"events-team.md": {
-	id: "events-team.md";
-  slug: "events-team";
-  body: string;
-  collection: "volunteerOpportunities";
-  data: InferEntrySchema<"volunteerOpportunities">
-} & { render(): Render[".md"] };
-"fundraising-committee.md": {
-	id: "fundraising-committee.md";
-  slug: "fundraising-committee";
-  body: string;
-  collection: "volunteerOpportunities";
-  data: InferEntrySchema<"volunteerOpportunities">
-} & { render(): Render[".md"] };
-"garden-club.md": {
-	id: "garden-club.md";
-  slug: "garden-club";
-  body: string;
-  collection: "volunteerOpportunities";
-  data: InferEntrySchema<"volunteerOpportunities">
-} & { render(): Render[".md"] };
-"your-idea-here.md": {
-	id: "your-idea-here.md";
-  slug: "your-idea-here";
-  body: string;
-  collection: "volunteerOpportunities";
-  data: InferEntrySchema<"volunteerOpportunities">
 } & { render(): Render[".md"] };
 };
 
