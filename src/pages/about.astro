@@ -1,7 +1,8 @@
 ---
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import { getEntry } from 'astro:content';
 
 const aboutContent = await getEntry('pages', 'about-us');
 const leadership = await getCollection('leadership');
