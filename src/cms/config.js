@@ -148,23 +148,10 @@ export const config = {
         }
       ]
     },
+          ]
     },
     {
-      name: "leaders",
-      label: "Leaders",
-      folder: "src/content/leadership",
-      create: true,
-      slug: "{{slug}}",
-      extension: "mdx",
-      format: "frontmatter",
-      fields: [
-        { label: "Name", name: "name", widget: "string" },
-        { label: "Title", name: "title", widget: "string" },
-        { label: "Bio", name: "bio", widget: "markdown", required: false },
-        { label: "Image", name: "image", widget: "image", required: false },
-        { label: "Order", name: "order", widget: "number", required: false }
-      ]
-    },
+      name: "leaders",,
     {
       name: "events",
       label: "Events",
