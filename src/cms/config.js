@@ -239,19 +239,15 @@ export const config = {
     {
       name: "about-us",
       label: "About Us Page",
-      files: [
-        {
-          file: "src/content/aboutUs/about-us.mdx",
-          label: "About Us Page Content",
-          name: "about-us-content",
-          fields: [
-            { label: "Title", name: "title", widget: "string" },
-            { label: "History Title", name: "history_title", widget: "string" },
-            { label: "History Content", name: "history_content", widget: "markdown" },
-            { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
-            { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" }
-          ]
-        }
+      folder: "src/content/aboutUs", // We now point to the folder
+      create: false, // This prevents users from creating new files here
+      // The "files" array is removed entirely
+      fields: [
+        { label: "Title", name: "title", widget: "string" },
+        { label: "History Title", name: "history_title", widget: "string" },
+        { label: "History Content", name: "history_content", widget: "markdown" },
+        { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
+        { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" }
       ]
     }
   ]
