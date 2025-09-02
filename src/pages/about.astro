@@ -1,26 +1,25 @@
 ---
 ---
 import Layout from '../layouts/Layout.astro';
-import { getEntry } from 'astro:content';
 
-const aboutContent = await getEntry('pages', 'about-us');
+const aboutContent = (await Astro.glob('../content/pages/about-us.mdx'))[0];
 const leadership = await Astro.glob('../content/leadership/*.mdx');
 
-console.log('aboutContent.data:', aboutContent.data);
+console.log('aboutContent.frontmatter:', aboutContent.frontmatter);
 console.log('leadership:', leadership);
 ---
 <Layout title="About Us">
   <section class="py-20 bg-primary text-secondary">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2">{aboutContent.data.history_title}</h2>
-      <div class="prose lg:prose-xl mx-auto text-secondary" set:html={aboutContent.data.history_content}></div>
+      <h2 class="text-4xl font-bold mb-2">{aboutContent.frontmatter.history_title}</h2>
+      <div class="prose lg:prose-xl mx-auto text-secondary" set:html={aboutContent.frontmatter.history_content}></div>
     </div>
   </section>
 
   <section class="py-20 bg-bg-secondary text-primary">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2">{aboutContent.data.who_we_are_title}</h2>
-      <div class="prose lg:prose-xl mx-auto text-primary" set:html={aboutContent.data.who_we_are_content}></div>
+      <h2 class="text-4xl font-bold mb-2">{aboutContent.frontmatter.who_we_are_title}</h2>
+      <div class="prose lg:prose-xl mx-auto text-primary" set:html={aboutContent.frontmatter.who_we_are_content}></div>
     </div>
   </section>
 
