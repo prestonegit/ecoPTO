@@ -6,8 +6,8 @@ import { marked } from 'marked';
 const aboutContent = await getEntry('pages', 'about-us');
 const leadership = await getCollection('leadership');
 
-const historyHtml = aboutContent.data.history_content ? marked(aboutContent.data.history_content) : '';
-const whoWeAreHtml = aboutContent.data.who_we_are_content ? marked(aboutContent.data.who_we_are_content) : '';
+const historyHtml = aboutContent.data.history_content;
+const whoWeAreHtml = aboutContent.data.who_we_are_content;
 ---
 <Layout title="About Us">
   <section class="py-20 bg-primary">
