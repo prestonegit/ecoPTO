@@ -105,17 +105,48 @@ export const config = {
             { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" },
             { label: "Body", name: "body", widget: "hidden" }
           ]
-        },,
-          { label: "Body", name: "body", widget: "hidden" }
-          ]
-        },
-        
-                    { label: "Body", name: "body", widget: "hidden" }
-          ]
         },
         
         {
           file: "src/content/pages/impact.mdx",
+          label: "Community Impact Page",
+          name: "impact",
+          fields: [
+            { label: "Main Title", name: "title", widget: "string", default: "Community Impact" },
+            { label: "Subtitle", name: "subtitle", widget: "string" },
+            { label: "Achievements Title", name: "achievements_title", widget: "string", default: "Achievements This Year" },
+            {
+              label: "Achievements List",
+              name: "achievements",
+              widget: "list",
+              fields: [
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Description", name: "description", widget: "text" },
+                {
+                  label: "Icon",
+                  name: "icon",
+                  widget: "image",
+                  required: false,
+                  media_library: {
+                    config: {
+                      multiple: false,
+                      accept: "image/svg+xml"
+                    }
+                  }
+                },
+                {n                  label: "Image",
+                  name: "image",
+                  widget: "image",
+                  required: false,
+                }
+              ]
+            },
+            { label: "Image 1 (Top-Left)", name: "image1", widget: "image" },
+            { label: "Image 2 (Top-Right)", name: "image2", widget: "image" },
+            { label: "Image 3 (Bottom-Left)", name: "image3", widget: "image" },
+            { label: "Image 4 (Bottom-Right)", name: "image4", widget: "image" }
+          ]
+        }
       ]
     },
     {
