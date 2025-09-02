@@ -221,6 +221,7 @@ export const config = {
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "Goal", name: "goal", widget: "markdown" },
+        { label: "Description", name: "description", widget: "markdown" },
         {
           label: "Participants",
           name: "participants",
@@ -229,16 +230,6 @@ export const config = {
             { label: "Name", name: "name", widget: "string" },
             { label: "Contact", name: "contact", widget: "string" },
           ]
-        },
-        {
-          label: "Related Projects",
-          name: "related_projects",
-          widget: "relation",
-          collection: "projects",
-          multiple: true,
-          search_fields: ["title"],
-          value_field: "{{slug}}",
-          display_fields: ["title"]
         }
       ]
     },
