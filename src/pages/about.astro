@@ -6,45 +6,24 @@ import { marked } from 'marked';
 const allAboutUsEntries = await getCollection('aboutUs');
 const aboutContent = allAboutUsEntries.find(entry => entry.slug === 'about-us');
 
+console.log("All About Us Entries:", allAboutUsEntries);
+console.log("About Content:", aboutContent);
+
 if (!aboutContent) {
   console.error("About Us content entry not found!");
-  // You might want to redirect or display a fallback here
-  // For now, we'll let the build fail if it's truly not found
 }
 
-const leadership = await getCollection('leadership');
-
-const historyHtml = aboutContent.data.history_content;
-const whoWeAreHtml = aboutContent.data.who_we_are_content;
+// Temporarily remove content rendering to isolate the data fetching issue
 ---
-<Layout title="About Us">
-    <section class="py-20 bg-primary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2 text-secondary">{aboutContent.data.history_title}</h2>
-      <div class="prose text-secondary" set:html={historyHtml}></div>
+<Layout title="About Us Debug">
+  <h1>About Us Debug Page</h1>
+  <p>Check Netlify build logs for "All About Us Entries:" and "About Content:"</p>
+  {aboutContent ? (
+    <div>
+      <h2>{aboutContent.data.title}</h2>
+      <div set:html={aboutContent.data.history_content}></div>
     </div>
-  </section>
-
-  <section class="py-20 bg-bg-secondary text-primary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2">{aboutContent.data.who_we_are_title}</h2>
-      <div class="text-primary" set:html={whoWeAreHtml}></div>
-    </div>
-  </section>
-
-  <section class="py-20 bg-bg-primary text-secondary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-8 text-center">Our Leaders</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {leadership.map(leader => (
-          <div class="bg-secondary rounded-lg shadow-lg p-8 text-primary">
-            <img class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" src={leader.data.image} alt={leader.data.name}>
-            <h3 class="text-xl font-bold text-center mb-2">{leader.data.name}</h3>
-            <p class="text-center text-sm mb-4">{leader.data.title}</p>
-            <div class="text-sm prose max-w-none" set:html={leader.data.bio}></div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+  ) : (
+    <p>About content not found or collection is empty.</p>
+  )}
 </Layout>
