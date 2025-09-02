@@ -96,11 +96,14 @@ export const config = {
           file: "src/content/pages/about-us.mdx",
           label: "About Us Page",
           name: "about",
+          format: "frontmatter",
+          extension: "mdx",
           fields: [
             { label: "History Title", name: "history_title", widget: "string" },
             { label: "History Content", name: "history_content", widget: "markdown" },
             { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
             { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" },
+            { label: "Body", name: "body", widget: "hidden" }
           ]
         },
         
