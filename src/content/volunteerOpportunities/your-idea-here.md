@@ -1,4 +1,4 @@
 ---
-title: Your own idea
+title: Your own ideas
 description: What would you like to work on? We're open to it!
 ---
