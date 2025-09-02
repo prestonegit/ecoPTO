@@ -103,6 +103,9 @@ export const config = {
             { label: "History Content", name: "history_content", widget: "markdown" },
             { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
             { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" },
+            { label: "Body", name: "body", widget: "hidden" }
+          ]
+        },,
           ]
         },
         
