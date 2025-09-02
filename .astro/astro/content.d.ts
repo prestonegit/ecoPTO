@@ -168,6 +168,13 @@ declare module 'astro:content' {
 } & { render(): Render[".mdx"] };
 };
 "leadership": {
+"co-president.mdx": {
+	id: "co-president.mdx";
+  slug: "co-president";
+  body: string;
+  collection: "leadership";
+  data: InferEntrySchema<"leadership">
+} & { render(): Render[".mdx"] };
 "jane-smith.mdx": {
 	id: "jane-smith.mdx";
   slug: "jane-smith";
@@ -196,20 +203,13 @@ declare module 'astro:content' {
   slug: "2025-08-07-welcome-from-the-ecopto-president";
   body: string;
   collection: "news";
-  data: any
+  data: InferEntrySchema<"news">
 } & { render(): Render[".mdx"] };
 };
 "pages": {
 "about-us-history.mdx": {
 	id: "about-us-history.mdx";
   slug: "about-us-history";
-  body: string;
-  collection: "pages";
-  data: InferEntrySchema<"pages">
-} & { render(): Render[".mdx"] };
-"about-us-who-we-are.mdx": {
-	id: "about-us-who-we-are.mdx";
-  slug: "about-us-who-we-are";
   body: string;
   collection: "pages";
   data: InferEntrySchema<"pages">
@@ -236,6 +236,51 @@ declare module 'astro:content' {
   data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 };
+"projects": {
+"communications-team.mdx": {
+	id: "communications-team.mdx";
+  slug: "communications-team";
+  body: string;
+  collection: "projects";
+  data: any
+} & { render(): Render[".mdx"] };
+"events-team.mdx": {
+	id: "events-team.mdx";
+  slug: "events-team";
+  body: string;
+  collection: "projects";
+  data: any
+} & { render(): Render[".mdx"] };
+"fundraising-committee.mdx": {
+	id: "fundraising-committee.mdx";
+  slug: "fundraising-committee";
+  body: string;
+  collection: "projects";
+  data: any
+} & { render(): Render[".mdx"] };
+"garden-club.mdx": {
+	id: "garden-club.mdx";
+  slug: "garden-club";
+  body: string;
+  collection: "projects";
+  data: any
+} & { render(): Render[".mdx"] };
+"green-team.mdx": {
+	id: "green-team.mdx";
+  slug: "green-team";
+  body: string;
+  collection: "projects";
+  data: any
+} & { render(): Render[".mdx"] };
+};
+"transparency": Record<string, {
+  id: string;
+  slug: string;
+  body: string;
+  collection: "transparency";
+  data: InferEntrySchema<"transparency">;
+  render(): Render[".md"];
+}>;
 "volunteerOpportunities": {
 "communications-team.md": {
 	id: "communications-team.md";

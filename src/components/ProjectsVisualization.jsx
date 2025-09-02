@@ -39,7 +39,8 @@ const ProjectsVisualization = ({ projects }) => {
   useEffect(() => {
     const svg = d3.select(ref.current);
     svg.selectAll('*').remove(); // Clear previous render
-    const width = svg.node().getBoundingClientRect().width;
+    const container = svg.node().parentElement;
+    const width = container.getBoundingClientRect().width;
     const height = 800;
 
     svg.attr('width', width).attr('height', height);
@@ -174,7 +175,7 @@ const ProjectsVisualization = ({ projects }) => {
 
   return (
     <>
-      <svg ref={ref}></svg>
+      <svg ref={ref} style={{ width: '100%' }}></svg>
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
     </>
   );
