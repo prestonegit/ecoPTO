@@ -6,7 +6,7 @@ import globalSettings from '../content/settings/global.json';
 import Signup from '../components/Signup.astro';
 
 const { title } = Astro.props;
-const themeClass = globalSettings.theme;
+const themeClass = globalSettings.theme; // Force rebuild
 ---
 <!doctype html>
 <html lang="en" class={themeClass}>
