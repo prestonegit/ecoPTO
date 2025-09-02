@@ -92,7 +92,7 @@ export const config = {
             { label: "Who We Are Text", name: "who_we_are_text", widget: "markdown" }
           ]
         },
-        {
+                {
           file: "src/content/pages/impact.mdx",
           label: "Community Impact Page",
           name: "impact",
@@ -131,17 +131,11 @@ export const config = {
             { label: "Image 3 (Bottom-Left)", name: "image3", widget: "image" },
             { label: "Image 4 (Bottom-Right)", name: "image4", widget: "image" }
           ]
-        }
-      ]
-    },
-    {
-      name: "about_us_page",
-      label: "About Us Page",
-      files: [
+        },
         {
           file: "src/content/aboutUs/about-us.mdx",
-          label: "About Us Content",
-          name: "about_us_content",
+          label: "About Us Page",
+          name: "about_us_page_data",
           extension: "mdx",
           format: "frontmatter",
           fields: [
@@ -153,6 +147,7 @@ export const config = {
           ]
         }
       ]
+    },
     },
     {
       name: "leaders",
