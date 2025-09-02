@@ -106,6 +106,7 @@ export const config = {
             { label: "Body", name: "body", widget: "hidden" }
           ]
         },,
+          { label: "Body", name: "body", widget: "hidden" }
           ]
         },
         
