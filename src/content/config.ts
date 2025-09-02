@@ -11,8 +11,8 @@ const pagesCollection = defineCollection({
     who_we_are_content: z.string().optional(),
     achievements_title: z.string().optional(),
     achievements: z.array(z.object({
-        title: z.string(),
-        description: z.string(),
+        title: z.string().optional(),
+        description: z.string().optional(),
         icon: z.string().optional(),
         image: z.string().optional(),
     })).optional(),
