@@ -151,7 +151,7 @@ const ProjectsVisualization = ({ projects }) => {
     const svg = d3.select(ref.current);
     svg.selectAll('g').style('opacity', d => {
         if (!searchQuery) return 1;
-        const textToSearch = (d.data?.title || '') + ' ' + (d.data?.goal || '') + ' ' + (d.data?.description || '');
+        const textToSearch = d.isRoot ? d.title : (d.data?.title || '') + ' ' + (d.data?.goal || '') + ' ' + (d.data?.description || '');
         return textToSearch.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0.1;
     });
   }, [searchQuery]);
