@@ -139,6 +139,19 @@ const newsCollection = defineCollection({
   }),
 });
 
+const projectsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    goal: z.string(),
+    description: z.string(),
+    participants: z.array(z.object({
+      name: z.string(),
+      contact: z.string(),
+    })).optional(),
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
   aboutUs: aboutUsCollection,
@@ -149,4 +162,5 @@ export const collections = {
   volunteerOpportunities: volunteerOpportunitiesCollection,
   news: newsCollection,
   transparency: transparencyCollection,
+  projects: projectsCollection,
 };
