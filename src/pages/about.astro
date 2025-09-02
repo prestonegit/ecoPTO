@@ -14,8 +14,8 @@ if (!aboutContent) {
 
 const leadership = await getCollection('leadership');
 
-const historyHtml = aboutContent.data.history_content;
-const whoWeAreHtml = aboutContent.data.who_we_are_content;
+const historyHtml = marked.parse(aboutContent.data.history_content);
+const whoWeAreHtml = marked.parse(aboutContent.data.who_we_are_content);
 ---
 <Layout title="About Us">
     <section class="py-20 bg-primary">
@@ -28,7 +28,7 @@ const whoWeAreHtml = aboutContent.data.who_we_are_content;
   <section class="py-20 bg-bg-secondary text-primary">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold mb-2">{aboutContent.data.who_we_are_title}</h2>
-      <div class="text-primary" set:html={whoWeAreHtml}></div>
+      <div class="prose text-primary" set:html={whoWeAreHtml}></div>
     </div>
   </section>
 
