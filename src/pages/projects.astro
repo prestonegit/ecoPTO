@@ -1,0 +1,19 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import ProjectsVisualization from '../components/ProjectsVisualization.jsx';
+
+const projects = await getCollection('projects');
+---
+
+<Layout title="Projects">
+  <section class="py-20">
+    <div class="container mx-auto px-6">
+      <h1 class="text-4xl font-bold text-center mb-12">Our Projects</h1>
+      <div class="mb-8">
+        <input type="text" id="search" placeholder="Search for projects..." class="w-full p-4 border border-gray-300 rounded-lg">
+      </div>
+      <ProjectsVisualization projects={projects} client:load />
+    </div>
+  </section>
+</Layout>
