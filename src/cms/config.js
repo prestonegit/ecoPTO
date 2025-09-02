@@ -67,7 +67,8 @@ export const config = {
       label: "About Us Page",
       folder: "src/content/aboutUs",
       create: false,
-      extension: "mdx", // THIS LINE WAS MISSING
+      extension: "mdx",
+      format: 'frontmatter',
       frontmatter_format: 'yaml',
       fields: [
         { label: "Title", name: "title", widget: "string" },
@@ -84,6 +85,7 @@ export const config = {
       folder: "src/content/pages", // Points to the folder where impact.mdx lives
       create: false,
       extension: "mdx",
+      format: 'frontmatter',
       frontmatter_format: 'yaml',
       // This tells the CMS to only show files that match this name
       filter: {field: "slug", value: "impact"},
