@@ -25,7 +25,7 @@ const ProjectModal = ({ project, onClose }) => {
             <li key={p.name}>{p.name} - {p.contact}</li>
           ))}
         </ul>
-        <button onClick={onClose} className="mt-6 bg-primary text-secondary font-bold py-2 px-4 rounded-lg hover:bg-secondary hover:text-primary transition-colors duration-300">Close</button>
+        <button onClick={onClose} className="mt-6 btn-standard btn-text-secondary-color rounded-lg">CLOSE</button>
       </div>
     </div>
   );

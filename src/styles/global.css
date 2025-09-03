@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom Button Styles */
+.btn-standard {
+  @apply inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+}
+
+.btn-standard:hover {
+  @apply shadow-lg scale-105;
+}
+
+/* Specific button color variants */
+.btn-primary-color {
+  @apply text-white bg-primary;
+}
+
+.btn-secondary-color {
+  @apply text-black bg-secondary;
+}
+
+.btn-bg-primary-color {
+  @apply text-bg-primary bg-primary;
+}
+
+.btn-text-secondary-color {
+  @apply text-secondary bg-primary;
+}

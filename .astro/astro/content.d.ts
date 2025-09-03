@@ -215,6 +215,20 @@ declare module 'astro:content' {
   render(): Render[".md"];
 }>;
 "leadership": {
+"co-president.mdx": {
+	id: "co-president.mdx";
+  slug: "co-president";
+  body: string;
+  collection: "leadership";
+  data: InferEntrySchema<"leadership">
+} & { render(): Render[".mdx"] };
+"co-treasurer.mdx": {
+	id: "co-treasurer.mdx";
+  slug: "co-treasurer";
+  body: string;
+  collection: "leadership";
+  data: InferEntrySchema<"leadership">
+} & { render(): Render[".mdx"] };
 "julie-cesari.mdx": {
 	id: "julie-cesari.mdx";
   slug: "julie-cesari";

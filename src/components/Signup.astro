@@ -62,7 +62,7 @@ const signupContent = await getEntry('signup', 'signup');
       </div>
 
       <div class="modal-action mt-6 flex justify-center gap-4">
-        <button type="submit" class="bg-primary text-bg-primary font-bold px-8 py-3 rounded-full hover:bg-secondary transition-colors border-2 border-accent">{signupContent.data.signup_button_text}</button>
+        <button type="submit" class="btn-standard btn-bg-primary-color px-8 py-3 rounded-full">{signupContent.data.signup_button_text.toUpperCase()}</button>
       </div>
     </form>
   </div>

@@ -15,8 +15,8 @@ const { content } = Astro.props;
         {content.hero_subtitle}
       </p>
       <div class="mt-8 flex justify-center md:justify-start">
-        <button id="join-us-hero-btn" class="bg-secondary text-black font-bold px-10 py-4 rounded-full hover:bg-secondary transition-colors border-2 border-accent">
-          {content.hero_button_text}
+        <button id="join-us-hero-btn" class="btn-standard btn-secondary-color px-10 py-4 rounded-full">
+          {content.hero_button_text.toUpperCase()}
         </button>
       </div>
     </div>
