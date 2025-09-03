@@ -4,22 +4,22 @@
   "who_we_are_text": "We are a district-wide PTO, consisting of HVRSD parents, educators, and students, from all of the district’s schools. It also includes community allies who share our mission and vision. Mullet meeting style. We use a governance structure called Sociocracy to encourage you.",
   "volunteer_section_title": "Get Involved - (aka current needs!)",
   "theme": "theme-ecopto",
-  "mission_subtitle": "Our mission is to gather and mobilize the HVRSD educational community to actualize the District’s aspirations for youth and earth wellbeing",
+  "mission_subtitle": "Our mission is to gather and mobilize the HVRSD educational community to actualize the District’s aspirations for Youth and Earth Wellbeing",
   "mission_items": [
     {
-      "title": "Everyone has a voice, and power is shared",
-      "text": "Truly, even down to our governance structure of Sociocracy",
-      "icon": "/assets/images/sociology.gif"
+      "title": "Belonging",
+      "text": "Every voice matters and power is shared, even down to our governance structure of Sociocracy",
+      "icon": "/assets/images/friendship.gif"
     },
     {
-      "title": "We're here to make an impact",
-      "text": "Our goal is not to complain or offload to-do lists. We plan to offer proposals and solutions that we are personally willing to help succeed",
-      "icon": "/assets/images/impact.gif"
+      "title": "Interconnected Wellbeing",
+      "text": "The health and wellbeing of Earth is inseparable from the health and wellbeing of current and future generations",
+      "icon": "/assets/images/wellbeing.gif"
     },
     {
-      "title": "We welcome opposing ideas and opinions",
-      "text": "When we encounter folks who spotlight our differences and cast us as opponents, we stubbornly spotlight  common interests and welcome them as allies",
-      "icon": "/assets/images/protestor.gif"
+      "title": "Collaboration",
+      "text": "We believe in the power of collective action. By mobilizing the diverse talents and passions of the HVRSD community, we work together to co-create meaningful and lasting change",
+      "icon": "/assets/images/socialization.gif"
     }
   ],
   "global_svg_icon": "/ecoPTOYEWlogo.svg",
