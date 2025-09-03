@@ -9,8 +9,8 @@
   "signupFormPlaceholder": "Enter email here",
   "signup_no_volunteer_roles_message": "No specific volunteer roles available at the moment.",
   "signup_impact_focus_placeholder": "Your ideas here...",
-  "signup_impact_focus_label": "(Optional) - What should ecoPTO focus on?",
+  "signup_impact_focus_label": "(Optional) - What topics are you interested in? How would you like to get involved? ",
   "signupFormTitle": "Join the ecoPTO Community!",
   "signup_receive_updates_label": "I'd like to receive updates about ecoPTO events and initiatives",
-  "signup_active_role_label": "I'd like to play a more active role"
+  "signup_active_role_label": "I'd like to roll up my sleeves and get to work"
 }
