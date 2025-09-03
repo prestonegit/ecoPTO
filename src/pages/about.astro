@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import { marked } from 'marked';
 
 const allAboutUsEntries = await getCollection('aboutUs');
@@ -12,23 +12,24 @@ if (!aboutContent) {
   console.error("About Us content entry not found!");
 }
 
-const leadership = await getCollection('leadership');
+const leadershipUnordered = await getCollection('leadership');
+const leadership = leadershipUnordered.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 
-const historyHtml = marked.parse(aboutContent.data.history_content);
-const whoWeAreHtml = marked.parse(aboutContent.data.who_we_are_content);
+const historyHtml = aboutContent?.data.history_content ? marked.parse(aboutContent.data.history_content) : '';
+const whoWeAreHtml = aboutContent?.data.who_we_are_content ? marked.parse(aboutContent.data.who_we_are_content) : '';
 ---
 <Layout title="About Us">
-    <section class="py-20 bg-primary">
+  <section class="py-20 bg-primary">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2 text-secondary">{aboutContent.data.history_title}</h2>
-      <div class="prose text-secondary" set:html={historyHtml}></div>
+      <h2 class="text-4xl font-bold mb-2 text-secondary">{aboutContent?.data.history_title}</h2>
+      <div class="prose-lg max-w-none text-secondary" set:html={historyHtml}></div>
     </div>
   </section>
 
   <section class="py-20 bg-bg-secondary text-primary">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2">{aboutContent.data.who_we_are_title}</h2>
-      <div class="prose text-primary" set:html={whoWeAreHtml}></div>
+      <h2 class="text-4xl font-bold mb-2">{aboutContent?.data.who_we_are_title}</h2>
+      <div class="prose-lg max-w-none text-primary" set:html={whoWeAreHtml}></div>
     </div>
   </section>
 
@@ -36,14 +37,17 @@ const whoWeAreHtml = marked.parse(aboutContent.data.who_we_are_content);
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold mb-8 text-center">Our Leaders</h2>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {leadership.map(leader => (
-          <div class="bg-secondary rounded-lg shadow-lg p-8 text-primary">
-            <img class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" src={leader.data.image} alt={leader.data.name}>
-            <h3 class="text-xl font-bold text-center mb-2">{leader.data.name}</h3>
-            <p class="text-center text-sm mb-4">{leader.data.title}</p>
-            <div class="text-sm prose max-w-none" set:html={leader.data.bio}></div>
-          </div>
-        ))}
+        {leadership.map(leader => {
+          const bioHtml = leader.data.bio ? marked.parse(leader.data.bio) : '';
+          return (
+            <div class="bg-secondary rounded-lg shadow-lg p-8 text-primary">
+              <img class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" src={leader.data.image} alt={leader.data.name} />
+              <h3 class="text-xl font-bold text-center mb-2">{leader.data.name}</h3>
+              <p class="text-center text-sm mb-4">{leader.data.title}</p>
+              <div class="text-sm prose max-w-none" set:html={bioHtml}></div>
+            </div>
+          );
+        })}
       </div>
     </div>
   </section>

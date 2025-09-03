@@ -160,6 +160,8 @@ const projectsCollection = defineCollection({
       name: z.string(),
       contact: z.string(),
     })).optional(),
+    keywords: z.array(z.string()).optional(),
+    members: z.number().optional(),
   }),
 });
 

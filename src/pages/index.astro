@@ -5,20 +5,12 @@ import Mission from '../components/Mission.astro';
 import UpcomingEvents from '../components/UpcomingEvents.astro';
 import GetInvolved from '../components/GetInvolved.astro'; 
 import Contact from '../components/Contact.astro';
-import { getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 
 const homeContent = await getEntry('homepage', 'home');
 
-const allLeaders = await Astro.glob('../content/leadership/*.mdx');
-
-// Sort leaders by the 'order' field, if available, otherwise by name
-allLeaders.sort((a, b) => {
-  if (a.frontmatter.order && b.frontmatter.order) {
-    return a.frontmatter.order - b.frontmatter.order;
-  } else {
-    return a.frontmatter.name.localeCompare(b.frontmatter.name);
-  }
-});
+const allLeadersUnordered = await getCollection('leadership');
+const allLeaders = allLeadersUnordered.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 ---
 <Layout title="Home | Hopewell Valley ecoPTO">
   <Hero content={homeContent.data} />
@@ -40,20 +32,20 @@ allLeaders.sort((a, b) => {
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {allLeaders.map(leader => (
               <div class="bg-bg-primary p-8 rounded-xl shadow-sm text-center">
-                {leader.frontmatter.image && (
+                {leader.data.image && (
                   <img
-                    src={leader.frontmatter.image}
-                    alt={leader.frontmatter.name}
+                    src={leader.data.image}
+                    alt={leader.data.name}
                     class="w-24 h-24 sm:w-32 sm:h-32 rounded-full mx-auto mb-6 object-cover border-2 border-secondary"
                   />
                 )}
-                <h3 class="text-2xl font-bold text-primary">{leader.frontmatter.name}</h3>
-                <p class="text-lg text-text-secondary mb-4">{leader.frontmatter.title}</p>
+                <h3 class="text-2xl font-bold text-primary">{leader.data.name}</h3>
+                <p class="text-lg text-text-secondary mb-4">{leader.data.title}</p>
               </div>
             ))}
           </div>
-          <a href="/about" class="btn-standard btn-primary-color rounded-md">
-            LEARN ABOUT OUR JOURNEY
+          <a href="/about" class="btn-standard btn-primary-color mt-16">
+            Learn about our journey
           </a>
         </div>
       </section>

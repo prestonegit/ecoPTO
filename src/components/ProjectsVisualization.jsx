@@ -1,13 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as d3 from 'd3';
 
-const stopWords = new Set(['a', 'about', 'above', 'after', 'again', 'against', 'all', 'am', 'an', 'and', 'any', 'are', 'as', 'at', 'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both', 'but', 'by', 'can', 'did', 'do', 'does', 'doing', 'don', 'down', 'during', 'each', 'few', 'for', 'from', 'further', 'had', 'has', 'have', 'having', 'he', 'her', 'here', 'hers', 'herself', 'him', 'himself', 'his', 'how', 'i', 'if', 'in', 'into', 'is', 'it', 'its', 'itself', 'just', 'me', 'more', 'most', 'my', 'myself', 'no', 'nor', 'not', 'now', 'o', 'of', 'on', 'once', 'only', 'or', 'other', 'our', 'ours', 'ourselves', 'out', 'over', 'own', 's', 'same', 'she', 'should', 'so', 'some', 'such', 't', 'than', 'that', 'the', 'their', 'theirs', 'them', 'themselves', 'then', 'there', 'these', 'they', 'this', 'those', 'through', 'to', 'too', 'under', 'until', 'up', 'very', 'was', 'we', 'were', 'what', 'when', 'where', 'which', 'while', 'who', 'whom', 'why', 'will', 'with', 'you', 'your', 'yours', 'yourself', 'yourselves']);
-
-const getKeywords = (text) => {
-  const words = text.toLowerCase().split(/\W+/);
-  return words.filter(word => word.length > 2 && !stopWords.has(word));
-};
-
 const ProjectModal = ({ project, onClose }) => {
   if (!project) return null;
 
@@ -25,6 +18,16 @@ const ProjectModal = ({ project, onClose }) => {
             <li key={p.name}>{p.name} - {p.contact}</li>
           ))}
         </ul>
+        {project.data.keywords && project.data.keywords.length > 0 && (
+          <>
+            <h3 className="text-xl font-semibold mt-4 mb-2 font-sans">Keywords</h3>
+            <div className="flex flex-wrap gap-2">
+              {project.data.keywords.map(keyword => (
+                <span key={keyword} className="bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">{keyword}</span>
+              ))}
+            </div>
+          </>
+        )}
         <button onClick={onClose} className="mt-6 btn-standard btn-text-secondary-color rounded-lg">CLOSE</button>
       </div>
     </div>
@@ -49,32 +52,33 @@ const ProjectsVisualization = ({ projects }) => {
     // Get computed styles for CSS variables
     const computedStyle = getComputedStyle(document.documentElement);
     const primaryColor = computedStyle.getPropertyValue('--primary').trim();
+    const secondaryColor = computedStyle.getPropertyValue('--secondary').trim();
     const sansFont = computedStyle.getPropertyValue('--font-sans').trim();
 
     const root = { id: 'ecopto', title: 'ecoPTO', isRoot: true };
     const nodes = [root, ...projects.map(p => ({ ...p, id: p.slug }))];
     
-    const projectKeywords = projects.map(p => ({
-      id: p.slug,
-      keywords: new Set(getKeywords((p.data.goal ?? '') + ' ' + (p.data.description ?? ''))),
-    }));
-
     const links = projects.map(p => ({ source: p.slug, target: 'ecopto' }));
 
-    for (let i = 0; i < projectKeywords.length; i++) {
-      for (let j = i + 1; j < projectKeywords.length; j++) {
-        const keywords1 = projectKeywords[i].keywords;
-        const keywords2 = projectKeywords[j].keywords;
+    for (let i = 0; i < projects.length; i++) {
+      for (let j = i + 1; j < projects.length; j++) {
+        const keywords1 = new Set(projects[i].data.keywords || []);
+        const keywords2 = new Set(projects[j].data.keywords || []);
         const intersection = new Set([...keywords1].filter(x => keywords2.has(x)));
-        if (intersection.size >= 2) {
-          links.push({ source: projectKeywords[i].id, target: projectKeywords[j].id });
+        if (intersection.size > 0) {
+          links.push({ source: projects[i].slug, target: projects[j].slug });
         }
       }
     }
 
+    const memberCounts = projects.map(p => p.data.members || 1);
+    const radiusScale = d3.scaleSqrt()
+      .domain([d3.min(memberCounts), d3.max(memberCounts)])
+      .range([50, 100]);
+
     const simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.id).distance(200))
-      .force('charge', d3.forceManyBody().strength(-2500))
+      .force('link', d3.forceLink(links).id(d => d.id).distance(d => (radiusScale(d.source.data?.members || 1) || 70) + (radiusScale(d.target.data?.members || 1) || 70) + 50))
+      .force('charge', d3.forceManyBody().strength(-3000))
       .force('center', d3.forceCenter(width / 2, height / 2));
 
     const link = svg.append('g')
@@ -90,38 +94,69 @@ const ProjectsVisualization = ({ projects }) => {
       .join('g')
       .attr('class', 'cursor-pointer')
       .on('click', (event, d) => {
-        console.log('Circle clicked:', d);
         if (!d.isRoot) {
           setSelectedProject(d);
         }
       })
       .call(d3.drag(simulation));
 
+    const defs = svg.append('defs');
+    const gradient = defs.append('radialGradient')
+      .attr('id', 'circle-gradient')
+      .attr('cx', '30%')
+      .attr('cy', '30%');
+    gradient.append('stop').attr('offset', '0%').attr('stop-color', secondaryColor);
+    gradient.append('stop').attr('offset', '100%').attr('stop-color', primaryColor);
+
+    const rootGradient = defs.append('radialGradient')
+      .attr('id', 'root-gradient')
+      .attr('cx', '30%')
+      .attr('cy', '30%');
+    rootGradient.append('stop').attr('offset', '0%').attr('stop-color', '#f97316');
+    rootGradient.append('stop').attr('offset', '100%').attr('stop-color', '#ea580c');
+
+    const filter = defs.append('filter')
+      .attr('id', 'drop-shadow')
+      .attr('height', '130%');
+    filter.append('feGaussianBlur')
+      .attr('in', 'SourceAlpha')
+      .attr('stdDeviation', 3)
+      .attr('result', 'blur');
+    filter.append('feOffset')
+      .attr('in', 'blur')
+      .attr('dx', 3)
+      .attr('dy', 3)
+      .attr('result', 'offsetBlur');
+    const feMerge = filter.append('feMerge');
+    feMerge.append('feMergeNode').attr('in', 'offsetBlur');
+    feMerge.append('feMergeNode').attr('in', 'SourceGraphic');
+
     node.append('circle')
-      .attr('r', d => d.isRoot ? 80 : 60)
-      .attr('fill', d => d.isRoot ? '#f97316' : primaryColor)
-      .attr('stroke', '#fff')
-      .attr('stroke-width', 1.5)
+      .attr('r', d => d.isRoot ? 90 : radiusScale(d.data.members || 1))
+      .attr('fill', d => d.isRoot ? 'url(#root-gradient)' : 'url(#circle-gradient)')
+      .style('filter', 'url(#drop-shadow)')
       .on('mouseover', function (event, d) {
-        d3.select(this).transition().duration(200).attr('r', d.isRoot ? 90 : 70);
+        d3.select(this).transition().duration(200).attr('r', (d.isRoot ? 90 : radiusScale(d.data.members || 1)) + 10);
       })
       .on('mouseout', function (event, d) {
-        d3.select(this).transition().duration(200).attr('r', d.isRoot ? 80 : 60);
+        d3.select(this).transition().duration(200).attr('r', d.isRoot ? 90 : radiusScale(d.data.members || 1));
       });
 
     node.append('foreignObject')
-        .attr('x', -50)
-        .attr('y', -25)
-        .attr('width', 100)
-        .attr('height', 50)
+        .attr('x', d => -(radiusScale(d.data?.members || 1) * 0.8) || -60)
+        .attr('y', d => -(radiusScale(d.data?.members || 1) * 0.4) || -30)
+        .attr('width', d => (radiusScale(d.data?.members || 1) * 1.6) || 120)
+        .attr('height', d => (radiusScale(d.data?.members || 1) * 0.8) || 60)
         .append('xhtml:div')
-        .style('font', `14px ${sansFont}`)
+        .style('font-size', d => `${(radiusScale(d.data?.members || 1) || 70) / 6}px`)
+        .style('font-weight', 'bold')
         .style('color', 'white')
         .style('display', 'flex')
         .style('justify-content', 'center')
         .style('align-items', 'center')
         .style('height', '100%')
         .style('text-align', 'center')
+        .style('word-wrap', 'break-word')
         .html(d => d.data?.title || d.title);
 
     simulation.on('tick', () => {
@@ -151,7 +186,7 @@ const ProjectsVisualization = ({ projects }) => {
     const svg = d3.select(ref.current);
     svg.selectAll('g').style('opacity', d => {
         if (!searchQuery) return 1;
-        const textToSearch = d.isRoot ? d.title : (d.data?.title || '') + ' ' + (d.data?.goal || '') + ' ' + (d.data?.description || '');
+        const textToSearch = d.isRoot ? d.title : (d.data?.title || '') + ' ' + (d.data?.goal || '') + ' ' + (d.data?.description || '') + ' ' + (d.data?.keywords?.join(' ') || '');
         return textToSearch.toLowerCase().includes(searchQuery.toLowerCase()) ? 1 : 0.1;
     });
   }, [searchQuery]);

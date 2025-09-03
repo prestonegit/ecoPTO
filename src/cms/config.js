@@ -1,4 +1,5 @@
 export const config = {
+  local_backend: true,
   backend: {
     name: 'git-gateway',
     branch: 'main',
@@ -210,7 +211,9 @@ export const config = {
             { label: "Name", name: "name", widget: "string" },
             { label: "Contact", name: "contact", widget: "string" },
           ]
-        }
+        },
+        { label: "Keywords", name: "keywords", widget: "list", required: false },
+        { label: "Number of Members", name: "members", widget: "number", required: false }
       ]
     },
     {

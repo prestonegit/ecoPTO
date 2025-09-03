@@ -198,6 +198,20 @@ declare module 'astro:content' {
   collection: "get-involved";
   data: any
 } & { render(): Render[".md"] };
+"outdoor-learning-consultant.md": {
+	id: "outdoor-learning-consultant.md";
+  slug: "outdoor-learning-consultant";
+  body: string;
+  collection: "get-involved";
+  data: any
+} & { render(): Render[".md"] };
+"research-lead.md": {
+	id: "research-lead.md";
+  slug: "research-lead";
+  body: string;
+  collection: "get-involved";
+  data: any
+} & { render(): Render[".md"] };
 "your-idea-here.md": {
 	id: "your-idea-here.md";
   slug: "your-idea-here";
