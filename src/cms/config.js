@@ -17,13 +17,15 @@ export const config = {
           name: "signup",
           fields: [
             { label: "Signup Form Title", name: "signupFormTitle", widget: "string" },
-            { label: "Email Input Placeholder", name: "signupFormPlaceholder", widget: "string" },
+            
             { label: "Signup Form Subtitle", name: "signupFormSubtitle", widget: "text" },
-            { label: "First Name Placeholder", name: "signup_first_name_placeholder", widget: "string" },
+            
             
             { label: "Impact Focus Placeholder", name: "signup_impact_focus_placeholder", widget: "string" },
             { label: "Signup Name Label", name: "signup_name_label", widget: "string" },
+            { label: "Name Input", name: "signup_first_name_placeholder", widget: "string" },
             { label: "Signup Email Label", name: "signup_email_label", widget: "string" },
+            { label: "Email Label Input", name: "signupFormPlaceholder", widget: "string" },
             { label: "Signup School Affiliation Label", name: "signup_school_affiliation_label", widget: "string" },
             { label: "Signup Impact Focus Label", name: "signup_impact_focus_label", widget: "text" },
             { label: "Signup Receive Updates Label", name: "signup_receive_updates_label", widget: "string" },

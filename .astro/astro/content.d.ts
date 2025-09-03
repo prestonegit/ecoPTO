@@ -191,13 +191,6 @@ declare module 'astro:content' {
   collection: "get-involved";
   data: any
 } & { render(): Render[".md"] };
-"fundraising-committee.md": {
-	id: "fundraising-committee.md";
-  slug: "fundraising-committee";
-  body: string;
-  collection: "get-involved";
-  data: any
-} & { render(): Render[".md"] };
 "garden-club.md": {
 	id: "garden-club.md";
   slug: "garden-club";
