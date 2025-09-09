@@ -105,16 +105,19 @@ const signupContent = await getEntry('signup', 'signup');
       if (joinUsHeroBtn) {
         joinUsHeroBtn.addEventListener('click', () => {
           modal.classList.add('modal-open');
+          document.body.classList.add('modal-is-open');
         });
       }
 
       closeButton.addEventListener('click', () => {
         modal.classList.remove('modal-open');
+        document.body.classList.remove('modal-is-open');
       });
 
       modal.addEventListener('click', (event) => {
         if (event.target === modal) {
           modal.classList.remove('modal-open');
+          document.body.classList.remove('modal-is-open');
         }
       });
 
