@@ -89,11 +89,18 @@ const signupContent = await getEntry('signup', 'signup');
   .modal-box {
     display: flex;
     flex-direction: column;
-    overflow-y: auto; /* Add this line */
+    overflow-y: auto;
+    max-height: 90vh;
+    flex-shrink: 1; /* Ensure it can shrink */
+    flex-basis: auto; /* Default flex basis */
   }
 
   .modal.modal-open {
     display: flex;
+  }
+
+  body.modal-open {
+    overflow: hidden;
   }
 
   body.modal-open {
