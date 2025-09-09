@@ -72,7 +72,7 @@ const signupContent = await getEntry('signup', 'signup');
 
 <style>
   .modal {
-    display: none;
+    display: none; /* Hide by default */
     position: fixed;
     z-index: 1000;
     left: 0;
@@ -81,7 +81,6 @@ const signupContent = await getEntry('signup', 'signup');
     min-height: 100vh;
     overflow-y: auto;
     background-color: rgba(0,0,0,0.5);
-    display: flex;
     justify-content: center;
     align-items: flex-start;
     padding: 5vh 1rem;
