@@ -89,7 +89,9 @@ const eventsCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
+    cardDescription: z.string(),
     eventDate: z.date(),
+    dateOverride: z.string().optional(),
     location: z.string().optional(),
     image: z.string().nullable().optional(),
     externalUrl: z.string().url().optional(), // New field for external URL

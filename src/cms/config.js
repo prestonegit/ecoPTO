@@ -133,8 +133,10 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Title", name: "title", widget: "string" },
-        { label: "Description", name: "description", widget: "markdown" },
+        { label: "Event Card Description", name: "cardDescription", widget: "text" },
+        { label: "Event Page Description", name: "description", widget: "markdown" },
         { label: "Event Date", name: "eventDate", widget: "datetime" },
+        { label: "Date Override", name: "dateOverride", widget: "string", required: false, hint: "e.g., 'Various Dates'. If used, this text will be displayed instead of the event date." },
         { label: "Location", name: "location", widget: "string", required: false },
         { label: "Image", name: "image", widget: "image", required: false },
         { label: "External URL", name: "externalUrl", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },

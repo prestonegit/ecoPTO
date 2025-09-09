@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import EventDate from '../../components/EventDate.astro';
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
@@ -33,9 +34,7 @@ const { Content } = await event.render();
         </div>
       )}
       <h1 class="text-5xl font-extrabold text-primary mb-4">{event.data.title}</h1>
-      <p class="text-text-secondary text-lg mb-2">
-        <i class="fas fa-calendar-alt mr-2"></i>{new Date(event.data.eventDate).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-      </p>
+      <EventDate date={event.data.eventDate} dateOverride={event.data.dateOverride} />
       <p class="text-text-secondary text-lg mb-4">
         <i class="fas fa-map-marker-alt mr-2"></i>{event.data.location}
       </p>
