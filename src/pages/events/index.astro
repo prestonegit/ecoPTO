@@ -1,30 +1,48 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
+import EventDate from '../../components/EventDate.astro';
 
-const events = await getCollection('events');
+const allEvents = await getCollection('events');
+
+// Sort events by date, most recent first
+const sortedEvents = allEvents.sort((a, b) => new Date(b.data.eventDate).getTime() - new Date(a.data.eventDate).getTime());
 ---
 
 <Layout title="Events">
   <section class="relative py-16 sm:py-24 bg-bg-secondary text-center">
     <div class="container mx-auto px-6">
-      <h1 class="text-5xl font-extrabold text-primary mb-4">Upcoming Events</h1>
+      <h1 class="text-5xl font-extrabold text-primary mb-4">Our Events</h1>
       <p class="text-text-secondary text-lg max-w-3xl mx-auto">
         Join us for our exciting events throughout the year! From community gatherings to educational workshops, there's something for everyone.
       </p>
     </div>
   </section>
 
-  <section class="py-12 sm:py-16">
+  <section class="py-12 sm:py-16 bg-secondary">
     <div class="container mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {events.map(event => (
-          <a href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`} target={event.data.externalUrl ? '_blank' : '_self'} class="bg-bg-primary p-8 rounded-xl shadow-md text-center block">
-            <h3 class="text-2xl font-bold text-primary">{event.data.title}</h3>
-            <p class="text-lg text-text-secondary mb-4">{event.data.description}</p>
-            <span class="font-bold text-primary">
-              Learn More &rarr;
-            </span>
+      <div class="grid md:grid-cols-2 gap-8">
+        {sortedEvents.map(event => (
+          <a href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`} target={event.data.externalUrl ? '_blank' : '_self'} class="flex flex-col rounded-xl shadow-sm overflow-hidden group bg-bg-primary">
+            <div class="md:flex flex-grow">
+              <div class="md:w-1/2 flex flex-col justify-center">
+                <div class="p-6">
+                  <h3 class="text-2xl font-bold text-primary">{event.data.title}</h3>
+                  <EventDate date={event.data.eventDate} dateOverride={event.data.dateOverride} />
+                  <p class="mt-2 text-text-secondary line-clamp-3">{event.data.cardDescription}</p>
+                  <span class="mt-4 inline-block font-bold text-primary group-hover:underline">Learn More &rarr;</span>
+                </div>
+              </div>
+              {event.data.image && (
+                <div class="md:w-1/2 overflow-hidden">
+                  <img
+                    src={event.data.image}
+                    alt={event.data.title}
+                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                  />
+                </div>
+              )}
+            </div>
           </a>
         ))}
       </div>
