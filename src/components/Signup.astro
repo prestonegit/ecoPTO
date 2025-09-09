@@ -40,7 +40,7 @@ const signupContent = await getEntry('signup', 'signup');
         <label for="receive-updates" class="ml-2 text-text-secondary">{signupContent.data.signup_receive_updates_label}</label>
       </div>
       <div class="flex items-center">
-        <input type="checkbox" id="active-role" name="active-role" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
+        <input type="checkbox" id="active-role" name="active-role" value="Yes" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
         <label for="active-role" class="ml-2 text-text-secondary">{signupContent.data.signup_active_role_label}</label>
       </div>
 
@@ -51,7 +51,7 @@ const signupContent = await getEntry('signup', 'signup');
           getInvolved.map(opportunity => (
             <div>
               <label class="flex items-center">
-                <input type="checkbox" name="volunteer-role" value={opportunity.data.title} class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <input type="checkbox" name="selected-volunteer-roles" value={opportunity.data.title} class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
                 <span class="text-text-secondary">{opportunity.data.title}</span>
               </label>
             </div>
