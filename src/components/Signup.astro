@@ -94,13 +94,18 @@ const signupContent = await getEntry('signup', 'signup');
   .modal.modal-open {
     display: flex;
   }
+
+  body.modal-open {
+    overflow: hidden;
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const modal = document.getElementById('signup-modal');
+    const body = document.body; // Get a reference to the body element
 
-    if (modal) { // Add this check
+    if (modal) {
       const closeButton = modal.querySelector('.btn-close');
       const joinUsHeroBtn = document.getElementById('join-us-hero-btn');
       const activeRoleCheckbox = document.getElementById('active-role');
@@ -109,16 +114,19 @@ const signupContent = await getEntry('signup', 'signup');
       if (joinUsHeroBtn) {
         joinUsHeroBtn.addEventListener('click', () => {
           modal.classList.add('modal-open');
+          body.classList.add('modal-open'); // Add class to body
         });
       }
 
       closeButton.addEventListener('click', () => {
         modal.classList.remove('modal-open');
+        body.classList.remove('modal-open'); // Remove class from body
       });
 
       modal.addEventListener('click', (event) => {
         if (event.target === modal) {
           modal.classList.remove('modal-open');
+          body.classList.remove('modal-open'); // Remove class from body
         }
       });
 
