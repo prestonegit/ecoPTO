@@ -4,9 +4,16 @@ import Layout from '../../layouts/Layout.astro';
 import EventDate from '../../components/EventDate.astro';
 
 const allEvents = await getCollection('events');
+const today = new Date();
+today.setHours(0, 0, 0, 0); // Set to start of today for comparison
 
-// Sort events by date, most recent first
-const sortedEvents = allEvents.sort((a, b) => new Date(b.data.eventDate).getTime() - new Date(a.data.eventDate).getTime());
+const upcomingEvents = allEvents
+  .filter(event => new Date(event.data.eventDate) >= today)
+  .sort((a, b) => new Date(a.data.eventDate).getTime() - new Date(b.data.eventDate).getTime());
+
+const pastEvents = allEvents
+  .filter(event => new Date(event.data.eventDate) < today)
+  .sort((a, b) => new Date(b.data.eventDate).getTime() - new Date(a.data.eventDate).getTime());
 ---
 
 <Layout title="Events">
@@ -21,30 +28,68 @@ const sortedEvents = allEvents.sort((a, b) => new Date(b.data.eventDate).getTime
 
   <section class="py-12 sm:py-16 bg-secondary">
     <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold text-primary mb-8">Upcoming Events</h2>
       <div class="grid md:grid-cols-2 gap-8">
-        {sortedEvents.map(event => (
-          <a href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`} target={event.data.externalUrl ? '_blank' : '_self'} class="flex flex-col rounded-xl shadow-sm overflow-hidden group bg-bg-primary">
-            <div class="md:flex flex-grow">
-              <div class="md:w-1/2 flex flex-col justify-center">
-                <div class="p-6">
-                  <h3 class="text-2xl font-bold text-primary">{event.data.title}</h3>
-                  <EventDate date={event.data.eventDate} dateOverride={event.data.dateOverride} />
-                  <p class="mt-2 text-text-secondary line-clamp-3">{event.data.cardDescription}</p>
-                  <span class="mt-4 inline-block font-bold text-primary group-hover:underline">Learn More &rarr;</span>
+        {upcomingEvents.length > 0 ? (
+          upcomingEvents.map(event => (
+            <a href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`} target={event.data.externalUrl ? '_blank' : '_self'} class="flex flex-col rounded-xl shadow-sm overflow-hidden group bg-bg-primary">
+              <div class="md:flex flex-grow">
+                <div class="md:w-1/2 flex flex-col justify-center">
+                  <div class="p-6">
+                    <h3 class="text-2xl font-bold text-primary">{event.data.title}</h3>
+                    <EventDate date={event.data.eventDate} dateOverride={event.data.dateOverride} />
+                    <p class="mt-2 text-text-secondary line-clamp-3">{event.data.cardDescription}</p>
+                    <span class="mt-4 inline-block font-bold text-primary group-hover:underline">Learn More &rarr;</span>
+                  </div>
                 </div>
+                {event.data.image && (
+                  <div class="md:w-1/2 overflow-hidden">
+                    <img
+                      src={event.data.image}
+                      alt={event.data.title}
+                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  </div>
+                )}
               </div>
-              {event.data.image && (
-                <div class="md:w-1/2 overflow-hidden">
-                  <img
-                    src={event.data.image}
-                    alt={event.data.title}
-                    class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
-                  />
+            </a>
+          ))
+        ) : (
+          <p class="text-center text-text-secondary col-span-full">No upcoming events at the moment. Check back soon!</p>
+        )}
+      </div>
+
+      <div class="mt-20">
+        <h2 class="text-4xl font-bold text-primary mb-8">Past Events</h2>
+        <div class="grid md:grid-cols-2 gap-8">
+          {pastEvents.length > 0 ? (
+            pastEvents.map(event => (
+              <a href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`} target={event.data.externalUrl ? '_blank' : '_self'} class="flex flex-col rounded-xl shadow-sm overflow-hidden group bg-bg-primary">
+                <div class="md:flex flex-grow">
+                  <div class="md:w-1/2 flex flex-col justify-center">
+                    <div class="p-6">
+                      <h3 class="text-2xl font-bold text-primary">{event.data.title}</h3>
+                      <EventDate date={event.data.eventDate} dateOverride={event.data.dateOverride} />
+                      <p class="mt-2 text-text-secondary line-clamp-3">{event.data.cardDescription}</p>
+                      <span class="mt-4 inline-block font-bold text-primary group-hover:underline">Learn More &rarr;</span>
+                    </div>
+                  </div>
+                  {event.data.image && (
+                    <div class="md:w-1/2 overflow-hidden">
+                      <img
+                        src={event.data.image}
+                        alt={event.data.title}
+                        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
-          </a>
-        ))}
+              </a>
+            ))
+          ) : (
+            <p class="text-center text-text-secondary col-span-full">No past events to show.</p>
+          )}
+        </div>
       </div>
     </div>
   </section>
