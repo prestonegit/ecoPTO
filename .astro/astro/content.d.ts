@@ -161,16 +161,23 @@ declare module 'astro:content' {
 } & { render(): Render[".mdx"] };
 };
 "events": {
-"2025-09-16-back-to-school-night.mdx": {
-	id: "2025-09-16-back-to-school-night.mdx";
-  slug: "2025-09-16-back-to-school-night";
+"2025-09-09-how-to-raise-a-healthy-gamer.mdx": {
+	id: "2025-09-09-how-to-raise-a-healthy-gamer.mdx";
+  slug: "2025-09-09-how-to-raise-a-healthy-gamer";
   body: string;
   collection: "events";
   data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
-"2025-10-25-fall-harvest-festival.mdx": {
-	id: "2025-10-25-fall-harvest-festival.mdx";
-  slug: "2025-10-25-fall-harvest-festival";
+"2025-09-10-ecopto-monthly-meeting.mdx": {
+	id: "2025-09-10-ecopto-monthly-meeting.mdx";
+  slug: "2025-09-10-ecopto-monthly-meeting";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2025-09-16-back-to-school-night.mdx": {
+	id: "2025-09-16-back-to-school-night.mdx";
+  slug: "2025-09-16-back-to-school-night";
   body: string;
   collection: "events";
   data: InferEntrySchema<"events">
