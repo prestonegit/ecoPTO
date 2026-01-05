@@ -3,5 +3,5 @@ const { date, dateOverride } = Astro.props;
 ---
 <p class="text-text-secondary text-lg mb-2">
   <i class="fas fa-calendar-alt mr-2"></i>
-  {dateOverride ? dateOverride : new Date(date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+  {dateOverride ? dateOverride : new Date(date).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' })}
 </p>
