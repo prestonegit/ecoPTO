@@ -13,7 +13,10 @@ const pagesCollection = defineCollection({
       icon: z.string().optional(),
       image: z.string().optional(),
       link_text: z.string().optional(),
-      link_url: z.string().url().optional(),
+      link_url: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().url().optional()
+      ),
       link_file: z.string().optional(),
     })).optional(),
     image1: z.string().optional(),
