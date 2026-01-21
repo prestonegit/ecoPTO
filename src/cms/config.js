@@ -18,10 +18,10 @@ export const config = {
           name: "signup",
           fields: [
             { label: "Signup Form Title", name: "signupFormTitle", widget: "string" },
-            
+
             { label: "Signup Form Subtitle", name: "signupFormSubtitle", widget: "text" },
-            
-            
+
+
             { label: "Impact Focus Placeholder", name: "signup_impact_focus_placeholder", widget: "string" },
             { label: "Signup Name Label", name: "signup_name_label", widget: "string" },
             { label: "Name Input", name: "signup_first_name_placeholder", widget: "string" },
@@ -66,6 +66,7 @@ export const config = {
       fields: [
         { label: "Main Title", name: "title", widget: "string" },
         { label: "Subtitle", name: "subtitle", widget: "string" },
+        { label: "Project Highlight PDF", name: "project_highlight_pdf", widget: "file", required: false },
         { label: "Achievements Title", name: "achievements_title", widget: "string" },
         {
           label: "Achievements List",
@@ -78,10 +79,10 @@ export const config = {
             { label: "Image", name: "image", widget: "image", required: false }
           ]
         },
-        { label: "Image 1 (Top-Left)", name: "image1", widget: "image" },
-        { label: "Image 2 (Top-Right)", name: "image2", widget: "image" },
-        { label: "Image 3 (Bottom-Left)", name: "image3", widget: "image" },
-        { label: "Image 4 (Bottom-Right)", name: "image4", widget: "image" }
+        { label: "Image 1 (Top-Left)", name: "image1", widget: "image", required: false },
+        { label: "Image 2 (Top-Right)", name: "image2", widget: "image", required: false },
+        { label: "Image 3 (Bottom-Left)", name: "image3", widget: "image", required: false },
+        { label: "Image 4 (Bottom-Right)", name: "image4", widget: "image", required: false }
       ]
     },
     {
@@ -260,7 +261,7 @@ export const config = {
               ],
               default: "theme-district-maroon"
             },
-            
+
             {
               label: "Attributions",
               name: "attributions",
@@ -271,7 +272,7 @@ export const config = {
                 { label: "URL", name: "url", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
               ]
             },
-            
+
           ]
         }
       ]

@@ -5,12 +5,13 @@ const pagesCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
+    project_highlight_pdf: z.string().optional(),
     achievements_title: z.string().optional(),
     achievements: z.array(z.object({
-        title: z.string().optional(),
-        description: z.string().optional(),
-        icon: z.string().optional(),
-        image: z.string().optional(),
+      title: z.string().optional(),
+      description: z.string().optional(),
+      icon: z.string().optional(),
+      image: z.string().optional(),
     })).optional(),
     image1: z.string().optional(),
     image2: z.string().optional(),
