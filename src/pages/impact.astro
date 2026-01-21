@@ -13,26 +13,13 @@ if (!impactPage) {
 }
 
 const { data, Content } = impactPage;
-const { title, subtitle, achievements_title, achievements, image1, image2, image3, image4, project_highlight_pdf } = data;
+const { title, subtitle, achievements_title, achievements } = data;
 ---
 <Layout title={title}>
   <section class="py-20 bg-primary">
     <div class="container mx-auto px-6 text-center">
       <h1 class="text-4xl font-bold text-secondary">{title}</h1>
       <p class="mt-4 text-lg text-bg-primary max-w-3xl mx-auto">{subtitle}</p>
-      
-      {project_highlight_pdf && (
-        <div class="mt-8">
-          <a 
-            href={project_highlight_pdf} 
-            target="_blank" 
-            rel="noopener noreferrer"
-            class="inline-block bg-accent hover:bg-opacity-90 text-white font-bold py-3 px-8 rounded-lg transition duration-300 transform hover:scale-105 shadow-md"
-          >
-            View Project Highlight
-          </a>
-        </div>
-      )}
     </div>
   </section>
 

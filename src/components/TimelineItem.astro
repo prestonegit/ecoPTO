@@ -1,7 +1,9 @@
 ---
 const { achievement, index } = Astro.props;
-const { title, description, image } = achievement;
+const { title, description, image, link_text, link_url, link_file } = achievement;
 const isEven = index % 2 === 0;
+const link = link_file || link_url;
+const buttonText = link_text || "Learn More";
 ---
 
 <div class="relative mb-8 flex items-center w-full">
@@ -11,7 +13,17 @@ const isEven = index % 2 === 0;
         <div class="bg-bg-primary p-10 rounded-lg shadow-lg border border-primary/20 transform transition-transform duration-300 hover:scale-105 overflow-hidden">
           {image && <img src={image} alt={title} class="max-w-md h-auto object-cover rounded-lg shadow-lg mb-4 float-left mr-4" />}
           <h3 class="text-2xl font-bold text-primary mb-2">{title}</h3>
-          <p class="text-text-secondary text-lg">{description}</p>
+          <p class="text-text-secondary text-lg mb-4">{description}</p>
+          {link && (
+            <a 
+              href={link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="inline-block bg-accent hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded transition duration-300 transform hover:scale-105 shadow-sm text-sm"
+            >
+              {buttonText}
+            </a>
+          )}
         </div>
       </div>
       <div class="w-full md:w-1/2 md:pl-8"></div> {/* Empty div for right column */} 
@@ -23,7 +35,17 @@ const isEven = index % 2 === 0;
         <div class="bg-bg-primary p-10 rounded-lg shadow-lg border border-primary/20 transform transition-transform duration-300 hover:scale-105 overflow-hidden">
           {image && <img src={image} alt={title} class="max-w-md h-auto object-cover rounded-lg shadow-lg mb-4 float-right ml-4" />}
           <h3 class="text-2xl font-bold text-primary mb-2">{title}</h3>
-          <p class="text-text-secondary text-lg">{description}</p>
+          <p class="text-text-secondary text-lg mb-4">{description}</p>
+          {link && (
+            <a 
+              href={link} 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="inline-block bg-accent hover:bg-opacity-90 text-white font-bold py-2 px-4 rounded transition duration-300 transform hover:scale-105 shadow-sm text-sm"
+            >
+              {buttonText}
+            </a>
+          )}
         </div>
       </div>
     </>

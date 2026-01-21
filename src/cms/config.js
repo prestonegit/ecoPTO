@@ -66,23 +66,20 @@ export const config = {
       fields: [
         { label: "Main Title", name: "title", widget: "string" },
         { label: "Subtitle", name: "subtitle", widget: "string" },
-        { label: "Project Highlight PDF", name: "project_highlight_pdf", widget: "file", required: false },
         { label: "Achievements Title", name: "achievements_title", widget: "string" },
         {
-          label: "Achievements List",
+          label: "Impact Projects",
           name: "achievements",
           widget: "list",
           fields: [
             { label: "Title", name: "title", widget: "string" },
             { label: "Description", name: "description", widget: "text" },
-            { label: "Icon", name: "icon", widget: "image", required: false },
-            { label: "Image", name: "image", widget: "image", required: false }
+            { label: "Image", name: "image", widget: "image", required: false },
+            { label: "Link Text", name: "link_text", widget: "string", required: false, default: "Learn More" },
+            { label: "Link URL", name: "link_url", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
+            { label: "Link File (PDF)", name: "link_file", widget: "file", required: false }
           ]
-        },
-        { label: "Image 1 (Top-Left)", name: "image1", widget: "image", required: false },
-        { label: "Image 2 (Top-Right)", name: "image2", widget: "image", required: false },
-        { label: "Image 3 (Bottom-Left)", name: "image3", widget: "image", required: false },
-        { label: "Image 4 (Bottom-Right)", name: "image4", widget: "image", required: false }
+        }
       ]
     },
     {
