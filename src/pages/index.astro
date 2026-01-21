@@ -18,29 +18,16 @@ const allLeaders = allLeadersUnordered.sort((a, b) => (a.data.order || 0) - (b.d
   
   <UpcomingEvents content={homeContent.data} />
 
-  {/* Community Impact Section */}
-  <section class="py-12 bg-bg-secondary">
-    <div class="container mx-auto px-6 text-center">
-      <h2 class="text-3xl font-bold text-primary mb-4">See Our Community Impact</h2>
-      <p class="text-lg text-text-secondary mb-8 max-w-2xl mx-auto">
-        Discover the projects that have made a difference in our schools and community.
-      </p>
-      <a href="/impact" class="btn-standard btn-primary-color">
-        View Past Projects
-      </a>
-    </div>
-  </section>
-
   {/* Who We Are Section */}
-  <section class="py-8 bg-bg-secondary">
+  <section class="py-16 bg-bg-primary">
     <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold text-primary mb-4">{homeContent.data.who_we_are_title}</h2>
+      <h2 class="text-4xl font-bold text-primary mb-6">{homeContent.data.who_we_are_title}</h2>
       <article class="prose prose-lg text-text-secondary !mb-0 max-w-none mb-12">
         <div set:html={homeContent.data.who_we_are_text}></div>
       </article>
 
       {/* Leadership Section */}
-      <section class="py-8 bg-bg-secondary">
+      <section class="pt-12">
         <div class="container mx-auto px-6 text-center">
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {allLeaders.map(leader => (
