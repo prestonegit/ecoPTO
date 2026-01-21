@@ -14,10 +14,13 @@ const { content } = Astro.props;
       <p class="mt-6 text-lg text-bg-primary">
         {content.hero_subtitle}
       </p>
-      <div class="mt-8 flex justify-center md:justify-start">
+      <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
         <button id="join-us-hero-btn" class="btn-standard btn-secondary-color">
           {content.hero_button_text}
         </button>
+        <a href="/impact" class="btn-standard border-2 border-secondary text-secondary hover:bg-secondary hover:text-primary transition-colors">
+          See Our Impact
+        </a>
       </div>
     </div>
     <div class="hidden md:flex md:order-2 items-center justify-center">
