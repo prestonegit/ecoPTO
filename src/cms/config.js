@@ -83,6 +83,41 @@ export const config = {
       ]
     },
     {
+      name: "research-page",
+      label: "Page - Research",
+      folder: "src/content/research",
+      create: false, // Singleton-ish for now, or just one file
+      extension: "mdx",
+      format: 'frontmatter',
+      frontmatter_format: 'yaml',
+      fields: [
+        { label: "Page Title", name: "title", widget: "string" },
+        { label: "Page Description", name: "description", widget: "markdown" },
+        {
+          label: "Peer-Reviewed Research",
+          name: "peer_reviewed_research",
+          widget: "list",
+          fields: [
+            { label: "Description/Context", name: "title", widget: "string" },
+            { label: "Article Title", name: "article_title", widget: "string", required: false },
+            { label: "Link URL", name: "link", widget: "string", pattern: ["^https?://", "Must be a valid URL"], required: false },
+            { label: "Comment/Subtext", name: "comment", widget: "text", required: false }
+          ]
+        },
+        {
+          label: "Books",
+          name: "books",
+          widget: "list",
+          fields: [
+            { label: "Book Title", name: "title", widget: "string" },
+            { label: "Author", name: "author", widget: "string" },
+            { label: "Link URL", name: "link", widget: "string", pattern: ["^https?://", "Must be a valid URL"], required: false },
+            { label: "Comment/Subtext", name: "comment", widget: "text", required: false }
+          ]
+        }
+      ]
+    },
+    {
       name: "pages",
       label: "Page - Homepage Content",
       files: [

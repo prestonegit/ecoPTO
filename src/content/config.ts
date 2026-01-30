@@ -174,6 +174,26 @@ const projectsCollection = defineCollection({
   }),
 });
 
+const researchCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    description: z.string().optional(),
+    peer_reviewed_research: z.array(z.object({
+      title: z.string(),
+      article_title: z.string().optional(),
+      link: z.string().url().optional(),
+      comment: z.string().optional(),
+    })).optional(),
+    books: z.array(z.object({
+      title: z.string(),
+      author: z.string(),
+      link: z.string().url().optional(),
+      comment: z.string().optional(),
+    })).optional(),
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
   aboutUs: aboutUsCollection,
@@ -185,4 +205,5 @@ export const collections = {
   news: newsCollection,
   transparency: transparencyCollection,
   projects: projectsCollection,
+  research: researchCollection, // Added research collection
 };
