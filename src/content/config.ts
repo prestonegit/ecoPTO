@@ -191,6 +191,11 @@ const researchCollection = defineCollection({
       link: z.string().url().optional(),
       comment: z.string().optional(),
     })).optional(),
+    online_resources: z.array(z.object({
+      title: z.string(),
+      link: z.string().url(),
+      comment: z.string().optional(),
+    })).optional(),
   }),
 });
 

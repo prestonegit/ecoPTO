@@ -114,6 +114,16 @@ export const config = {
             { label: "Link URL", name: "link", widget: "string", pattern: ["^https?://", "Must be a valid URL"], required: false },
             { label: "Comment/Subtext", name: "comment", widget: "text", required: false }
           ]
+        },
+        {
+          label: "Online Resources",
+          name: "online_resources",
+          widget: "list",
+          fields: [
+            { label: "Resource Title", name: "title", widget: "string" },
+            { label: "Link URL", name: "link", widget: "string", pattern: ["^https?://", "Must be a valid URL"] },
+            { label: "Comment/Subtext", name: "comment", widget: "text", required: false }
+          ]
         }
       ]
     },

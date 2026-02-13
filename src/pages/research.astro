@@ -10,7 +10,7 @@ if (!researchPage) {
 }
 
 const { data } = researchPage;
-const { title, description, peer_reviewed_research, books } = data;
+const { title, description, peer_reviewed_research, books, online_resources } = data;
 ---
 
 <Layout title={title}>
@@ -94,6 +94,37 @@ const { title, description, peer_reviewed_research, books } = data;
             ))}
              {(!books || books.length === 0) && (
              <p class="text-gray-500 italic">No books listed yet.</p>
+          )}
+        </div>
+      </div>
+
+      {/* Online Resources Section */}
+      <div class="mt-16">
+        <h2 class="text-3xl font-bold text-primary mb-8 border-b-2 border-secondary pb-2 inline-block">
+          Online Resources
+        </h2>
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {online_resources?.map((resource) => (
+            <div class="bg-white p-6 rounded-lg shadow-md border-t-4 border-accent hover:shadow-lg transition-shadow">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">{resource.title}</h3>
+                {resource.comment && (
+                  <p class="text-sm text-gray-500 mb-4">{resource.comment}</p>
+                )}
+                <a 
+                    href={resource.link} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    class="text-primary font-bold hover:underline inline-flex items-center"
+                >
+                    View Link
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                </a>
+            </div>
+            ))}
+             {(!online_resources || online_resources.length === 0) && (
+             <p class="text-gray-500 italic">No online resources listed yet.</p>
           )}
         </div>
       </div>
