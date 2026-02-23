@@ -19,7 +19,7 @@ export const config = {
           fields: [
             { label: "Signup Form Title", name: "signupFormTitle", widget: "string" },
 
-            { label: "Signup Form Subtitle", name: "signupFormSubtitle", widget: "text" },
+            { label: "Signup Form Subtitle", name: "signupFormSubtitle", widget: "text", required: false },
 
 
             { label: "Impact Focus Placeholder", name: "signup_impact_focus_placeholder", widget: "string" },
@@ -49,10 +49,10 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Title", name: "title", widget: "string" },
-        { label: "History Title", name: "history_title", widget: "string" },
-        { label: "History Content", name: "history_content", widget: "markdown" },
-        { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
-        { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown" }
+        { label: "History Title", name: "history_title", widget: "string", required: false },
+        { label: "History Content", name: "history_content", widget: "markdown", required: false },
+        { label: "Who We Are Title", name: "who_we_are_title", widget: "string", required: false },
+        { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown", required: false },
       ]
     },
     {
@@ -65,15 +65,15 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Main Title", name: "title", widget: "string" },
-        { label: "Subtitle", name: "subtitle", widget: "string" },
-        { label: "Achievements Title", name: "achievements_title", widget: "string" },
+        { label: "Subtitle", name: "subtitle", widget: "string", required: false },
+        { label: "Achievements Title", name: "achievements_title", widget: "string", required: false },
         {
           label: "Impact Projects",
           name: "achievements",
           widget: "list",
           fields: [
             { label: "Title", name: "title", widget: "string" },
-            { label: "Description", name: "description", widget: "text" },
+            { label: "Description", name: "description", widget: "text", required: false },
             { label: "Image", name: "image", widget: "image", required: false },
             { label: "Link Text", name: "link_text", widget: "string", required: false, default: "Learn More" },
             { label: "Link URL", name: "link_url", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
@@ -92,7 +92,7 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Page Title", name: "title", widget: "string" },
-        { label: "Page Description", name: "description", widget: "markdown" },
+        { label: "Page Description", name: "description", widget: "markdown", required: false },
         {
           label: "Peer-Reviewed Research",
           name: "peer_reviewed_research",
@@ -137,29 +137,26 @@ export const config = {
           name: "home",
           fields: [
             { label: "Hero Title", name: "hero_title", widget: "string" },
-            { label: "Hero Subtitle", name: "hero_subtitle", widget: "text" },
+            { label: "Hero Subtitle", name: "hero_subtitle", widget: "text", required: false },
             { label: "Hero Button Text", name: "hero_button_text", widget: "string" },
-            { label: "Mission Title", name: "mission_title", widget: "string" },
-            { label: "Mission Subtitle", name: "mission_subtitle", widget: "text" },
+            { label: "Mission Title", name: "mission_title", widget: "string", required: false },
+            { label: "Mission Subtitle", name: "mission_subtitle", widget: "text", required: false },
             {
               label: "Mission Items",
               name: "mission_items",
               widget: "list",
               fields: [
-                { label: "Title", name: "title", widget: "string" },
-                { label: "Text", name: "text", widget: "text" },
+                { label: "Title", name: "title", widget: "string", required: false },
+                { label: "Text", name: "text", widget: "text", required: false },
                 { label: "Icon", name: "icon", widget: "image", required: false, media_library: { config: { multiple: false, accept: "image/svg+xml,image/png,image/gif" } } }
               ]
             },
-            { label: "Events Title", name: "events_title", widget: "string" },
-            { label: "Events Subtitle", name: "events_subtitle", widget: "text" },
-            { label: "Events Section Title", name: "events_section_title", widget: "string" },
-            { label: "Volunteer Section Title", name: "volunteer_section_title", widget: "string" },
-            { label: "Contact Title", name: "contact_title", widget: "string" },
-            { label: "Contact Subtitle", name: "contact_subtitle", widget: "text" },
-            { label: "Contact Email", name: "contact_email", widget: "string" },
-            { label: "Who We Are Title", name: "who_we_are_title", widget: "string" },
-            { label: "Who We Are Text", name: "who_we_are_text", widget: "markdown" }
+            { label: "Events Title", name: "events_title", widget: "string", required: false },
+            { label: "Events Subtitle", name: "events_subtitle", widget: "text", required: false },
+            { label: "Events Section Title", name: "events_section_title", widget: "string", required: false },
+            { label: "Contact Title", name: "contact_title", widget: "string", required: false },
+            { label: "Contact Subtitle", name: "contact_subtitle", widget: "text", required: false },
+            { label: "Contact Email", name: "contact_email", widget: "string" }
           ]
         }
       ]
@@ -176,8 +173,8 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Title", name: "title", widget: "string" },
-        { label: "Event Card Description", name: "cardDescription", widget: "text" },
-        { label: "Event Page Description", name: "description", widget: "markdown" },
+        { label: "Event Card Description", name: "cardDescription", widget: "text", required: false },
+        { label: "Event Page Description", name: "description", widget: "markdown", required: false },
         { label: "Event Date", name: "eventDate", widget: "datetime" },
         { label: "Date Override", name: "dateOverride", widget: "string", required: false, hint: "e.g., 'Various Dates'. If used, this text will be displayed instead of the event date." },
         { label: "Location", name: "location", widget: "string", required: false },
@@ -194,10 +191,7 @@ export const config = {
       format: "frontmatter",
       frontmatter_format: 'yaml',
       fields: [
-        { label: "Title", name: "title", widget: "string" },
-        { label: "Description", name: "description", widget: "markdown", required: false },
-        { label: "Icon", name: "icon", widget: "string", required: false },
-        { label: "Learn More URL", name: "learnMore", widget: "string", required: false, pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
+        { label: "Title", name: "title", widget: "string" }
       ]
     },
     {
@@ -228,11 +222,11 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Title", name: "title", widget: "string" },
-        { label: "Description", name: "description", widget: "text" },
+        { label: "Description", name: "description", widget: "text", required: false },
         { label: "Author", name: "author", widget: "string" },
         { label: "Publish Date", name: "pubDate", widget: "datetime" },
         { label: "Featured Image", name: "image", widget: "image", required: false },
-        { label: "Body", name: "body", widget: "markdown" }
+        { label: "Body", name: "body", widget: "markdown", required: false }
       ]
     },
     {
@@ -246,8 +240,8 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Title", name: "title", widget: "string" },
-        { label: "Goal", name: "goal", widget: "markdown" },
-        { label: "Description", name: "description", widget: "markdown" },
+        { label: "Goal", name: "goal", widget: "markdown", required: false },
+        { label: "Description", name: "description", widget: "markdown", required: false },
         {
           label: "Participants",
           name: "participants",
@@ -272,7 +266,7 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Title", name: "title", widget: "string" },
-        { label: "Subtitle", name: "subtitle", widget: "text" },
+        { label: "Subtitle", name: "subtitle", widget: "text", required: false },
         { label: "Document Link", name: "link", widget: "string", pattern: ["^https?://", "Must be a valid URL (e.g., https://example.com)"] },
         { label: "Publish Date", name: "pubDate", widget: "datetime" }
       ]

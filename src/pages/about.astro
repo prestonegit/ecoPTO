@@ -16,23 +16,7 @@ const leadershipUnordered = await getCollection('leadership');
 const leadership = leadershipUnordered.sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 
 const historyHtml = aboutContent?.data.history_content ? marked.parse(aboutContent.data.history_content) : '';
-const whoWeAreHtml = aboutContent?.data.who_we_are_content ? marked.parse(aboutContent.data.who_we_are_content) : '';
 ---
-<Layout title="About Us">
-  <section class="py-20 bg-primary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2 text-secondary">{aboutContent?.data.history_title}</h2>
-      <div class="prose-lg max-w-none text-secondary" set:html={historyHtml}></div>
-    </div>
-  </section>
-
-  <section class="py-20 bg-bg-secondary text-primary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2">{aboutContent?.data.who_we_are_title}</h2>
-      <div class="prose-lg max-w-none text-primary" set:html={whoWeAreHtml}></div>
-    </div>
-  </section>
-
   <section class="py-20 bg-bg-primary text-secondary">
     <div class="container mx-auto px-6">
       <h2 class="text-4xl font-bold mb-8 text-center">Our Leaders</h2>
@@ -40,15 +24,46 @@ const whoWeAreHtml = aboutContent?.data.who_we_are_content ? marked.parse(aboutC
         {leadership.map(leader => {
           const bioHtml = leader.data.bio ? marked.parse(leader.data.bio) : '';
           return (
-            <div class="bg-secondary rounded-lg shadow-lg p-8 text-primary">
-              <img class="w-32 h-32 rounded-full mx-auto mb-4 object-cover" src={leader.data.image} alt={leader.data.name} />
-              <h3 class="text-xl font-bold text-center mb-2">{leader.data.name}</h3>
-              <p class="text-center text-sm mb-4">{leader.data.title}</p>
-              <div class="text-sm prose max-w-none" set:html={bioHtml}></div>
+            <div class="bg-secondary rounded-lg shadow-lg p-8 text-primary flex flex-col items-center">
+              <img class="w-32 h-32 rounded-full mb-4 object-cover" src={leader.data.image} alt={leader.data.name} />
+              <h3 class="text-xl font-bold text-center mb-1">{leader.data.name}</h3>
+              <p class="text-center text-sm font-medium opacity-80 mb-4">{leader.data.title}</p>
+              
+              <button class="expand-bio-btn text-sm font-bold underline hover:text-white transition-colors mb-2">Read Bio</button>
+              <div class="bio-content hidden text-sm prose max-w-none text-left w-full mt-4 pt-4 border-t border-primary/20" set:html={bioHtml}></div>
             </div>
           );
         })}
       </div>
     </div>
   </section>
+
+  <section class="py-20 bg-primary">
+    <div class="container mx-auto px-6">
+      <h2 class="text-4xl font-bold mb-2 text-secondary">{aboutContent?.data.history_title}</h2>
+      <div class="prose-lg max-w-none text-secondary" set:html={historyHtml}></div>
+    </div>
+  </section>
 </Layout>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const expandBtns = document.querySelectorAll('.expand-bio-btn');
+    expandBtns.forEach(btn => {
+      // Remove any existing listeners if page loads multiple times
+      const newBtn = btn.cloneNode(true);
+      btn.parentNode.replaceChild(newBtn, btn);
+      
+      newBtn.addEventListener('click', (e) => {
+        const bioContent = newBtn.nextElementSibling;
+        if (bioContent.classList.contains('hidden')) {
+          bioContent.classList.remove('hidden');
+          newBtn.textContent = 'Hide Bio';
+        } else {
+          bioContent.classList.add('hidden');
+          newBtn.textContent = 'Read Bio';
+        }
+      });
+    });
+  });
+</script>

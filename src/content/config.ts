@@ -96,7 +96,7 @@ const eventsCollection = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
-    cardDescription: z.string(),
+    cardDescription: z.string().optional(),
     eventDate: z.date(),
     dateOverride: z.string().optional(),
     location: z.string().optional(),
@@ -142,7 +142,7 @@ const transparencyCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    subtitle: z.string(),
+    subtitle: z.string().optional(),
     link: z.string().url(),
     pubDate: z.date(),
   }),
@@ -152,7 +152,7 @@ const newsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    description: z.string(),
+    description: z.string().optional(),
     author: z.string(),
     pubDate: z.date(),
     image: z.string().optional(),
@@ -163,8 +163,8 @@ const projectsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     title: z.string(),
-    goal: z.string(),
-    description: z.string(),
+    goal: z.string().optional(),
+    description: z.string().optional(),
     participants: z.array(z.object({
       name: z.string(),
       contact: z.string(),

@@ -1,8 +1,6 @@
 {
   "site_name": "Hopewell ecoPTO",
   "mission_title": "Our Mission & Values",
-  "who_we_are_text": "We are a district-wide PTO, consisting of HVRSD parents, educators, and students, from all of the district’s schools. It also includes community allies who share our mission and vision. Mullet meeting style. We use a governance structure called Sociocracy to encourage you.",
-  "volunteer_section_title": "Get Involved - (aka current needs!)",
   "theme": "theme-ecopto",
   "mission_subtitle": "Our mission is to gather and mobilize the HVRSD educational community to actualize the District’s aspirations for Youth and Earth Wellbeing",
   "mission_items": [
@@ -33,6 +31,5 @@
   "contact_title": "Get In Touch",
   "hero_subtitle": "We envision our youth boldly reshaping the culture and physical landscape of Hopewell Valley, New Jersey, and the planet — for the betterment of all living things",
   "contact_email": "ecoptohvrsd@gmail.com",
-  "who_we_are_title": "Who We Are",
   "events_subtitle": "Join us for workshops, community actions, and family-friendly events."
 }
