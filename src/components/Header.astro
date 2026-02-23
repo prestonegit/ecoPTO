@@ -16,36 +16,54 @@ import globalSettings from '../content/settings/global.json';
       <a href="/about" class="text-sm font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Leadership</a>
     </div>
     
-    <div class="flex items-center gap-3 ml-auto z-50">
-      <button id="staff-support-header-btn" class="btn-standard !border-2 !border-primary text-primary hover:bg-primary hover:text-white px-4 py-1 sm:px-5 sm:py-2 flex items-center justify-center rounded-full hidden sm:flex">
+    <!-- Mobile Hamburger and single GET INVOLVED button -->
+    <div class="flex md:hidden items-center gap-2 z-50 ml-auto">
+      <button class="get-involved-trigger btn-standard btn-bg-primary-color px-4 py-1 flex items-center justify-center rounded-full text-sm font-bold" data-target-tab="form-join">
+        GET INVOLVED
+      </button>
+      <button id="mobile-menu-btn" class="text-primary hover:text-secondary focus:outline-none p-2 ml-1">
+        <svg class="h-8 w-8 fill-current" viewBox="0 0 24 24">
+          <path id="mobile-menu-icon" fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Desktop Buttons -->
+    <div class="hidden md:flex items-center gap-3 ml-auto z-50">
+      <button class="get-involved-trigger btn-standard !border-2 !border-primary text-primary hover:bg-primary hover:text-white px-5 py-2 flex items-center justify-center rounded-full" data-target-tab="form-staff">
         HVRSD STAFF REQUEST
       </button>
-      <button id="join-us-header-btn" class="btn-standard btn-bg-primary-color px-4 py-1 sm:px-5 sm:py-2 flex items-center justify-center rounded-full">
+      <button class="get-involved-trigger btn-standard btn-bg-primary-color px-5 py-2 flex items-center justify-center rounded-full" data-target-tab="form-join">
         JOIN US
       </button>
     </div>
   </nav>
+
+  <!-- Mobile Menu Dropdown -->
+  <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-bg-primary border-b border-bg-secondary shadow-lg z-40">
+    <div class="flex flex-col px-6 py-4 space-y-4">
+      <a href="/impact" class="text-base font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Impact</a>
+      <a href="/research" class="text-base font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Literature</a>
+      <a href="/events" class="text-base font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Events</a>
+      <a href="/about" class="text-base font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Leadership</a>
+    </div>
+  </div>
 </header>
 
 <script>
   document.addEventListener('astro:page-load', () => {
-    const joinUsBtn = document.getElementById('join-us-header-btn');
-    const signupModal = document.getElementById('signup-modal');
-    
-    const staffBtn = document.getElementById('staff-support-header-btn');
-    const staffModal = document.getElementById('staff-support-modal');
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileMenuIcon = document.getElementById('mobile-menu-icon');
 
-    if (joinUsBtn && signupModal) {
-      joinUsBtn.addEventListener('click', () => {
-        signupModal.classList.add('modal-open');
-        document.body.classList.add('modal-open');
-      });
-    }
-
-    if (staffBtn && staffModal) {
-      staffBtn.addEventListener('click', () => {
-        staffModal.classList.add('modal-open');
-        document.body.classList.add('modal-open');
+    if (mobileMenuBtn && mobileMenu) {
+      mobileMenuBtn.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+        if (mobileMenu.classList.contains('hidden')) {
+          mobileMenuIcon.setAttribute('d', 'M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z'); // Hamburger
+        } else {
+          mobileMenuIcon.setAttribute('d', 'M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z'); // Close icon
+        }
       });
     }
   });

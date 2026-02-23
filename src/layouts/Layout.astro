@@ -4,8 +4,7 @@ import { getEntry } from 'astro:content';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 const globalSettings = await getEntry('settings', 'global');
-import Signup from '../components/Signup.astro';
-import StaffSupport from '../components/StaffSupport.astro';
+import GetInvolvedModal from '../components/GetInvolvedModal.astro';
 import '../styles/global.css';
 
 const { title } = Astro.props;
@@ -114,8 +113,7 @@ const themeClass = globalSettings.data.theme; // Force rebuild
 		<slot />
 	</main>
 	<Footer />
-	<Signup />
-	<StaffSupport />
+	<GetInvolvedModal />
 
 	<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 	<script is:inline>

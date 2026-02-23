@@ -32,16 +32,3 @@ const { content } = Astro.props;
     </div>
   </div>
 </section>
-
-<script>
-  document.addEventListener('astro:page-load', () => {
-    const contactJoinUsBtn = document.getElementById('contact-join-us-btn');
-    const signupModal = document.getElementById('signup-modal');
-
-    if (contactJoinUsBtn && signupModal) {
-      contactJoinUsBtn.addEventListener('click', () => {
-        signupModal.classList.add('modal-open');
-      });
-    }
-  });
-</script>

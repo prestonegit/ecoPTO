@@ -1,0 +1,252 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+
+const getInvolved = await getCollection('get-involved');
+const signupContent = await getEntry('signup', 'signup');
+---
+<dialog id="get-involved-modal" class="modal">
+  <div class="modal-box bg-white text-text-primary p-8 rounded-lg shadow-lg max-w-lg w-full relative">
+    <button class="btn-close-modal absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+    
+    <!-- Tabs -->
+    <div class="flex border-b border-gray-200 mb-6">
+      <button id="tab-join" class="tab-btn flex-1 py-2 text-center text-primary font-bold border-b-2 border-primary transition-colors" data-target="form-join">Join Us</button>
+      <button id="tab-staff" class="tab-btn flex-1 py-2 text-center text-text-secondary font-bold border-b-2 border-transparent hover:text-primary transition-colors" data-target="form-staff">Staff Request</button>
+    </div>
+
+    <!-- Join Us Form -->
+    <div id="form-join" class="form-container block">
+      <h3 class="font-bold text-2xl text-primary mb-2">{signupContent.data.signupFormTitle}</h3>
+      <p class="py-2 text-text-secondary mb-4">{signupContent.data.signupFormSubtitle}</p>
+      
+      <form name="signup" method="POST" data-netlify="true" data-netlify-submission-title="first-name" class="space-y-4 bg-white flex-grow">
+        <input type="hidden" name="form-name" value="signup" />
+        <div>
+          <label for="name" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_name_label}</label>
+          <input type="text" id="first-name" name="first-name" placeholder={signupContent.data.signup_first_name_placeholder} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
+        </div>
+        <div>
+          <label for="email" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_email_label}</label>
+          <input type="email" id="email" name="email" placeholder={signupContent.data.signupFormPlaceholder} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
+        </div>
+        <div>
+          <label class="text-sm font-bold text-text-secondary">{signupContent.data.signup_school_affiliation_label}</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Central High" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Central High</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Timberlane Middle" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Timberlane Middle</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Bear Tavern Elementary" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Bear Tavern Elementary</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Hopewell Elementary" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Hopewell Elementary</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Stony Brook" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Stony Brook</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Toll Gate Grammar" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Toll Gate Grammar</label></div>
+          </div>
+        </div>
+        <div>
+          <label for="impact-focus" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_impact_focus_label}</label>
+          <textarea id="impact-focus" name="impact-focus" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" placeholder={signupContent.data.signup_impact_focus_placeholder}></textarea>
+        </div>
+        <div class="flex items-center">
+          <input type="checkbox" id="receive-updates" name="receive-updates" checked class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
+          <label for="receive-updates" class="ml-2 text-text-secondary">{signupContent.data.signup_receive_updates_label}</label>
+        </div>
+        <div class="flex items-center">
+          <input type="hidden" name="active-role" value="No" />
+          <input type="checkbox" id="active-role" name="active-role" value="Yes" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
+          <label for="active-role" class="ml-2 text-text-secondary">{signupContent.data.signup_active_role_label}</label>
+        </div>
+
+        <input type="hidden" name="selected-volunteer-roles" value="None" />
+        <div id="volunteer-roles-section" class="hidden mt-4 space-y-2">
+          <p class="text-sm font-bold text-text-secondary">{signupContent.data.signup_volunteer_roles_prompt}</p>
+          {getInvolved.length > 0 ? (
+            getInvolved.map(opportunity => (
+              <div>
+                <label class="flex items-center">
+                  <input type="checkbox" name="selected-volunteer-roles" value={opportunity.data.title} class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                  <span class="text-text-secondary">{opportunity.data.title}</span>
+                </label>
+              </div>
+            ))
+          ) : (
+            <p class="text-text-secondary text-sm">{signupContent.data.signup_no_volunteer_roles_message}</p>
+          )}
+        </div>
+
+        <div class="modal-action mt-6 flex justify-center gap-4">
+          <button type="submit" class="btn-standard btn-bg-primary-color px-8 py-3 rounded-full">{signupContent.data.signup_button_text.toUpperCase()}</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Staff Request Form -->
+    <div id="form-staff" class="form-container hidden">
+      <h3 class="font-bold text-2xl text-primary mb-2">HVRSD Staff Support Request</h3>
+      <p class="py-2 text-text-secondary mb-4">Whether you need volunteers, materials, or event planning help, the PTO community is here for you.</p>
+      
+      <form name="staff-support" method="POST" data-netlify="true" data-netlify-submission-title="staff-name" class="space-y-4 bg-white flex-grow">
+        <input type="hidden" name="form-name" value="staff-support" />
+        
+        <!-- form fields from staffsupport.astro -->
+        <div>
+          <label for="staff-name" class="text-sm font-bold text-text-secondary">Full Name</label>
+          <input type="text" id="staff-name" name="staff-name" placeholder="E.g., Jane Smith" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
+        </div>
+        
+        <div>
+          <label for="staff-email" class="text-sm font-bold text-text-secondary">HVRSD Email</label>
+          <input type="email" id="staff-email" name="staff-email" placeholder="name@hvrsd.org" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="staff-phone" class="text-sm font-bold text-text-secondary">Phone Number (Optional)</label>
+            <input type="tel" id="staff-phone" name="staff-phone" placeholder="555-0123" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+          <div>
+            <label for="staff-date" class="text-sm font-bold text-text-secondary">Date Needed (Optional)</label>
+            <input type="date" id="staff-date" name="staff-date" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" />
+          </div>
+        </div>
+        
+        <div>
+          <label for="staff-school" class="text-sm font-bold text-text-secondary">School</label>
+          <select id="staff-school" name="staff-school" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent appearance-none" required>
+              <option value="" disabled selected>Select your school...</option>
+              <option value="Hopewell Elementary">Hopewell Elementary</option>
+              <option value="Bear Tavern Elementary">Bear Tavern Elementary</option>
+              <option value="Toll Gate Grammar">Toll Gate Grammar</option>
+              <option value="Stony Brook Elementary">Stony Brook Elementary</option>
+              <option value="Timberlane Middle School">Timberlane Middle School</option>
+              <option value="Central High School">Central High School</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="staff-help" class="text-sm font-bold text-text-secondary">How can we support you?</label>
+          <textarea id="staff-help" name="staff-help" rows="4" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent resize-vertical" placeholder="Describe your project, field trip, or how volunteers can assist..." required></textarea>
+        </div>
+
+        <div class="modal-action mt-6 flex justify-center gap-4">
+          <button type="submit" class="btn-standard btn-bg-primary-color px-8 py-3 rounded-full">SEND REQUEST</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .modal {
+    display: none; /* Hide by default */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    min-height: 100vh;
+    overflow-y: auto;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: flex-start;
+    padding: 5vh 1rem 8vh;
+  }
+
+  .modal-box {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    max-height: 90vh;
+    flex-shrink: 1; /* Ensure it can shrink */
+    flex-basis: auto; /* Default flex basis */
+    overscroll-behavior-y: contain; /* Added for scroll chaining */
+  }
+
+  .modal.modal-open {
+    display: flex;
+  }
+
+  body.modal-open {
+    overflow: hidden;
+  }
+</style>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const modal = document.getElementById('get-involved-modal');
+    const body = document.body;
+
+    if (modal) {
+      const closeButton = modal.querySelector('.btn-close-modal');
+      const triggerBtns = document.querySelectorAll('.get-involved-trigger');
+      
+      const tabBtns = modal.querySelectorAll('.tab-btn');
+      const formContainers = modal.querySelectorAll('.form-container');
+
+      const activeRoleCheckbox = document.getElementById('active-role');
+      const volunteerRolesSection = document.getElementById('volunteer-roles-section');
+
+      const switchTab = (targetId) => {
+        // Update tab buttons
+        tabBtns.forEach(btn => {
+          if (btn.dataset.target === targetId) {
+            btn.classList.add('text-primary', 'border-primary');
+            btn.classList.remove('text-text-secondary', 'border-transparent');
+          } else {
+            btn.classList.remove('text-primary', 'border-primary');
+            btn.classList.add('text-text-secondary', 'border-transparent');
+          }
+        });
+
+        // Update forms
+        formContainers.forEach(container => {
+          if (container.id === targetId) {
+            container.classList.remove('hidden');
+            container.classList.add('block');
+          } else {
+            container.classList.add('hidden');
+            container.classList.remove('block');
+          }
+        });
+      };
+
+      // Tab clicks
+      tabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          switchTab(btn.dataset.target);
+        });
+      });
+
+      // Open Modal Triggers
+      triggerBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const targetTab = btn.dataset.targetTab || 'form-join';
+          switchTab(targetTab);
+          modal.classList.add('modal-open');
+          body.classList.add('modal-open');
+        });
+      });
+
+      // Close Modal
+      closeButton.addEventListener('click', () => {
+        modal.classList.remove('modal-open');
+        body.classList.remove('modal-open');
+      });
+
+      modal.addEventListener('click', (event) => {
+        if (event.target === modal) {
+          modal.classList.remove('modal-open');
+          body.classList.remove('modal-open');
+        }
+      });
+
+      // Handle active role checkbox
+      if (activeRoleCheckbox && volunteerRolesSection) {
+        activeRoleCheckbox.addEventListener('change', () => {
+          if (activeRoleCheckbox.checked) {
+            volunteerRolesSection.classList.remove('hidden');
+          } else {
+            volunteerRolesSection.classList.add('hidden');
+          }
+        });
+      }
+    }
+  });
+</script>
