@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 const globalSettings = await getEntry('settings', 'global');
 import Signup from '../components/Signup.astro';
+import StaffSupport from '../components/StaffSupport.astro';
 import '../styles/global.css';
 
 const { title } = Astro.props;
@@ -21,14 +22,14 @@ const themeClass = globalSettings.data.theme; // Force rebuild
 	<meta name="robots" content="noindex, nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
 
 	<ViewTransitions />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha512-Fo3rlrZj/k7ujTnHg4CGR2D7kSs0v4LLanw2qksYuRlEzO+tcaEPQogQ0KaoGN26/zrn20ImR1DfuLWnOo7aBA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <style is:global>
         :root {
-            --font-sans: 'Inter', sans-serif;
-            --font-serif: 'Poppins', sans-serif;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-serif: 'Playfair Display', serif;
         }
 
         .theme-district-maroon {
@@ -114,6 +115,7 @@ const themeClass = globalSettings.data.theme; // Force rebuild
 	</main>
 	<Footer />
 	<Signup />
+	<StaffSupport />
 
 	<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 	<script is:inline>

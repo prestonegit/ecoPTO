@@ -182,6 +182,27 @@ declare module 'astro:content' {
   collection: "events";
   data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
+"2026-01-03-native-seed-sowing-extravaganza.mdx": {
+	id: "2026-01-03-native-seed-sowing-extravaganza.mdx";
+  slug: "2026-01-03-native-seed-sowing-extravaganza";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2026-01-03-webinar-build-your-best-native-garden.mdx": {
+	id: "2026-01-03-webinar-build-your-best-native-garden.mdx";
+  slug: "2026-01-03-webinar-build-your-best-native-garden";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2026-01-24-ecopto-monthly-meeting.mdx": {
+	id: "2026-01-24-ecopto-monthly-meeting.mdx";
+  slug: "2026-01-24-ecopto-monthly-meeting";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
 };
 "get-involved": {
 "communications-team.md": {
@@ -332,6 +353,15 @@ declare module 'astro:content' {
   body: string;
   collection: "projects";
   data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
+};
+"research": {
+"research.mdx": {
+	id: "research.mdx";
+  slug: "research";
+  body: string;
+  collection: "research";
+  data: InferEntrySchema<"research">
 } & { render(): Render[".mdx"] };
 };
 "transparency": {

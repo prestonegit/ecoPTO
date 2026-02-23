@@ -7,15 +7,24 @@ const { content } = Astro.props;
       <h2 class="text-4xl font-bold text-bg-primary mt-6">{content.contact_title}</h2>
       <p class="mt-4 text-lg text-bg-primary" set:html={content.contact_subtitle}></p>
       <div class="mt-8 space-y-4">
-        <p><strong>Email Us:</strong> {content.contact_email}</p>
+        <p><strong>Email Us:</strong> <a href={`mailto:${content.contact_email}`} class="text-secondary hover:text-white underline">{content.contact_email}</a></p>
       </div>
     </div>
     <div>
       <form name="contact" method="POST" data-netlify="true" class="mt-6 space-y-4">
         <input type="hidden" name="form-name" value="contact" />
-        <input type="text" name="name" placeholder="Name" class="w-full p-3 rounded-md bg-white/10 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" />
-        <input type="email" name="email" placeholder="Email Address" class="w-full p-3 rounded-md bg-white/10 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" />
-        <textarea name="message" rows="5" placeholder="Message" class="w-full p-3 rounded-md bg-white/10 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent"></textarea>
+        <div>
+          <label for="contact-name" class="sr-only">Name</label>
+          <input type="text" id="contact-name" name="name" placeholder="Name" class="w-full p-3 rounded-md bg-white/20 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent placeholder-white text-white font-medium" />
+        </div>
+        <div>
+          <label for="contact-email" class="sr-only">Email Address</label>
+          <input type="email" id="contact-email" name="email" placeholder="Email Address" class="w-full p-3 rounded-md bg-white/20 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent placeholder-white text-white font-medium" />
+        </div>
+        <div>
+          <label for="contact-message" class="sr-only">Message</label>
+          <textarea id="contact-message" name="message" rows="5" placeholder="Message" class="w-full p-3 rounded-md bg-white/20 border border-secondary focus:outline-none focus:ring-2 focus:ring-accent placeholder-white text-white font-medium"></textarea>
+        </div>
         <button type="submit" class="btn-standard btn-secondary-color w-full">
           Send message
         </button>
@@ -25,7 +34,7 @@ const { content } = Astro.props;
 </section>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     const contactJoinUsBtn = document.getElementById('contact-join-us-btn');
     const signupModal = document.getElementById('signup-modal');
 

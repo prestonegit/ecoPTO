@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hopewell Valley ecoPTO | Nurturing Our Future</title>
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <style>
+        :root {
+            /* Earthy, Premium Palette */
+            --forest-dark: #1F3624;
+            --forest-base: #2D4C35;
+            --forest-light: #4A7C59;
+            --sage: #819A80;
+            --sage-light: #E8F0E9;
+            --earth-accent: #C77D4A;
+            --sand: #F7F5F0;
+            --white: #FFFFFF;
+            --text-main: #333333;
+            --text-muted: #666666;
+            
+            /* Typography */
+            --font-display: 'Playfair Display', serif;
+            --font-body: 'Plus Jakarta Sans', sans-serif;
+            
+            /* Layout */
+            --container-w: 1200px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            color: var(--text-main);
+            background-color: var(--sand);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Utility */
+        .container {
+            max-width: var(--container-w);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+        
+        .text-center { text-align: center; }
+        
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            color: var(--forest-dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 3rem auto;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background-color: var(--earth-accent);
+            color: var(--white);
+            box-shadow: 0 4px 14px rgba(199, 125, 74, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: #B36838;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(199, 125, 74, 0.4);
+        }
+
+        .btn-secondary {
+            background-color: var(--white);
+            color: var(--forest-dark);
+            border: 1px solid rgba(45, 76, 53, 0.1);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--forest-light);
+            color: var(--forest-light);
+            transform: translateY(-2px);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 0;
+            background: rgba(247, 245, 240, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(45, 76, 53, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--forest-base);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.2rem;
+        }
+
+        .logo-text {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--forest-dark);
+            letter-spacing: -0.5px;
+        }
+        
+        .logo-text span {
+            color: var(--forest-light);
+            font-style: italic;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--forest-dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-links a:not(.btn)::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--earth-accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:not(.btn):hover {
+            color: var(--earth-accent);
+        }
+        
+        .nav-links a:not(.btn):hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            padding: 12rem 0 8rem 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            background-color: var(--forest-dark);
+            color: var(--white);
+        }
+
+        /* Hero Background Image with Overlay */
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Using a high-quality environmental unsplash image as placeholder */
+            background-image: url('https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=2000&q=80');
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(31, 54, 36, 0.9) 0%, rgba(45, 76, 53, 0.7) 100%);
+            z-index: 1;
+        }
+
+        /* Decorative leaf graphic pattern */
+        .hero-pattern {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background-image: url('data:image/svg+xml;utf8,<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><path d="M20 0c11.046 0 20 8.954 20 20 0 11.046-8.954 20-20 20S0 31.046 0 20C0 8.954 8.954 0 20 0zm0 1c-10.493 0-19 8.507-19 19s8.507 19 19 19 19-8.507 19-19S30.493 1 20 1zm0 4.5A14.5 14.5 0 115.5 20a14.516 14.516 0 0114.5-14.5zM20 6.5A13.5 13.5 0 1033.5 20 13.515 13.515 0 0020 6.5z" fill="rgba(255,255,255,0.03)" fill-rule="evenodd"/></svg>');
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: 4.5rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .hero-title i {
+            font-style: italic;
+            color: var(--sage);
+            font-weight: 400;
+        }
+
+        .hero-desc {
+            font-size: 1.25rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .hero .btn-primary {
+            background-color: var(--earth-accent);
+        }
+
+        .hero .btn-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .hero .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-color: var(--white);
+        }
+
+        /* Pillars Section - Clean, Consolidated Cards */
+        .pillars {
+            padding: 8rem 0;
+            background-color: var(--sand);
+            position: relative;
+        }
+
+        .pillars-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .pillar-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(45, 76, 53, 0.05);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .pillar-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background-color: var(--forest-light);
+            transform: scaleX(0);
+            transition: transform 0.4s ease;
+            transform-origin: left;
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .pillar-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .pillar-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem auto;
+            background: var(--sage-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--forest-base);
+            transition: all 0.4s ease;
+        }
+        
+        .pillar-card:hover .pillar-icon {
+            background: var(--forest-base);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .pillar-title {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            color: var(--forest-dark);
+            margin-bottom: 1rem;
+        }
+
+        .pillar-desc {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            flex-grow: 1; /* Pushes the link to the bottom */
+        }
+
+        .pillar-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--earth-accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: auto; /* Aligns neatly */
+        }
+
+        .pillar-link i {
+            transition: transform 0.3s ease;
+        }
+
+        .pillar-link:hover i {
+            transform: translateX(5px);
+        }
+
+
+        /* Staff Request Section */
+        .staff-support {
+            padding: 8rem 0;
+            background-color: var(--white);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Subtle foliage background pattern */
+        .staff-bg-pattern {
+            position: absolute;
+            top: -10%;
+            right: -5%;
+            width: 50%;
+            height: 120%;
+            background-image: radial-gradient(var(--sage-light) 2px, transparent 2px);
+            background-size: 30px 30px;
+            opacity: 0.5;
+            border-radius: 50%;
+            z-index: 0;
+        }
+
+        .support-container {
+            position: relative;
+            z-index: 10;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 0;
+            background: var(--white);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(45, 76, 53, 0.15);
+            overflow: hidden;
+            border: 1px solid rgba(45, 76, 53, 0.1);
+        }
+
+        .support-info {
+            background: var(--forest-base);
+            color: var(--white);
+            padding: 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .support-info::after {
+            content: '\f51b'; /* fa-graduation-cap */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            bottom: -20px;
+            right: -20px;
+            font-size: 15rem;
+            opacity: 0.05;
+            color: var(--white);
+            z-index: 0;
+        }
+
+        .support-info > * {
+            position: relative;
+            z-index: 1;
+        }
+
+        .support-kicker {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--sage);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .support-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .support-desc {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2.5rem;
+            line-height: 1.7;
+        }
+        
+        .perks-list {
+            list-style: none;
+        }
+        
+        .perks-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .perks-list i {
+            color: var(--earth-accent);
+            margin-top: 3px;
+        }
+
+        .support-form {
+            padding: 4rem;
+            background: var(--white);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-row .form-group {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--forest-dark);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            padding: 1rem 1.25rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--text-main);
+            background: #F8FAFC;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            outline: none;
+            border-color: var(--forest-light);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(74, 124, 89, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .form-submit {
+            width: 100%;
+            padding: 1.25rem;
+            font-size: 1.1rem;
+            margin-top: 1rem;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: var(--forest-dark);
+            color: var(--white);
+            padding: 5rem 0 2rem 0;
+            border-top: 5px solid var(--forest-light);
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+        
+        .footer-desc {
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 1rem;
+            max-width: 400px;
+            font-size: 0.95rem;
+        }
+        
+        .footer h4 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--sage);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 0.75rem;
+        }
+        
+        .footer-links a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-links a:hover {
+            color: var(--earth-accent);
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .hero-title { font-size: 3.5rem; }
+            .pillars-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .support-container { grid-template-columns: 1fr; }
+            .support-info::after { display: none; }
+            .footer-content { grid-template-columns: 1fr; gap: 2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero-title { font-size: 2.75rem; }
+            .hero-actions { flex-direction: column; width: 100%; }
+            .hero .btn { width: 100%; }
+            .form-row { grid-template-columns: 1fr; }
+            .support-info, .support-form { padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <i class="fa-solid fa-leaf"></i>
+                </div>
+                <div class="logo-text">eco<span>PTO</span></div>
+            </a>
+            
+            <div class="nav-links">
+                <a href="/impact">Impact</a>
+                <a href="/research">Research</a>
+                <a href="/events">Events</a>
+                <a href="#staff-support" class="btn btn-primary" style="padding: 0.6rem 1.5rem;">Staff Request</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="hero-overlay"></div>
+        <div class="hero-pattern"></div>
+        
+        <div class="container hero-content">
+            <div class="badge">HVRSD Community</div>
+            <h1 class="hero-title">Nurturing Earth,<br><i>Inspiring Minds.</i></h1>
+            <p class="hero-desc">Connecting families, educators, and students in the Hopewell Valley Regional School District through hands-on environmental education and sustainable school projects.</p>
+            
+            <div class="hero-actions">
+                <a href="/events" class="btn btn-primary">
+                    Join Our Next Event
+                    <i class="fa-solid fa-arrow-right"></i>
+                </a>
+                <a href="/impact" class="btn btn-secondary">
+                    View Our Impact
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Consolidated Pillars Section -->
+    <section class="pillars">
+        <div class="container text-center">
+            <h2 class="section-title">Our Focus Areas</h2>
+            <p class="section-subtitle">We centralize our resources around three core pillars to maximize our positive impact on the schools and the environment.</p>
+            
+            <div class="pillars-grid">
+                <!-- Impact/Projects -->
+                <div class="pillar-card">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-seedling"></i>
+                    </div>
+                    <h3 class="pillar-title">Green Initiatives</h3>
+                    <p class="pillar-desc">Funding and supporting tangilble projects. From school gardens and composting stations to energy-saving programs across HVRSD campuses.</p>
+                    <a href="/impact" class="pillar-link">See Projects <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Events / Volunteer -->
+                <div class="pillar-card">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-hands-holding-circle"></i>
+                    </div>
+                    <h3 class="pillar-title">Community Action</h3>
+                    <p class="pillar-desc">Bringing families together for creek cleanups, green fairs, and outdoor hikes. We believe the best way to learn to care for nature is to be in it.</p>
+                    <a href="/events" class="pillar-link">Get Involved <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+
+                <!-- Research / Education -->
+                <div class="pillar-card">
+                    <div class="pillar-icon">
+                        <i class="fa-solid fa-book-open-reader"></i>
+                    </div>
+                    <h3 class="pillar-title">Eco-Education</h3>
+                    <p class="pillar-desc">Curating powerful literature, scientific resources, and educational materials to empower teachers and inspire young environmental stewards.</p>
+                    <a href="/research" class="pillar-link">Read Research <i class="fa-solid fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HVRSD Staff Request form -->
+    <section id="staff-support" class="staff-support">
+        <div class="staff-bg-pattern"></div>
+        <div class="container">
+            
+            <div class="support-container">
+                
+                <div class="support-info">
+                    <div class="support-kicker">HVRSD Teachers & Staff</div>
+                    <h2 class="support-title">Need a Helping Hand?</h2>
+                    <p class="support-desc">Whether you're organizing a class hike, starting a butterfly garden, or need eco-materials, the PTO community is here to back your classroom initiatives.</p>
+                    
+                    <ul class="perks-list">
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <span>Tap into our network of eager parent volunteers.</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <span>Request micro-funding for green classroom supplies.</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-check"></i>
+                            <span>Get help organizing complex outdoor field trips.</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="support-form">
+                    <h3 class="pillar-title">Submit a Request</h3>
+                    <p style="color: var(--text-muted); margin-bottom: 2rem;">Fill out the details below and a PTO coordinator will be in touch within 48 hours.</p>
+                    
+                    <form onsubmit="event.preventDefault(); alert('Request submitted successfully!');">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">Full Name</label>
+                                <input type="text" class="form-input" placeholder="e.g. Jane Smith" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">HVRSD Email</label>
+                                <input type="email" class="form-input" placeholder="name@hvrsd.org" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label class="form-label">School</label>
+                                <select class="form-select" required>
+                                    <option value="" disabled selected>Select your school...</option>
+                                    <option>Hopewell Elementary</option>
+                                    <option>Bear Tavern Elementary</option>
+                                    <option>Toll Gate Grammar</option>
+                                    <option>Stony Brook Elementary</option>
+                                    <option>Timberlane Middle School</option>
+                                    <option>Central High School</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date Needed</label>
+                                <input type="date" class="form-input" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">How can we support you?</label>
+                            <textarea class="form-textarea" placeholder="E.g., I need 4 parent volunteers to help chaperone a 3rd-grade walking trip to the local creek next Friday..." required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary form-submit">Send Request to PTO</button>
+                    </form>
+                </div>
+                
+            </div>
+            
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div>
+                    <a href="/" class="logo" style="color: white; margin-bottom: 1rem;">
+                        <div class="logo-icon" style="background: white; color: var(--forest-dark);"><i class="fa-solid fa-leaf"></i></div>
+                        <div class="logo-text" style="color: white;">eco<span style="color: var(--sage);">PTO</span></div>
+                    </a>
+                    <p class="footer-desc">Empowering the Hopewell Valley Regional School District community to learn, grow, and thrive sustainably through education and action.</p>
+                </div>
+                
+                <div>
+                    <h4>Navigation</h4>
+                    <ul class="footer-links">
+                        <li><a href="/">Home</a></li>
+                        <li><a href="/impact">Our Impact</a></li>
+                        <li><a href="/events">Events & Volunteering</a></li>
+                        <li><a href="/research">Eco-Research</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4>Contact</h4>
+                    <ul class="footer-links">
+                        <li><a href="mailto:info@ecopto-hv.org"><i class="fa-solid fa-envelope" style="margin-right: 8px;"></i> info@ecopto-hv.org</a></li>
+                        <li style="margin-top: 1rem;">
+                            <a href="#" style="font-size: 1.5rem; margin-right: 1rem;"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="#" style="font-size: 1.5rem;"><i class="fa-brands fa-instagram"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                &copy; <script>document.write(new Date().getFullYear())</script> Hopewell Valley ecoPTO. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple navbar scroll effect
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                nav.style.padding = '1rem 0';
+                nav.style.boxShadow = '0 10px 30px rgba(0,0,0,0.05)';
+            } else {
+                nav.style.padding = '1.5rem 0';
+                nav.style.boxShadow = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

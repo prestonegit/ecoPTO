@@ -110,7 +110,7 @@ const signupContent = await getEntry('signup', 'signup');
 </style>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     const modal = document.getElementById('signup-modal');
     const body = document.body; // Get a reference to the body element
 

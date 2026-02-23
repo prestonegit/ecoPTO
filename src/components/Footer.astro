@@ -5,19 +5,62 @@ import { getEntry } from 'astro:content';
 const year = new Date().getFullYear();
 const globalSettings = await getEntry('settings', 'global');
 ---
-<footer class="bg-theme-primary text-theme-secondary mt-12">
-  <div class="container mx-auto px-4 py-4 text-center">
-    <p class="py-4">&copy; {year} HVRSD ecoPTO</p>
+<footer class="bg-primary text-white py-12 md:py-16 mt-12 border-t-4 border-secondary">
+  <div class="container mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+      <!-- Brand & Mission -->
+      <div>
+        <a href="/" class="flex items-center gap-2 mb-4">
+          <div class="bg-white rounded-full flex items-center justify-center p-1" style="width: 44px; height: 44px;">
+            <img src="/logo-icon.svg" alt="ecoPTO Logo" class="w-full h-full object-contain">
+          </div>
+          <div class="text-2xl font-bold text-white font-sans">
+            eco<span class="text-secondary">PTO</span>
+          </div>
+        </a>
+      </div>
+      
+      <!-- Quick Links -->
+      <div>
+        <h4 class="text-lg font-bold text-secondary mb-6 font-serif">Quick Navigation</h4>
+        <ul class="space-y-3">
+          <li><a href="/" class="text-white hover:text-secondary font-medium transition-colors">Home</a></li>
+          <li><a href="/impact" class="text-white hover:text-secondary font-medium transition-colors">Our Impact</a></li>
+          <li><a href="/events" class="text-white hover:text-secondary font-medium transition-colors">Events & Volunteering</a></li>
+          <li><a href="/research" class="text-white hover:text-secondary font-medium transition-colors">Eco-Research</a></li>
+          <li><a href="/about" class="text-white hover:text-secondary font-medium transition-colors">Leadership</a></li>
+        </ul>
+      </div>
+      
+      <!-- Contact -->
+      <div>
+        <h4 class="text-lg font-bold text-secondary mb-6 font-serif">Contact Us</h4>
+        <ul class="space-y-3">
+          <li>
+            <a href="mailto:ecoptohvrsd@gmail.com" class="text-white hover:text-secondary font-medium transition-colors flex items-center gap-3">
+              <i class="fa-solid fa-envelope w-5 text-center"></i>
+              ecoptohvrsd@gmail.com
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <!-- Bottom Footer (Copyright & Attribution) -->
+    <div class="pt-8 border-t border-white/10 text-center flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-white/50">
+      <p>&copy; {year} Hopewell Valley ecoPTO. All rights reserved.</p>
 
-    {globalSettings.data.attributions && globalSettings.data.attributions.length > 0 && (
-      <div class="mt-4 text-[0.65rem] opacity-70">
-        <p class="mb-1">Attributions:</p>
-        <div class="flex flex-wrap justify-center items-center space-x-2">
-          {globalSettings.data.attributions.map(attr => (
-            <a href={attr.url} title={attr.text} class="hover:underline" target="_blank" rel="noopener noreferrer">{attr.text}</a>
+      {globalSettings.data.attributions && globalSettings.data.attributions.length > 0 && (
+        <div class="flex flex-wrap text-xs justify-center items-center gap-x-2 gap-y-1">
+          <span>Design attributions:</span>
+          {globalSettings.data.attributions.map((attr, index) => (
+            <>
+              <a href={attr.url} title={attr.text} class="text-white hover:text-secondary underline transition-colors" target="_blank" rel="noopener noreferrer">{attr.text}</a>
+              {index < globalSettings.data.attributions.length - 1 && <span class="opacity-50 text-white">|</span>}
+            </>
           ))}
         </div>
-      </div>
-    )}
+      )}
+    </div>
   </div>
 </footer>

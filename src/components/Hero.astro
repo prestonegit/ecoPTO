@@ -14,9 +14,12 @@ const { content } = Astro.props;
       <p class="mt-6 text-lg text-bg-primary">
         {content.hero_subtitle}
       </p>
-      <div class="mt-8 flex justify-center md:justify-start">
+      <div class="mt-8 flex flex-col sm:flex-row justify-center md:justify-start gap-4">
         <button id="join-us-hero-btn" class="btn-standard btn-secondary-color">
           {content.hero_button_text}
+        </button>
+        <button id="staff-support-hero-btn" class="btn-standard !border-2 !border-bg-primary text-bg-primary hover:bg-bg-primary hover:text-primary transition-colors">
+          HVRSD Staff Request
         </button>
       </div>
     </div>

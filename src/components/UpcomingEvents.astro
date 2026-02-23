@@ -1,13 +1,12 @@
 ---
 import { getCollection } from 'astro:content';
-import GetInvolvedCard from './GetInvolvedCard.astro'; // Import VolunteerOpportunityCard
+
 import EventDate from './EventDate.astro';
 
 // Fetch all events
 const allEvents = await getCollection('events');
 
-// Fetch volunteer opportunities
-const getInvolved = await getCollection('get-involved');
+
 
 // Filter for upcoming events and sort them by date
 const today = new Date();
@@ -77,66 +76,6 @@ const { content } = Astro.props;
         </a>
       </div>
 
-    {/* Community Impact and Research Section */}
-    <div class="mt-20">
-      <h3 class="text-3xl font-bold text-primary mb-8">Community Impact and Research</h3>
-      <div class="py-12 bg-bg-secondary rounded-xl">
-        <div class="grid md:grid-cols-2 gap-8 px-8">
-          
-          {/* Projects */}
-          <div class="text-center border-b md:border-b-0 md:border-r border-gray-300 pb-8 md:pb-0 md:pr-8">
-            <p class="text-lg text-text-secondary mb-8 max-w-sm mx-auto">
-              Discover the projects that have made a difference in our schools and community.
-            </p>
-            <a href="/impact" class="btn-standard btn-primary-color">
-              View Past Projects
-            </a>
-          </div>
 
-          {/* Research */}
-          <div class="text-center pt-8 md:pt-0 md:pl-8">
-            <p class="text-lg text-text-secondary mb-8 max-w-sm mx-auto">
-              Explore our collection of peer-reviewed research and books that inspire our work.
-            </p>
-            <a href="/research" class="btn-standard btn-primary-color">
-              Curated Literature
-            </a>
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    {/* Volunteer Opportunities Section */}
-    <div class="mt-20">
-      <h3 class="text-3xl font-bold text-primary mb-8">{content.volunteer_section_title}</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {getInvolved.length > 0 ? (
-          getInvolved.map(opportunity => (
-            <GetInvolvedCard opportunity={opportunity} />
-          ))
-        ) : (
-          <p class="text-text-secondary">No ways to get involved available at the moment. Check back soon!</p>
-        )}
-      </div>
-      <div class="mt-12 text-center">
-        <button id="signup-button-events-section" class="btn-standard btn-primary-color">
-          Sign up here
-        </button>
-      </div>
-
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const signupButton = document.getElementById('signup-button-events-section');
-    const signupModal = document.getElementById('signup-modal');
-
-    if (signupButton && signupModal) {
-      signupButton.addEventListener('click', () => {
-        signupModal.classList.add('modal-open');
-      });
-    }
-  });
-</script>
-    </div>
   </div>
 </section>

@@ -2,15 +2,25 @@
 import globalSettings from '../content/settings/global.json';
 ---
 <header class="bg-bg-primary backdrop-blur-md sticky top-0 z-50 border-b border-bg-secondary">
-    <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
-    <div>
-      <a href="/" class="text-xl sm:text-2xl font-bold text-primary">
-        <img src="/logo-icon.svg" alt="ecoPTO Logo" class="h-8 sm:h-10 w-auto inline-block mr-2">eco<span class="text-secondary">PTO</span>
-      </a>
+  <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
+    
+    <a href="/" class="flex items-center gap-2 text-xl sm:text-2xl font-bold text-primary mr-8 z-50">
+      <img src="/logo-icon.svg" alt="ecoPTO Logo" class="h-8 sm:h-10 w-auto inline-block">
+      <div>eco<span class="text-secondary">PTO</span></div>
+    </a>
+    
+    <div class="hidden md:flex flex-grow justify-center gap-8 items-center z-50">
+      <a href="/impact" class="text-sm font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Impact</a>
+      <a href="/research" class="text-sm font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Literature</a>
+      <a href="/events" class="text-sm font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Events</a>
+      <a href="/about" class="text-sm font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Leadership</a>
     </div>
     
-    <div>
-      <button id="join-us-header-btn" class="btn-standard btn-bg-primary-color px-4 py-1 sm:px-5 sm:py-2 rounded-full">
+    <div class="flex items-center gap-3 ml-auto z-50">
+      <button id="staff-support-header-btn" class="btn-standard !border-2 !border-primary text-primary hover:bg-primary hover:text-white px-4 py-1 sm:px-5 sm:py-2 flex items-center justify-center rounded-full hidden sm:flex">
+        HVRSD STAFF REQUEST
+      </button>
+      <button id="join-us-header-btn" class="btn-standard btn-bg-primary-color px-4 py-1 sm:px-5 sm:py-2 flex items-center justify-center rounded-full">
         JOIN US
       </button>
     </div>
@@ -18,13 +28,24 @@ import globalSettings from '../content/settings/global.json';
 </header>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('astro:page-load', () => {
     const joinUsBtn = document.getElementById('join-us-header-btn');
     const signupModal = document.getElementById('signup-modal');
+    
+    const staffBtn = document.getElementById('staff-support-header-btn');
+    const staffModal = document.getElementById('staff-support-modal');
 
     if (joinUsBtn && signupModal) {
       joinUsBtn.addEventListener('click', () => {
         signupModal.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+      });
+    }
+
+    if (staffBtn && staffModal) {
+      staffBtn.addEventListener('click', () => {
+        staffModal.classList.add('modal-open');
+        document.body.classList.add('modal-open');
       });
     }
   });
