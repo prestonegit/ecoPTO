@@ -16,8 +16,8 @@ const upcomingEvents = allEvents
   .filter(event => new Date(event.data.eventDate) >= today)
   .sort((a, b) => new Date(a.data.eventDate).getTime() - new Date(b.data.eventDate).getTime());
 
-// Take only the next 2 upcoming events
-const eventsToShow = upcomingEvents.slice(0, 2);
+// Take only the next 4 upcoming events
+const eventsToShow = upcomingEvents.slice(0, 4);
 
 const { content } = Astro.props;
 ---

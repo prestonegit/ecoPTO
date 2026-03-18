@@ -203,6 +203,13 @@ declare module 'astro:content' {
   collection: "events";
   data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
+"2026-03-07-hvrsd-ecopto-potluck.mdx": {
+	id: "2026-03-07-hvrsd-ecopto-potluck.mdx";
+  slug: "2026-03-07-hvrsd-ecopto-potluck";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
 };
 "get-involved": {
 "communications-team.md": {

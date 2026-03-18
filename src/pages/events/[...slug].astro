@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+import { marked } from 'marked';
 import Layout from '../../layouts/Layout.astro';
 import EventDate from '../../components/EventDate.astro';
 
@@ -19,6 +20,8 @@ if (event.data.externalUrl) {
 }
 
 const { Content } = await event.render();
+const descriptionHTML = event.data.description ? marked.parse(event.data.description) : null;
+const cardDescriptionHTML = event.data.cardDescription ? marked.parse(event.data.cardDescription) : null;
 ---
 
 <Layout title={event.data.title}>
@@ -53,6 +56,8 @@ const { Content } = await event.render();
 
   <section class="py-12 sm:py-16">
     <div class="container mx-auto px-6 max-w-3xl prose prose-lg mx-auto">
+      {descriptionHTML && <div set:html={descriptionHTML} />}
+      {(!descriptionHTML && !event.body?.trim()) && cardDescriptionHTML && <div set:html={cardDescriptionHTML} />}
       <Content />
     </div>
   </section>
