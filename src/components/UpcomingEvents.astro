@@ -21,15 +21,16 @@ const eventsToShow = upcomingEvents.slice(0, 4);
 
 const { content } = Astro.props;
 ---
-<section id="events" class="py-20 bg-secondary">
+<section id="events" class="py-24 bg-secondary overflow-hidden">
   <div class="container mx-auto px-6">
-    <h2 class="text-4xl font-bold text-primary text-center">{content.events_title}</h2>
-    <p class="mt-4 text-lg text-text-secondary text-center max-w-3xl mx-auto">
-      {content.events_subtitle}
-    </p>
-    <div class="mt-12">
-      <h3 class="text-3xl font-bold text-primary mb-8">{content.events_section_title}</h3>
-      <div class="grid md:grid-cols-2 gap-8">
+    <div class="animate-on-scroll">
+      <h2 class="text-4xl md:text-5xl font-medium text-primary text-center">{content.events_title}</h2>
+      <p class="mt-4 text-xl text-text-secondary text-center max-w-3xl mx-auto">
+        {content.events_subtitle}
+      </p>
+    </div>
+    <div class="mt-16 animate-on-scroll stagger-1">
+      <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
         {eventsToShow.length > 0 ? (
           eventsToShow.map(event => (
             <a href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`} target={event.data.externalUrl ? '_blank' : '_self'} class="flex flex-col rounded-xl shadow-sm overflow-hidden group bg-bg-primary">
@@ -43,11 +44,12 @@ const { content } = Astro.props;
                   </div>
                 </div>
                 {event.data.image && (
-                  <div class="md:w-1/2 overflow-hidden">
+                  <div class="md:w-1/2 overflow-hidden aspect-[4/3] md:aspect-auto md:min-h-[250px]">
                     <img
                       src={event.data.image}
                       alt={event.data.title}
-                      class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
+                      class="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-105"
                     />
                   </div>
                 )}
@@ -56,7 +58,7 @@ const { content } = Astro.props;
           ))
         ) : (
           <div class="col-span-full text-center py-12 bg-bg-primary rounded-xl shadow-sm border-2 border-dashed border-secondary/30">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-secondary mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-secondary mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <p class="text-xl text-primary font-semibold mb-2">No upcoming events scheduled at the moment.</p>

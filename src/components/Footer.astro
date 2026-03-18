@@ -5,10 +5,7 @@ import { getEntry } from 'astro:content';
 const year = new Date().getFullYear();
 const globalSettings = await getEntry('settings', 'global');
 ---
-<footer class="bg-primary text-white py-12 md:py-16 border-t-4 border-secondary relative">
-  <!-- Overlay to darken the footer's theme dynamically against the contact block -->
-  <div class="absolute inset-0 bg-black/15 pointer-events-none z-0"></div>
-  
+<footer class="bg-[rgba(0,0,0,0.15)] text-white py-12 md:py-16 border-t-4 border-secondary relative mix-blend-multiply">
   <div class="container mx-auto px-6 relative z-10">
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
       <!-- Brand & Mission -->
@@ -39,7 +36,7 @@ const globalSettings = await getEntry('settings', 'global');
         <ul class="space-y-3">
           <li>
             <a href="mailto:ecoptohvrsd@gmail.com" class="text-white hover:text-secondary font-medium transition-colors flex items-center gap-3">
-              <i class="fa-solid fa-envelope w-5 text-center"></i>
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
               ecoptohvrsd@gmail.com
             </a>
           </li>

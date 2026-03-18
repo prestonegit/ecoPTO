@@ -1,22 +1,22 @@
 ---
 const { content } = Astro.props;
 ---
-<section id="mission" class="py-20 bg-bg-secondary">
+<section id="mission" class="py-24 bg-bg-secondary overflow-hidden">
   <div class="container mx-auto px-6">
-    <h2 class="text-4xl font-bold text-primary mb-6">{content.mission_title}</h2>
-    <p class="text-lg text-text-secondary mb-12">
-      {content.mission_subtitle}
-    </p>
-    <div class="grid md:grid-cols-3 gap-8">
-        {content.mission_items.map((item) => (
-          <div class="bg-bg-primary p-8 rounded-xl shadow-sm flex flex-col items-center">
-            <div class="w-24 h-24 flex items-center justify-center mb-6">
-              <img src={item.icon} alt={item.title + " Icon"} class="w-20 h-20" />
+    <div class="max-w-3xl animate-on-scroll">
+      <h2 class="text-5xl font-medium text-primary mb-6">{content.mission_title}</h2>
+      <p class="text-xl text-text-secondary leading-relaxed mb-16">
+        {content.mission_subtitle}
+      </p>
+    </div>
+    <div class="grid md:grid-cols-3 gap-12 lg:gap-16">
+        {content.mission_items.map((item, index) => (
+          <div class={`flex flex-col animate-on-scroll stagger-${index % 4 + 1}`}>
+            <div class="w-20 h-20 flex items-center justify-center mb-6 bg-white rounded-full shadow-sm border border-secondary/20 p-4">
+              <img src={item.icon} alt={item.title + " Icon"} class="w-full h-full object-contain" loading="lazy" />
             </div>
-            <div class="h-[3rem] flex items-center justify-center">
-              <h3 class="text-2xl font-bold text-primary text-center">{item.title}</h3>
-            </div>
-            <p class="mt-4 text-text-secondary">
+            <h3 class="text-2xl font-bold text-primary mb-3">{item.title}</h3>
+            <p class="text-text-secondary leading-relaxed">
               {item.text}
             </p>
           </div>

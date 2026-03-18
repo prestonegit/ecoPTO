@@ -14,7 +14,7 @@ import globalSettings from '../content/settings/global.json';
       <a href="/events" class="text-sm font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Events</a>
       <a href="/impact" class="text-sm font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Impact</a>
       <a href="/research" class="text-sm font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Literature</a>
-      <a href="/donate" class="text-sm font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">Donate</a>
+      <a href="/donate" class="text-sm font-bold border-2 border-accent text-accent hover:bg-accent hover:text-white px-4 py-1.5 rounded-full transition-colors uppercase tracking-wider">Donate</a>
     </div>
     
     <!-- Mobile Hamburger and single GET INVOLVED button -->
@@ -47,7 +47,7 @@ import globalSettings from '../content/settings/global.json';
       <a href="/events" class="text-base font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Events</a>
       <a href="/impact" class="text-base font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Impact</a>
       <a href="/research" class="text-base font-bold text-text-primary hover:text-primary transition-colors uppercase tracking-wider">Literature</a>
-      <a href="/donate" class="text-base font-bold text-primary hover:text-secondary transition-colors uppercase tracking-wider">Donate</a>
+      <a href="/donate" class="text-base font-bold text-center border-2 border-accent text-accent hover:bg-accent hover:text-white py-2 mt-2 rounded-full transition-colors uppercase tracking-wider">Donate</a>
     </div>
   </div>
 </header>
@@ -59,12 +59,29 @@ import globalSettings from '../content/settings/global.json';
     const mobileMenuIcon = document.getElementById('mobile-menu-icon');
 
     if (mobileMenuBtn && mobileMenu) {
-      mobileMenuBtn.addEventListener('click', () => {
+      const toggleMenu = () => {
         mobileMenu.classList.toggle('hidden');
         if (mobileMenu.classList.contains('hidden')) {
           mobileMenuIcon.setAttribute('d', 'M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z'); // Hamburger
         } else {
           mobileMenuIcon.setAttribute('d', 'M18.278 16.864a1 1 0 0 1-1.414 1.414l-4.829-4.828-4.828 4.828a1 1 0 0 1-1.414-1.414l4.828-4.829-4.828-4.828a1 1 0 0 1 1.414-1.414l4.829 4.828 4.828-4.828a1 1 0 1 1 1.414 1.414l-4.828 4.829 4.828 4.828z'); // Close icon
+        }
+      };
+
+      mobileMenuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMenu();
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', (event) => {
+        if (!mobileMenu.classList.contains('hidden')) {
+          const isClickInsideMenu = mobileMenu.contains(event.target);
+          const isClickOnToggle = mobileMenuBtn.contains(event.target);
+          
+          if (!isClickInsideMenu && !isClickOnToggle) {
+            toggleMenu();
+          }
         }
       });
     }
