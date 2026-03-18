@@ -210,6 +210,13 @@ declare module 'astro:content' {
   collection: "events";
   data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
+"2026-03-15-family-hike.mdx": {
+	id: "2026-03-15-family-hike.mdx";
+  slug: "2026-03-15-family-hike";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
 };
 "get-involved": {
 "communications-team.md": {
