@@ -17,3 +17,22 @@
 .stagger-2 { transition-delay: 200ms; }
 .stagger-3 { transition-delay: 300ms; }
 .stagger-4 { transition-delay: 400ms; }
+
+/* Delight: Organic Hover Sway */
+@keyframes gentle-sway {
+  0% { transform: rotate(0deg) scale(1.02); }
+  25% { transform: rotate(4deg) scale(1.02); }
+  50% { transform: rotate(0deg) scale(1.02); }
+  75% { transform: rotate(-4deg) scale(1.02); }
+  100% { transform: rotate(0deg) scale(1.02); }
+}
+
+.hover-sway {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center bottom;
+}
+
+.hover-sway:hover {
+  animation: gentle-sway 3s ease-in-out infinite;
+  cursor: pointer;
+}

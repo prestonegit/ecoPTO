@@ -4,11 +4,31 @@
 
 /* Custom Button Styles */
 .btn-standard {
-  @apply inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+  @apply inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
 
 .btn-standard:hover {
-  @apply shadow-lg scale-105;
+  @apply shadow-md;
+  transform: translateY(-2px) scale(1.02);
+}
+
+.btn-standard:active {
+  @apply shadow-sm;
+  transform: translateY(1px) scale(0.98);
+  transition: transform 0.1s ease;
+}
+
+/* Generic tactile spring utility for non-standard buttons */
+.hover-spring {
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background-color 0.2s ease, color 0.2s ease;
+}
+.hover-spring:hover {
+  transform: translateY(-2px) scale(1.02);
+}
+.hover-spring:active {
+  transform: translateY(1px) scale(0.98);
+  transition: transform 0.1s ease;
 }
 
 /* Specific button color variants */

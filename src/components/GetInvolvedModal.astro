@@ -9,9 +9,21 @@ const signupContent = await getEntry('signup', 'signup');
     <button class="btn-close-modal absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold" aria-label="Close modal">&times;</button>
     
     <!-- Tabs -->
-    <div class="flex border-b border-gray-200 mb-6">
+    <div id="modal-tabs" class="flex border-b border-gray-200 mb-6">
       <button id="tab-join" class="tab-btn flex-1 py-2 text-center text-primary font-bold border-b-2 border-primary transition-colors" data-target="form-join">Join Us</button>
       <button id="tab-staff" class="tab-btn flex-1 py-2 text-center text-text-secondary font-bold border-b-2 border-transparent hover:text-primary transition-colors" data-target="form-staff">Help Request Form</button>
+    </div>
+    
+    <!-- Impeccable Delight: Success Feedback -->
+    <div id="form-success-feedback" class="hidden flex-col items-center justify-center text-center py-8">
+      <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mb-6 text-primary hover-sway">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 animate-pulse" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+        </svg>
+      </div>
+      <h3 class="font-bold text-3xl text-primary mb-3">Thanks for planting a seed!</h3>
+      <p class="text-text-secondary text-lg">Your message has taken root. A member of our community team will reach out to you soon.</p>
+      <button class="btn-close-modal-alt btn-standard btn-bg-primary-color mt-8 px-8 py-3 rounded-full hover-spring text-sm">CLOSE WINDOW</button>
     </div>
 
     <!-- Join Us Form -->
@@ -230,17 +242,62 @@ const signupContent = await getEntry('signup', 'signup');
         });
       });
 
-      // Close Modal
-      closeButton.addEventListener('click', () => {
+      // Close Modal Function
+      const closeModal = () => {
         modal.classList.remove('modal-open');
         body.classList.remove('modal-open');
-      });
+      };
+
+      closeButton.addEventListener('click', closeModal);
+      
+      const altCloseButton = modal.querySelector('.btn-close-modal-alt');
+      if (altCloseButton) {
+        altCloseButton.addEventListener('click', closeModal);
+      }
 
       modal.addEventListener('click', (event) => {
         if (event.target === modal) {
-          modal.classList.remove('modal-open');
-          body.classList.remove('modal-open');
+          closeModal();
         }
+      });
+      
+      // Delight: Handle form submissions via AJAX
+      const forms = modal.querySelectorAll('form');
+      const successFeedback = document.getElementById('form-success-feedback');
+      const modalTabs = document.getElementById('modal-tabs');
+      
+      forms.forEach(form => {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+          
+          // Change button to loading state
+          const submitBtn = form.querySelector('button[type="submit"]');
+          const originalText = submitBtn.innerText;
+          submitBtn.innerText = "SENDING...";
+          submitBtn.disabled = true;
+          
+          const formData = new FormData(form);
+          
+          fetch('/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            // @ts-ignore - FormData to URLSearchParams is broadly supported but TS complains
+            body: new URLSearchParams(formData).toString()
+          }).then(() => {
+            formContainers.forEach(c => {
+              c.classList.remove('block');
+              c.classList.add('hidden');
+            });
+            if (modalTabs) modalTabs.classList.add('hidden');
+            
+            successFeedback.classList.remove('hidden');
+            successFeedback.classList.add('flex');
+          }).catch(error => {
+            alert('Something went wrong. Please try again or email us directly.');
+            submitBtn.innerText = originalText;
+            submitBtn.disabled = false;
+          });
+        });
       });
 
       // Handle active role checkbox
