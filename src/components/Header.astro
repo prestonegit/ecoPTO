@@ -17,12 +17,12 @@ import globalSettings from '../content/settings/global.json';
       <a href="/donate" class="text-sm font-bold border-2 border-accent text-accent hover:bg-accent hover:text-white px-5 py-2 mt-[-0.25rem] rounded-full transition-colors">Donate</a>
     </div>
     
-    <!-- Mobile Hamburger and single GET INVOLVED button -->
-    <div class="flex md:hidden items-center gap-2 z-50 ml-auto">
-      <button class="get-involved-trigger btn-standard btn-bg-primary-color px-4 py-1 flex items-center justify-center rounded-full text-sm font-bold" data-target-tab="form-join">
-        GET INVOLVED
+    <!-- Mobile Hamburger and single Join Us button -->
+    <div class="flex md:hidden items-center gap-3 z-50 ml-auto">
+      <button class="get-involved-trigger bg-primary text-white hover:bg-secondary hover:text-primary px-5 py-1.5 flex items-center justify-center rounded-full text-sm font-bold transition-colors" data-target-tab="form-join">
+        Join Us
       </button>
-      <button id="mobile-menu-btn" class="text-primary hover:text-secondary focus:outline-none p-2 ml-1">
+      <button id="mobile-menu-btn" class="text-primary hover:text-secondary focus:outline-none p-1 ml-1">
         <svg class="h-8 w-8 fill-current" viewBox="0 0 24 24">
           <path id="mobile-menu-icon" fill-rule="evenodd" d="M4 5h16a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2zm0 6h16a1 1 0 0 1 0 2H4a1 1 0 0 1 0-2z"/>
         </svg>
@@ -30,12 +30,12 @@ import globalSettings from '../content/settings/global.json';
     </div>
 
     <!-- Desktop Buttons -->
-    <div class="hidden md:flex items-center gap-3 ml-auto z-50">
-      <button class="get-involved-trigger btn-standard !border-2 !border-primary text-primary hover:bg-primary hover:text-white px-5 py-2 flex items-center justify-center rounded-full" data-target-tab="form-staff">
-        HELP REQUEST FORM
+    <div class="hidden md:flex items-center gap-6 ml-auto z-50 border-l border-gray-200 pl-6">
+      <button class="get-involved-trigger text-sm font-bold text-text-primary hover:text-primary transition-colors flex items-center" data-target-tab="form-staff">
+        Staff Support
       </button>
-      <button class="get-involved-trigger btn-standard btn-bg-primary-color px-5 py-2 flex items-center justify-center rounded-full" data-target-tab="form-join">
-        JOIN US
+      <button class="get-involved-trigger text-sm font-bold bg-primary text-white hover:bg-secondary hover:text-primary px-6 py-2 rounded-full transition-colors shadow-sm" data-target-tab="form-join">
+        Join Us
       </button>
     </div>
   </nav>
