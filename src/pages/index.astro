@@ -13,6 +13,15 @@ const homeContent = await getEntry('homepage', 'home');
 ---
 <Layout title="Home | Hopewell Valley ecoPTO">
   <Hero content={homeContent.data} />
+  
+  <div class="bg-bg-primary py-16 md:py-20 border-b border-secondary/10 overflow-hidden relative">
+    <div class="container mx-auto px-6 text-center animate-on-scroll">
+      <p class="text-2xl md:text-3xl lg:text-4xl font-medium text-primary max-w-4xl mx-auto leading-relaxed">
+        Empowering Hopewell Valley families and students through sustainable initiatives, active community education, and progressive environmental action.
+      </p>
+    </div>
+  </div>
+
   <UpcomingEvents content={homeContent.data} />
   <Mission content={homeContent.data} />
 
