@@ -59,7 +59,7 @@ const cardDescriptionHTML = event.data.cardDescription ? marked.parse(event.data
               href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.data.title)}&dates=${new Date(event.data.eventDate).toISOString().slice(0,10).replace(/-/g,"")}/${new Date(new Date(event.data.eventDate).setDate(new Date(event.data.eventDate).getDate() + 1)).toISOString().slice(0,10).replace(/-/g,"")}&details=${encodeURIComponent(event.data.description)}&location=${encodeURIComponent(event.data.location)}`}
               target="_blank"
               rel="noopener noreferrer"
-              class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-accent hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-accent transition-colors duration-200"
+              class="btn-standard btn-secondary-color rounded-md"
             >
               <i class="fas fa-calendar-plus mr-2"></i> Add to Calendar
             </a>
