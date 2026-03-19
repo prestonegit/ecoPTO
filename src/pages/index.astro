@@ -19,6 +19,11 @@ const homeContent = await getEntry('homepage', 'home');
       <p class="text-2xl md:text-3xl lg:text-4xl font-medium text-primary max-w-4xl mx-auto leading-relaxed">
         We envision our youth boldly reshaping the culture and physical landscape of Hopewell Valley, New Jersey, and the planet — for the betterment of all living things.
       </p>
+      <div class="mt-10 md:mt-12 flex justify-center">
+        <button id="join-us-hero-btn" class="get-involved-trigger btn-standard btn-secondary-color px-8 py-3.5 shadow-md font-semibold text-lg" data-target-tab="form-join">
+          {homeContent.data.hero_button_text}
+        </button>
+      </div>
     </div>
   </div>
 

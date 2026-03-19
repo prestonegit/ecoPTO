@@ -3,27 +3,19 @@ const { content } = Astro.props;
 ---
 
 <section id="home" class="bg-primary text-text-primary">
-  <div class="container mx-auto px-6 grid md:grid-cols-2 gap-12 items-center text-center md:text-left" style="padding-top: 2rem !important; padding-bottom: 2rem !important;">
-    <div class="md:order-1 animate-on-scroll">
-      <h1 class="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[4rem] xl:text-[4.5rem] font-medium leading-[1.1] text-secondary tracking-tight xl:whitespace-nowrap">
+  <div class="container mx-auto px-6 flex flex-col items-center justify-center text-center py-12 md:py-20">
+    <div class="animate-on-scroll flex flex-col items-center">
+      <h1 class="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[4rem] xl:text-[4.5rem] font-medium leading-[1.1] text-secondary tracking-tight">
         {content.hero_title}
       </h1>
-      <div class="my-8 flex justify-center md:justify-start md:hidden">
-        <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-40 h-auto opacity-90 hover-sway">
+      <div class="my-10 flex justify-center">
+        <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-48 md:w-64 lg:w-72 h-auto opacity-95 hover-sway">
       </div>
       {content.hero_subtitle && content.hero_subtitle.trim() !== '' && (
-        <p class="mt-6 text-xl text-bg-primary leading-relaxed opacity-95">
+        <p class="mt-6 text-xl text-bg-primary leading-relaxed opacity-95 max-w-3xl mx-auto">
           {content.hero_subtitle}
         </p>
       )}
-      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center md:justify-start gap-8">
-        <button id="join-us-hero-btn" class="get-involved-trigger btn-standard btn-secondary-color px-8 py-3.5 shadow-md font-semibold" data-target-tab="form-join">
-          {content.hero_button_text}
-        </button>
-      </div>
-    </div>
-    <div class="hidden md:flex md:order-2 items-center justify-center animate-on-scroll stagger-2">
-      <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-full max-w-md h-auto opacity-95 hover-sway">
     </div>
   </div>
 </section>
