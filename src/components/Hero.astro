@@ -16,16 +16,21 @@ const { content } = Astro.props;
           {content.hero_subtitle}
         </p>
       )}
-      <div class="mt-8 flex justify-center md:justify-start w-full">
-        <button id="join-us-hero-btn" class="get-involved-trigger btn-standard btn-secondary-color px-8 py-3.5 shadow-md font-semibold text-lg transition-transform hover:scale-105" data-target-tab="form-join">
+      <div class="mt-8 hidden md:flex justify-center md:justify-start w-full">
+        <button class="get-involved-trigger btn-standard btn-secondary-color px-8 py-3.5 shadow-md font-semibold text-lg transition-transform hover:scale-105" data-target-tab="form-join">
           {content.hero_button_text}
         </button>
       </div>
     </div>
-    <div class="md:order-2 mt-6 md:mt-0 flex justify-center items-center animate-on-scroll stagger-1">
+    <div class="md:order-2 mt-6 md:mt-0 flex flex-col justify-center items-center animate-on-scroll stagger-1">
       <button class="get-involved-trigger bg-transparent border-none p-0 m-0 cursor-pointer appearance-none outline-none focus:ring-4 focus:ring-secondary/30 rounded-full transition-transform hover:scale-[1.02]" data-target-tab="form-join" aria-label="Open sign up form">
         <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-56 md:w-72 lg:w-80 h-auto opacity-100 hover-sway drop-shadow-md">
       </button>
+      <div class="mt-8 flex md:hidden justify-center w-full">
+        <button class="get-involved-trigger btn-standard btn-secondary-color px-8 py-3.5 shadow-md font-semibold text-lg transition-transform hover:scale-105" data-target-tab="form-join">
+          {content.hero_button_text}
+        </button>
+      </div>
     </div>
   </div>
 </section>
