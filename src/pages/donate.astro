@@ -3,22 +3,29 @@ import Layout from '../layouts/Layout.astro';
 import DonateButton from '../components/DonateButton.astro';
 ---
 <Layout title="Donate | Hopewell Valley ecoPTO">
-  <div class="container mx-auto px-6 py-16 md:py-24 max-w-4xl">
-    <div class="text-center mb-12">
-      <h1 class="text-4xl md:text-5xl font-bold mb-6">Support Our Mission</h1>
-      <p class="text-lg md:text-xl text-[var(--text-secondary)] max-w-2xl mx-auto">
-        Your contributions help us fund teacher grants, educational events, and community sustainability initiatives. 
+  <div class="container mx-auto px-6 py-20 md:py-28 max-w-4xl relative">
+    <!-- Decorative background elements -->
+    <div class="absolute top-10 left-10 w-64 h-64 bg-primary opacity-5 rounded-full blur-3xl pointer-events-none"></div>
+    
+    <div class="text-center mb-16 relative z-10">
+      <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-primary tracking-tight">Plant a Seed for the <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary to-green-500">Future</span></h1>
+      <p class="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+        Your contributions water the roots of our community, helping us fund teacher grants, educational events, and sustainability initiatives across Hopewell Valley.
       </p>
     </div>
 
-    <div class="bg-[var(--bg-secondary)] rounded-2xl p-8 md:p-12 border border-gray-100 flex flex-col items-center text-center shadow-sm">
-      <DonateButton />
+    <div class="bg-white rounded-[2.5rem] p-8 md:p-16 border border-gray-100 flex flex-col items-center text-center shadow-xl shadow-gray-200/50 relative z-10 overflow-hidden group">
+      <!-- Subtle top inner shadow/border effect -->
+      <div class="absolute top-0 inset-x-0 h-2 bg-gradient-to-r from-primary to-green-400"></div>
+      <div class="transform transition-transform duration-500 group-hover:scale-105">
+        <DonateButton />
+      </div>
       
-      <p class="mt-8 text-[var(--text-primary)] max-w-lg">
-        Every little bit helps! Use the button above to complete a secure donation through PayPal. You can use your PayPal account or a major credit card.
+      <p class="mt-8 text-text-primary text-lg max-w-lg font-medium">
+        Every seed counts! Use the button above to make a secure donation. You're helping us grow something beautiful.
       </p>
       
-      <div class="mt-10 text-sm text-[var(--text-secondary)] border-t border-gray-200 pt-6 px-4">
+      <div class="mt-12 text-sm text-text-secondary border-t border-gray-100 pt-8 px-4 w-full">
         <p><strong>Tax Deductibility Notice:</strong> We are a registered 501(c)(3) non-profit organization. Your donation is tax-deductible to the extent permitted by law. Please retain your PayPal receipt for your tax records.</p>
       </div>
     </div>

@@ -18,20 +18,26 @@ const leadership = leadershipUnordered.sort((a, b) => (a.data.order || 0) - (b.d
 const historyHtml = aboutContent?.data.history_content ? marked.parse(aboutContent.data.history_content) : '';
 ---
 <Layout title="Leadership">
-  <section class="py-20 bg-bg-primary text-secondary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-8 text-center">Our Leaders</h2>
+  <section class="py-24 bg-bg-primary text-secondary relative overflow-hidden">
+    <!-- Subtle background accent -->
+    <div class="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-primary opacity-5 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="container mx-auto px-6 relative z-10">
+      <div class="mb-16 max-w-4xl mx-auto text-center">
+        <h1 class="text-5xl md:text-6xl font-extrabold mb-6 text-primary leading-tight">The Roots of Our Community</h1>
+        <p class="text-xl text-text-secondary leading-relaxed mx-auto">Meet the dedicated parents, teachers, and volunteers working together to cultivate a greener Hopewell Valley.</p>
+      </div>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {leadership.map(leader => {
           const bioHtml = leader.data.bio ? marked.parse(leader.data.bio) : '';
           return (
-            <div class="bg-secondary rounded-lg shadow-lg p-8 text-primary flex flex-col items-center">
-              <img class="w-32 h-32 rounded-full mb-4 object-cover" src={leader.data.image} alt={leader.data.name} />
-              <h3 class="text-xl font-bold text-center mb-1">{leader.data.name}</h3>
-              <p class="text-center text-sm font-medium opacity-80 mb-4">{leader.data.title}</p>
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 flex flex-col items-center hover-spring relative overflow-hidden group">
+              <div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none"></div>
+              <img class="w-32 h-32 rounded-full mb-6 object-cover shadow-inner border-4 border-bg-primary z-10" src={leader.data.image} alt={leader.data.name} />
+              <h3 class="text-xl font-bold text-center mb-1 text-primary z-10">{leader.data.name}</h3>
+              <p class="text-center text-sm font-medium text-text-secondary mb-6 z-10">{leader.data.title}</p>
               
-              <button class="expand-bio-btn text-sm font-bold underline hover:text-white transition-colors mb-2">Read Bio</button>
-              <div class="bio-content hidden text-sm prose max-w-none text-left w-full mt-4 pt-4 border-t border-primary/20" set:html={bioHtml}></div>
+              <button class="expand-bio-btn inline-flex items-center px-5 py-2.5 bg-bg-secondary text-primary hover:bg-primary hover:text-white text-sm font-bold rounded-full transition-colors z-10 border border-gray-200">Read Bio</button>
+              <div class="bio-content hidden text-sm prose prose-primary max-w-none text-left w-full mt-6 pt-6 border-t border-gray-100 z-10" set:html={bioHtml}></div>
             </div>
           );
         })}
@@ -39,10 +45,12 @@ const historyHtml = aboutContent?.data.history_content ? marked.parse(aboutConte
     </div>
   </section>
 
-  <section class="py-20 bg-primary">
-    <div class="container mx-auto px-6">
-      <h2 class="text-4xl font-bold mb-2 text-secondary">{aboutContent?.data.history_title}</h2>
-      <div class="prose-lg max-w-none text-secondary" set:html={historyHtml}></div>
+  <section class="py-24 bg-primary relative">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-14 shadow-xl border border-white/20">
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 text-secondary">{aboutContent?.data.history_title}</h2>
+        <div class="prose prose-lg prose-invert max-w-none text-secondary" set:html={historyHtml}></div>
+      </div>
     </div>
   </section>
 </Layout>

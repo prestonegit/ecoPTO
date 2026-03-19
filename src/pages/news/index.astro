@@ -10,11 +10,13 @@ allNews.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
 ---
 
 <Layout title="News & Updates">
-  <section class="relative py-16 sm:py-24 bg-bg-secondary text-center">
-    <div class="container mx-auto px-6">
-      <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-primary mb-4">Latest News & Updates</h1>
-      <p class="text-text-secondary text-lg max-w-3xl mx-auto">
-        Stay informed with the latest happenings, announcements, and stories from ecoPTO.
+  <section class="relative py-24 sm:py-32 bg-primary overflow-hidden">
+    <!-- Subtle dot pattern for organic texture -->
+    <div class="absolute inset-0 opacity-10" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 32px 32px;"></div>
+    <div class="container mx-auto px-6 relative z-10 text-center">
+      <h1 class="text-5xl sm:text-6xl md:text-7xl font-extrabold text-bg-primary mb-6 tracking-tight">Notes from the Field</h1>
+      <p class="text-green-50 text-xl max-w-2xl mx-auto leading-relaxed">
+        Stories, announcements, and updates on how your support is helping our community grow.
       </p>
     </div>
   </section>
@@ -27,7 +29,9 @@ allNews.sort((a, b) => b.data.pubDate.getTime() - a.data.pubDate.getTime());
             <NewsCard news={post} />
           ))
         ) : (
-          <p class="text-center text-text-secondary col-span-full">No news posts yet. Check back soon!</p>
+          <div class="col-span-full bg-white rounded-2xl p-12 text-center border border-dashed border-gray-300">
+            <p class="text-xl text-text-secondary font-medium">We're still writing our first chapter. Check back soon for updates!</p>
+          </div>
         )}
       </div>
     </div>

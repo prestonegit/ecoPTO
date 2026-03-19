@@ -3,7 +3,7 @@ const { buttonId = "5Z3N8MU24WTU4", class: className = "" } = Astro.props;
 ---
 <form action="https://www.paypal.com/donate" method="post" target="_top" class={className}>
   <input type="hidden" name="hosted_button_id" value={buttonId} />
-  <button type="submit" name="submit" class="bg-[var(--primary)] text-white hover:bg-[var(--secondary)] px-8 py-3 flex items-center justify-center rounded-full font-bold text-lg w-full sm:w-auto shadow-md hover:shadow-lg transition-all" title="PayPal - The safer, easier way to pay online!">
+  <button type="submit" name="submit" class="bg-green-700 text-white hover:bg-green-800 px-8 py-3 flex items-center justify-center rounded-full font-bold text-lg w-full sm:w-auto shadow-md hover:shadow-lg transition-all" title="PayPal - The safer, easier way to pay online!">
     Donate with PayPal
   </button>
   <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1" class="hidden" />
