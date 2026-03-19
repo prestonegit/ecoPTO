@@ -2,17 +2,20 @@
 const { content } = Astro.props;
 ---
 
-<section id="home" class="bg-primary text-text-primary">
-  <div class="container mx-auto px-6 flex flex-col items-center justify-center text-center py-12 md:py-20">
+<section id="home" class="bg-primary text-text-primary relative overflow-hidden">
+  <!-- Subtle bold noise overlay to reduce blandness -->
+  <div class="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
+  
+  <div class="container mx-auto px-6 flex flex-col items-center justify-center text-center pt-8 pb-4 md:pt-12 md:pb-6 relative z-10">
     <div class="animate-on-scroll flex flex-col items-center">
-      <h1 class="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[4rem] xl:text-[4.5rem] font-medium leading-[1.1] text-secondary tracking-tight">
+      <h1 class="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[4.5rem] xl:text-[5.5rem] font-medium leading-[1.05] text-secondary tracking-tight drop-shadow-sm">
         {content.hero_title}
       </h1>
-      <div class="my-10 flex justify-center">
-        <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-48 md:w-64 lg:w-72 h-auto opacity-95 hover-sway">
+      <div class="mt-4 mb-2 md:mt-6 md:mb-4 flex justify-center">
+        <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-56 md:w-72 lg:w-80 h-auto opacity-100 hover-sway drop-shadow-md">
       </div>
       {content.hero_subtitle && content.hero_subtitle.trim() !== '' && (
-        <p class="mt-6 text-xl text-bg-primary leading-relaxed opacity-95 max-w-3xl mx-auto">
+        <p class="mt-4 text-xl md:text-2xl text-bg-primary leading-relaxed opacity-95 max-w-3xl mx-auto font-medium">
           {content.hero_subtitle}
         </p>
       )}
