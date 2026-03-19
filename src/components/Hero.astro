@@ -6,19 +6,21 @@ const { content } = Astro.props;
   <!-- Subtle bold noise overlay to reduce blandness -->
   <div class="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
   
-  <div class="container mx-auto px-6 flex flex-col items-center justify-center text-center pt-8 pb-4 md:pt-12 md:pb-6 relative z-10">
-    <div class="animate-on-scroll flex flex-col items-center">
-      <h1 class="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[4.5rem] xl:text-[5.5rem] font-medium leading-[1.05] text-secondary tracking-tight drop-shadow-sm">
+  <div class="container mx-auto px-6 grid md:grid-cols-2 gap-8 lg:gap-12 items-center text-center md:text-left pt-8 pb-4 md:pt-12 md:pb-6 relative z-10">
+    <div class="md:order-1 animate-on-scroll flex flex-col items-center md:items-start">
+      <h1 class="text-4xl sm:text-5xl md:text-[3.25rem] lg:text-[4rem] xl:text-[4.5rem] font-medium leading-[1.05] text-secondary tracking-tight drop-shadow-sm">
         {content.hero_title}
       </h1>
-      <div class="mt-4 mb-2 md:mt-6 md:mb-4 flex justify-center">
-        <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-56 md:w-72 lg:w-80 h-auto opacity-100 hover-sway drop-shadow-md">
-      </div>
       {content.hero_subtitle && content.hero_subtitle.trim() !== '' && (
-        <p class="mt-4 text-xl md:text-2xl text-bg-primary leading-relaxed opacity-95 max-w-3xl mx-auto font-medium">
+        <p class="mt-4 text-xl md:text-2xl text-bg-primary leading-relaxed opacity-95 max-w-3xl font-medium">
           {content.hero_subtitle}
         </p>
       )}
+    </div>
+    <div class="md:order-2 mt-6 md:mt-0 flex justify-center items-center animate-on-scroll stagger-1">
+      <button class="get-involved-trigger bg-transparent border-none p-0 m-0 cursor-pointer appearance-none outline-none focus:ring-4 focus:ring-secondary/30 rounded-full transition-transform hover:scale-[1.02]" data-target-tab="form-join" aria-label="Open sign up form">
+        <img src="/logo-full.svg" alt="ecoPTO Full Logo" class="w-56 md:w-72 lg:w-80 h-auto opacity-100 hover-sway drop-shadow-md">
+      </button>
     </div>
   </div>
 </section>

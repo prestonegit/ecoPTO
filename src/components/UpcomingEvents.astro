@@ -23,9 +23,9 @@ const { content } = Astro.props;
 ---
 <section id="events" class="py-24 bg-secondary overflow-hidden">
   <div class="container mx-auto px-6">
-    <div class="animate-on-scroll">
-      <h2 class="text-4xl md:text-5xl font-medium text-primary text-center">{content.events_title}</h2>
-      <p class="mt-4 text-xl text-text-secondary text-center max-w-3xl mx-auto">
+    <div class="max-w-3xl animate-on-scroll">
+      <h2 class="text-5xl font-medium text-primary mb-6">{content.events_title}</h2>
+      <p class="text-xl text-text-secondary leading-relaxed mb-16">
         {content.events_subtitle}
       </p>
     </div>
