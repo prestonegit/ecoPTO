@@ -157,7 +157,7 @@ declare module 'astro:content' {
   slug: "about-us";
   body: string;
   collection: "aboutUs";
-  data: any
+  data: InferEntrySchema<"aboutUs">
 } & { render(): Render[".mdx"] };
 };
 "events": {
@@ -166,63 +166,63 @@ declare module 'astro:content' {
   slug: "2025-09-09-how-to-raise-a-healthy-gamer";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2025-09-10-ecopto-monthly-meeting.mdx": {
 	id: "2025-09-10-ecopto-monthly-meeting.mdx";
   slug: "2025-09-10-ecopto-monthly-meeting";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2025-09-16-back-to-school-night.mdx": {
 	id: "2025-09-16-back-to-school-night.mdx";
   slug: "2025-09-16-back-to-school-night";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2026-01-03-native-seed-sowing-extravaganza.mdx": {
 	id: "2026-01-03-native-seed-sowing-extravaganza.mdx";
   slug: "2026-01-03-native-seed-sowing-extravaganza";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2026-01-03-webinar-build-your-best-native-garden.mdx": {
 	id: "2026-01-03-webinar-build-your-best-native-garden.mdx";
   slug: "2026-01-03-webinar-build-your-best-native-garden";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2026-01-24-ecopto-monthly-meeting.mdx": {
 	id: "2026-01-24-ecopto-monthly-meeting.mdx";
   slug: "2026-01-24-ecopto-monthly-meeting";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2026-03-07-hvrsd-ecopto-potluck.mdx": {
 	id: "2026-03-07-hvrsd-ecopto-potluck.mdx";
   slug: "2026-03-07-hvrsd-ecopto-potluck";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2026-03-15-family-hike.mdx": {
 	id: "2026-03-15-family-hike.mdx";
   slug: "2026-03-15-family-hike";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 "2026-03-18-call-for-volunteers.mdx": {
 	id: "2026-03-18-call-for-volunteers.mdx";
   slug: "2026-03-18-call-for-volunteers";
   body: string;
   collection: "events";
-  data: any
+  data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
 };
 "get-involved": {
@@ -274,7 +274,7 @@ declare module 'astro:content' {
   slug: string;
   body: string;
   collection: "getInvolved";
-  data: any;
+  data: InferEntrySchema<"getInvolved">;
   render(): Render[".md"];
 }>;
 "leadership": {
@@ -283,42 +283,42 @@ declare module 'astro:content' {
   slug: "co-president";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "co-treasurer.mdx": {
 	id: "co-treasurer.mdx";
   slug: "co-treasurer";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "julie-cesari.mdx": {
 	id: "julie-cesari.mdx";
   slug: "julie-cesari";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "kristin-broderick.mdx": {
 	id: "kristin-broderick.mdx";
   slug: "kristin-broderick";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "marian-lobos.mdx": {
 	id: "marian-lobos.mdx";
   slug: "marian-lobos";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 "monica-carlson.mdx": {
 	id: "monica-carlson.mdx";
   slug: "monica-carlson";
   body: string;
   collection: "leadership";
-  data: any
+  data: InferEntrySchema<"leadership">
 } & { render(): Render[".mdx"] };
 };
 "news": {
@@ -327,7 +327,7 @@ declare module 'astro:content' {
   slug: "2025-08-07-welcome-from-the-ecopto-president";
   body: string;
   collection: "news";
-  data: any
+  data: InferEntrySchema<"news">
 } & { render(): Render[".mdx"] };
 };
 "pages": {
@@ -336,7 +336,7 @@ declare module 'astro:content' {
   slug: "impact";
   body: string;
   collection: "pages";
-  data: any
+  data: InferEntrySchema<"pages">
 } & { render(): Render[".mdx"] };
 };
 "projects": {
@@ -345,35 +345,35 @@ declare module 'astro:content' {
   slug: "communications-team";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 "events-team.mdx": {
 	id: "events-team.mdx";
   slug: "events-team";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 "fundraising-committee.mdx": {
 	id: "fundraising-committee.mdx";
   slug: "fundraising-committee";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 "garden-club.mdx": {
 	id: "garden-club.mdx";
   slug: "garden-club";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 "green-team.mdx": {
 	id: "green-team.mdx";
   slug: "green-team";
   body: string;
   collection: "projects";
-  data: any
+  data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
 };
 "research": {
@@ -382,7 +382,7 @@ declare module 'astro:content' {
   slug: "research";
   body: string;
   collection: "research";
-  data: any
+  data: InferEntrySchema<"research">
 } & { render(): Render[".mdx"] };
 };
 "transparency": {
@@ -391,7 +391,7 @@ declare module 'astro:content' {
   slug: "placeholder";
   body: string;
   collection: "transparency";
-  data: any
+  data: InferEntrySchema<"transparency">
 } & { render(): Render[".md"] };
 };
 
@@ -402,14 +402,14 @@ declare module 'astro:content' {
 "home": {
 	id: "home";
   collection: "homepage";
-  data: any
+  data: InferEntrySchema<"homepage">
 };
 };
 "settings": {
 "global": {
 	id: "global";
   collection: "settings";
-  data: any
+  data: InferEntrySchema<"settings">
 };
 };
 "signup": {
@@ -424,5 +424,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = never;
+	export type ContentConfig = typeof import("./../../src/content/config.js");
 }
