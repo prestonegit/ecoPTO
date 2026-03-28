@@ -34,7 +34,7 @@ const signupContent = await getEntry('signup', 'signup');
       <form name="signup" method="POST" data-netlify="true" data-netlify-submission-title="first-name" class="space-y-4 bg-white flex-grow">
         <input type="hidden" name="form-name" value="signup" />
         <div>
-          <label for="name" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_name_label}</label>
+          <label for="first-name" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_name_label}</label>
           <input type="text" id="first-name" name="first-name" placeholder={signupContent.data.signup_first_name_placeholder} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
         </div>
         <div>
@@ -197,9 +197,39 @@ const signupContent = await getEntry('signup', 'signup');
       
       const tabBtns = modal.querySelectorAll('.tab-btn');
       const formContainers = modal.querySelectorAll('.form-container');
+      const forms = Array.from(modal.querySelectorAll('form'));
+      const successFeedback = document.getElementById('form-success-feedback');
+      const modalTabs = document.getElementById('modal-tabs');
 
       const activeRoleCheckbox = document.getElementById('active-role');
       const volunteerRolesSection = document.getElementById('volunteer-roles-section');
+      const staffSchoolSelect = document.getElementById('staff-school');
+      const staffOtherSchoolInput = document.getElementById('staff-other-school');
+
+      const getSubmitButton = (form) => {
+        const submitButton = form.querySelector('button[type="submit"]');
+        return submitButton instanceof HTMLButtonElement ? submitButton : null;
+      };
+
+      const resetSubmitButton = (form) => {
+        const submitBtn = getSubmitButton(form);
+
+        if (!submitBtn) {
+          return;
+        }
+
+        const originalText = submitBtn.dataset.originalText || submitBtn.textContent || 'Submit';
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      };
+
+      forms.forEach((form) => {
+        const submitBtn = getSubmitButton(form);
+
+        if (submitBtn && !submitBtn.dataset.originalText) {
+          submitBtn.dataset.originalText = submitBtn.textContent?.trim() || 'Submit';
+        }
+      });
 
       const switchTab = (targetId) => {
         // Update tab buttons
@@ -225,6 +255,63 @@ const signupContent = await getEntry('signup', 'signup');
         });
       };
 
+      const resetModalState = (targetTab = 'form-join') => {
+        forms.forEach((form) => {
+          if (form instanceof HTMLFormElement) {
+            form.reset();
+          }
+
+          resetSubmitButton(form);
+        });
+
+        if (modalTabs instanceof HTMLElement) {
+          modalTabs.classList.remove('hidden');
+        }
+
+        if (successFeedback instanceof HTMLElement) {
+          successFeedback.classList.add('hidden');
+          successFeedback.classList.remove('flex');
+        }
+
+        if (volunteerRolesSection instanceof HTMLElement) {
+          volunteerRolesSection.classList.add('hidden');
+        }
+
+        if (staffOtherSchoolInput instanceof HTMLInputElement) {
+          staffOtherSchoolInput.classList.add('hidden');
+          staffOtherSchoolInput.required = false;
+        }
+
+        switchTab(targetTab);
+      };
+
+      const normalizeFormData = (form, formData) => {
+        if (form.getAttribute('name') !== 'signup') {
+          return formData;
+        }
+
+        const activeRoleChecked = activeRoleCheckbox instanceof HTMLInputElement && activeRoleCheckbox.checked;
+
+        formData.delete('active-role');
+        formData.append('active-role', activeRoleChecked ? 'Yes' : 'No');
+
+        formData.delete('selected-volunteer-roles');
+
+        const selectedVolunteerRoles = Array.from(
+          form.querySelectorAll('input[name="selected-volunteer-roles"]:checked')
+        )
+          .filter((input) => input instanceof HTMLInputElement)
+          .map((input) => input.value);
+
+        if (selectedVolunteerRoles.length > 0) {
+          selectedVolunteerRoles.forEach((role) => formData.append('selected-volunteer-roles', role));
+        } else {
+          formData.append('selected-volunteer-roles', 'None');
+        }
+
+        return formData;
+      };
+
       // Tab clicks
       tabBtns.forEach(btn => {
         btn.addEventListener('click', () => {
@@ -236,7 +323,7 @@ const signupContent = await getEntry('signup', 'signup');
       triggerBtns.forEach(btn => {
         btn.addEventListener('click', () => {
           const targetTab = btn.dataset.targetTab || 'form-join';
-          switchTab(targetTab);
+          resetModalState(targetTab);
           modal.classList.add('modal-open');
           body.classList.add('modal-open');
         });
@@ -246,6 +333,7 @@ const signupContent = await getEntry('signup', 'signup');
       const closeModal = () => {
         modal.classList.remove('modal-open');
         body.classList.remove('modal-open');
+        resetModalState();
       };
 
       closeButton.addEventListener('click', closeModal);
@@ -261,41 +349,53 @@ const signupContent = await getEntry('signup', 'signup');
         }
       });
       
-      // Delight: Handle form submissions via AJAX
-      const forms = modal.querySelectorAll('form');
-      const successFeedback = document.getElementById('form-success-feedback');
-      const modalTabs = document.getElementById('modal-tabs');
-      
       forms.forEach(form => {
         form.addEventListener('submit', (e) => {
           e.preventDefault();
           
           // Change button to loading state
-          const submitBtn = form.querySelector('button[type="submit"]');
-          const originalText = submitBtn.innerText;
-          submitBtn.innerText = "SENDING...";
+          const submitBtn = getSubmitButton(form);
+
+          if (!submitBtn) {
+            return;
+          }
+
+          submitBtn.textContent = 'SENDING...';
           submitBtn.disabled = true;
           
-          const formData = new FormData(form);
+          const formData = normalizeFormData(form, new FormData(form));
           
           fetch('/', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             // @ts-ignore - FormData to URLSearchParams is broadly supported but TS complains
             body: new URLSearchParams(formData).toString()
-          }).then(() => {
+          }).then((response) => {
+            if (!response.ok) {
+              throw new Error(`Request failed with status ${response.status}`);
+            }
+
+            if (form instanceof HTMLFormElement) {
+              form.reset();
+            }
+
+            resetSubmitButton(form);
+
             formContainers.forEach(c => {
               c.classList.remove('block');
               c.classList.add('hidden');
             });
-            if (modalTabs) modalTabs.classList.add('hidden');
+            if (modalTabs instanceof HTMLElement) {
+              modalTabs.classList.add('hidden');
+            }
             
-            successFeedback.classList.remove('hidden');
-            successFeedback.classList.add('flex');
-          }).catch(error => {
+            if (successFeedback instanceof HTMLElement) {
+              successFeedback.classList.remove('hidden');
+              successFeedback.classList.add('flex');
+            }
+          }).catch(() => {
             alert('Something went wrong. Please try again or email us directly.');
-            submitBtn.innerText = originalText;
-            submitBtn.disabled = false;
+            resetSubmitButton(form);
           });
         });
       });
@@ -312,8 +412,6 @@ const signupContent = await getEntry('signup', 'signup');
       }
 
       // Handle "Other" school option
-      const staffSchoolSelect = document.getElementById('staff-school');
-      const staffOtherSchoolInput = document.getElementById('staff-other-school');
       if (staffSchoolSelect && staffOtherSchoolInput) {
         staffSchoolSelect.addEventListener('change', (e) => {
           if (e.target.value === 'Other') {

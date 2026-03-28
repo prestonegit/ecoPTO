@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import { marked } from 'marked';
 import Layout from '../../layouts/Layout.astro';
 import EventDate from '../../components/EventDate.astro';
+import { buildGoogleCalendarUrl } from '../../utils/events';
 
 export async function getStaticPaths() {
   const events = await getCollection('events');
@@ -22,6 +23,12 @@ if (event.data.externalUrl) {
 const { Content } = await event.render();
 const descriptionHTML = event.data.description ? marked.parse(event.data.description) : null;
 const cardDescriptionHTML = event.data.cardDescription ? marked.parse(event.data.cardDescription) : null;
+const calendarUrl = buildGoogleCalendarUrl({
+  title: event.data.title,
+  startDate: event.data.eventDate,
+  description: event.data.description,
+  location: event.data.location,
+});
 ---
 
 <Layout title={event.data.title}>
@@ -56,7 +63,7 @@ const cardDescriptionHTML = event.data.cardDescription ? marked.parse(event.data
 
           <div class="mt-8">
             <a
-              href={`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(event.data.title)}&dates=${new Date(event.data.eventDate).toISOString().slice(0,10).replace(/-/g,"")}/${new Date(new Date(event.data.eventDate).setDate(new Date(event.data.eventDate).getDate() + 1)).toISOString().slice(0,10).replace(/-/g,"")}&details=${encodeURIComponent(event.data.description)}&location=${encodeURIComponent(event.data.location)}`}
+              href={calendarUrl}
               target="_blank"
               rel="noopener noreferrer"
               class="btn-standard btn-secondary-color rounded-md"

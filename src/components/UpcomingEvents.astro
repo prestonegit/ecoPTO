@@ -26,6 +26,7 @@ const initialVisibleSlugs = new Set(initialVisibleEvents.map((event) => event.sl
           <a
             href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
             target={event.data.externalUrl ? '_blank' : '_self'}
+            rel={event.data.externalUrl ? 'noopener noreferrer' : undefined}
             data-event-card
             data-event-date={event.data.eventDate.toISOString()}
             class:list={[

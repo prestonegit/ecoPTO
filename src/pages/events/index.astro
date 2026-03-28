@@ -42,6 +42,7 @@ const initialPastSlugs = new Set(initialPastEvents.map((event) => event.slug));
               <a
                 href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
                 target={event.data.externalUrl ? '_blank' : '_self'}
+                rel={event.data.externalUrl ? 'noopener noreferrer' : undefined}
                 data-upcoming-event-card
                 data-event-date={event.data.eventDate.toISOString()}
                 class:list={[
@@ -95,6 +96,7 @@ const initialPastSlugs = new Set(initialPastEvents.map((event) => event.slug));
               <a
                 href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
                 target={event.data.externalUrl ? '_blank' : '_self'}
+                rel={event.data.externalUrl ? 'noopener noreferrer' : undefined}
                 data-past-event-card
                 data-event-date={event.data.eventDate.toISOString()}
                 class:list={[

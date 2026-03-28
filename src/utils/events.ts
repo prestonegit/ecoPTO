@@ -14,8 +14,23 @@ type EventEntryLike = {
   };
 };
 
+type GoogleCalendarEvent = {
+  title: string;
+  startDate: DateLike;
+  endDate?: DateLike;
+  description?: string;
+  location?: string;
+};
+
 function asDate(value: DateLike): Date {
   return value instanceof Date ? value : new Date(value);
+}
+
+function formatGoogleCalendarDateTime(value: DateLike): string {
+  return asDate(value)
+    .toISOString()
+    .replace(/[-:]/g, '')
+    .replace(/\.\d{3}Z$/, 'Z');
 }
 
 export function getEventDayKey(value: DateLike): string {
@@ -45,4 +60,26 @@ export function sortByEventDateAscending<T extends EventEntryLike>(a: T, b: T): 
 
 export function sortByEventDateDescending<T extends EventEntryLike>(a: T, b: T): number {
   return asDate(b.data.eventDate).getTime() - asDate(a.data.eventDate).getTime();
+}
+
+export function getDefaultEventEndDate(startDate: DateLike, durationMinutes = 60): Date {
+  return new Date(asDate(startDate).getTime() + durationMinutes * 60 * 1000);
+}
+
+export function buildGoogleCalendarUrl({
+  title,
+  startDate,
+  endDate = getDefaultEventEndDate(startDate),
+  description = '',
+  location = '',
+}: GoogleCalendarEvent): string {
+  const params = new URLSearchParams({
+    action: 'TEMPLATE',
+    text: title,
+    dates: `${formatGoogleCalendarDateTime(startDate)}/${formatGoogleCalendarDateTime(endDate)}`,
+    details: description,
+    location,
+  });
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
