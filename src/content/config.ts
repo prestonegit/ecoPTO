@@ -75,7 +75,10 @@ const settingsCollection = defineCollection({
     global_svg_icon: z.string().optional(),
     attributions: z.array(z.object({
       text: z.string(),
-      url: z.string().url().optional(),
+      url: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().url().optional()
+      ),
     })).optional(),
     signup_modal_title: z.string().optional(),
     signup_modal_subtitle: z.string().optional(),
@@ -101,7 +104,10 @@ const eventsCollection = defineCollection({
     dateOverride: z.string().optional(),
     location: z.string().optional(),
     image: z.string().nullable().optional(),
-    externalUrl: z.string().url().optional(), // New field for external URL
+    externalUrl: z.preprocess(
+      (val) => (val === '' ? undefined : val),
+      z.string().url().optional()
+    ),
   }),
 });
 
@@ -182,13 +188,19 @@ const researchCollection = defineCollection({
     peer_reviewed_research: z.array(z.object({
       title: z.string(),
       article_title: z.string().optional(),
-      link: z.string().url().optional(),
+      link: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().url().optional()
+      ),
       comment: z.string().optional(),
     })).optional(),
     books: z.array(z.object({
       title: z.string(),
       author: z.string(),
-      link: z.string().url().optional(),
+      link: z.preprocess(
+        (val) => (val === '' ? undefined : val),
+        z.string().url().optional()
+      ),
       comment: z.string().optional(),
     })).optional(),
     online_resources: z.array(z.object({
