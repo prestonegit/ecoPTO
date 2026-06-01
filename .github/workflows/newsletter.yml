@@ -1,0 +1,43 @@
+name: Push newsletter draft to Resend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/content/newsletters/**'
+  workflow_dispatch: {}
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Push ready-to-send issues
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+          RESEND_FROM: ${{ secrets.RESEND_FROM }}
+          SITE_URL: https://ecopto.org
+        run: npm run newsletter:push
+
+      - name: Commit status updates back
+        run: |
+          if [[ -n "$(git status --porcelain src/content/newsletters)" ]]; then
+            git config user.name "ecoPTO bot"
+            git config user.email "actions@github.com"
+            git add src/content/newsletters
+            git commit -m "Mark newsletter issue(s) as sent"
+            git push
+          fi

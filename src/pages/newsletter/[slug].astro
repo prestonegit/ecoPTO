@@ -1,0 +1,125 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { marked } from 'marked';
+
+export async function getStaticPaths() {
+  const issues = (await getCollection('newsletters')).filter((i) => i.data.status === 'sent');
+  return issues.map((i) => ({ params: { slug: i.slug }, props: { issue: i } }));
+}
+
+const { issue } = Astro.props;
+const d = issue.data;
+
+const allEvents = await getCollection('events');
+const allNews = await getCollection('news');
+
+const sentDate = new Date(d.sendDate);
+const upcomingEvents = d.includeEvents
+  ? allEvents
+      .filter((e) => new Date(e.data.eventDate) >= sentDate)
+      .sort((a, b) => new Date(a.data.eventDate) - new Date(b.data.eventDate))
+      .slice(0, 4)
+  : [];
+const latestNews = d.includeNews
+  ? allNews
+      .filter((n) => new Date(n.data.pubDate) <= sentDate)
+      .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
+      .slice(0, 3)
+  : [];
+
+const md = (s) => marked.parse(s || '');
+const fmtEvent = (iso, override) => override || new Date(iso).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+const fmtNews = (iso) => new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+<Layout title={d.subject}>
+  <article class="py-16 bg-bg-primary">
+    <div class="container mx-auto px-6 max-w-2xl">
+      <a href="/newsletter/" class="text-sm text-primary hover:underline">&larr; All issues</a>
+      <p class="text-sm text-text-secondary mt-6 mb-2">
+        {sentDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+      </p>
+      <h1 class="text-4xl md:text-5xl font-bold text-primary font-serif mb-8">{d.subject}</h1>
+
+      {d.heroImage && <img src={d.heroImage} alt="" class="w-full rounded-2xl mb-8" />}
+
+      {d.intro && <div class="prose prose-lg max-w-none text-text-primary mb-8" set:html={md(d.intro)} />}
+
+      {(d.customBlocks || []).map((b) => {
+        if (b.type === 'callout') return (
+          <div class="my-8 p-6 bg-secondary rounded-xl">
+            {b.title && <h3 class="text-2xl font-bold text-primary font-serif mb-2">{b.title}</h3>}
+            {b.body && <div class="prose max-w-none" set:html={md(b.body)} />}
+          </div>
+        );
+        if (b.type === 'story') return (
+          <div class="my-8">
+            {b.image && <img src={b.image} alt="" class="w-full rounded-xl mb-4" />}
+            {b.title && <h3 class="text-2xl font-bold text-primary font-serif mb-2">{b.title}</h3>}
+            {b.body && <div class="prose max-w-none" set:html={md(b.body)} />}
+          </div>
+        );
+        if (b.type === 'image' && b.image) return <img src={b.image} alt="" class="my-8 w-full rounded-xl" />;
+        if (b.type === 'button') return (
+          <div class="my-8 p-6 bg-bg-secondary rounded-xl text-center">
+            {b.title && <h3 class="text-xl font-bold text-primary font-serif mb-2">{b.title}</h3>}
+            {b.body && <p class="text-text-secondary mb-4">{b.body}</p>}
+            {b.buttonText && <a href={b.buttonUrl || '#'} class="btn-standard btn-primary-color">{b.buttonText}</a>}
+          </div>
+        );
+        return null;
+      })}
+
+      {upcomingEvents.length > 0 && (
+        <section class="mt-12 pt-8 border-t-2 border-bg-secondary">
+          <h2 class="text-3xl font-bold text-primary font-serif mb-2">Upcoming Events</h2>
+          {d.eventsIntro && <p class="text-text-secondary mb-6">{d.eventsIntro}</p>}
+          <div class="space-y-4">
+            {upcomingEvents.map((e) => (
+              <a href={e.data.externalUrl || `/events/${e.slug}`} class="block p-4 border border-bg-secondary rounded-xl hover:shadow-md transition-shadow">
+                <h3 class="text-lg font-bold text-primary font-serif">{e.data.title}</h3>
+                <p class="text-sm text-text-secondary">{fmtEvent(e.data.eventDate, e.data.dateOverride)}{e.data.location ? ` · ${e.data.location}` : ''}</p>
+                {e.data.cardDescription && <p class="text-sm mt-1">{e.data.cardDescription}</p>}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {latestNews.length > 0 && (
+        <section class="mt-12 pt-8 border-t-2 border-bg-secondary">
+          <h2 class="text-3xl font-bold text-primary font-serif mb-2">Latest News</h2>
+          {d.newsIntro && <p class="text-text-secondary mb-6">{d.newsIntro}</p>}
+          <div class="space-y-4">
+            {latestNews.map((n) => (
+              <a href={`/news/${n.slug}/`} class="block p-4 border-b border-bg-secondary">
+                <h3 class="text-lg font-bold text-primary font-serif">{n.data.title}</h3>
+                <p class="text-xs text-text-secondary">{n.data.author} · {fmtNews(n.data.pubDate)}</p>
+                {n.data.description && <p class="text-sm mt-1">{n.data.description}</p>}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {d.attachments && d.attachments.length > 0 && (
+        <section class="mt-12 pt-8 border-t-2 border-bg-secondary">
+          <h2 class="text-3xl font-bold text-primary font-serif mb-4">Attachments</h2>
+          <ul class="space-y-2">
+            {d.attachments.map((a) => (
+              <li>
+                <a href={a.file} download class="flex items-center gap-3 p-3 bg-bg-secondary rounded-lg hover:bg-secondary transition-colors">
+                  <span class="text-xl">📎</span>
+                  <span class="font-medium text-primary">{a.label || a.file}</span>
+                  <span class="ml-auto text-sm text-text-secondary">Download &darr;</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {d.closing && <div class="prose prose-lg max-w-none mt-12 text-text-primary" set:html={md(d.closing)} />}
+    </div>
+  </article>
+</Layout>

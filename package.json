@@ -7,7 +7,10 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "cms": "npx decap-server"
+    "cms": "npx decap-server",
+    "newsletter:push": "tsx scripts/push-newsletter.mjs",
+    "newsletter:dry": "tsx scripts/push-newsletter.mjs --dry-run",
+    "subscribers:import": "node scripts/import-subscribers.mjs"
   },
   "overrides": {
     "react": "18.2.0",
@@ -17,13 +20,18 @@
     "@astrojs/mdx": "^3.1.2",
     "@astrojs/react": "^4.3.0",
     "@astrojs/tailwind": "^5.1.0",
+    "@react-email/components": "^1.0.12",
+    "@react-email/render": "^2.0.8",
     "astro": "^4.11.3",
     "d3": "^7.9.0",
     "decap-cms-app": "3.1.1",
+    "gray-matter": "^4.0.3",
     "marked": "^16.2.1",
+    "resend": "^6.12.3",
     "tailwindcss": "^3.4.4"
   },
   "devDependencies": {
-    "@tailwindcss/typography": "^0.5.16"
+    "@tailwindcss/typography": "^0.5.16",
+    "tsx": "^4.21.0"
   }
 }

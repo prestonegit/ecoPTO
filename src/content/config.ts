@@ -199,8 +199,40 @@ const researchCollection = defineCollection({
   }),
 });
 
+const newslettersCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    subject: z.string(),
+    preheader: z.string().optional(),
+    sendDate: z.date(),
+    heroImage: z.string().optional(),
+    intro: z.string().optional(),
+    includeEvents: z.boolean().default(true),
+    eventsIntro: z.string().optional(),
+    includeNews: z.boolean().default(true),
+    newsIntro: z.string().optional(),
+    customBlocks: z.array(z.object({
+      type: z.enum(['callout', 'story', 'image', 'button']),
+      title: z.string().optional(),
+      body: z.string().optional(),
+      image: z.string().optional(),
+      buttonText: z.string().optional(),
+      buttonUrl: z.string().optional(),
+    })).optional(),
+    attachments: z.array(z.object({
+      label: z.string(),
+      file: z.string(),
+    })).optional(),
+    closing: z.string().optional(),
+    testEmail: z.string().optional(),
+    status: z.enum(['draft', 'ready-to-send', 'send-test', 'send-now', 'sent']).default('draft'),
+    confirmSend: z.boolean().default(false),
+  }),
+});
+
 export const collections = {
   pages: pagesCollection,
+  newsletters: newslettersCollection,
   aboutUs: aboutUsCollection,
   homepage: homepageCollection,
   leadership: leadershipCollection,

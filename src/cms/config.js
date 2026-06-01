@@ -7,6 +7,132 @@ export const config = {
   media_folder: "public/assets/images",
   public_folder: "/assets/images",
   collections: [
+    // Newsletters
+    {
+      name: "newsletters",
+      label: "Newsletter - Issues",
+      label_singular: "Newsletter Issue",
+      folder: "src/content/newsletters",
+      create: true,
+      slug: "{{year}}-{{month}}-{{slug}}",
+      extension: "md",
+      format: "frontmatter",
+      frontmatter_format: "yaml",
+      summary: "{{subject}} — {{status}}",
+      fields: [
+        { label: "Subject Line", name: "subject", widget: "string", hint: "Shows in the recipient's inbox" },
+        { label: "Inbox Preview Text", name: "preheader", widget: "string", required: false, hint: "Short snippet shown next to subject in most inboxes" },
+        { label: "Send Date", name: "sendDate", widget: "datetime" },
+        { label: "Hero Image", name: "heroImage", widget: "image", required: false, hint: "Optional banner image at the top" },
+        { label: "Intro Message", name: "intro", widget: "markdown", required: false, hint: "A note from the team — supports formatting" },
+
+        { label: "Include Upcoming Events?", name: "includeEvents", widget: "boolean", default: true },
+        { label: "Events Intro (optional)", name: "eventsIntro", widget: "string", required: false, hint: 'e.g. "Mark your calendars:"' },
+
+        { label: "Include Latest News?", name: "includeNews", widget: "boolean", default: true },
+        { label: "News Intro (optional)", name: "newsIntro", widget: "string", required: false },
+
+        {
+          label: "Custom Blocks",
+          label_singular: "Block",
+          name: "customBlocks",
+          widget: "list",
+          required: false,
+          summary: "{{fields.type}}: {{fields.title}}",
+          types: [
+            {
+              label: "Callout",
+              name: "callout",
+              widget: "object",
+              fields: [
+                { label: "Type", name: "type", widget: "hidden", default: "callout" },
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Body", name: "body", widget: "markdown" },
+              ],
+            },
+            {
+              label: "Story",
+              name: "story",
+              widget: "object",
+              fields: [
+                { label: "Type", name: "type", widget: "hidden", default: "story" },
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Image", name: "image", widget: "image", required: false },
+                { label: "Body", name: "body", widget: "markdown" },
+              ],
+            },
+            {
+              label: "Image",
+              name: "image",
+              widget: "object",
+              fields: [
+                { label: "Type", name: "type", widget: "hidden", default: "image" },
+                { label: "Image", name: "image", widget: "image" },
+              ],
+            },
+            {
+              label: "Button",
+              name: "button",
+              widget: "object",
+              fields: [
+                { label: "Type", name: "type", widget: "hidden", default: "button" },
+                { label: "Title", name: "title", widget: "string" },
+                { label: "Body", name: "body", widget: "string", required: false },
+                { label: "Button Text", name: "buttonText", widget: "string" },
+                { label: "Button URL", name: "buttonUrl", widget: "string" },
+              ],
+            },
+          ],
+        },
+
+        {
+          label: "Attachments",
+          label_singular: "Attachment",
+          name: "attachments",
+          widget: "list",
+          required: false,
+          summary: "{{fields.label}}",
+          hint: "Files attached to the email (PDFs, flyers, etc). Total size should stay under ~25MB.",
+          fields: [
+            { label: "Label", name: "label", widget: "string", hint: 'How it appears in the email, e.g. "March meeting minutes"' },
+            { label: "File", name: "file", widget: "file" },
+          ],
+        },
+
+        { label: "Closing Note", name: "closing", widget: "markdown", required: false },
+
+        {
+          label: "Send a test to (optional)",
+          name: "testEmail",
+          widget: "string",
+          required: false,
+          pattern: ["^$|^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", "Must be a valid email or blank"],
+          hint: "Used only when Status is 'send-test'. The issue goes to this one address so you can check it in your inbox.",
+        },
+        {
+          label: "Status",
+          name: "status",
+          widget: "select",
+          options: [
+            { label: "Draft (not sent)", value: "draft" },
+            { label: "Ready — create draft in Resend (you press Send there)", value: "ready-to-send" },
+            { label: "Send test — email only the test address above", value: "send-test" },
+            { label: "SEND NOW — email ALL subscribers", value: "send-now" },
+            { label: "Sent (done)", value: "sent" },
+          ],
+          default: "draft",
+          hint: "Most issues: use 'Ready'. 'SEND NOW' emails everyone and requires the confirmation box below to be checked.",
+        },
+        {
+          label: "⚠️ I confirm: SEND NOW will email this to ALL subscribers",
+          name: "confirmSend",
+          widget: "boolean",
+          default: false,
+          required: false,
+          hint: "Required for 'SEND NOW'. Ignored for every other status. Leave unchecked until you're certain.",
+        },
+      ],
+    },
     // Form
     {
       name: "signup",

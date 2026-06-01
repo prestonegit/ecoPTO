@@ -2,11 +2,12 @@
 import React, { useEffect } from 'react';
 import CMS from 'decap-cms-app';
 import { config } from '../cms/config.js';
+import NewsletterPreview from './NewsletterPreview.jsx';
 
 const Admin = () => {
   useEffect(() => {
-    // Initialize the CMS
     CMS.init({ config });
+    CMS.registerPreviewTemplate('newsletters', NewsletterPreview);
   }, []);
 
   // The CMS will mount itself in the page's body,
