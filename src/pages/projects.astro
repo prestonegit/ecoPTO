@@ -1,21 +1,67 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import ProjectsVisualization from '../components/ProjectsVisualization.jsx';
+import ProjectsExplorer from '../components/ProjectsExplorer.jsx';
 
 const projects = await getCollection('projects');
 ---
 
-<Layout title="Projects">
-  <section class="py-20 container mx-auto px-6">
-  <div class="w-full">
-      <h1 class="text-4xl font-bold text-center mb-12">Our Projects</h1>
-      <div class="mb-8">
-        <input type="text" id="search" placeholder="Search for projects..." class="w-full p-4 border border-gray-300 rounded-lg">
+<Layout title="Our Work">
+  <section id="projects-section" data-view="garden" class="relative overflow-hidden py-16 md:py-20">
+    <div class="container mx-auto px-6">
+      <div class="mx-auto max-w-3xl text-center animate-on-scroll">
+        <p class="ps-eyebrow mb-3 font-sans text-sm font-semibold uppercase tracking-[0.22em] text-secondary">
+          The ecoPTO Ecosystem
+        </p>
+        <h1 class="ps-title font-serif text-4xl leading-tight md:text-6xl">A Living Map of Our Work</h1>
+        <p class="ps-subtitle mx-auto mt-5 max-w-2xl font-sans text-lg leading-relaxed text-text-secondary">
+          Every circle is an effort taking root across Hopewell Valley. Explore how they
+          connect — and switch the view to see it two ways.
+        </p>
       </div>
-      <div class="w-full">
-        <ProjectsVisualization projects={projects} client:load />
+
+      <div class="mx-auto mt-10 mb-6 max-w-md animate-on-scroll stagger-1">
+        <div class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg"
+            class="search-icon pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-[#C49A78]"
+            fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round"
+              d="m21 21-4.3-4.3M11 18a7 7 0 1 0 0-14 7 7 0 0 0 0 14Z" />
+          </svg>
+          <input
+            type="text"
+            id="search"
+            placeholder="Search circles, people, or keywords…"
+            class="w-full rounded-full border border-[#EAD2BC] bg-white/80 py-3.5 pl-14 pr-5 font-sans text-[15px] text-text-primary shadow-sm backdrop-blur transition placeholder:text-[#C0A48B] focus:border-primary/40 focus:outline-none focus:ring-4 focus:ring-secondary/30"
+          />
+        </div>
+      </div>
+
+      <div class="animate-on-scroll stagger-2">
+        <ProjectsExplorer projects={projects} client:load />
       </div>
     </div>
   </section>
-  </Layout>
+</Layout>
+
+<style>
+  /* Day (Living Garden) */
+  #projects-section {
+    background: radial-gradient(120% 80% at 50% 0%, #FFFFFF 0%, #FFF6EC 55%, #FBEBDA 100%);
+  }
+
+  /* Night (Constellation) */
+  #projects-section[data-view="constellation"] {
+    background: radial-gradient(125% 85% at 50% 0%, #2C2350 0%, #241B3E 45%, #15101F 100%);
+  }
+  #projects-section[data-view="constellation"] .ps-title { color: #FFE6BE; }
+  #projects-section[data-view="constellation"] .ps-eyebrow { color: #B79BE0; }
+  #projects-section[data-view="constellation"] .ps-subtitle { color: #C9B89A; }
+  #projects-section[data-view="constellation"] .search-icon { color: #9A85B8; }
+  #projects-section[data-view="constellation"] #search {
+    background-color: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.16);
+    color: #EDE3D2;
+  }
+  #projects-section[data-view="constellation"] #search::placeholder { color: #9A85B8; }
+</style>

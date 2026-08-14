@@ -32,3 +32,4 @@ logs.md
 
 /src/assets/
 /.astro/
+.claude/

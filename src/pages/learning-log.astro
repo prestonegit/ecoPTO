@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LearningLogWizard from '../components/LearningLogWizard.jsx';
+---
+
+<Layout title="Independent & Place-Based Learning Log">
+  <div class="bg-[#FAF8F5] min-h-screen py-10 sm:py-14">
+    <main class="container mx-auto px-4">
+      <LearningLogWizard client:load />
+    </main>
+  </div>
+</Layout>
+
+<style is:global>
+  @media print {
+    body {
+      background: white !important;
+      color: black !important;
+    }
+    header, footer, nav, .print\\:hidden, #mobile-menu {
+      display: none !important;
+    }
+    main {
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+    #printable-record {
+      border: none !important;
+      box-shadow: none !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      width: 100% !important;
+    }
+  }
+</style>

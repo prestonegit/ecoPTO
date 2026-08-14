@@ -224,6 +224,55 @@ declare module 'astro:content' {
   collection: "events";
   data: InferEntrySchema<"events">
 } & { render(): Render[".mdx"] };
+"2026-03-30-bt-den-materials-drive.mdx": {
+	id: "2026-03-30-bt-den-materials-drive.mdx";
+  slug: "2026-03-30-bt-den-materials-drive";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2026-03-31-clean-the-town-raise-funds.mdx": {
+	id: "2026-03-31-clean-the-town-raise-funds.mdx";
+  slug: "2026-03-31-clean-the-town-raise-funds";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2026-04-07-family-hike-at-baldpate.mdx": {
+	id: "2026-04-07-family-hike-at-baldpate.mdx";
+  slug: "2026-04-07-family-hike-at-baldpate";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2026-04-15-call-for-volunteers.mdx": {
+	id: "2026-04-15-call-for-volunteers.mdx";
+  slug: "2026-04-15-call-for-volunteers";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2026-04-21-ecopto-monthly-meeting.mdx": {
+	id: "2026-04-21-ecopto-monthly-meeting.mdx";
+  slug: "2026-04-21-ecopto-monthly-meeting";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2026-05-18-family-hike-at-mountain-lakes.mdx": {
+	id: "2026-05-18-family-hike-at-mountain-lakes.mdx";
+  slug: "2026-05-18-family-hike-at-mountain-lakes";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
+"2026-05-26-ecopto-monthly-meeting.mdx": {
+	id: "2026-05-26-ecopto-monthly-meeting.mdx";
+  slug: "2026-05-26-ecopto-monthly-meeting";
+  body: string;
+  collection: "events";
+  data: InferEntrySchema<"events">
+} & { render(): Render[".mdx"] };
 };
 "get-involved": {
 "communications-team.md": {
@@ -347,6 +396,13 @@ declare module 'astro:content' {
   collection: "projects";
   data: InferEntrySchema<"projects">
 } & { render(): Render[".mdx"] };
+"composting-crew.mdx": {
+	id: "composting-crew.mdx";
+  slug: "composting-crew";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
 "events-team.mdx": {
 	id: "events-team.mdx";
   slug: "events-team";
@@ -371,6 +427,20 @@ declare module 'astro:content' {
 "green-team.mdx": {
 	id: "green-team.mdx";
   slug: "green-team";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
+"solar-energy.mdx": {
+	id: "solar-energy.mdx";
+  slug: "solar-energy";
+  body: string;
+  collection: "projects";
+  data: InferEntrySchema<"projects">
+} & { render(): Render[".mdx"] };
+"trail-habitat.mdx": {
+	id: "trail-habitat.mdx";
+  slug: "trail-habitat";
   body: string;
   collection: "projects";
   data: InferEntrySchema<"projects">

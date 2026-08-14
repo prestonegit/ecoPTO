@@ -252,7 +252,21 @@ export const config = {
           ]
         },
         { label: "Keywords", name: "keywords", widget: "list", required: false },
-        { label: "Number of Members", name: "members", widget: "number", required: false }
+        { label: "Number of Members", name: "members", widget: "number", required: false },
+        {
+          label: "Growth Stage",
+          name: "stage",
+          widget: "select",
+          required: false,
+          hint: "How established this circle is — controls the plant drawn on the Living Garden map. Leave blank to set automatically from team size.",
+          options: [
+            { label: "🌱 Seed — just starting", value: "seed" },
+            { label: "🌿 Sprout — getting going", value: "sprout" },
+            { label: "🪴 Bush — established", value: "bush" },
+            { label: "🌸 Blooming — thriving", value: "blooming" },
+            { label: "🌳 Tree — cornerstone", value: "tree" }
+          ]
+        }
       ]
     },
     {

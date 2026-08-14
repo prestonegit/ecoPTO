@@ -177,6 +177,9 @@ const projectsCollection = defineCollection({
     })).optional(),
     keywords: z.array(z.string()).optional(),
     members: z.number().optional(),
+    // Growth stage drives how the circle is drawn in the Living Garden
+    // (seedling -> tree). Falls back to team size when not set.
+    stage: z.enum(['seed', 'sprout', 'bush', 'blooming', 'tree']).optional(),
   }),
 });
 
