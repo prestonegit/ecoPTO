@@ -1,65 +1,120 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Comprehensive New Jersey Locations Library for Step 1
-const NJ_LOCATIONS = [
-  // Local Hopewell Valley & Mercer County
+// Comprehensive 100+ New Jersey Places of Educational Interest
+const NJ_EDUCATIONAL_PLACES = [
+  // Hopewell Valley & Mercer County (Local Hubs)
   'Mercer Meadows & Environmental Center (Pennington, NJ)',
   'St. Michaels Farm Preserve (Hopewell, NJ)',
   'Baldpate Mountain & Ted Stiles Preserve (Titusville, NJ)',
   'Watershed Institute Reserve & Discovery Center (Pennington, NJ)',
   'Howell Living History Farm (Lambertville / Hopewell, NJ)',
-  'Hopewell Public Library (Hopewell, NJ)',
+  'Hopewell Public Library & Community Room (Hopewell, NJ)',
   'Pennington Public Library (Pennington, NJ)',
-  'Mercer County Library - Hopewell Valley Branch',
-  'Rosedale Park & Mercer Lake (Pennington, NJ)',
+  'Mercer County Library - Hopewell Valley Branch (Pennington, NJ)',
+  'Rosedale Park & Lake (Pennington, NJ)',
   'Washington Crossing State Park & Visitor Center (Titusville, NJ)',
   'Stony Brook Trail & Currier Woods (Hopewell, NJ)',
   'Fiddler\'s Creek Ravine Preserve (Titusville, NJ)',
   'Woolsey Park & Historic Airfield (Titusville, NJ)',
   'Hopewell Elementary School / Outdoor Classroom',
-  'Bear Tavern Elementary School / Outdoor Den',
+  'Bear Tavern Elementary School / Outdoor Den & Trail',
   'Toll Gate Grammar School / Courtyard Garden',
-  'Timberlane Middle School / Science Lab',
+  'Timberlane Middle School / Science Lab & Wetlands',
   'Hopewell Valley Central High School',
-  'Home Base Learning Studio / Backyard Lab',
-
-  // State Parks, Forests & Preserves
-  'Island Beach State Park (Ocean County, NJ)',
-  'High Point State Park & Appalachian Trail (Sussex County, NJ)',
-  'Delaware Water Gap National Recreation Area (Warren/Sussex, NJ)',
-  'Wharton State Forest & Pine Barrens (Burlington/Atlantic, NJ)',
-  'Liberty State Park & Nature Center (Jersey City, NJ)',
-  'Sourland Mountain Preserve (Hillsborough, NJ)',
-  'Duke Farms & Sustainability Center (Hillsborough, NJ)',
-  'Hackensack Meadowlands Conservation Area (Bergen/Hudson, NJ)',
-  'Cheesequake State Park & Marshes (Middlesex County, NJ)',
-  'Round Valley Recreation Area (Hunterdon County, NJ)',
-  'Spruce Run Recreation Area (Hunterdon County, NJ)',
-  'Allamuchy Mountain State Park (Morris/Warren, NJ)',
-  'Jockey Hollow & Morristown National Historical Park (Morristown, NJ)',
-  'Cape May Point State Park & Bird Observatory (Cape May, NJ)',
-  'Palisades Interstate Park (Bergen County, NJ)',
-  'Ken Lockwood Gorge & South Branch Raritan River (Hunterdon, NJ)',
-  'Sandy Hook Unit - Gateway National Recreation Area (Monmouth, NJ)',
-
-  // Science Centers, Museums, Arboretums & Cultural Sites
-  'Liberty Science Center & Planetarium (Jersey City, NJ)',
+  'Home Base Learning Studio / Backyard Lab (HVRSD)',
+  'Princeton University Campus & Art Museum (Princeton, NJ)',
+  'Institute for Advanced Study Woods & Nature Trail (Princeton, NJ)',
+  'Herrontown Woods Arboretum & Veblen House (Princeton, NJ)',
+  'Mountain Lakes Nature Preserve (Princeton, NJ)',
+  'D&R Canal State Park Trail (Mercer/Hunterdon/Somerset, NJ)',
+  'Grounds For Sculpture & Museum (Hamilton, NJ)',
   'New Jersey State Museum & Planetarium (Trenton, NJ)',
-  'Grounds For Sculpture (Hamilton, NJ)',
-  'Princeton University Art Museum & Campus (Princeton, NJ)',
+  'Old Barracks Museum (Trenton, NJ)',
+  'Trenton City Museum at Ellarslie (Trenton, NJ)',
+  'Sayen House and Gardens (Hamilton, NJ)',
+  'John A. Roebling Park & Abbott Marshlands (Hamilton/Trenton, NJ)',
+
+  // Hunterdon & Somerset County Preserves & Farms
+  'Sourland Mountain Preserve (Hillsborough / East Amwell, NJ)',
+  'Duke Farms & Sustainability Center (Hillsborough, NJ)',
+  'Round Valley Recreation Area (Lebanon, NJ)',
+  'Spruce Run Recreation Area (Clinton, NJ)',
+  'Ken Lockwood Gorge & South Branch Wildlife Area (High Bridge, NJ)',
+  'Hunterdon County Arboretum (Lebanon, NJ)',
+  'Scherman Hoffman Wildlife Sanctuary (Bernardsville, NJ)',
+  'Somerset County Environmental Education Center & Lord Stirling Park (Basking Ridge, NJ)',
+  'Columbia Trail (High Bridge / Califon, NJ)',
+  'Raritan Headwaters Association & Fairview Farm (Bedminster, NJ)',
+  'Black River Wildlife Management Area (Chester, NJ)',
+
+  // Central & Jersey Shore Coastal Sites
+  'Island Beach State Park & Interpretive Center (Seaside Park, NJ)',
+  'Sandy Hook Unit - Gateway National Recreation Area (Monmouth, NJ)',
+  'Cheesequake State Park & Marshes (Old Bridge, NJ)',
+  'Allaire State Park & Historic Village (Wall Township, NJ)',
+  'Monmouth Battlefield State Park (Manalapan, NJ)',
+  'Manasquan Reservoir Environmental Center (Howell, NJ)',
+  'Cattus Island County Park & Cooper Environmental Center (Toms River, NJ)',
+  'Twin Lights Historic Site (Highlands, NJ)',
+  'Barnegat Lighthouse State Park (Barnegat Light, NJ)',
+  'Rutgers University Marine Field Station (Tuckerton, NJ)',
+  'The Wetlands Institute (Stone Harbor, NJ)',
+  'Cape May Point State Park & Hawk Watch Platform (Cape May, NJ)',
+  'Cape May Bird Observatory (Cape May Point, NJ)',
+  'Nature Center of Cape May (Cape May, NJ)',
+
+  // Pine Barrens & South Jersey Sites
+  'Wharton State Forest & Batsto Historic Village (Hammonton, NJ)',
+  'Brendan T. Byrne State Forest & Mount Misery (New Lisbon, NJ)',
+  'Bass River State Forest (Tuckerton, NJ)',
+  'Edwin B. Forsythe National Wildlife Refuge (Galloway / Oceanville, NJ)',
+  'Adventure Aquarium (Camden, NJ)',
+  'Camden Children\'s Garden (Camden, NJ)',
+  'Palmyra Cove Nature Park & Environmental Discovery Center (Palmyra, NJ)',
+  'Rancocas Nature Center & State Park (Westampton, NJ)',
+  'Pemberton Rail Trail & Cranberry Bogs (Pemberton, NJ)',
+  'Parvin State Park (Pittsgrove, NJ)',
+  'Estell Manor County Park & Glassworks Ruins (Mays Landing, NJ)',
+  'Wheaton Arts and Cultural Center & Glass Museum (Millville, NJ)',
+
+  // North Jersey Highlands, Mountains & Watersheds
+  'High Point State Park & Appalachian Trail (Sussex, NJ)',
+  'Delaware Water Gap National Recreation Area & Kittatinny Ridge (Warren/Sussex, NJ)',
+  'Stokes State Forest & Tillman Ravine (Branchville, NJ)',
+  'Swartswood State Park (Swartswood, NJ)',
+  'Jenny Jump State Forest & Greenwood Observatory (Hope, NJ)',
+  'Allamuchy Mountain State Park & Waterloo Village (Stanhope, NJ)',
+  'Hopatcong State Park & Lake Hopatcong Historical Museum (Landing, NJ)',
+  'Wawayanda State Park (Hewitt, NJ)',
+  'Ringwood State Park & Skylands Botanical Garden (Ringwood, NJ)',
+  'Norvin Green State Forest (Bloomingdale, NJ)',
+  'Ramapo Mountain State Forest & Van Slyke Castle (Oakland, NJ)',
+  'Sterling Hill Mining Museum & Fluorescent Mineral Mine (Ogdensburg, NJ)',
+  'Franklin Mineral Museum (Franklin, NJ)',
+  'Pequest Trout Hatchery & Natural Resource Education Center (Oxford, NJ)',
+
+  // Northern Urban / Suburban & Science Centers
+  'Liberty Science Center & Jennifer Chalsty Planetarium (Jersey City, NJ)',
+  'Liberty State Park & Nature Interpretive Center (Jersey City, NJ)',
+  'Palisades Interstate Park & Greenbrook Sanctuary (Alpine, NJ)',
+  'Thomas Edison National Historical Park & Invention Lab (West Orange, NJ)',
+  'Great Falls National Historical Park (Paterson, NJ)',
+  'Newark Museum of Art & MakerSPACE (Newark, NJ)',
+  'Turtle Back Zoo & Environmental Center (West Orange, NJ)',
+  'Tenafly Nature Center (Tenafly, NJ)',
+  'Flat Rock Brook Nature Center (Englewood, NJ)',
+  'Cora Hartshorn Arboretum & Bird Sanctuary (Short Hills, NJ)',
+  'Frelinghuysen Arboretum (Morristown, NJ)',
+  'Great Swamp National Wildlife Refuge (Basking Ridge / Harding, NJ)',
+  'Jockey Hollow & Morristown National Historical Park (Morristown, NJ)',
+  'Montclair Art Museum (Montclair, NJ)',
+  'Morris Museum & Murtogh D. Guinness Collection (Morristown, NJ)',
+  'Trailside Nature and Science Center & Watchung Reservation (Mountainside, NJ)',
+  'Reeves-Reed Arboretum (Summit, NJ)',
   'Rutgers Gardens & Agricultural Experiment Station (New Brunswick, NJ)',
   'Rutgers Geology Museum (New Brunswick, NJ)',
-  'New Jersey Historical Society (Newark, NJ)',
-  'Morven Museum & Garden (Princeton, NJ)',
-  'Old Barracks Museum (Trenton, NJ)',
-  'Thomas Edison National Historical Park (West Orange, NJ)',
-  'Adventure Aquarium (Camden, NJ)',
-  'The Wetlands Institute (Stone Harbor, NJ)',
-  'Camden Children\'s Garden (Camden, NJ)',
-  'Frelinghuysen Arboretum (Morristown, NJ)',
-  'Cora Hartshorn Arboretum & Bird Sanctuary (Short Hills, NJ)',
-  'Tenafly Nature Center (Tenafly, NJ)',
-  'Hunterdon County Arboretum (Lebanon, NJ)',
+  'Rutgers University Zimmerli Art Museum (New Brunswick, NJ)',
+  'East Jersey Old Town Village (Piscataway, NJ)',
 ];
 
 // Comprehensive 100+ Generic Academic & Exploratory Topics of Study for Step 3
@@ -172,7 +227,7 @@ const SENSORY_PROMPTS = [
   { label: '👃 What scents or air quality did you detect?', insertText: 'Scents/Air: ' },
 ];
 
-// Step 4: Guiding Reflection Questions (NOT pre-filled answers)
+// Step 4: Guiding Reflection Questions
 const REFLECTION_QUESTIONS = [
   { label: '💡 How does this connect to what you learned before?', prompt: 'Connection to prior learning: ' },
   { label: '🌍 How does this affect people or nature?', prompt: 'Real-world impact: ' },
@@ -180,9 +235,25 @@ const REFLECTION_QUESTIONS = [
   { label: '❓ What question do you still want to explore?', prompt: 'Question I still have: ' },
 ];
 
-const getCurrentTimeStr = () => {
+// Helper to get current HH:MM for native time picker
+const getCurrentTimeHHMM = () => {
   const now = new Date();
-  return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' EDT';
+  const hours = String(now.getHours()).padStart(2, '0');
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  return `${hours}:${minutes}`;
+};
+
+// Helper to format HH:MM into a friendly display string (e.g. 9:15 AM EDT)
+const formatTimeForDisplay = (hhmm) => {
+  if (!hhmm) return 'Not recorded';
+  const parts = hhmm.split(':');
+  if (parts.length < 2) return hhmm;
+  let h = parseInt(parts[0], 10);
+  const m = parts[1];
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  h = h % 12;
+  h = h ? h : 12;
+  return `${h}:${m} ${ampm} EDT`;
 };
 
 const DUMMY_STUDENTS = {
@@ -193,7 +264,7 @@ const DUMMY_STUDENTS = {
     grade: '5th Grade',
     caregiverName: 'Sarah Lin',
     date: new Date().toISOString().split('T')[0],
-    checkInTime: getCurrentTimeStr(),
+    checkInTime: getCurrentTimeHHMM(),
     isCheckedIn: true,
     location: '',
     hoursBreakdown: {
@@ -218,7 +289,7 @@ const DUMMY_STUDENTS = {
     grade: '8th Grade',
     caregiverName: 'David Chen',
     date: new Date().toISOString().split('T')[0],
-    checkInTime: getCurrentTimeStr(),
+    checkInTime: getCurrentTimeHHMM(),
     isCheckedIn: true,
     location: '',
     hoursBreakdown: {
@@ -245,7 +316,7 @@ const BLANK_FORM = {
   grade: '5th Grade',
   caregiverName: '',
   date: new Date().toISOString().split('T')[0],
-  checkInTime: getCurrentTimeStr(),
+  checkInTime: getCurrentTimeHHMM(),
   isCheckedIn: true,
   location: '',
   hoursBreakdown: {
@@ -263,7 +334,6 @@ const BLANK_FORM = {
   signatureData: '',
   logId: '',
 };
-
 
 const HVRSD_SCHOOLS = [
   'Bear Tavern Elementary',
@@ -291,7 +361,7 @@ const GRADES = [
 ];
 
 const STEPS = [
-  'Attendance & Location',
+  'Attendance, Date & Location',
   'Instructional Hours',
   'Key Learnings',
   'Observations & Reflection',
@@ -341,11 +411,13 @@ export default function LearningLogWizard() {
       setFormData({
         ...DUMMY_STUDENTS.maya,
         date: new Date().toISOString().split('T')[0],
+        checkInTime: getCurrentTimeHHMM(),
       });
     } else if (personaKey === 'liam') {
       setFormData({
         ...DUMMY_STUDENTS.liam,
         date: new Date().toISOString().split('T')[0],
+        checkInTime: getCurrentTimeHHMM(),
       });
     }
 
@@ -368,6 +440,7 @@ export default function LearningLogWizard() {
       school: customSchool,
       grade: customGrade,
       date: new Date().toISOString().split('T')[0],
+      checkInTime: getCurrentTimeHHMM(),
       logId: `ECO-NJ-2026-${code}X`,
     };
 
@@ -376,16 +449,6 @@ export default function LearningLogWizard() {
     setShowLoginModal(false);
     setCurrentStep(0);
     window.scrollTo({ top: 40, behavior: 'smooth' });
-  };
-
-  const handleCheckInStamp = () => {
-    const now = new Date();
-    const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' EDT';
-    setFormData(prev => ({
-      ...prev,
-      isCheckedIn: true,
-      checkInTime: timeStr,
-    }));
   };
 
   const updateField = (field, value) => {
@@ -402,7 +465,6 @@ export default function LearningLogWizard() {
     }));
   };
 
-  // Helper to append a question/prompt header into textarea
   const handleInsertPrompt = (field, promptText) => {
     setFormData(prev => {
       const current = prev[field].trim();
@@ -474,8 +536,11 @@ export default function LearningLogWizard() {
 
   const validateStep = (step) => {
     if (step === 0) {
-      if (!formData.isCheckedIn && !formData.checkInTime) {
-        return 'Please click the button to record your morning check-in time.';
+      if (!formData.date) {
+        return 'Please select the learning date.';
+      }
+      if (!formData.checkInTime) {
+        return 'Please set your check-in time.';
       }
       if (!formData.location.trim()) {
         return 'Please enter or select your learning location in New Jersey.';
@@ -549,7 +614,7 @@ export default function LearningLogWizard() {
   };
 
   // Filter Locations in NJ (case-insensitive substring search)
-  const filteredLocations = NJ_LOCATIONS.filter(loc =>
+  const filteredLocations = NJ_EDUCATIONAL_PLACES.filter(loc =>
     !formData.location || loc.toLowerCase().includes(formData.location.toLowerCase())
   );
 
@@ -559,7 +624,7 @@ export default function LearningLogWizard() {
   );
 
   // ==========================================
-  // FINAL REPORT: CLEAN, ACCURATE & SPACIOUS
+  // FINAL REPORT: CLEAN & SPACIOUS
   // ==========================================
   if (isSubmitted) {
     return (
@@ -642,7 +707,7 @@ export default function LearningLogWizard() {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
               <div className="bg-stone-50 p-3 rounded-lg border border-stone-200">
                 <span className="text-stone-500 block text-[10px]">Morning Check-In</span>
-                <span className="font-bold text-stone-800">{formData.checkInTime || '8:45 AM EDT'}</span>
+                <span className="font-bold text-stone-800">{formatTimeForDisplay(formData.checkInTime)}</span>
               </div>
               <div className="bg-stone-50 p-3 rounded-lg border border-stone-200">
                 <span className="text-stone-500 block text-[10px]">Learning Location</span>
@@ -851,51 +916,63 @@ export default function LearningLogWizard() {
           </div>
         )}
 
-        {/* STEP 0: Attendance Check-In & Searchable NJ Location */}
+        {/* STEP 0: Attendance Time Picker, Date Picker & Searchable NJ Location */}
         {currentStep === 0 && (
           <div className="space-y-5">
             <div>
               <h2 className="text-xl font-serif font-bold text-stone-900">
-                Morning Attendance & Location
+                Attendance, Date & Location
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                Check in your time for today and type where you learned.
+                Set your learning date, check-in time, and location in New Jersey.
               </p>
             </div>
 
-            {/* Prefilled Check-In Time with Re-Stamp Option */}
-            <div className="p-4 bg-stone-50 rounded-xl border border-stone-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+            {/* Date & Time Pickers Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 p-4 bg-stone-50 rounded-xl border border-stone-200">
+              {/* Date Picker */}
               <div>
-                <span className="text-[11px] font-bold text-stone-500 uppercase block">Check-In Timestamp</span>
-                <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
-                  <span>✓</span> Recorded for 9:30 AM attendance
-                </span>
-              </div>
-              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  📅 Learning Date *
+                </label>
                 <input
-                  type="text"
+                  type="date"
+                  value={formData.date}
+                  onChange={(e) => updateField('date', e.target.value)}
+                  className="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border border-stone-300 bg-white text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
+                />
+              </div>
+
+              {/* Time Picker */}
+              <div>
+                <div className="flex justify-between items-center mb-1">
+                  <label className="text-xs font-bold text-stone-700">
+                    ⏰ Morning Check-In Time *
+                  </label>
+                  <button
+                    type="button"
+                    onClick={() => updateField('checkInTime', getCurrentTimeHHMM())}
+                    className="text-[11px] text-[#B05B3B] hover:text-[#8F4428] font-bold underline"
+                  >
+                    ⚡ Set to Now
+                  </button>
+                </div>
+                <input
+                  type="time"
                   value={formData.checkInTime}
                   onChange={(e) => updateField('checkInTime', e.target.value)}
-                  placeholder="e.g. 8:45 AM EDT"
-                  className="px-3 py-1.5 text-xs sm:text-sm font-bold bg-white border border-stone-300 rounded-lg text-center w-36 text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
+                  className="w-full px-3 py-2 text-xs sm:text-sm font-semibold rounded-lg border border-stone-300 bg-white text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
                 />
-                <button
-                  type="button"
-                  onClick={handleCheckInStamp}
-                  className="text-xs text-[#B05B3B] hover:text-[#8F4428] font-bold underline whitespace-nowrap"
-                >
-                  ⚡ Re-stamp now
-                </button>
               </div>
             </div>
 
-            {/* Typeable / Searchable NJ Locations List */}
+            {/* Typeable / Searchable 100+ NJ Locations List */}
             <div className="relative">
               <label className="block text-xs font-bold text-stone-700 mb-1">
                 Where did you learn today? (Type a location in New Jersey) *
               </label>
               <p className="text-[11px] text-stone-500 mb-1.5">
-                Type any park, preserve, library, nature center, home base, or field location:
+                Type any park, preserve, library, nature center, museum, home base, or field site:
               </p>
               <input
                 type="text"
@@ -905,16 +982,15 @@ export default function LearningLogWizard() {
                   setLocationSearchOpen(true);
                 }}
                 onFocus={() => setLocationSearchOpen(true)}
-                placeholder="Type a location (e.g. Mercer Meadows, Baldpate, Library, Home Studio)..."
+                placeholder="Type e.g. Mercer Meadows, Baldpate, Watershed, Liberty Science, Home..."
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
               />
 
-
               {/* Suggestions dropdown */}
               {locationSearchOpen && (
-                <div className="mt-1 max-h-48 overflow-y-auto bg-white border border-stone-200 rounded-xl shadow-lg p-1.5 space-y-0.5 z-30">
+                <div className="mt-1 max-h-56 overflow-y-auto bg-white border border-stone-200 rounded-xl shadow-lg p-1.5 space-y-0.5 z-30">
                   <div className="text-[10px] font-bold uppercase text-stone-400 px-2 py-1 flex justify-between items-center">
-                    <span>New Jersey Places & Parks ({filteredLocations.length})</span>
+                    <span>NJ Educational Places ({filteredLocations.length})</span>
                     <button
                       type="button"
                       onClick={() => setLocationSearchOpen(false)}
@@ -923,7 +999,7 @@ export default function LearningLogWizard() {
                       ✕ Close
                     </button>
                   </div>
-                  {filteredLocations.slice(0, 8).map(loc => (
+                  {filteredLocations.slice(0, 10).map(loc => (
                     <button
                       key={loc}
                       type="button"
@@ -937,6 +1013,11 @@ export default function LearningLogWizard() {
                       <span className="text-[10px] text-stone-400">Select</span>
                     </button>
                   ))}
+                  {filteredLocations.length === 0 && (
+                    <div className="px-3 py-2 text-xs text-stone-500">
+                      Using custom location: <strong>"{formData.location}"</strong>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -1024,7 +1105,7 @@ export default function LearningLogWizard() {
           </div>
         )}
 
-        {/* STEP 2: Topic Search (100+ Topics) & Discoveries (Starts Blank) */}
+        {/* STEP 2: Topic Search (100+ Topics) & Discoveries */}
         {currentStep === 2 && (
           <div className="space-y-4">
             <div>
@@ -1082,14 +1163,14 @@ export default function LearningLogWizard() {
                   ))}
                   {filteredTopics.length === 0 && (
                     <div className="px-3 py-2 text-xs text-stone-500">
-                      No preset match found. You can use your custom topic: <strong>"{formData.subjectArea}"</strong>
+                      Using custom topic: <strong>"{formData.subjectArea}"</strong>
                     </div>
                   )}
                 </div>
               )}
             </div>
 
-            {/* Key Discoveries (Starts Clean/Blank) */}
+            {/* Key Discoveries */}
             <div>
               <label className="block text-xs font-bold text-stone-700 mb-1">Key Discoveries & Concepts</label>
               <textarea
@@ -1144,7 +1225,7 @@ export default function LearningLogWizard() {
               />
             </div>
 
-            {/* Holistic Reflection with Guiding Questions (No Pre-filled Answers) */}
+            {/* Holistic Reflection with Guiding Questions */}
             <div className="space-y-2 pt-1">
               <div className="flex justify-between items-center">
                 <label className="text-xs font-bold text-stone-700">Holistic Reflection</label>
