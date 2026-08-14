@@ -180,6 +180,11 @@ const REFLECTION_QUESTIONS = [
   { label: '❓ What question do you still want to explore?', prompt: 'Question I still have: ' },
 ];
 
+const getCurrentTimeStr = () => {
+  const now = new Date();
+  return now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) + ' EDT';
+};
+
 const DUMMY_STUDENTS = {
   maya: {
     id: 'maya',
@@ -188,9 +193,9 @@ const DUMMY_STUDENTS = {
     grade: '5th Grade',
     caregiverName: 'Sarah Lin',
     date: new Date().toISOString().split('T')[0],
-    checkInTime: '8:45 AM EDT',
+    checkInTime: getCurrentTimeStr(),
     isCheckedIn: true,
-    location: 'Mercer Meadows & Environmental Center (Pennington, NJ)',
+    location: '',
     hoursBreakdown: {
       literacy: 0,
       stem: 0,
@@ -213,9 +218,9 @@ const DUMMY_STUDENTS = {
     grade: '8th Grade',
     caregiverName: 'David Chen',
     date: new Date().toISOString().split('T')[0],
-    checkInTime: '9:10 AM EDT',
+    checkInTime: getCurrentTimeStr(),
     isCheckedIn: true,
-    location: 'St. Michaels Farm Preserve (Hopewell, NJ)',
+    location: '',
     hoursBreakdown: {
       literacy: 0,
       stem: 0,
@@ -240,8 +245,8 @@ const BLANK_FORM = {
   grade: '5th Grade',
   caregiverName: '',
   date: new Date().toISOString().split('T')[0],
-  checkInTime: '',
-  isCheckedIn: false,
+  checkInTime: getCurrentTimeStr(),
+  isCheckedIn: true,
   location: '',
   hoursBreakdown: {
     literacy: 0,
@@ -258,6 +263,7 @@ const BLANK_FORM = {
   signatureData: '',
   logId: '',
 };
+
 
 const HVRSD_SCHOOLS = [
   'Bear Tavern Elementary',
@@ -853,32 +859,44 @@ export default function LearningLogWizard() {
                 Morning Attendance & Location
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                Record your 9:30 AM check-in timestamp and type where you learned today.
+                Check in your time for today and type where you learned.
               </p>
             </div>
 
-            {/* Timestamp Button */}
-            <div className="p-4 bg-stone-50 rounded-xl border border-stone-200 text-center">
-              {formData.isCheckedIn ? (
-                <div className="text-emerald-700 text-sm font-semibold">
-                  ✓ Check-In Recorded: {formData.checkInTime}
-                </div>
-              ) : (
+            {/* Prefilled Check-In Time with Re-Stamp Option */}
+            <div className="p-4 bg-stone-50 rounded-xl border border-stone-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div>
+                <span className="text-[11px] font-bold text-stone-500 uppercase block">Check-In Timestamp</span>
+                <span className="text-xs text-emerald-700 font-semibold flex items-center gap-1 mt-0.5">
+                  <span>✓</span> Recorded for 9:30 AM attendance
+                </span>
+              </div>
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <input
+                  type="text"
+                  value={formData.checkInTime}
+                  onChange={(e) => updateField('checkInTime', e.target.value)}
+                  placeholder="e.g. 8:45 AM EDT"
+                  className="px-3 py-1.5 text-xs sm:text-sm font-bold bg-white border border-stone-300 rounded-lg text-center w-36 text-stone-900 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
+                />
                 <button
                   type="button"
                   onClick={handleCheckInStamp}
-                  className="bg-[#B05B3B] hover:bg-[#8F4428] text-white text-xs font-bold px-5 py-2.5 rounded-full shadow-sm"
+                  className="text-xs text-[#B05B3B] hover:text-[#8F4428] font-bold underline whitespace-nowrap"
                 >
-                  ⚡ Record 9:30 AM Check-In
+                  ⚡ Re-stamp now
                 </button>
-              )}
+              </div>
             </div>
 
             {/* Typeable / Searchable NJ Locations List */}
             <div className="relative">
               <label className="block text-xs font-bold text-stone-700 mb-1">
-                Learning Location in New Jersey (Type your site name) *
+                Where did you learn today? (Type a location in New Jersey) *
               </label>
+              <p className="text-[11px] text-stone-500 mb-1.5">
+                Type any park, preserve, library, nature center, home base, or field location:
+              </p>
               <input
                 type="text"
                 value={formData.location}
@@ -887,9 +905,10 @@ export default function LearningLogWizard() {
                   setLocationSearchOpen(true);
                 }}
                 onFocus={() => setLocationSearchOpen(true)}
-                placeholder="Type e.g. Mercer Meadows, St. Michaels, Library, Watershed, Baldpate, Home..."
+                placeholder="Type a location (e.g. Mercer Meadows, Baldpate, Library, Home Studio)..."
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
               />
+
 
               {/* Suggestions dropdown */}
               {locationSearchOpen && (
