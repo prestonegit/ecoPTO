@@ -1,96 +1,183 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Generic K-12 Academic & Exploratory Topics of Study
-const GENERIC_TOPICS_OF_STUDY = [
-  // Sciences & Nature
-  'Ecology & Ecosystem Dynamics',
-  'Freshwater Biology & Water Quality',
-  'Botany, Plant Anatomy & Photosynthesis',
-  'Zoology, Animal Behavior & Habitats',
-  'Ornithology (Bird Studies & Migration)',
-  'Entomology & Pollinator Life Cycles',
-  'Earth Science, Geology & Mineralogy',
-  'Meteorology, Weather Patterns & Climate',
-  'Environmental Science & Conservation Biology',
-  'Microbiology & Pond Microscopy',
-  'Physics: Energy, Force & Fluid Mechanics',
-  'Chemistry & Soil Nutrient Cycles',
-  'Astronomy, Celestial Cycles & Constellations',
-  'Evolution, Adaptation & Biodiversity',
+// Comprehensive New Jersey Locations Library for Step 1
+const NJ_LOCATIONS = [
+  // Local Hopewell Valley & Mercer County
+  'Mercer Meadows & Environmental Center (Pennington, NJ)',
+  'St. Michaels Farm Preserve (Hopewell, NJ)',
+  'Baldpate Mountain & Ted Stiles Preserve (Titusville, NJ)',
+  'Watershed Institute Reserve & Discovery Center (Pennington, NJ)',
+  'Howell Living History Farm (Lambertville / Hopewell, NJ)',
+  'Hopewell Public Library (Hopewell, NJ)',
+  'Pennington Public Library (Pennington, NJ)',
+  'Mercer County Library - Hopewell Valley Branch',
+  'Rosedale Park & Mercer Lake (Pennington, NJ)',
+  'Washington Crossing State Park & Visitor Center (Titusville, NJ)',
+  'Stony Brook Trail & Currier Woods (Hopewell, NJ)',
+  'Fiddler\'s Creek Ravine Preserve (Titusville, NJ)',
+  'Woolsey Park & Historic Airfield (Titusville, NJ)',
+  'Hopewell Elementary School / Outdoor Classroom',
+  'Bear Tavern Elementary School / Outdoor Den',
+  'Toll Gate Grammar School / Courtyard Garden',
+  'Timberlane Middle School / Science Lab',
+  'Hopewell Valley Central High School',
+  'Home Base Learning Studio / Backyard Lab',
 
-  // Mathematics, Data & Applied STEM
-  'Applied Mathematics & Field Geometry',
-  'Data Collection, Sampling & Statistical Analysis',
-  'Topography, Elevation & Contour Mapping',
-  'Renewable Energy & Solar Engineering',
-  'Simple Machines & Mechanical Physics',
+  // State Parks, Forests & Preserves
+  'Island Beach State Park (Ocean County, NJ)',
+  'High Point State Park & Appalachian Trail (Sussex County, NJ)',
+  'Delaware Water Gap National Recreation Area (Warren/Sussex, NJ)',
+  'Wharton State Forest & Pine Barrens (Burlington/Atlantic, NJ)',
+  'Liberty State Park & Nature Center (Jersey City, NJ)',
+  'Sourland Mountain Preserve (Hillsborough, NJ)',
+  'Duke Farms & Sustainability Center (Hillsborough, NJ)',
+  'Hackensack Meadowlands Conservation Area (Bergen/Hudson, NJ)',
+  'Cheesequake State Park & Marshes (Middlesex County, NJ)',
+  'Round Valley Recreation Area (Hunterdon County, NJ)',
+  'Spruce Run Recreation Area (Hunterdon County, NJ)',
+  'Allamuchy Mountain State Park (Morris/Warren, NJ)',
+  'Jockey Hollow & Morristown National Historical Park (Morristown, NJ)',
+  'Cape May Point State Park & Bird Observatory (Cape May, NJ)',
+  'Palisades Interstate Park (Bergen County, NJ)',
+  'Ken Lockwood Gorge & South Branch Raritan River (Hunterdon, NJ)',
+  'Sandy Hook Unit - Gateway National Recreation Area (Monmouth, NJ)',
+
+  // Science Centers, Museums, Arboretums & Cultural Sites
+  'Liberty Science Center & Planetarium (Jersey City, NJ)',
+  'New Jersey State Museum & Planetarium (Trenton, NJ)',
+  'Grounds For Sculpture (Hamilton, NJ)',
+  'Princeton University Art Museum & Campus (Princeton, NJ)',
+  'Rutgers Gardens & Agricultural Experiment Station (New Brunswick, NJ)',
+  'Rutgers Geology Museum (New Brunswick, NJ)',
+  'New Jersey Historical Society (Newark, NJ)',
+  'Morven Museum & Garden (Princeton, NJ)',
+  'Old Barracks Museum (Trenton, NJ)',
+  'Thomas Edison National Historical Park (West Orange, NJ)',
+  'Adventure Aquarium (Camden, NJ)',
+  'The Wetlands Institute (Stone Harbor, NJ)',
+  'Camden Children\'s Garden (Camden, NJ)',
+  'Frelinghuysen Arboretum (Morristown, NJ)',
+  'Cora Hartshorn Arboretum & Bird Sanctuary (Short Hills, NJ)',
+  'Tenafly Nature Center (Tenafly, NJ)',
+  'Hunterdon County Arboretum (Lebanon, NJ)',
+];
+
+// Comprehensive 100+ Generic Academic & Exploratory Topics of Study for Step 3
+const GENERIC_TOPICS_OF_STUDY = [
+  // Physical Sciences, Electricity, Energy & Engineering
+  'Electricity, Circuits & Electric Currents',
+  'Electromagnetism & Magnetic Fields',
+  'Renewable Energy: Solar, Wind & Hydroelectric Power',
+  'Physics: Force, Motion, Velocity & Newton\'s Laws',
+  'Energy: Kinetic, Potential, Thermal & Mechanical',
+  'Light, Optics, Reflection & Refraction',
+  'Sound Waves, Acoustics & Frequency',
+  'Thermodynamics & Heat Transfer',
+  'Simple Machines, Levers, Pulleys & Mechanical Advantage',
+  'Robotics, Microcontrollers & Basic Electronics',
+  'Engineering Design Process & Structural Prototyping',
+  'Aerodynamics & Flight Dynamics',
+
+  // Astronomy, Space Sciences & Earth Science
+  'Astronomy: Stars, Galaxies & Deep Space',
+  'Space Exploration, Rockets & Orbital Mechanics',
+  'Solar System, Planets, Moons & Asteroids',
+  'Lunar Phases, Eclipses & Gravitational Tides',
+  'Sun, Solar Radiation & Space Weather',
+  'Constellations, Star Charts & Celestial Navigation',
+  'Earth Science: Plate Tectonics, Earthquakes & Volcanoes',
+  'Geology: Rocks, Minerals & Geological Formations',
+  'Meteorology: Weather Systems, Fronts & Forecasting',
+  'Climate Science, Greenhouse Effect & Atmospheric Cycles',
+  'Hydrology, Watershed Dynamics & Water Cycle',
+  'Oceanography, Marine Currents & Tides',
+
+  // Life Sciences, Biology & Ecology
+  'Biology: Cell Structure, Function & Cell Division',
+  'Genetics, DNA, Heredity & Traits',
+  'Evolution, Natural Selection & Adaptation',
+  'Ecology & Ecosystem Interactions',
+  'Freshwater Biology & Aquatic Organisms',
+  'Marine Biology & Ocean Ecosystems',
+  'Botany: Plant Physiology, Seeds & Photosynthesis',
+  'Zoology: Animal Behavior, Anatomy & Classification',
+  'Ornithology: Bird Anatomy, Calls & Migration',
+  'Entomology: Insects, Arachnids & Metamorphosis',
+  'Herpetology: Reptiles & Amphibians',
+  'Microbiology: Bacteria, Fungi, Viruses & Protozoa',
+  'Soil Science, Microorganisms & Composting',
+  'Conservation Biology & Endangered Species',
+  'Human Anatomy, Physiology & Organ Systems',
+
+  // Mathematics & Data
+  'Applied Mathematics & Word Problems',
+  'Arithmetic & Pre-Algebra Operations',
+  'Algebra, Equations & Linear Functions',
+  'Geometry: Shapes, Angles, Area, Perimeter & Volume',
+  'Data Collection, Graphing, Charts & Statistics',
+  'Probability, Combinatorics & Logic',
+  'Measurement, Metric Conversions & Precision',
+  'Computer Science: Algorithms, Logic & Coding',
 
   // Language Arts & Humanities
-  'Field Journaling & Expository Writing',
-  'Nature Poetry & Creative Writing',
-  'Literature Analysis & Close Reading',
-  'Environmental Philosophy & Nature Literature',
-  'Local History & Archival Primary Sources',
-  'Civics, Public Policy & Environmental Law',
-  'Cultural Geography & Human-Environment Interaction',
-  'Archaeology, Anthropology & Material Culture',
+  'Reading Comprehension & Novel Study',
+  'Creative Writing, Short Stories & Fiction',
+  'Poetry, Rhyme, Meter & Figurative Language',
+  'Expository Writing, Informational Essays & Reports',
+  'Persuasive Writing, Argumentation & Debate',
+  'Field Journaling, Observations & Descriptive Writing',
+  'Spelling, Vocabulary Building & Etymology',
+  'Grammar, Sentence Structure & Editing',
+  'Public Speaking, Presentations & Oral Communication',
+  'Environmental Literature & Nature Essays',
 
-  // Arts, Agriculture & Practical Skills
-  'Botanical Illustration & Scientific Sketching',
-  'Landscape Painting & Visual Arts',
-  'Acoustic Ecology & Soundscape Analysis',
-  'Agricultural Science & Crop Cultivation',
-  'Horticulture, Soil Biology & Composting',
-  'Nutrition, Food Systems & Culinary Arts',
+  // History & Social Studies
+  'Local & Regional Community History',
+  'United States History & Early Republic',
+  'World History & Ancient Civilizations',
+  'Civics, Government Structure & Constitution',
+  'Elections, Voting & Public Participation',
+  'Economics: Scarcity, Trade, Markets & Money',
+  'Human Geography, Maps & Cultural Regions',
+  'Native American History, Heritage & Culture',
+  'Civil Rights, Social Movements & Community Action',
+  'Archaeology, Artifacts & Primary Source Analysis',
 
-  // Health, Movement & Outdoor Skills
-  'Physical Fitness, Trail Running & Kinesthetics',
-  'Mindful Movement, Meditation & Wellness',
-  'Wilderness Orienteering & Compass Navigation',
-  'Field Safety, Survival Skills & Knotcraft',
+  // Visual Arts, Music & Practical Skills
+  'Drawing, Sketching, Shading & Perspective',
+  'Botanical Illustration & Scientific Drawing',
+  'Painting: Watercolor, Acrylic & Color Theory',
+  'Sculpture, Modeling Clay & 3D Design',
+  'Photography, Framing & Visual Storytelling',
+  'Music Theory, Rhythm, Melody & Instrumentation',
+  'Acoustics, Soundscapes & Field Audio Recording',
+  'Agricultural Skills, Crop Planting & Garden Care',
+  'Culinary Arts, Food Chemistry & Nutrition',
+  'Woodworking, Tool Safety & Craftsmanship',
+
+  // Physical Education & Outdoor Skills
+  'Physical Fitness, Cardio & Muscular Endurance',
+  'Trail Running, Hiking & Distance Walking',
+  'Yoga, Stretching & Mindful Movement',
+  'Orienteering, Topographic Maps & Compass Use',
+  'Outdoor Survival Skills, Shelter & Knotcraft',
+  'First Aid Basics, Wilderness Safety & Preparedness',
 ];
 
-// Rich set of locations (Local Field Sites, Nature Centers, Home Bases & Custom)
-const LOCATION_OPTIONS = [
-  'Mercer Meadows & Nature Center',
-  'St. Michaels Farm Preserve',
-  'Hopewell Public Library',
-  'Baldpate Mountain Preserve',
-  'Howell Living History Farm',
-  'Watershed Institute Reserve',
-  'Home Base / Study Space',
-  'School Community Garden',
-  'Rosedale Park & Lake',
-  'Washington Crossing State Park',
-  'Other / Custom Field Site',
+// Step 4: Generic Sensory Inquiry Prompts
+const SENSORY_PROMPTS = [
+  { label: '👁️ What caught your eye?', insertText: 'Visual Details: ' },
+  { label: '👂 What sounds did you notice?', insertText: 'Sounds Heard: ' },
+  { label: '✋ What textures/temperatures did you feel?', insertText: 'Textures/Feel: ' },
+  { label: '👃 What scents or air quality did you detect?', insertText: 'Scents/Air: ' },
 ];
 
-// Tap-to-Fill Sensory Observation Chips (Ages 6 to 16)
-const SENSORY_CHIPS = [
-  { sense: 'sight', emoji: '👁️', label: 'Heron in Shallows', text: 'Saw a great blue heron hunting in the shallows' },
-  { sense: 'sight', emoji: '👁️', label: 'Sunlight on Water', text: 'Saw sunlight sparkling on clear water riffles' },
-  { sense: 'sight', emoji: '👁️', label: 'Bumblebees on Flowers', text: 'Saw bumblebees dusted with yellow pollen' },
-  { sense: 'sight', emoji: '👁️', label: 'Animal Tracks', text: 'Noticed animal tracks along the muddy trail' },
-  { sense: 'sight', emoji: '👁️', label: 'Tree Canopy Layers', text: 'Observed the layered tree canopy and leaf shapes' },
-  { sense: 'sound', emoji: '👂', label: 'Birds Calling', text: 'Heard songbirds calling in the trees' },
-  { sense: 'sound', emoji: '👂', label: 'Rushing Water', text: 'Heard the sound of rushing water over pebbles' },
-  { sense: 'sound', emoji: '👂', label: 'Wind in Leaves', text: 'Heard wind rustling through tall canopy leaves' },
-  { sense: 'smell', emoji: '👃', label: 'Damp Pine / Cedar', text: 'Smelled damp pine needles and cedar bark' },
-  { sense: 'smell', emoji: '👃', label: 'Fresh Rain / Soil', text: 'Smelled fresh rain on rich forest soil' },
-  { sense: 'smell', emoji: '👃', label: 'Sweet Clover / Flowers', text: 'Smelled sweet clover blooming in the meadow' },
-  { sense: 'touch', emoji: '✋', label: 'Cold Spring Water', text: 'Felt cold 56°F spring water' },
-  { sense: 'touch', emoji: '✋', label: 'Smooth Creek Rock', text: 'Touched smooth, rounded river stones' },
-  { sense: 'touch', emoji: '✋', label: 'Rough Tree Bark', text: 'Felt the rough ridges of oak bark' },
-  { sense: 'touch', emoji: '✋', label: 'Soft Velvet Moss', text: 'Felt soft green moss on a fallen log' },
-];
-
-const REFLECTION_CHIPS = [
-  '🌱 Trees and shade keep water cool so aquatic life can survive summer temperatures.',
-  '🐝 Protecting wildflowers gives pollinators the continuous food source they need.',
-  '💧 Forests filter rainwater naturally through deep soil layers before it enters streams.',
-  '🏡 Preserving open green spaces creates connected corridors for migrating wildlife.',
-  '🌾 Healthy, uncompacted soil stores significantly more moisture during dry spells.',
-  '🧘 Quiet observation makes academic concepts feel tangible and easy to remember.',
+// Step 4: Guiding Reflection Questions (NOT pre-filled answers)
+const REFLECTION_QUESTIONS = [
+  { label: '💡 How does this connect to what you learned before?', prompt: 'Connection to prior learning: ' },
+  { label: '🌍 How does this affect people or nature?', prompt: 'Real-world impact: ' },
+  { label: '🤔 What surprised you the most?', prompt: 'What surprised me: ' },
+  { label: '❓ What question do you still want to explore?', prompt: 'Question I still have: ' },
 ];
 
 const DUMMY_STUDENTS = {
@@ -103,19 +190,18 @@ const DUMMY_STUDENTS = {
     date: new Date().toISOString().split('T')[0],
     checkInTime: '8:45 AM EDT',
     isCheckedIn: true,
-    location: 'Mercer Meadows & Nature Center',
-    customLocation: '',
+    location: 'Mercer Meadows & Environmental Center (Pennington, NJ)',
     hoursBreakdown: {
-      literacy: 1.0,
-      stem: 2.0,
-      community: 0.5,
-      movement: 1.0,
+      literacy: 0,
+      stem: 0,
+      community: 0,
+      movement: 0,
     },
-    subjectArea: 'Freshwater Biology & Water Quality',
-    keyLearnings: 'Discovered that mayfly and caddisfly nymphs indicate clean, high-oxygen stream water.',
-    holisticReflection: 'Upstream forest canopies keep water cool and protect vulnerable freshwater species.',
-    sensoryObservations: 'Saw sunlight sparkling on clear water riffles; heard songbirds calling in the trees; smelled damp cedar bark; felt cold 56°F spring water.',
-    certified: true,
+    subjectArea: '',
+    keyLearnings: '',
+    holisticReflection: '',
+    sensoryObservations: '',
+    certified: false,
     signatureType: 'type',
     signatureData: 'Sarah Lin (Caregiver) & Maya Lin (Student)',
     logId: 'ECO-NJ-2026-8492M',
@@ -129,19 +215,18 @@ const DUMMY_STUDENTS = {
     date: new Date().toISOString().split('T')[0],
     checkInTime: '9:10 AM EDT',
     isCheckedIn: true,
-    location: 'St. Michaels Farm Preserve',
-    customLocation: '',
+    location: 'St. Michaels Farm Preserve (Hopewell, NJ)',
     hoursBreakdown: {
-      literacy: 1.5,
-      stem: 1.5,
-      community: 1.0,
-      movement: 1.0,
+      literacy: 0,
+      stem: 0,
+      community: 0,
+      movement: 0,
     },
-    subjectArea: 'Agricultural Science & Crop Cultivation',
-    keyLearnings: 'Analyzed organic matter depth across three field transects in late spring.',
-    holisticReflection: 'Connected municipal conservation policies with regional pollinator biodiversity.',
-    sensoryObservations: 'Saw bumblebees dusted with yellow pollen; smelled sweet clover blooming in the meadow; felt coarse clay-loam soil.',
-    certified: true,
+    subjectArea: '',
+    keyLearnings: '',
+    holisticReflection: '',
+    sensoryObservations: '',
+    certified: false,
     signatureType: 'type',
     signatureData: 'David Chen (Caregiver) & Liam Chen (Student)',
     logId: 'ECO-NJ-2026-3174L',
@@ -157,13 +242,12 @@ const BLANK_FORM = {
   date: new Date().toISOString().split('T')[0],
   checkInTime: '',
   isCheckedIn: false,
-  location: 'Mercer Meadows & Nature Center',
-  customLocation: '',
+  location: '',
   hoursBreakdown: {
-    literacy: 1.0,
-    stem: 1.5,
-    community: 0.5,
-    movement: 1.0,
+    literacy: 0,
+    stem: 0,
+    community: 0,
+    movement: 0,
   },
   subjectArea: '',
   keyLearnings: '',
@@ -222,9 +306,14 @@ export default function LearningLogWizard() {
   const [customSchool, setCustomSchool] = useState('Bear Tavern Elementary');
   const [customGrade, setCustomGrade] = useState('5th Grade');
   const [validationError, setValidationError] = useState('');
+  
+  // Autocomplete dropdown state
+  const [locationSearchOpen, setLocationSearchOpen] = useState(false);
   const [topicSearchOpen, setTopicSearchOpen] = useState(false);
+  
   const canvasRef = useRef(null);
 
+  // Total Hours calculation
   const totalHours = Object.values(formData.hoursBreakdown).reduce((acc, h) => acc + (parseFloat(h) || 0), 0);
 
   useEffect(() => {
@@ -243,9 +332,15 @@ export default function LearningLogWizard() {
     setValidationError('');
     
     if (personaKey === 'maya') {
-      setFormData({ ...DUMMY_STUDENTS.maya, date: new Date().toISOString().split('T')[0] });
+      setFormData({
+        ...DUMMY_STUDENTS.maya,
+        date: new Date().toISOString().split('T')[0],
+      });
     } else if (personaKey === 'liam') {
-      setFormData({ ...DUMMY_STUDENTS.liam, date: new Date().toISOString().split('T')[0] });
+      setFormData({
+        ...DUMMY_STUDENTS.liam,
+        date: new Date().toISOString().split('T')[0],
+      });
     }
 
     setShowLoginModal(false);
@@ -293,26 +388,20 @@ export default function LearningLogWizard() {
   };
 
   const updateHour = (category, value) => {
-    const num = Math.max(0, parseFloat(value) || 0);
+    const val = value === '' ? 0 : parseFloat(value);
+    const num = isNaN(val) ? 0 : Math.max(0, val);
     setFormData(prev => ({
       ...prev,
       hoursBreakdown: { ...prev.hoursBreakdown, [category]: num },
     }));
   };
 
-  const handleAddSensoryChip = (chipText) => {
+  // Helper to append a question/prompt header into textarea
+  const handleInsertPrompt = (field, promptText) => {
     setFormData(prev => {
-      const current = prev.sensoryObservations.trim();
-      const nextText = current ? `${current}; ${chipText.toLowerCase()}` : chipText;
-      return { ...prev, sensoryObservations: nextText };
-    });
-  };
-
-  const handleAddReflectionChip = (chipText) => {
-    setFormData(prev => {
-      const current = prev.holisticReflection.trim();
-      const nextText = current ? `${current} ${chipText}` : chipText;
-      return { ...prev, holisticReflection: nextText };
+      const current = prev[field].trim();
+      const nextText = current ? `${current}\n\n${promptText}` : promptText;
+      return { ...prev, [field]: nextText };
     });
   };
 
@@ -380,10 +469,10 @@ export default function LearningLogWizard() {
   const validateStep = (step) => {
     if (step === 0) {
       if (!formData.isCheckedIn && !formData.checkInTime) {
-        return 'Please stamp morning check-in.';
+        return 'Please click the button to record your morning check-in time.';
       }
-      if (formData.location === 'Other / Custom Field Site' && !formData.customLocation.trim()) {
-        return 'Please specify your custom location name.';
+      if (!formData.location.trim()) {
+        return 'Please enter or select your learning location in New Jersey.';
       }
     }
     if (step === 1) {
@@ -453,23 +542,24 @@ export default function LearningLogWizard() {
     setShowLoginModal(true);
   };
 
-  // Filter generic topics of study
-  const filteredTopics = GENERIC_TOPICS_OF_STUDY.filter(t => 
-    !formData.subjectArea || t.toLowerCase().includes(formData.subjectArea.toLowerCase())
+  // Filter Locations in NJ (case-insensitive substring search)
+  const filteredLocations = NJ_LOCATIONS.filter(loc =>
+    !formData.location || loc.toLowerCase().includes(formData.location.toLowerCase())
   );
 
-  const displayLocation = formData.location === 'Other / Custom Field Site' && formData.customLocation
-    ? formData.customLocation
-    : formData.location;
+  // Filter Topics of Study (case-insensitive substring search)
+  const filteredTopics = GENERIC_TOPICS_OF_STUDY.filter(topic =>
+    !formData.subjectArea || topic.toLowerCase().includes(formData.subjectArea.toLowerCase())
+  );
 
   // ==========================================
-  // FINAL REPORT: CLEAN & SPACIOUS
+  // FINAL REPORT: CLEAN, ACCURATE & SPACIOUS
   // ==========================================
   if (isSubmitted) {
     return (
       <div className="max-w-3xl mx-auto py-6 px-4">
         
-        {/* Simple Confirmation Header */}
+        {/* Confirmation Header */}
         <div className="bg-stone-50 border border-stone-200 rounded-2xl p-6 mb-8 text-center print:hidden">
           <div className="text-2xl mb-1">🌿</div>
           <h2 className="text-xl font-bold text-stone-900">
@@ -549,11 +639,11 @@ export default function LearningLogWizard() {
                 <span className="font-bold text-stone-800">{formData.checkInTime || '8:45 AM EDT'}</span>
               </div>
               <div className="bg-stone-50 p-3 rounded-lg border border-stone-200">
-                <span className="text-stone-500 block text-[10px]">Primary Location</span>
-                <span className="font-bold text-stone-800">{displayLocation}</span>
+                <span className="text-stone-500 block text-[10px]">Learning Location</span>
+                <span className="font-bold text-stone-800">{formData.location || 'Local Field Site'}</span>
               </div>
               <div className="bg-stone-50 p-3 rounded-lg border border-stone-200">
-                <span className="text-stone-500 block text-[10px]">Total Hours</span>
+                <span className="text-stone-500 block text-[10px]">Total Hours Logged</span>
                 <span className="font-bold text-emerald-800 text-sm">{totalHours.toFixed(1)} Hours Verified</span>
               </div>
             </div>
@@ -582,30 +672,30 @@ export default function LearningLogWizard() {
             {formData.keyLearnings && formData.keyLearnings !== 'N/A' && (
               <div>
                 <span className="font-bold text-stone-600 block text-[11px]">Key Learnings & Observations:</span>
-                <p className="text-stone-800 mt-1 leading-relaxed">{formData.keyLearnings}</p>
+                <p className="text-stone-800 mt-1 leading-relaxed whitespace-pre-wrap">{formData.keyLearnings}</p>
               </div>
             )}
 
             {formData.sensoryObservations && formData.sensoryObservations !== 'N/A' && (
               <div>
                 <span className="font-bold text-stone-600 block text-[11px]">Sensory Observations:</span>
-                <p className="text-stone-800 mt-1 leading-relaxed">{formData.sensoryObservations}</p>
+                <p className="text-stone-800 mt-1 leading-relaxed whitespace-pre-wrap">{formData.sensoryObservations}</p>
               </div>
             )}
 
             {formData.holisticReflection && formData.holisticReflection !== 'N/A' && (
               <div>
                 <span className="font-bold text-stone-600 block text-[11px]">Holistic Reflection:</span>
-                <p className="text-stone-800 mt-1 leading-relaxed">{formData.holisticReflection}</p>
+                <p className="text-stone-800 mt-1 leading-relaxed whitespace-pre-wrap">{formData.holisticReflection}</p>
               </div>
             )}
           </div>
 
-          {/* Sign-Off */}
+          {/* Sign-Off with Dynamic Actual Hours Logged */}
           <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-6 items-end text-xs">
             <div className="text-stone-600 space-y-1">
               <p className="leading-relaxed">
-                <strong>Certification:</strong> I certify that the student named above completed at least 4.0 hours of educational activity today under N.J.A.C. 6A:32-8.3.
+                <strong>Statutory Certification:</strong> I certify that {formData.studentName} completed <strong>{totalHours.toFixed(1)} hours</strong> of structured educational activity today under New Jersey state instructional day equivalency standards (N.J.A.C. 6A:32-8.3).
               </p>
               <div className="text-stone-400 text-[11px]">
                 Filed via ecoPTO.org • {submissionDate || new Date().toLocaleString()}
@@ -630,7 +720,7 @@ export default function LearningLogWizard() {
   }
 
   // ==========================================
-  // WIZARD CARDS
+  // WIZARD INTERFACE
   // ==========================================
   return (
     <div className="max-w-2xl mx-auto py-4 px-4">
@@ -755,15 +845,15 @@ export default function LearningLogWizard() {
           </div>
         )}
 
-        {/* STEP 0: Attendance & Expanded Locations */}
+        {/* STEP 0: Attendance Check-In & Searchable NJ Location */}
         {currentStep === 0 && (
           <div className="space-y-5">
             <div>
               <h2 className="text-xl font-serif font-bold text-stone-900">
-                Morning Attendance Check-In
+                Morning Attendance & Location
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                Record your daily check-in by 9:30 AM and select your learning site.
+                Record your 9:30 AM check-in timestamp and type where you learned today.
               </p>
             </div>
 
@@ -784,124 +874,138 @@ export default function LearningLogWizard() {
               )}
             </div>
 
-            {/* Expanded Location Options */}
-            <div>
-              <label className="block text-xs font-bold text-stone-700 mb-2">
-                Primary Learning Location:
+            {/* Typeable / Searchable NJ Locations List */}
+            <div className="relative">
+              <label className="block text-xs font-bold text-stone-700 mb-1">
+                Learning Location in New Jersey (Type your site name) *
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {LOCATION_OPTIONS.map(loc => (
-                  <button
-                    key={loc}
-                    type="button"
-                    onClick={() => updateField('location', loc)}
-                    className={`p-2.5 text-xs text-left rounded-lg border transition-colors ${
-                      formData.location === loc
-                        ? 'border-[#B05B3B] bg-stone-50 text-stone-900 font-semibold'
-                        : 'border-stone-200 text-stone-600 hover:border-stone-300'
-                    }`}
-                  >
-                    {loc}
-                  </button>
-                ))}
-              </div>
+              <input
+                type="text"
+                value={formData.location}
+                onChange={(e) => {
+                  updateField('location', e.target.value);
+                  setLocationSearchOpen(true);
+                }}
+                onFocus={() => setLocationSearchOpen(true)}
+                placeholder="Type e.g. Mercer Meadows, St. Michaels, Library, Watershed, Baldpate, Home..."
+                className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
+              />
 
-              {/* Custom Location Text Input if "Other / Custom Field Site" selected */}
-              {formData.location === 'Other / Custom Field Site' && (
-                <div className="mt-3">
-                  <label className="block text-xs font-bold text-stone-700 mb-1">Specify Location Name *</label>
-                  <input
-                    type="text"
-                    value={formData.customLocation}
-                    onChange={(e) => updateField('customLocation', e.target.value)}
-                    placeholder="e.g. Stony Brook Trailhead, Backyard Lab, Princeton Arts Council"
-                    className="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
-                    autoFocus
-                  />
+              {/* Suggestions dropdown */}
+              {locationSearchOpen && (
+                <div className="mt-1 max-h-48 overflow-y-auto bg-white border border-stone-200 rounded-xl shadow-lg p-1.5 space-y-0.5 z-30">
+                  <div className="text-[10px] font-bold uppercase text-stone-400 px-2 py-1 flex justify-between items-center">
+                    <span>New Jersey Places & Parks ({filteredLocations.length})</span>
+                    <button
+                      type="button"
+                      onClick={() => setLocationSearchOpen(false)}
+                      className="text-stone-500 hover:text-stone-800 text-xs"
+                    >
+                      ✕ Close
+                    </button>
+                  </div>
+                  {filteredLocations.slice(0, 8).map(loc => (
+                    <button
+                      key={loc}
+                      type="button"
+                      onClick={() => {
+                        updateField('location', loc);
+                        setLocationSearchOpen(false);
+                      }}
+                      className="w-full text-left px-2.5 py-1.5 text-xs text-stone-700 hover:bg-amber-50 hover:text-[#B05B3B] rounded-lg transition-colors flex items-center justify-between"
+                    >
+                      <span>{loc}</span>
+                      <span className="text-[10px] text-stone-400">Select</span>
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* STEP 1: 4-Hour Time Attestation */}
+        {/* STEP 1: 4-Hour Time Attestation (Starts at 0) */}
         {currentStep === 1 && (
           <div className="space-y-5">
             <div>
               <h2 className="text-xl font-serif font-bold text-stone-900">
-                Instructional Time Log
+                Instructional Hours
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                N.J.A.C. 6A:32-8.3 requires at least 4.0 hours of total structured activity.
+                Enter your hours spent today (must total at least 4.0 hours for N.J.A.C. 6A:32-8.3 compliance).
               </p>
             </div>
 
             {/* Totalizer */}
             <div className={`p-4 rounded-xl border text-center ${
-              totalHours >= 4.0 ? 'bg-emerald-50/70 border-emerald-300' : 'bg-amber-50/70 border-amber-300'
+              totalHours >= 4.0 ? 'bg-emerald-50/70 border-emerald-300' : 'bg-stone-50 border-stone-200'
             }`}>
-              <div className="text-xs text-stone-500 font-semibold uppercase">Total Logged</div>
+              <div className="text-xs text-stone-500 font-semibold uppercase">Total Hours Logged</div>
               <div className="text-2xl font-bold text-stone-900">{totalHours.toFixed(1)} Hours</div>
-              <div className="text-xs text-emerald-700 font-medium mt-0.5">
-                {totalHours >= 4.0 ? '✓ Minimum 4.0 Hours Met' : `Needs ${(4.0 - totalHours).toFixed(1)} more hours`}
+              <div className={`text-xs font-medium mt-0.5 ${totalHours >= 4.0 ? 'text-emerald-700 font-bold' : 'text-amber-700'}`}>
+                {totalHours >= 4.0 ? '✓ Minimum 4.0 Hours Satisfied' : `Needs ${(4.0 - totalHours).toFixed(1)} more hours to meet 4.0 hr requirement`}
               </div>
             </div>
 
-            {/* Category Hours */}
+            {/* 4 Category Hours Inputs (Start at 0) */}
             <div className="grid grid-cols-2 gap-3 text-xs">
               <div className="p-3 bg-stone-50 rounded-lg border border-stone-200 flex justify-between items-center">
-                <span className="font-semibold text-stone-700">📖 Literacy</span>
+                <span className="font-semibold text-stone-700">📖 Literacy & Reading</span>
                 <input
                   type="number"
                   step="0.25"
                   min="0"
-                  max="6"
-                  value={formData.hoursBreakdown.literacy}
+                  max="8"
+                  value={formData.hoursBreakdown.literacy === 0 ? '' : formData.hoursBreakdown.literacy}
+                  placeholder="0.0"
                   onChange={(e) => updateHour('literacy', e.target.value)}
-                  className="w-14 p-1 text-center font-bold border rounded bg-white"
+                  className="w-16 p-1.5 text-center font-bold border rounded bg-white text-stone-900"
                 />
               </div>
               <div className="p-3 bg-stone-50 rounded-lg border border-stone-200 flex justify-between items-center">
-                <span className="font-semibold text-stone-700">🔬 STEM</span>
+                <span className="font-semibold text-stone-700">🔬 STEM, Science & Math</span>
                 <input
                   type="number"
                   step="0.25"
                   min="0"
-                  max="6"
-                  value={formData.hoursBreakdown.stem}
+                  max="8"
+                  value={formData.hoursBreakdown.stem === 0 ? '' : formData.hoursBreakdown.stem}
+                  placeholder="0.0"
                   onChange={(e) => updateHour('stem', e.target.value)}
-                  className="w-14 p-1 text-center font-bold border rounded bg-white"
+                  className="w-16 p-1.5 text-center font-bold border rounded bg-white text-stone-900"
                 />
               </div>
               <div className="p-3 bg-stone-50 rounded-lg border border-stone-200 flex justify-between items-center">
-                <span className="font-semibold text-stone-700">🏛️ Community</span>
+                <span className="font-semibold text-stone-700">🏛️ Community & Civics</span>
                 <input
                   type="number"
                   step="0.25"
                   min="0"
-                  max="6"
-                  value={formData.hoursBreakdown.community}
+                  max="8"
+                  value={formData.hoursBreakdown.community === 0 ? '' : formData.hoursBreakdown.community}
+                  placeholder="0.0"
                   onChange={(e) => updateHour('community', e.target.value)}
-                  className="w-14 p-1 text-center font-bold border rounded bg-white"
+                  className="w-16 p-1.5 text-center font-bold border rounded bg-white text-stone-900"
                 />
               </div>
               <div className="p-3 bg-stone-50 rounded-lg border border-stone-200 flex justify-between items-center">
-                <span className="font-semibold text-stone-700">🏃 Movement</span>
+                <span className="font-semibold text-stone-700">🏃 Movement & Wellness</span>
                 <input
                   type="number"
                   step="0.25"
                   min="0"
-                  max="6"
-                  value={formData.hoursBreakdown.movement}
+                  max="8"
+                  value={formData.hoursBreakdown.movement === 0 ? '' : formData.hoursBreakdown.movement}
+                  placeholder="0.0"
                   onChange={(e) => updateHour('movement', e.target.value)}
-                  className="w-14 p-1 text-center font-bold border rounded bg-white"
+                  className="w-16 p-1.5 text-center font-bold border rounded bg-white text-stone-900"
                 />
               </div>
             </div>
           </div>
         )}
 
-        {/* STEP 2: Key Learnings with Generic Academic Topics of Study */}
+        {/* STEP 2: Topic Search (100+ Topics) & Discoveries (Starts Blank) */}
         {currentStep === 2 && (
           <div className="space-y-4">
             <div>
@@ -909,14 +1013,14 @@ export default function LearningLogWizard() {
                 What did you study today?
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                Type or pick an academic topic of study below, and note what you explored.
+                Type any subject or topic of study (e.g. Electricity, Space, Biology, Fractions, US History...).
               </p>
             </div>
 
-            {/* Generic Academic Topics Autocomplete */}
+            {/* Broad Topic Search */}
             <div className="relative">
               <label className="block text-xs font-bold text-stone-700 mb-1">
-                Topic of Study (Type or select from suggestions)
+                Topic of Study *
               </label>
               <input
                 type="text"
@@ -926,15 +1030,15 @@ export default function LearningLogWizard() {
                   setTopicSearchOpen(true);
                 }}
                 onFocus={() => setTopicSearchOpen(true)}
-                placeholder="e.g. Ecology, Biology, Physics, World History, Creative Writing, Astronomy..."
+                placeholder="Type e.g. Electricity, Space, Ecology, Chemistry, History, Geometry..."
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
               />
 
               {/* Suggestions dropdown */}
               {topicSearchOpen && (
-                <div className="mt-1 max-h-48 overflow-y-auto bg-white border border-stone-200 rounded-xl shadow-lg p-1.5 space-y-0.5 z-30">
+                <div className="mt-1 max-h-52 overflow-y-auto bg-white border border-stone-200 rounded-xl shadow-lg p-1.5 space-y-0.5 z-30">
                   <div className="text-[10px] font-bold uppercase text-stone-400 px-2 py-1 flex justify-between items-center">
-                    <span>Topics of Study ({filteredTopics.length})</span>
+                    <span>Suggested Topics ({filteredTopics.length})</span>
                     <button
                       type="button"
                       onClick={() => setTopicSearchOpen(false)}
@@ -957,24 +1061,30 @@ export default function LearningLogWizard() {
                       <span className="text-[10px] text-stone-400">Select</span>
                     </button>
                   ))}
+                  {filteredTopics.length === 0 && (
+                    <div className="px-3 py-2 text-xs text-stone-500">
+                      No preset match found. You can use your custom topic: <strong>"{formData.subjectArea}"</strong>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
 
+            {/* Key Discoveries (Starts Clean/Blank) */}
             <div>
               <label className="block text-xs font-bold text-stone-700 mb-1">Key Discoveries & Concepts</label>
               <textarea
                 rows="3"
                 value={formData.keyLearnings}
                 onChange={(e) => updateField('keyLearnings', e.target.value)}
-                placeholder="What did you observe, calculate, test, read, or learn?"
+                placeholder="What did you observe, calculate, build, read, or discover today?"
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 leading-relaxed"
               />
             </div>
           </div>
         )}
 
-        {/* STEP 3: Observations & Reflection with Tap-to-Fill Chips */}
+        {/* STEP 3: Sensory Observations & Guiding Reflection Questions */}
         {currentStep === 3 && (
           <div className="space-y-5">
             <div>
@@ -982,28 +1092,26 @@ export default function LearningLogWizard() {
                 Observations & Reflection
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                Kids can <strong>tap the chips below</strong> to auto-fill their observations, or type freely:
+                Record sensory details and thoughtful reflections (tap question prompts below for inspiration):
               </p>
             </div>
 
-            {/* Sensory Tap-to-Fill Word Bank */}
+            {/* Sensory Observations with Generic Starter Prompts */}
             <div className="space-y-2">
               <div className="flex justify-between items-center">
                 <label className="text-xs font-bold text-stone-700">Sensory Observations</label>
-                <span className="text-[11px] text-[#B05B3B] font-semibold">Tap chips to add ⤵</span>
+                <span className="text-[11px] text-[#B05B3B] font-semibold">Tap to insert prompt ⤵</span>
               </div>
 
-              {/* Kid-Friendly Tap Chips */}
-              <div className="flex flex-wrap gap-1.5 p-2.5 bg-stone-50 rounded-xl border border-stone-200 max-h-32 overflow-y-auto">
-                {SENSORY_CHIPS.map((chip, idx) => (
+              <div className="flex flex-wrap gap-1.5">
+                {SENSORY_PROMPTS.map((item, idx) => (
                   <button
                     key={idx}
                     type="button"
-                    onClick={() => handleAddSensoryChip(chip.text)}
-                    className="inline-flex items-center gap-1 bg-white hover:bg-amber-50 hover:border-[#B05B3B] text-stone-700 hover:text-[#B05B3B] px-2.5 py-1 rounded-full border border-stone-200 text-[11px] font-medium shadow-2xs transition-all active:scale-95"
+                    onClick={() => handleInsertPrompt('sensoryObservations', item.insertText)}
+                    className="bg-stone-50 hover:bg-amber-50 hover:border-[#B05B3B] text-stone-700 hover:text-[#B05B3B] px-2.5 py-1 rounded-lg border border-stone-200 text-[11px] font-medium transition-all"
                   >
-                    <span>{chip.emoji}</span>
-                    <span>{chip.label}</span>
+                    {item.label}
                   </button>
                 ))}
               </div>
@@ -1012,28 +1120,27 @@ export default function LearningLogWizard() {
                 rows="2"
                 value={formData.sensoryObservations}
                 onChange={(e) => updateField('sensoryObservations', e.target.value)}
-                placeholder="Tap chips above or type what you saw, heard, or smelled..."
+                placeholder="Note what you saw, heard, touched, or measured..."
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 leading-relaxed"
               />
             </div>
 
-            {/* Holistic Reflection Tap Prompts */}
+            {/* Holistic Reflection with Guiding Questions (No Pre-filled Answers) */}
             <div className="space-y-2 pt-1">
               <div className="flex justify-between items-center">
                 <label className="text-xs font-bold text-stone-700">Holistic Reflection</label>
-                <span className="text-[11px] text-[#B05B3B] font-semibold">Tap an idea ⤵</span>
+                <span className="text-[11px] text-[#B05B3B] font-semibold">Tap to add thinking question ⤵</span>
               </div>
 
-              {/* Reflection Idea Chips */}
-              <div className="flex flex-wrap gap-1.5 p-2.5 bg-stone-50 rounded-xl border border-stone-200">
-                {REFLECTION_CHIPS.slice(0, 4).map((refText, idx) => (
+              <div className="flex flex-wrap gap-1.5">
+                {REFLECTION_QUESTIONS.map((q, idx) => (
                   <button
                     key={idx}
                     type="button"
-                    onClick={() => handleAddReflectionChip(refText)}
-                    className="text-left bg-white hover:bg-amber-50 hover:border-[#B05B3B] text-stone-700 hover:text-[#B05B3B] px-2.5 py-1 rounded-lg border border-stone-200 text-[11px] font-medium transition-all active:scale-95"
+                    onClick={() => handleInsertPrompt('holisticReflection', q.prompt)}
+                    className="bg-stone-50 hover:bg-amber-50 hover:border-[#B05B3B] text-stone-700 hover:text-[#B05B3B] px-2.5 py-1 rounded-lg border border-stone-200 text-[11px] font-medium transition-all"
                   >
-                    {refText}
+                    {q.label}
                   </button>
                 ))}
               </div>
@@ -1042,14 +1149,14 @@ export default function LearningLogWizard() {
                 rows="2"
                 value={formData.holisticReflection}
                 onChange={(e) => updateField('holisticReflection', e.target.value)}
-                placeholder="How does this connect to nature, community, or real life?"
+                placeholder="How does this relate to broader nature, community, or real life?"
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 leading-relaxed"
               />
             </div>
           </div>
         )}
 
-        {/* STEP 4: Sign & Submit */}
+        {/* STEP 4: Sign & Submit with Exact Hours Logged */}
         {currentStep === 4 && (
           <div className="space-y-5">
             <div>
@@ -1057,12 +1164,12 @@ export default function LearningLogWizard() {
                 Verification & Sign-Off
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                Certify 4.0 hours of instructional activity under N.J.A.C. 6A:32-8.3.
+                Certify <strong>{totalHours.toFixed(1)} hours</strong> of educational activity today under N.J.A.C. 6A:32-8.3.
               </p>
             </div>
 
-            {/* Certification */}
-            <div className="p-3 bg-stone-50 border border-stone-200 rounded-xl">
+            {/* Certification with Exact Hours Logged */}
+            <div className="p-3.5 bg-amber-50/70 border border-amber-300 rounded-xl">
               <label className="flex items-start gap-2.5 cursor-pointer">
                 <input
                   type="checkbox"
@@ -1070,8 +1177,8 @@ export default function LearningLogWizard() {
                   onChange={(e) => updateField('certified', e.target.checked)}
                   className="mt-0.5 w-4 h-4 rounded text-[#B05B3B]"
                 />
-                <span className="text-xs text-stone-800 leading-relaxed font-medium">
-                  I certify that {formData.studentName} completed at least 4.0 hours of structured educational activity today under New Jersey state standards.
+                <span className="text-xs text-stone-900 leading-relaxed font-medium">
+                  [ ✓ ] I certify that <strong>{formData.studentName}</strong> completed <strong>{totalHours.toFixed(1)} hours</strong> of structured educational activity today in accordance with New Jersey state instructional day equivalency standards (N.J.A.C. 6A:32-8.3).
                 </span>
               </label>
             </div>
