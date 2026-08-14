@@ -1,79 +1,96 @@
 import React, { useState, useEffect, useRef } from 'react';
 
-// Comprehensive searchable library of Hopewell Valley & NJ Place-Based Learning Topics
-const COMPREHENSIVE_TOPICS = [
-  // Ecology, Wildlife & Nature
-  'Stream Ecology & Macroinvertebrates (Stony Brook)',
-  'Native Pollinators & Monarch Butterfly Migration',
-  'Forest Canopy & Tree Ring Dendrochronology',
-  'Watershed Hydrology & Water Quality Testing',
-  'Baldpate Mountain Geology & Trap Rock Formations',
-  'Vernal Pool Amphibians & Salamander Habitats',
-  'Birding & Acoustic Avian Identification (Merlin)',
-  'Wetland Flora, Cattails & Natural Water Filtration',
-  'Invasive Species Mapping (Autumn Olive & Stiltgrass)',
-  'Mushroom Ecology & Mycelial Soil Networks',
-  'Wildlife Tracking, Prints & Animal Habitats',
-  'Seasonal Phenology & Deciduous Leaf Chemistry',
-  'Pond Water Microscopy & Protozoa Exploration',
-  'River Basin Erosion & Floodplain Geography',
-  'Raptor Migration & Hawk Watch Observations',
-  'Native Seed Stratification & Winter Sowing',
-  
-  // Agriculture, Earth & STEM
-  'Agricultural Heritage at Howell Living History Farm',
-  'Soil Carbon Dynamics & Regenerative Cover Crops',
-  'Organic Composting & Earthworm Vermiculture',
-  'Honeybee Hive Architecture & Foraging Behaviors',
-  'Solar Radiation, Sun Angles & Microclimate Mapping',
-  'Weather Forecasting & Barometric Observations',
-  'Clean Energy: Wind, Solar & Passive Heat Dynamics',
-  'Orienteering, Topographic Maps & Compass Navigation',
-  'Geometry & Fibonacci Spirals in Plant Structures',
-  'Gravity, Water Flow & Creek Siphon Physics',
-  
-  // History, Civics & Community
-  'Hopewell Valley Local History & Revolutionary Landmarks',
-  'Historic Agricultural Preservation & Land Trusts',
-  'Mercer Meadows Heritage & AT&T Pole Farm History',
-  'Municipal Open Space Policy & Public Conservation',
-  'St. Michaels Farm Preserve Ecology & Trail Care',
-  'Stewardship: Trail Maintenance & Litter Audits',
-  
-  // Arts, Movement & Literature
-  'Nature Journaling & Botanical Scientific Sketching',
-  'Sensory Mapping & Acoustic Soundscape Documentation',
-  'Environmental Literature (Thoreau, Muir, Leopold)',
-  'Outdoor Poetry & Place-Based Reflection Writing',
-  'Mindful Trail Movement & Kinesthetic Wellness',
-  'Wilderness Survival: Shelter, Knots & Outdoor Safety',
+// Generic K-12 Academic & Exploratory Topics of Study
+const GENERIC_TOPICS_OF_STUDY = [
+  // Sciences & Nature
+  'Ecology & Ecosystem Dynamics',
+  'Freshwater Biology & Water Quality',
+  'Botany, Plant Anatomy & Photosynthesis',
+  'Zoology, Animal Behavior & Habitats',
+  'Ornithology (Bird Studies & Migration)',
+  'Entomology & Pollinator Life Cycles',
+  'Earth Science, Geology & Mineralogy',
+  'Meteorology, Weather Patterns & Climate',
+  'Environmental Science & Conservation Biology',
+  'Microbiology & Pond Microscopy',
+  'Physics: Energy, Force & Fluid Mechanics',
+  'Chemistry & Soil Nutrient Cycles',
+  'Astronomy, Celestial Cycles & Constellations',
+  'Evolution, Adaptation & Biodiversity',
+
+  // Mathematics, Data & Applied STEM
+  'Applied Mathematics & Field Geometry',
+  'Data Collection, Sampling & Statistical Analysis',
+  'Topography, Elevation & Contour Mapping',
+  'Renewable Energy & Solar Engineering',
+  'Simple Machines & Mechanical Physics',
+
+  // Language Arts & Humanities
+  'Field Journaling & Expository Writing',
+  'Nature Poetry & Creative Writing',
+  'Literature Analysis & Close Reading',
+  'Environmental Philosophy & Nature Literature',
+  'Local History & Archival Primary Sources',
+  'Civics, Public Policy & Environmental Law',
+  'Cultural Geography & Human-Environment Interaction',
+  'Archaeology, Anthropology & Material Culture',
+
+  // Arts, Agriculture & Practical Skills
+  'Botanical Illustration & Scientific Sketching',
+  'Landscape Painting & Visual Arts',
+  'Acoustic Ecology & Soundscape Analysis',
+  'Agricultural Science & Crop Cultivation',
+  'Horticulture, Soil Biology & Composting',
+  'Nutrition, Food Systems & Culinary Arts',
+
+  // Health, Movement & Outdoor Skills
+  'Physical Fitness, Trail Running & Kinesthetics',
+  'Mindful Movement, Meditation & Wellness',
+  'Wilderness Orienteering & Compass Navigation',
+  'Field Safety, Survival Skills & Knotcraft',
 ];
 
-// Kid-Friendly Tap-to-Fill Observation Chips for Wide Age Range (6 to 16)
+// Rich set of locations (Local Field Sites, Nature Centers, Home Bases & Custom)
+const LOCATION_OPTIONS = [
+  'Mercer Meadows & Nature Center',
+  'St. Michaels Farm Preserve',
+  'Hopewell Public Library',
+  'Baldpate Mountain Preserve',
+  'Howell Living History Farm',
+  'Watershed Institute Reserve',
+  'Home Base / Study Space',
+  'School Community Garden',
+  'Rosedale Park & Lake',
+  'Washington Crossing State Park',
+  'Other / Custom Field Site',
+];
+
+// Tap-to-Fill Sensory Observation Chips (Ages 6 to 16)
 const SENSORY_CHIPS = [
-  { sense: 'sight', emoji: '👁️', label: 'Great Blue Heron', text: 'Saw a Great Blue Heron in the shallows' },
-  { sense: 'sight', emoji: '👁️', label: 'Sunlight on Riffles', text: 'Saw sunlight sparkling on creek riffles' },
+  { sense: 'sight', emoji: '👁️', label: 'Heron in Shallows', text: 'Saw a great blue heron hunting in the shallows' },
+  { sense: 'sight', emoji: '👁️', label: 'Sunlight on Water', text: 'Saw sunlight sparkling on clear water riffles' },
   { sense: 'sight', emoji: '👁️', label: 'Bumblebees on Flowers', text: 'Saw bumblebees dusted with yellow pollen' },
-  { sense: 'sight', emoji: '👁️', label: 'Animal Tracks in Mud', text: 'Noticed animal tracks along the muddy trail' },
-  { sense: 'sound', emoji: '👂', label: 'Blackbirds Calling', text: 'Heard red-winged blackbirds calling' },
-  { sense: 'sound', emoji: '👂', label: 'Babbling Water', text: 'Heard the sound of rushing water over pebbles' },
-  { sense: 'sound', emoji: '👂', label: 'Wind in Trees', text: 'Heard wind rustling through tall canopy leaves' },
+  { sense: 'sight', emoji: '👁️', label: 'Animal Tracks', text: 'Noticed animal tracks along the muddy trail' },
+  { sense: 'sight', emoji: '👁️', label: 'Tree Canopy Layers', text: 'Observed the layered tree canopy and leaf shapes' },
+  { sense: 'sound', emoji: '👂', label: 'Birds Calling', text: 'Heard songbirds calling in the trees' },
+  { sense: 'sound', emoji: '👂', label: 'Rushing Water', text: 'Heard the sound of rushing water over pebbles' },
+  { sense: 'sound', emoji: '👂', label: 'Wind in Leaves', text: 'Heard wind rustling through tall canopy leaves' },
   { sense: 'smell', emoji: '👃', label: 'Damp Pine / Cedar', text: 'Smelled damp pine needles and cedar bark' },
-  { sense: 'smell', emoji: '👃', label: 'Fresh Rain on Earth', text: 'Smelled fresh rain on rich forest soil' },
-  { sense: 'smell', emoji: '👃', label: 'Sweet Clover', text: 'Smelled warm sweet clover in the meadow' },
+  { sense: 'smell', emoji: '👃', label: 'Fresh Rain / Soil', text: 'Smelled fresh rain on rich forest soil' },
+  { sense: 'smell', emoji: '👃', label: 'Sweet Clover / Flowers', text: 'Smelled sweet clover blooming in the meadow' },
   { sense: 'touch', emoji: '✋', label: 'Cold Spring Water', text: 'Felt cold 56°F spring water' },
-  { sense: 'touch', emoji: '✋', label: 'Smooth Creek Rock', text: 'Touched smooth, rounded creek stones' },
-  { sense: 'touch', emoji: '✋', label: 'Rough Tree Bark', text: 'Felt the rough grooves of oak bark' },
+  { sense: 'touch', emoji: '✋', label: 'Smooth Creek Rock', text: 'Touched smooth, rounded river stones' },
+  { sense: 'touch', emoji: '✋', label: 'Rough Tree Bark', text: 'Felt the rough ridges of oak bark' },
   { sense: 'touch', emoji: '✋', label: 'Soft Velvet Moss', text: 'Felt soft green moss on a fallen log' },
 ];
 
 const REFLECTION_CHIPS = [
-  '🌱 Trees keep stream water cool so fish and insects can survive summer heat.',
-  '🐝 Protecting native wildflowers gives bees the energy they need to pollinate our crops.',
-  '💧 Rain that falls on the forest gets filtered naturally before reaching drinking water.',
-  '🏡 When our town preserves open fields, wildlife has safe corridors to travel.',
-  '🌾 Healthy, unplowed soil holds much more rainwater during dry summer weeks.',
-  '🧘 Quiet time observing nature makes learning feel calm, unhurried, and fun.',
+  '🌱 Trees and shade keep water cool so aquatic life can survive summer temperatures.',
+  '🐝 Protecting wildflowers gives pollinators the continuous food source they need.',
+  '💧 Forests filter rainwater naturally through deep soil layers before it enters streams.',
+  '🏡 Preserving open green spaces creates connected corridors for migrating wildlife.',
+  '🌾 Healthy, uncompacted soil stores significantly more moisture during dry spells.',
+  '🧘 Quiet observation makes academic concepts feel tangible and easy to remember.',
 ];
 
 const DUMMY_STUDENTS = {
@@ -94,10 +111,10 @@ const DUMMY_STUDENTS = {
       community: 0.5,
       movement: 1.0,
     },
-    subjectArea: 'Stream Ecology & Macroinvertebrates (Stony Brook)',
+    subjectArea: 'Freshwater Biology & Water Quality',
     keyLearnings: 'Discovered that mayfly and caddisfly nymphs indicate clean, high-oxygen stream water.',
     holisticReflection: 'Upstream forest canopies keep water cool and protect vulnerable freshwater species.',
-    sensoryObservations: 'Saw sunlight sparkling on creek riffles; heard red-winged blackbirds calling; smelled damp cedar bark; felt cold 56°F spring water.',
+    sensoryObservations: 'Saw sunlight sparkling on clear water riffles; heard songbirds calling in the trees; smelled damp cedar bark; felt cold 56°F spring water.',
     certified: true,
     signatureType: 'type',
     signatureData: 'Sarah Lin (Caregiver) & Maya Lin (Student)',
@@ -120,10 +137,10 @@ const DUMMY_STUDENTS = {
       community: 1.0,
       movement: 1.0,
     },
-    subjectArea: 'Soil Carbon Dynamics & Regenerative Cover Crops',
+    subjectArea: 'Agricultural Science & Crop Cultivation',
     keyLearnings: 'Analyzed organic matter depth across three field transects in late spring.',
     holisticReflection: 'Connected municipal conservation policies with regional pollinator biodiversity.',
-    sensoryObservations: 'Saw bumblebees dusted with yellow pollen; smelled warm sweet clover; felt coarse clay-loam soil.',
+    sensoryObservations: 'Saw bumblebees dusted with yellow pollen; smelled sweet clover blooming in the meadow; felt coarse clay-loam soil.',
     certified: true,
     signatureType: 'type',
     signatureData: 'David Chen (Caregiver) & Liam Chen (Student)',
@@ -183,15 +200,6 @@ const GRADES = [
   '12th Grade',
 ];
 
-const LOCATIONS = [
-  'Mercer Meadows & Nature Center',
-  'St. Michaels Farm Preserve',
-  'Hopewell Public Library',
-  'Home Base / Study Space',
-  'Howell Living History Farm',
-  'Other Field Location',
-];
-
 const STEPS = [
   'Attendance & Location',
   'Instructional Hours',
@@ -202,12 +210,12 @@ const STEPS = [
 
 export default function LearningLogWizard() {
   const [showLoginModal, setShowLoginModal] = useState(true);
-  const [currentStep, setCurrentStep] = useState(0); // 0 to 4
+  const [currentStep, setCurrentStep] = useState(0);
   const [selectedPersona, setSelectedPersona] = useState('maya');
   const [formData, setFormData] = useState(DUMMY_STUDENTS.maya);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submissionDate, setSubmissionDate] = useState(null);
-  const [signatureMode, setSignatureMode] = useState('type'); // 'type' or 'draw'
+  const [signatureMode, setSignatureMode] = useState('type');
   const [isDrawing, setIsDrawing] = useState(false);
   const [customName, setCustomName] = useState('');
   const [customCaregiver, setCustomCaregiver] = useState('');
@@ -217,10 +225,8 @@ export default function LearningLogWizard() {
   const [topicSearchOpen, setTopicSearchOpen] = useState(false);
   const canvasRef = useRef(null);
 
-  // Total Hours calculation
   const totalHours = Object.values(formData.hoursBreakdown).reduce((acc, h) => acc + (parseFloat(h) || 0), 0);
 
-  // Generate unique Eco Log ID if not present
   useEffect(() => {
     if (!formData.logId) {
       const code = Math.floor(1000 + Math.random() * 9000);
@@ -294,7 +300,6 @@ export default function LearningLogWizard() {
     }));
   };
 
-  // Helper to append tap-to-fill chips into sensory textarea
   const handleAddSensoryChip = (chipText) => {
     setFormData(prev => {
       const current = prev.sensoryObservations.trim();
@@ -303,7 +308,6 @@ export default function LearningLogWizard() {
     });
   };
 
-  // Helper to set or append reflection chip
   const handleAddReflectionChip = (chipText) => {
     setFormData(prev => {
       const current = prev.holisticReflection.trim();
@@ -315,7 +319,7 @@ export default function LearningLogWizard() {
   const handleSkipOrNA = () => {
     setValidationError('');
     if (currentStep === 2) {
-      if (!formData.subjectArea) updateField('subjectArea', 'Place-Based Study (N/A)');
+      if (!formData.subjectArea) updateField('subjectArea', 'General Studies (N/A)');
       if (!formData.keyLearnings) updateField('keyLearnings', 'N/A');
     }
     if (currentStep === 3) {
@@ -328,7 +332,6 @@ export default function LearningLogWizard() {
     }
   };
 
-  // Canvas signature helpers
   const startDrawing = (e) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -378,6 +381,9 @@ export default function LearningLogWizard() {
     if (step === 0) {
       if (!formData.isCheckedIn && !formData.checkInTime) {
         return 'Please stamp morning check-in.';
+      }
+      if (formData.location === 'Other / Custom Field Site' && !formData.customLocation.trim()) {
+        return 'Please specify your custom location name.';
       }
     }
     if (step === 1) {
@@ -447,10 +453,14 @@ export default function LearningLogWizard() {
     setShowLoginModal(true);
   };
 
-  // Filtered topics for live autocomplete
-  const filteredTopics = COMPREHENSIVE_TOPICS.filter(t => 
+  // Filter generic topics of study
+  const filteredTopics = GENERIC_TOPICS_OF_STUDY.filter(t => 
     !formData.subjectArea || t.toLowerCase().includes(formData.subjectArea.toLowerCase())
   );
+
+  const displayLocation = formData.location === 'Other / Custom Field Site' && formData.customLocation
+    ? formData.customLocation
+    : formData.location;
 
   // ==========================================
   // FINAL REPORT: CLEAN & SPACIOUS
@@ -540,7 +550,7 @@ export default function LearningLogWizard() {
               </div>
               <div className="bg-stone-50 p-3 rounded-lg border border-stone-200">
                 <span className="text-stone-500 block text-[10px]">Primary Location</span>
-                <span className="font-bold text-stone-800">{formData.location}</span>
+                <span className="font-bold text-stone-800">{displayLocation}</span>
               </div>
               <div className="bg-stone-50 p-3 rounded-lg border border-stone-200">
                 <span className="text-stone-500 block text-[10px]">Total Hours</span>
@@ -620,7 +630,7 @@ export default function LearningLogWizard() {
   }
 
   // ==========================================
-  // WIZARD CARDS WITH TAP-TO-FILL CHIPS & AUTOCOMPLETE
+  // WIZARD CARDS
   // ==========================================
   return (
     <div className="max-w-2xl mx-auto py-4 px-4">
@@ -745,7 +755,7 @@ export default function LearningLogWizard() {
           </div>
         )}
 
-        {/* STEP 0: Attendance & Location */}
+        {/* STEP 0: Attendance & Expanded Locations */}
         {currentStep === 0 && (
           <div className="space-y-5">
             <div>
@@ -753,7 +763,7 @@ export default function LearningLogWizard() {
                 Morning Attendance Check-In
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                Record your daily check-in by 9:30 AM to verify educational presence.
+                Record your daily check-in by 9:30 AM and select your learning site.
               </p>
             </div>
 
@@ -774,13 +784,13 @@ export default function LearningLogWizard() {
               )}
             </div>
 
-            {/* Location */}
+            {/* Expanded Location Options */}
             <div>
               <label className="block text-xs font-bold text-stone-700 mb-2">
                 Primary Learning Location:
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {LOCATIONS.map(loc => (
+                {LOCATION_OPTIONS.map(loc => (
                   <button
                     key={loc}
                     type="button"
@@ -795,6 +805,21 @@ export default function LearningLogWizard() {
                   </button>
                 ))}
               </div>
+
+              {/* Custom Location Text Input if "Other / Custom Field Site" selected */}
+              {formData.location === 'Other / Custom Field Site' && (
+                <div className="mt-3">
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Specify Location Name *</label>
+                  <input
+                    type="text"
+                    value={formData.customLocation}
+                    onChange={(e) => updateField('customLocation', e.target.value)}
+                    placeholder="e.g. Stony Brook Trailhead, Backyard Lab, Princeton Arts Council"
+                    className="w-full px-3 py-2 text-xs rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
+                    autoFocus
+                  />
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -876,22 +901,22 @@ export default function LearningLogWizard() {
           </div>
         )}
 
-        {/* STEP 2: Key Learnings with Full Searchable Topic Autocomplete List */}
+        {/* STEP 2: Key Learnings with Generic Academic Topics of Study */}
         {currentStep === 2 && (
           <div className="space-y-4">
             <div>
               <h2 className="text-xl font-serif font-bold text-stone-900">
-                What did you explore today?
+                What did you study today?
               </h2>
               <p className="text-xs text-stone-500 mt-0.5">
-                Type or pick from local topics below, and note what you discovered.
+                Type or pick an academic topic of study below, and note what you explored.
               </p>
             </div>
 
-            {/* Topic Search & Dropdown */}
+            {/* Generic Academic Topics Autocomplete */}
             <div className="relative">
               <label className="block text-xs font-bold text-stone-700 mb-1">
-                Topic / Subject (Type or pick below)
+                Topic of Study (Type or select from suggestions)
               </label>
               <input
                 type="text"
@@ -901,7 +926,7 @@ export default function LearningLogWizard() {
                   setTopicSearchOpen(true);
                 }}
                 onFocus={() => setTopicSearchOpen(true)}
-                placeholder="Type e.g. Stream, Soil, Pollinators, Birds, History..."
+                placeholder="e.g. Ecology, Biology, Physics, World History, Creative Writing, Astronomy..."
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 focus:outline-none focus:ring-2 focus:ring-[#B05B3B]"
               />
 
@@ -909,7 +934,7 @@ export default function LearningLogWizard() {
               {topicSearchOpen && (
                 <div className="mt-1 max-h-48 overflow-y-auto bg-white border border-stone-200 rounded-xl shadow-lg p-1.5 space-y-0.5 z-30">
                   <div className="text-[10px] font-bold uppercase text-stone-400 px-2 py-1 flex justify-between items-center">
-                    <span>Suggested Place-Based Topics ({filteredTopics.length})</span>
+                    <span>Topics of Study ({filteredTopics.length})</span>
                     <button
                       type="button"
                       onClick={() => setTopicSearchOpen(false)}
@@ -918,7 +943,7 @@ export default function LearningLogWizard() {
                       ✕ Close
                     </button>
                   </div>
-                  {filteredTopics.slice(0, 8).map(topic => (
+                  {filteredTopics.slice(0, 10).map(topic => (
                     <button
                       key={topic}
                       type="button"
@@ -942,14 +967,14 @@ export default function LearningLogWizard() {
                 rows="3"
                 value={formData.keyLearnings}
                 onChange={(e) => updateField('keyLearnings', e.target.value)}
-                placeholder="What did you observe, calculate, test, or learn?"
+                placeholder="What did you observe, calculate, test, read, or learn?"
                 className="w-full px-3 py-2 text-xs sm:text-sm rounded-lg border border-stone-300 leading-relaxed"
               />
             </div>
           </div>
         )}
 
-        {/* STEP 3: Observations & Reflection with Tap-to-Fill Chips for 6-16 yo */}
+        {/* STEP 3: Observations & Reflection with Tap-to-Fill Chips */}
         {currentStep === 3 && (
           <div className="space-y-5">
             <div>
