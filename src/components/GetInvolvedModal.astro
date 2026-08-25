@@ -50,7 +50,9 @@ const signupContent = await getEntry('signup', 'signup');
             <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Hopewell Elementary" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Hopewell Elementary</label></div>
             <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Stony Brook" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Stony Brook</label></div>
             <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Toll Gate Grammar" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Toll Gate Grammar</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" id="school-other-checkbox" name="school" value="Other" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Other</label></div>
           </div>
+          <input type="text" id="school-other-detail" name="school-other" placeholder={signupContent.data.signup_other_school_placeholder || "Please specify your affiliation"} class="w-full p-3 mt-2 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent hidden" />
         </div>
         <div>
           <label for="impact-focus" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_impact_focus_label}</label>
@@ -203,6 +205,8 @@ const signupContent = await getEntry('signup', 'signup');
 
       const activeRoleCheckbox = document.getElementById('active-role');
       const volunteerRolesSection = document.getElementById('volunteer-roles-section');
+      const schoolOtherCheckbox = document.getElementById('school-other-checkbox');
+      const schoolOtherDetail = document.getElementById('school-other-detail');
       const staffSchoolSelect = document.getElementById('staff-school');
       const staffOtherSchoolInput = document.getElementById('staff-other-school');
 
@@ -282,6 +286,12 @@ const signupContent = await getEntry('signup', 'signup');
           staffOtherSchoolInput.required = false;
         }
 
+        if (schoolOtherDetail instanceof HTMLInputElement) {
+          schoolOtherDetail.classList.add('hidden');
+          schoolOtherDetail.required = false;
+          schoolOtherDetail.value = '';
+        }
+
         switchTab(targetTab);
       };
 
@@ -307,6 +317,11 @@ const signupContent = await getEntry('signup', 'signup');
           selectedVolunteerRoles.forEach((role) => formData.append('selected-volunteer-roles', role));
         } else {
           formData.append('selected-volunteer-roles', 'None');
+        }
+
+        const otherSchoolChecked = schoolOtherCheckbox instanceof HTMLInputElement && schoolOtherCheckbox.checked;
+        if (!otherSchoolChecked) {
+          formData.delete('school-other');
         }
 
         return formData;
@@ -407,6 +422,23 @@ const signupContent = await getEntry('signup', 'signup');
             volunteerRolesSection.classList.remove('hidden');
           } else {
             volunteerRolesSection.classList.add('hidden');
+          }
+        });
+      }
+
+      // Handle "Other" school option for Join Us form
+      if (schoolOtherCheckbox && schoolOtherDetail) {
+        schoolOtherCheckbox.addEventListener('change', () => {
+          if (schoolOtherCheckbox instanceof HTMLInputElement && schoolOtherCheckbox.checked) {
+            schoolOtherDetail.classList.remove('hidden');
+            schoolOtherDetail.required = true;
+            if (schoolOtherDetail instanceof HTMLInputElement) {
+              schoolOtherDetail.focus();
+            }
+          } else if (schoolOtherDetail instanceof HTMLInputElement) {
+            schoolOtherDetail.classList.add('hidden');
+            schoolOtherDetail.required = false;
+            schoolOtherDetail.value = '';
           }
         });
       }

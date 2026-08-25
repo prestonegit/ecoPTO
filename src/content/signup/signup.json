@@ -1,5 +1,6 @@
 {
   "signup_school_affiliation_label": "School(s) Affiliation",
+  "signup_other_school_placeholder": "Please specify your affiliation",
   "signup_volunteer_roles_prompt": "Select areas you're interested in:",
   "signup_name_label": "Name",
   "signup_email_label": "Email",

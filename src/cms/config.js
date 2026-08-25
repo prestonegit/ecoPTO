@@ -154,6 +154,7 @@ export const config = {
             { label: "Signup Email Label", name: "signup_email_label", widget: "string" },
             { label: "Email Label Input", name: "signupFormPlaceholder", widget: "string" },
             { label: "Signup School Affiliation Label", name: "signup_school_affiliation_label", widget: "string" },
+            { label: "Other School/Affiliation Placeholder", name: "signup_other_school_placeholder", widget: "string", required: false },
             { label: "Signup Impact Focus Label", name: "signup_impact_focus_label", widget: "text" },
             { label: "Signup Receive Updates Label", name: "signup_receive_updates_label", widget: "string" },
             { label: "Signup Active Role Label", name: "signup_active_role_label", widget: "string" },
