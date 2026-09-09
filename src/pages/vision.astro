@@ -175,40 +175,40 @@ import globalSettings from '../content/settings/global.json';
                     <div class="lg:w-3/5 p-12 lg:p-16">
                         <h3 class="text-2xl font-bold text-slate-800 mb-8 font-heading">Submit a Support Request</h3>
                         
-                        <form class="space-y-6">
+                        <form method="post" action="/api/forms" data-resend-form="staff-support" data-success-message="Request sent — we'll be in touch soon." class="space-y-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="space-y-2">
                                     <label class="text-sm font-semibold text-slate-700 ml-1">Your Name</label>
-                                    <input type="text" placeholder="e.g. Jane Doe" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none" required>
+                                    <input type="text" name="staff-name" placeholder="e.g. Jane Doe" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none" required>
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-sm font-semibold text-slate-700 ml-1">Contact Email</label>
-                                    <input type="email" placeholder="jane.doe@hvrsd.org" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none" required>
+                                    <input type="email" name="staff-email" placeholder="jane.doe@hvrsd.org" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none" required>
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div class="space-y-2">
                                     <label class="text-sm font-semibold text-slate-700 ml-1">School</label>
-                                    <select class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none appearance-none" required>
+                                    <select name="staff-school" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none appearance-none" required>
                                         <option value="" disabled selected>Select your school</option>
-                                        <option>Hopewell Elementary</option>
-                                        <option>Bear Tavern Elementary</option>
-                                        <option>Toll Gate Grammar</option>
-                                        <option>Stony Brook Elementary</option>
-                                        <option>Timberlane Middle School</option>
-                                        <option>Central High School</option>
+                                        <option value="Hopewell Elementary">Hopewell Elementary</option>
+                                        <option value="Bear Tavern Elementary">Bear Tavern Elementary</option>
+                                        <option value="Toll Gate Grammar">Toll Gate Grammar</option>
+                                        <option value="Stony Brook Elementary">Stony Brook Elementary</option>
+                                        <option value="Timberlane Middle School">Timberlane Middle School</option>
+                                        <option value="Central High School">Central High School</option>
                                     </select>
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-sm font-semibold text-slate-700 ml-1">When do you need help?</label>
-                                    <input type="date" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none" required>
+                                    <input type="date" name="staff-date" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none" required>
                                 </div>
                             </div>
 
                             <div class="space-y-2">
                                 <label class="text-sm font-semibold text-slate-700 ml-1">How can we help?</label>
-                                <textarea rows="4" placeholder="Describe your project, event, or the type of volunteers you need (e.g., 'Need 4 parents to chaperone a hike to the local stream next Friday at 1PM.')" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none resize-none" required></textarea>
+                                <textarea rows="4" name="staff-help" placeholder="Describe your project, event, or the type of volunteers you need (e.g., 'Need 4 parents to chaperone a hike to the local stream next Friday at 1PM.')" class="w-full bg-slate-50 border border-slate-200 text-slate-800 text-base rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 block p-4 transition-all outline-none resize-none" required></textarea>
                             </div>
 
                             <button type="submit" class="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white font-bold py-4 px-10 rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex items-center justify-center gap-3">
@@ -266,5 +266,9 @@ import globalSettings from '../content/settings/global.json';
         </div>
 	</footer>
 
+<script>
+    import { wireForms } from '../lib/forms.js';
+    wireForms();
+</script>
 </body>
 </html>
