@@ -31,8 +31,7 @@ const signupContent = await getEntry('signup', 'signup');
       <h3 class="font-bold text-2xl text-primary mb-2">{signupContent.data.signupFormTitle}</h3>
       <p class="py-2 text-text-secondary mb-4">{signupContent.data.signupFormSubtitle}</p>
       
-      <form name="signup" method="POST" data-netlify="true" data-netlify-submission-title="first-name" class="space-y-4 bg-white flex-grow">
-        <input type="hidden" name="form-name" value="signup" />
+      <form method="post" action="/api/forms" data-resend-form="signup" data-success-message="You're in! Check your inbox for a welcome email." class="space-y-4 bg-white flex-grow">
         <div>
           <label for="first-name" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_name_label}</label>
           <input type="text" id="first-name" name="first-name" placeholder={signupContent.data.signup_first_name_placeholder} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
@@ -96,8 +95,7 @@ const signupContent = await getEntry('signup', 'signup');
       <h3 class="font-bold text-2xl text-primary mb-2">Staff Support</h3>
       <p class="py-2 text-text-secondary mb-4">We are here to help!</p>
       
-      <form name="staff-support" method="POST" data-netlify="true" data-netlify-submission-title="staff-name" class="space-y-4 bg-white flex-grow">
-        <input type="hidden" name="form-name" value="staff-support" />
+      <form method="post" action="/api/forms" data-resend-form="staff-support" data-success-message="Request sent — we'll be in touch soon." class="space-y-4 bg-white flex-grow">
         
         <!-- form fields from staffsupport.astro -->
         <div>
@@ -189,7 +187,10 @@ const signupContent = await getEntry('signup', 'signup');
 </style>
 
 <script>
+  import { wireForms } from '../lib/forms.js';
+
   document.addEventListener('astro:page-load', () => {
+    wireForms();
     const modal = document.getElementById('get-involved-modal');
     const body = document.body;
 
@@ -295,37 +296,6 @@ const signupContent = await getEntry('signup', 'signup');
         switchTab(targetTab);
       };
 
-      const normalizeFormData = (form, formData) => {
-        if (form.getAttribute('name') !== 'signup') {
-          return formData;
-        }
-
-        const activeRoleChecked = activeRoleCheckbox instanceof HTMLInputElement && activeRoleCheckbox.checked;
-
-        formData.delete('active-role');
-        formData.append('active-role', activeRoleChecked ? 'Yes' : 'No');
-
-        formData.delete('selected-volunteer-roles');
-
-        const selectedVolunteerRoles = Array.from(
-          form.querySelectorAll('input[name="selected-volunteer-roles"]:checked')
-        )
-          .filter((input) => input instanceof HTMLInputElement)
-          .map((input) => input.value);
-
-        if (selectedVolunteerRoles.length > 0) {
-          selectedVolunteerRoles.forEach((role) => formData.append('selected-volunteer-roles', role));
-        } else {
-          formData.append('selected-volunteer-roles', 'None');
-        }
-
-        const otherSchoolChecked = schoolOtherCheckbox instanceof HTMLInputElement && schoolOtherCheckbox.checked;
-        if (!otherSchoolChecked) {
-          formData.delete('school-other');
-        }
-
-        return formData;
-      };
 
       // Tab clicks
       tabBtns.forEach(btn => {
@@ -364,54 +334,24 @@ const signupContent = await getEntry('signup', 'signup');
         }
       });
       
+      // Submission is handled by src/lib/forms.js (wireForms above), which POSTs JSON
+      // to /api/forms. The old Netlify Forms handler that used to live here POSTed a
+      // second time to '/' and alerted "something went wrong" on every successful
+      // submission; it was removed when Netlify Forms was retired.
       forms.forEach(form => {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          
-          // Change button to loading state
-          const submitBtn = getSubmitButton(form);
-
-          if (!submitBtn) {
-            return;
-          }
-
-          submitBtn.textContent = 'SENDING...';
-          submitBtn.disabled = true;
-          
-          const formData = normalizeFormData(form, new FormData(form));
-          
-          fetch('/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-            // @ts-ignore - FormData to URLSearchParams is broadly supported but TS complains
-            body: new URLSearchParams(formData).toString()
-          }).then((response) => {
-            if (!response.ok) {
-              throw new Error(`Request failed with status ${response.status}`);
-            }
-
-            if (form instanceof HTMLFormElement) {
-              form.reset();
-            }
-
-            resetSubmitButton(form);
-
-            formContainers.forEach(c => {
-              c.classList.remove('block');
-              c.classList.add('hidden');
-            });
-            if (modalTabs instanceof HTMLElement) {
-              modalTabs.classList.add('hidden');
-            }
-            
-            if (successFeedback instanceof HTMLElement) {
-              successFeedback.classList.remove('hidden');
-              successFeedback.classList.add('flex');
-            }
-          }).catch(() => {
-            alert('Something went wrong. Please try again or email us directly.');
-            resetSubmitButton(form);
+        form.addEventListener('resend-form:success', () => {
+          resetSubmitButton(form);
+          formContainers.forEach(c => {
+            c.classList.remove('block');
+            c.classList.add('hidden');
           });
+          if (modalTabs instanceof HTMLElement) {
+            modalTabs.classList.add('hidden');
+          }
+          if (successFeedback instanceof HTMLElement) {
+            successFeedback.classList.remove('hidden');
+            successFeedback.classList.add('flex');
+          }
         });
       });
 

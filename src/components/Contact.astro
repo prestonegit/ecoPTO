@@ -11,8 +11,7 @@ const { content } = Astro.props;
       </div>
     </div>
     <div class="animate-on-scroll stagger-1">
-      <form name="contact" method="POST" data-netlify="true" class="mt-6 space-y-4">
-        <input type="hidden" name="form-name" value="contact" />
+      <form method="post" action="/api/forms" data-resend-form="contact" data-success-message="Message sent — thanks for reaching out!" class="mt-6 space-y-4">
         <div>
           <label for="contact-name" class="block text-sm font-bold text-white mb-2 ml-1">Name</label>
           <input type="text" id="contact-name" name="name" placeholder="E.g., Jane Smith" class="w-full p-4 rounded-xl bg-white/10 border border-white/30 focus:outline-none focus:border-secondary focus:bg-white/20 placeholder-white/60 text-white font-medium transition-colors" />
@@ -32,3 +31,8 @@ const { content } = Astro.props;
     </div>
   </div>
 </section>
+
+<script>
+  import { wireForms } from '../lib/forms.js';
+  document.addEventListener('astro:page-load', () => wireForms());
+</script>

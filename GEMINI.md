@@ -29,8 +29,18 @@ The CMS is configured in `src/cms/config.js`. This file defines the "collections
 *   **Volunteer Opportunities:** To manage the list of ways people can get involved.
 *   **News Posts:** For publishing news articles and updates.
 *   **Transparency Documents:** To upload and display documents like meeting minutes or budgets.
+*   **Newsletter - Issues:** For writing YEWsletter issues, previewing them, and triggering the send.
+*   **Projects, Research, Homepage, Signup Form:** Further collections covering the projects visualization, the research library, homepage copy, and the signup form's labels.
 
 All content is stored as Markdown, MDX, or JSON files in the `src/content/` directory, which keeps the content decoupled from the presentation layer and ensures version control through Git.
+
+## Email: newsletter and forms
+
+Two systems sit on top of [Resend](https://resend.com); **`README.md` and `FORM_SUBMISSION.md` are authoritative** and this section is only a map.
+
+*   **YEWsletter** — issues are authored in the CMS, rendered by a React Email template at `src/emails/Newsletter.jsx`, and pushed to Resend by `scripts/push-newsletter.mjs` via the GitHub Action in `.github/workflows/newsletter.yml`. The same template renders the CMS preview pane and the public archive at `/newsletter`, so it is the single source of truth for the design.
+*   **Forms** — the site does **not** use Netlify Forms. All three forms (signup, staff-support, contact) POST JSON to `/api/forms`, handled by `netlify/functions/forms.mjs`, which adds Resend contacts and sends confirmation and notification emails.
+*   **Shared identity** — organization name, email, postal address, and brand colors live in `src/config/org.js` and are read by the emails, the archive page, and the form function.
 
 ## Building and Running
 

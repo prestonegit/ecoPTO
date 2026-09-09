@@ -2,3 +2,11 @@
   command = "npm run build"
   publish = "dist"
   functions = "netlify/functions"
+
+# forms.mjs imports .jsx email templates from src/, so the bundler has to handle JSX.
+# esbuild (the v2 default) does; naming it explicitly keeps that from changing under us.
+[functions]
+  node_bundler = "esbuild"
+
+# Netlify Forms is no longer used — every form POSTs to /api/forms, routed by the
+# `config.path` export in netlify/functions/forms.mjs. See FORM_SUBMISSION.md.

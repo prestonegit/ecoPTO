@@ -1,89 +1,121 @@
-# Form Submission and Data Handling
+# Forms & Email
 
-This document explains how the signup form on the ecoPTO website works and provides options for managing the submitted data.
+Everything the site sends or collects goes through **Resend**. Netlify hosts the site and
+runs one function; Netlify Forms is no longer used.
 
-## How the Form Works: Netlify Forms
+> Historical note: this site used to use Netlify Forms (`data-netlify="true"`). That was
+> replaced because it capped out at 100 submissions/month, captured only the email address
+> into the mailing list, and couldn't send confirmation or notification emails.
 
-The signup form is implemented using a feature called **Netlify Forms**. This is a built-in service provided by Netlify that makes it incredibly easy to handle form submissions without writing any backend code.
+---
 
-### Key Features
+## How a form submission flows
 
-*   **Automatic Detection**: Netlify automatically detects the form in your site's HTML when you deploy it. The key is the `data-netlify="true"` attribute on the `<form>` element in `src/components/Signup.astro`.
+```
+Browser form  ──POST /api/forms──▶  netlify/functions/forms.mjs  ──▶  Resend
+                                            │
+                                            ├─▶ contact added to the audience (signup only)
+                                            ├─▶ confirmation email to the submitter
+                                            └─▶ notification email to the ecoPTO team
+```
 
-    ```html
-    <form name="signup" method="POST" data-netlify="true" class="space-y-4">
-      <input type="hidden" name="form-name" value="signup" />
-      ...
-    </form>
-    ```
+There are three forms, all handled by the same function:
 
-*   **No Backend Code Needed**: You don't need to write any server-side code to process the form. Netlify's servers handle the submission, validation (like checking for required fields), and spam filtering.
+| Form | Where | What happens |
+|---|---|---|
+| `signup` | Get Involved modal | Adds a Resend contact with school/interests/volunteer roles as contact properties, sends a welcome email, notifies the team |
+| `staff-support` | Get Involved modal | Receipt to the sender, detailed notification to the team |
+| `contact` | Home page contact section | Receipt to the sender, detailed notification to the team |
 
-*   **Submission Management**: When a user submits the form, Netlify saves the data to your Netlify account. You can view all form submissions in your site's dashboard under the "Forms" section.
+**The notification email is the submission archive.** There is no dashboard to log into —
+every submission arrives in the team inbox with every field, and `Reply-To` is set to the
+sender so you can answer directly.
 
-## Managing Form Submissions
+Only people who tick "receive updates" are added to the mailing audience. Everyone else
+still generates a notification; they just aren't subscribed.
 
-You asked for the best way to get the form data into a database, CSV, or Google Sheet. Here are the best options, from simplest to most powerful.
+### Spam handling
 
-### 1. Netlify's Built-in UI (Easiest Option)
+Netlify Forms provided Akismet. In its place the function uses three checks, all of which
+return `200 {"ok":true}` so a bot learns nothing:
 
-This is the most straightforward way to manage your form data.
+- a **honeypot** field positioned off-screen that humans never see
+- a **signed nonce**: the page fetches one from `GET /api/forms` on load and submits it
+  back. The server signs the issue time, so it can enforce a 2.5s minimum fill and a 2h
+  expiry without trusting the visitor's clock — and without a bot being able to skip the
+  check by omitting a field
+- a **per-instance rate limit** of 5 submissions per minute per IP
 
-*   **View Submissions**: Log in to your Netlify account, navigate to your site, and go to the **Forms** section. You will see all the submissions for your "signup" form.
-*   **Export to CSV**: From the Forms section in Netlify, you can easily download all submissions as a CSV file. You can then open this file in any spreadsheet program like Microsoft Excel or Google Sheets.
+This is a public endpoint that sends email, so those matter: without them anyone could
+use it to mail arbitrary addresses from your verified domain and burn your Resend quota.
+It is a speed bump, not a guarantee. If you ever see abuse, put Netlify's rate limiting
+or a CAPTCHA in front of it.
 
-### 2. Zapier/Make (Integromat) for Automation (No-Code)
+### If a send fails
 
-If you want to automatically send new submissions to a Google Sheet or another service, you can use an automation tool like Zapier or Make.
+The function checks the result of every Resend call and returns a 500 the visitor can
+see, rather than reporting success for an email that never left. Failures are in the
+Netlify function logs (Site → Logs → Functions).
 
-*   **How it Works**: You can create a "Zap" (in Zapier) or a "Scenario" (in Make) that triggers whenever a new form submission is received by Netlify. This can then automatically add a new row to a Google Sheet, create a contact in a CRM, or perform many other actions.
-*   **Setup**: This usually involves connecting your Netlify account to the automation service and then mapping the form fields to the columns in your Google Sheet.
+### Adding a field to a form
 
-### 3. Netlify Functions for Custom Integration (Advanced)
+1. Add the input to the `.astro` component. Everything inside the `<form>` is collected
+   automatically by `src/lib/forms.js` — no wiring needed.
+2. Add it to the relevant `fields` array in `netlify/functions/forms.mjs` so it shows up in
+   the notification email.
+3. For signup only: add it to `properties` in the same file if it should live on the Resend
+   contact record for segmenting later.
 
-For the most control and flexibility, you can use Netlify Functions to process the form data yourself.
+---
 
-*   **How it Works**: You can create a serverless function that runs whenever the form is submitted. This function receives the form data as a payload. Inside the function, you can write code to:
-    *   Connect to a database (like FaunaDB, MongoDB Atlas, etc.) and insert the data.
-    *   Use the Google Sheets API to add a new row to a sheet.
-    *   Send a custom email notification.
-    *   Perform any other custom logic you need.
+## Environment variables (set in Netlify → Site settings → Environment variables)
 
-*   **Setup**: This requires writing some JavaScript or TypeScript code for the function. You would also need to configure your form to call this function upon submission.
+| Variable | Required | Purpose |
+|---|---|---|
+| `RESEND_API_KEY` | yes | Resend API key |
+| `RESEND_FROM` | yes | e.g. `ecoPTO <news@ecopto.org>` — the domain must be verified in Resend |
+| `RESEND_AUDIENCE_ID` | yes | Audience new subscribers are added to |
+| `NOTIFY_EMAIL` | no | Catch-all recipient for all three forms. Defaults to the address in `src/config/org.js` |
+| `NOTIFY_SIGNUP` | no | Overrides `NOTIFY_EMAIL` for signups |
+| `NOTIFY_STAFF` | no | Overrides `NOTIFY_EMAIL` for staff support requests |
+| `NOTIFY_CONTACT` | no | Overrides `NOTIFY_EMAIL` for contact messages |
+| `SITE_URL` | no | Base URL for images and links in the emails. Defaults to `siteUrl` in `src/config/org.js` |
+| `FORM_SECRET` | no | Key used to sign submission nonces. Defaults to a hash of `RESEND_API_KEY`; set it explicitly if you ever rotate that key mid-session |
 
-## Option 4: Custom Form to Google Sheet (Advanced)
+Each `NOTIFY_*` accepts a comma-separated list.
 
-It is possible to keep the beautiful, custom-styled form you have now and have the data go directly to a Google Sheet. This is a great option for allowing non-technical users to access the data without needing a Netlify account.
+---
 
-This method involves a few steps and a bit of JavaScript to make it work seamlessly.
+## Importing subscribers
 
-### How It Works
+The 111 signups Netlify Forms collected between Aug 2025 and Sep 2026 have **already been
+imported** — 103 unique opted-in addresses, merged with the 41 the old hook had added, for
+103 contacts total with no duplicates. Resend upserts by email, so re-running an import is
+safe.
 
-1.  **Create a Google Form**: First, you would create a Google Form with all the same questions as your current form. This is how you create the Google Sheet that will store the responses.
+To import another list (e.g. the historical YEWsletter BCC list), put it in a CSV and run:
 
-2.  **Get Form Details**: You would then need to get the `action` URL and the `name` for each input field from the HTML of the live Google Form.
+```bash
+RESEND_API_KEY=... RESEND_AUDIENCE_ID=... npm run subscribers:import -- signup.csv --dry-run
+```
 
-3.  **Modify the HTML Form**: We would then update the form in `src/components/Signup.astro` to point to the Google Form's action URL and use the correct input names.
+Add `--only-opted-in` to skip rows where "receive updates" wasn't ticked — do that unless
+you have another basis for mailing them.
 
-4.  **Intercept the Submission with JavaScript**: This is the key step. Instead of a normal form submission (which would redirect the user to a Google page), we use JavaScript to:
-    *   Prevent the default form submission.
-    *   Send the form data to Google in the background using `fetch()`.
-    *   Show a custom "Thank You" message or close the modal, keeping the user on your site.
+The `email` column is required; `name` is used if present. Any column named `schools`,
+`impact_focus`, `volunteer_roles`, `wants_active_role`, or `signed_up_at` is carried across
+as a Resend contact property, matching what the signup form writes. When the same address
+appears more than once, the last row wins.
 
-### Pros and Cons
+Netlify Forms submissions can also be read straight from the Netlify API without exporting
+a CSV, which is how the initial import was done.
 
-*   **Pros**: 
-    *   Keep your custom form design.
-    *   Data goes directly to a Google Sheet.
-    *   Admin users don't need a Netlify account.
-*   **Cons**:
-    *   More complex to set up than Netlify Forms.
-    *   Relies on the structure of the Google Form not changing.
+Drop `--dry-run` once the preview looks right. Re-running is safe — duplicates are skipped.
 
-## Recommendation
+---
 
-For most use cases, **starting with Netlify's built-in UI and CSV export is the best approach**. It's simple, requires no extra setup, and gives you the data in a universally usable format.
+## If you outgrow this
 
-If you find that you need to automate the process of getting data into a Google Sheet, then **exploring Zapier or Make is the next logical step**. It provides a lot of power without requiring you to write any code.
-
-Using **Netlify Functions is the most powerful option**, but it's also the most complex. It's a great choice if you have specific requirements that can't be met by the other options or if you are comfortable with writing backend code.
+Resend stores *contacts*, not *submissions*. If you ever need to answer questions like
+"how many Bear Tavern parents signed up last spring?", that wants a real table — Supabase
+is the natural fit, and would slot in beside the Resend calls in the same function.

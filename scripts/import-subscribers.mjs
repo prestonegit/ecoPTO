@@ -54,6 +54,9 @@ function parseCSV(text) {
   return rows;
 }
 
+// Must match the properties declared in Resend (see scripts/resend-setup.mjs).
+const PROPERTY_COLUMNS = ['schools', 'impact_focus', 'volunteer_roles', 'wants_active_role', 'signed_up_at'];
+
 function pickCol(headers, candidates) {
   for (const c of candidates) {
     const idx = headers.findIndex((h) => h.trim().toLowerCase() === c.toLowerCase());
@@ -102,19 +105,33 @@ async function main() {
 
     const fullName = nameIdx >= 0 ? (row[nameIdx] || '').trim() : '';
     const [firstName, ...rest] = fullName.split(/\s+/);
-    contacts.push({ email, firstName: firstName || undefined, lastName: rest.join(' ') || undefined });
+
+    // Carry across any columns matching the contact properties the signup form writes,
+    // so imported people are segmentable the same way new signups are.
+    const properties = {};
+    for (const key of PROPERTY_COLUMNS) {
+      const idx = pickCol(headers, [key]);
+      if (idx >= 0 && (row[idx] || '').trim()) properties[key] = row[idx].trim();
+    }
+
+    contacts.push({
+      email,
+      firstName: firstName || undefined,
+      lastName: rest.join(' ') || undefined,
+      ...(Object.keys(properties).length ? { properties } : {}),
+    });
   }
 
   // De-dupe by email (CSV may have multiple submissions per person)
   const seen = new Map();
-  for (const c of contacts) if (!seen.has(c.email)) seen.set(c.email, c);
+  for (const c of contacts) seen.set(c.email, c); // later row wins: newer info
   const unique = [...seen.values()];
 
   console.log(`Parsed ${rows.length - 1} rows → ${unique.length} unique email addresses to import.`);
 
   if (dryRun) {
     console.log('\nDry run. First 10:');
-    unique.slice(0, 10).forEach((c) => console.log(`  ${c.email}${c.firstName ? ` (${c.firstName} ${c.lastName || ''})` : ''}`));
+    unique.slice(0, 10).forEach((c) => console.log(`  ${c.email}${c.firstName ? ` (${c.firstName} ${c.lastName || ''})` : ''}${c.properties ? ` [${Object.keys(c.properties).join(', ')}]` : ''}`));
     return;
   }
 
@@ -128,22 +145,32 @@ async function main() {
   const resend = new Resend(apiKey);
   let added = 0, skipped = 0, failed = 0;
 
+  const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+  let done = 0;
+
   for (const c of unique) {
-    try {
-      const res = await resend.contacts.create({ audienceId, ...c, unsubscribed: false });
-      if (res.error) {
-        // Already exists is fine
-        if (/already exists|duplicate/i.test(res.error.message)) { skipped++; }
-        else { console.error(`  ${c.email}: ${res.error.message}`); failed++; }
-      } else {
-        added++;
+    // Resend's default limit is 2 requests/second, so pace under it and back off on 429
+    // rather than firing 20/s and losing contacts to rate-limit errors.
+    for (let attempt = 1; attempt <= 4; attempt++) {
+      try {
+        const res = await resend.contacts.create({ audienceId, ...c, unsubscribed: false });
+        if (!res.error) { added++; break; }
+        if (/already exists|duplicate/i.test(res.error.message)) { skipped++; break; }
+        if (/rate.?limit|too many/i.test(res.error.message) && attempt < 4) {
+          await sleep(1000 * attempt);
+          continue;
+        }
+        console.error(`  ${c.email}: ${res.error.message}`);
+        failed++;
+        break;
+      } catch (err) {
+        if (attempt === 4) { console.error(`  ${c.email}: ${err.message}`); failed++; break; }
+        await sleep(1000 * attempt);
       }
-    } catch (err) {
-      console.error(`  ${c.email}: ${err.message}`);
-      failed++;
     }
-    // Gentle pacing — Resend rate limit is generous but be polite
-    await new Promise((r) => setTimeout(r, 50));
+    done++;
+    if (done % 25 === 0) console.log(`  …${done}/${unique.length}`);
+    await sleep(600);
   }
 
   console.log(`\nDone. Added: ${added} · Already in audience: ${skipped} · Failed: ${failed}`);
