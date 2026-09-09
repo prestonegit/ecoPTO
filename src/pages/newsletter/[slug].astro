@@ -1,7 +1,18 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import { marked } from 'marked';
+import { render } from '@react-email/render';
+import sanitizeHtml from 'sanitize-html';
+import React from 'react';
+import Newsletter from '../../emails/Newsletter.jsx';
+import { ORG } from '../../config/org.js';
+
+// Snapshots written by scripts/push-newsletter.mjs at send time. Using them means an
+// archived issue keeps showing the events and news that were actually in the email,
+// instead of silently re-deriving them from whatever content exists at build time.
+const snapshots = import.meta.glob('../../data/sent-newsletters/*.json', { eager: true });
+const snapshotFor = (slug) =>
+  Object.entries(snapshots).find(([p]) => p.endsWith(`/${slug}.json`))?.[1]?.default ?? null;
 
 export async function getStaticPaths() {
   const issues = (await getCollection('newsletters')).filter((i) => i.data.status === 'sent');
@@ -10,116 +21,85 @@ export async function getStaticPaths() {
 
 const { issue } = Astro.props;
 const d = issue.data;
+const snapshot = snapshotFor(issue.slug);
+const sentDate = new Date(snapshot?.sentAt ?? d.sendDate);
+const sentDateIsExact = Boolean(snapshot?.sentAt);
 
-const allEvents = await getCollection('events');
-const allNews = await getCollection('news');
+// Fall back to a build-time derivation for issues sent before snapshots existed.
+const fallbackEvents = async () => {
+  if (!d.includeEvents) return [];
+  const all = await getCollection('events');
+  return all
+    .filter((e) => new Date(e.data.eventDate) >= sentDate)
+    .sort((a, b) => new Date(a.data.eventDate) - new Date(b.data.eventDate))
+    .slice(0, 4)
+    .map((e) => ({
+      slug: e.slug, title: e.data.title, eventDate: e.data.eventDate,
+      dateOverride: e.data.dateOverride ?? null, location: e.data.location ?? null,
+      cardDescription: e.data.cardDescription ?? e.data.description ?? '',
+      externalUrl: e.data.externalUrl ?? null,
+    }));
+};
+const fallbackNews = async () => {
+  if (!d.includeNews) return [];
+  const all = await getCollection('news');
+  return all
+    .filter((n) => new Date(n.data.pubDate) <= sentDate)
+    .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
+    .slice(0, 3)
+    .map((n) => ({
+      slug: n.slug, title: n.data.title, author: n.data.author,
+      pubDate: n.data.pubDate, description: n.data.description ?? '',
+    }));
+};
 
-const sentDate = new Date(d.sendDate);
-const upcomingEvents = d.includeEvents
-  ? allEvents
-      .filter((e) => new Date(e.data.eventDate) >= sentDate)
-      .sort((a, b) => new Date(a.data.eventDate) - new Date(b.data.eventDate))
-      .slice(0, 4)
-  : [];
-const latestNews = d.includeNews
-  ? allNews
-      .filter((n) => new Date(n.data.pubDate) <= sentDate)
-      .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
-      .slice(0, 3)
-  : [];
+const events = snapshot?.events ?? (await fallbackEvents());
+const news = snapshot?.news ?? (await fallbackNews());
 
-const md = (s) => marked.parse(s || '');
-const fmtEvent = (iso, override) => override || new Date(iso).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-const fmtNews = (iso) => new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+// Render the exact same component the email used, then lift the body contents out of
+// the standalone email document so it can sit inside the site chrome. One renderer,
+// so the archive can never drift from what subscribers received.
+const emailHtml = await render(
+  React.createElement(Newsletter, {
+    data: d, events, news, siteUrl: ORG.siteUrl, unsubscribeUrl: `${ORG.siteUrl}/#contact`,
+  }),
+);
+const rawBody = emailHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? emailHtml;
+
+// Newsletter body copy is markdown rendered by `marked`, which passes raw HTML through
+// by design. In an email that markup is inert; injected into this page with set:html it
+// would execute on the ecopto.org origin. Sanitize before it reaches the DOM — a CMS
+// editor should not be able to run script on the public site.
+const bodyInner = sanitizeHtml(rawBody, {
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'style']),
+  allowedAttributes: { '*': ['style', 'class', 'align', 'width', 'height', 'colspan', 'rowspan', 'role'], a: ['href', 'target', 'rel'], img: ['src', 'alt', 'width', 'height'] },
+  allowedSchemes: ['http', 'https', 'mailto'],
+  // style attributes are how the whole email is laid out, so they must survive;
+  // sanitize-html still strips javascript: and expression() from them.
+  allowVulnerableTags: false,
+});
 ---
-<Layout title={d.subject}>
+<Layout title={`${d.subject} — ${ORG.newsletterName}`}>
   <article class="py-16 bg-bg-primary">
-    <div class="container mx-auto px-6 max-w-2xl">
+    <div class="container mx-auto px-6 max-w-3xl">
       <a href="/newsletter/" class="text-sm text-primary hover:underline">&larr; All issues</a>
-      <p class="text-sm text-text-secondary mt-6 mb-2">
-        {sentDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+      <p class="text-sm text-text-secondary mt-6">
+        Sent {sentDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: sentDateIsExact ? 'America/New_York' : 'UTC' })}
       </p>
-      <h1 class="text-4xl md:text-5xl font-bold text-primary font-serif mb-8">{d.subject}</h1>
-
-      {d.heroImage && <img src={d.heroImage} alt="" class="w-full rounded-2xl mb-8" />}
-
-      {d.intro && <div class="prose prose-lg max-w-none text-text-primary mb-8" set:html={md(d.intro)} />}
-
-      {(d.customBlocks || []).map((b) => {
-        if (b.type === 'callout') return (
-          <div class="my-8 p-6 bg-secondary rounded-xl">
-            {b.title && <h3 class="text-2xl font-bold text-primary font-serif mb-2">{b.title}</h3>}
-            {b.body && <div class="prose max-w-none" set:html={md(b.body)} />}
-          </div>
-        );
-        if (b.type === 'story') return (
-          <div class="my-8">
-            {b.image && <img src={b.image} alt="" class="w-full rounded-xl mb-4" />}
-            {b.title && <h3 class="text-2xl font-bold text-primary font-serif mb-2">{b.title}</h3>}
-            {b.body && <div class="prose max-w-none" set:html={md(b.body)} />}
-          </div>
-        );
-        if (b.type === 'image' && b.image) return <img src={b.image} alt="" class="my-8 w-full rounded-xl" />;
-        if (b.type === 'button') return (
-          <div class="my-8 p-6 bg-bg-secondary rounded-xl text-center">
-            {b.title && <h3 class="text-xl font-bold text-primary font-serif mb-2">{b.title}</h3>}
-            {b.body && <p class="text-text-secondary mb-4">{b.body}</p>}
-            {b.buttonText && <a href={b.buttonUrl || '#'} class="btn-standard btn-primary-color">{b.buttonText}</a>}
-          </div>
-        );
-        return null;
-      })}
-
-      {upcomingEvents.length > 0 && (
-        <section class="mt-12 pt-8 border-t-2 border-bg-secondary">
-          <h2 class="text-3xl font-bold text-primary font-serif mb-2">Upcoming Events</h2>
-          {d.eventsIntro && <p class="text-text-secondary mb-6">{d.eventsIntro}</p>}
-          <div class="space-y-4">
-            {upcomingEvents.map((e) => (
-              <a href={e.data.externalUrl || `/events/${e.slug}`} class="block p-4 border border-bg-secondary rounded-xl hover:shadow-md transition-shadow">
-                <h3 class="text-lg font-bold text-primary font-serif">{e.data.title}</h3>
-                <p class="text-sm text-text-secondary">{fmtEvent(e.data.eventDate, e.data.dateOverride)}{e.data.location ? ` · ${e.data.location}` : ''}</p>
-                {e.data.cardDescription && <p class="text-sm mt-1">{e.data.cardDescription}</p>}
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {latestNews.length > 0 && (
-        <section class="mt-12 pt-8 border-t-2 border-bg-secondary">
-          <h2 class="text-3xl font-bold text-primary font-serif mb-2">Latest News</h2>
-          {d.newsIntro && <p class="text-text-secondary mb-6">{d.newsIntro}</p>}
-          <div class="space-y-4">
-            {latestNews.map((n) => (
-              <a href={`/news/${n.slug}/`} class="block p-4 border-b border-bg-secondary">
-                <h3 class="text-lg font-bold text-primary font-serif">{n.data.title}</h3>
-                <p class="text-xs text-text-secondary">{n.data.author} · {fmtNews(n.data.pubDate)}</p>
-                {n.data.description && <p class="text-sm mt-1">{n.data.description}</p>}
-              </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {d.attachments && d.attachments.length > 0 && (
-        <section class="mt-12 pt-8 border-t-2 border-bg-secondary">
-          <h2 class="text-3xl font-bold text-primary font-serif mb-4">Attachments</h2>
-          <ul class="space-y-2">
-            {d.attachments.map((a) => (
-              <li>
-                <a href={a.file} download class="flex items-center gap-3 p-3 bg-bg-secondary rounded-lg hover:bg-secondary transition-colors">
-                  <span class="text-xl">📎</span>
-                  <span class="font-medium text-primary">{a.label || a.file}</span>
-                  <span class="ml-auto text-sm text-text-secondary">Download &darr;</span>
-                </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      {d.closing && <div class="prose prose-lg max-w-none mt-12 text-text-primary" set:html={md(d.closing)} />}
     </div>
+    <div class="newsletter-archive-body mt-6" set:html={bodyInner} />
   </article>
 </Layout>
+
+<style is:global>
+  /* Only the <body> contents of the email are lifted onto this page, so the typography
+     the email declares in its <head> has to be restated here — scoped, so the email's
+     global `* { font-family }` rule can't escape and restyle the rest of the site. */
+  .newsletter-archive-body {
+    background: transparent;
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    color: #333333;
+  }
+  .newsletter-archive-body table { margin-left: auto; margin-right: auto; }
+  .newsletter-archive-body img { max-width: 100%; height: auto; }
+</style>

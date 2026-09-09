@@ -32,3 +32,9 @@ logs.md
 
 /src/assets/
 /.astro/
+
+# Local email previews (npm run newsletter:preview)
+.preview/
+
+# macOS
+.DS_Store

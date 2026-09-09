@@ -237,8 +237,10 @@ const newslettersCollection = defineCollection({
     })).optional(),
     closing: z.string().optional(),
     testEmail: z.string().optional(),
-    status: z.enum(['draft', 'ready-to-send', 'send-test', 'send-now', 'sent']).default('draft'),
+    status: z.enum(['draft', 'ready-to-send', 'send-test', 'send-now', 'in-resend', 'sent']).default('draft'),
     confirmSend: z.boolean().default(false),
+    // Written by scripts/push-newsletter.mjs, not by hand.
+    resendBroadcastId: z.string().optional(),
   }),
 });
 

@@ -10,7 +10,8 @@
     "cms": "npx decap-server",
     "newsletter:push": "tsx scripts/push-newsletter.mjs",
     "newsletter:dry": "tsx scripts/push-newsletter.mjs --dry-run",
-    "subscribers:import": "node scripts/import-subscribers.mjs"
+    "subscribers:import": "node scripts/import-subscribers.mjs",
+    "newsletter:preview": "tsx scripts/preview-newsletter.mjs"
   },
   "overrides": {
     "react": "18.2.0",
@@ -28,6 +29,7 @@
     "gray-matter": "^4.0.3",
     "marked": "^16.2.1",
     "resend": "^6.12.3",
+    "sanitize-html": "^2.17.7",
     "tailwindcss": "^3.4.4"
   },
   "devDependencies": {

@@ -86,13 +86,13 @@ export const config = {
         },
 
         {
-          label: "Attachments",
-          label_singular: "Attachment",
+          label: "Files & Downloads",
+          label_singular: "File",
           name: "attachments",
           widget: "list",
           required: false,
           summary: "{{fields.label}}",
-          hint: "Files attached to the email (PDFs, flyers, etc). Total size should stay under ~25MB.",
+          hint: "Files linked from the email (PDFs, flyers, etc). They are hosted on the site and linked, not attached — Resend broadcasts can't carry attachments, and links stay out of spam filters.",
           fields: [
             { label: "Label", name: "label", widget: "string", hint: 'How it appears in the email, e.g. "March meeting minutes"' },
             { label: "File", name: "file", widget: "file" },
@@ -118,10 +118,11 @@ export const config = {
             { label: "Ready — create draft in Resend (you press Send there)", value: "ready-to-send" },
             { label: "Send test — email only the test address above", value: "send-test" },
             { label: "SEND NOW — email ALL subscribers", value: "send-now" },
-            { label: "Sent (done)", value: "sent" },
+            { label: "Waiting in Resend (draft created, not sent yet)", value: "in-resend" },
+            { label: "Sent (done — appears in the public archive)", value: "sent" },
           ],
           default: "draft",
-          hint: "Most issues: use 'Ready'. 'SEND NOW' emails everyone and requires the confirmation box below to be checked.",
+          hint: "Most issues: use 'Ready', then press Send in Resend and set this to 'Sent'. A test send resets itself to Draft. 'SEND NOW' emails everyone and needs the confirmation box below.",
         },
         {
           label: "⚠️ I confirm: SEND NOW will email this to ALL subscribers",

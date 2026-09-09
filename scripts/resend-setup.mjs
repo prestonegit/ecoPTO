@@ -60,6 +60,11 @@ async function ensureDomain() {
     console.log(`Domain "${domain}" not registered yet. Run without --check to create it.`);
     return null;
   }
+  // Ask Resend to re-check DNS. Without this the record can sit at "pending" forever
+  // even after the DNS has propagated — the dashboard's "Verify" button does the same thing.
+  const { error: verifyErr } = await resend.domains.verify(existing.id);
+  if (verifyErr) console.log(`(verify request returned: ${verifyErr.message})`);
+
   // Fetch full record (includes DNS records + status)
   const { data: full, error } = await resend.domains.get(existing.id);
   if (error) throw new Error(`Domain get failed: ${error.message}`);
@@ -78,8 +83,25 @@ function printDns(d) {
   console.log(`(Run with --check later to re-poll: it flips to "verified" once DNS propagates.)`);
 }
 
+// The signup form writes these onto each contact. Resend treats properties as a typed
+// schema resource, so they have to exist before a contact can carry them — otherwise
+// contacts.create fails and the person gets a welcome email without being subscribed.
+const CONTACT_PROPERTIES = ['schools', 'impact_focus', 'volunteer_roles', 'wants_active_role', 'signed_up_at'];
+
+async function ensureContactProperties() {
+  const { data: list } = await resend.contactProperties.list();
+  const existing = new Set((list?.data || []).map((p) => p.key));
+  for (const key of CONTACT_PROPERTIES) {
+    if (existing.has(key)) { console.log(`✓ Contact property "${key}" already exists.`); continue; }
+    const { error } = await resend.contactProperties.create({ key, type: 'string' });
+    if (error) console.log(`  Could not create contact property "${key}": ${error.message}`);
+    else console.log(`✓ Created contact property "${key}".`);
+  }
+}
+
 async function main() {
   const audienceId = await ensureAudience();
+  await ensureContactProperties();
   const d = await ensureDomain();
 
   if (d) printDns(d);
@@ -88,6 +110,13 @@ async function main() {
   console.log(`  RESEND_API_KEY      = (the key you already created)`);
   console.log(`  RESEND_AUDIENCE_ID  = ${audienceId}`);
   console.log(`  RESEND_FROM         = ecoPTO <news@${domain}>`);
+  console.log('');
+  console.log(`  Netlify only (form notifications — optional, defaults to the address in src/config/org.js):`);
+  console.log(`  NOTIFY_EMAIL        = catch-all for every form`);
+  console.log(`  NOTIFY_SIGNUP       = who hears about new newsletter signups`);
+  console.log(`  NOTIFY_STAFF        = who hears about staff support requests`);
+  console.log(`  NOTIFY_CONTACT      = who hears about contact-form messages`);
+  console.log(`  (each accepts a comma-separated list)`);
 
   if (d && d.status !== 'verified') {
     console.log(`\n⏳ Domain not verified yet. Add the DNS records above, then run:`);
