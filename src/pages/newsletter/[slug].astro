@@ -71,12 +71,14 @@ const rawBody = emailHtml.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? emailHt
 // would execute on the ecopto.org origin. Sanitize before it reaches the DOM — a CMS
 // editor should not be able to run script on the public site.
 const bodyInner = sanitizeHtml(rawBody, {
-  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'table', 'thead', 'tbody', 'tr', 'td', 'th', 'style']),
+  // No <style>: only the email's <body> is lifted here, so its head CSS never arrives
+  // and nothing needs it. Allowing it would let a CMS editor drop an unscoped stylesheet
+  // onto the public page and restyle or blank the whole site.
+  allowedTags: sanitizeHtml.defaults.allowedTags.concat(['img', 'table', 'thead', 'tbody', 'tr', 'td', 'th']),
+  // style *attributes* are how the email lays itself out, so they must survive;
+  // sanitize-html still strips javascript: and expression() from them.
   allowedAttributes: { '*': ['style', 'class', 'align', 'width', 'height', 'colspan', 'rowspan', 'role'], a: ['href', 'target', 'rel'], img: ['src', 'alt', 'width', 'height'] },
   allowedSchemes: ['http', 'https', 'mailto'],
-  // style attributes are how the whole email is laid out, so they must survive;
-  // sanitize-html still strips javascript: and expression() from them.
-  allowVulnerableTags: false,
 });
 ---
 <Layout title={`${d.subject} — ${ORG.newsletterName}`}>

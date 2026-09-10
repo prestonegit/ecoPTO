@@ -68,9 +68,16 @@ The welcome email carries a real unsubscribe link to `/api/unsubscribe`, handled
 Newsletter **broadcasts** don't use this endpoint — Resend substitutes its own
 `{{{RESEND_UNSUBSCRIBE_URL}}}` token there, wired into its suppression list.
 
+Signatures are **scoped** (`n:` for nonces, `u:` for unsubscribe links), so a token minted
+for one purpose can't be replayed as the other. Unsubscribe links deliberately **never
+expire** — a link in an old email should still work, per RFC 8058. The trade-off is that
+if someone resubscribes, an old link still unsubscribes them again; changing
+`FORM_SECRET` is the way to invalidate every outstanding link at once.
+
 > `FORM_SECRET` signs both submission nonces and unsubscribe links. It defaults to a hash
 > of `RESEND_API_KEY`, so **rotating that key invalidates every outstanding unsubscribe
-> link**. Set `FORM_SECRET` explicitly before rotating.
+> link**. Set `FORM_SECRET` explicitly before rotating. If neither is set the code now
+> throws rather than signing with a known-empty secret.
 
 ### If a send fails
 

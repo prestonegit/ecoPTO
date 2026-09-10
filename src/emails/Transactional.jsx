@@ -11,11 +11,13 @@ const { fontSans, fontSerif } = BRAND;
 const Shell = ({ preview, siteUrl, children, showFooterAddress = true, unsubscribeUrl }) => (
   <Html>
     <Head>
-      {/* Tell dark-mode-aware clients this design is light-only. Without it, iOS Mail
-          and Outlook auto-invert the card to dark while leaving the inline colours
-          alone, which is what made the header look wrong on mobile. */}
       <meta name="color-scheme" content="light" />
       <meta name="supported-color-schemes" content="light" />
+      {/* The meta tags below cover Apple Mail; this CSS form is the trigger it
+          honours most reliably. Gmail and Outlook ignore both and invert regardless,
+          so the real fix for the reported dark-mode artifact is the logo PNG having
+          a transparent background instead of a baked-in white square. */}
+      <style>{`:root { color-scheme: light; supported-color-schemes: light; }`}</style>
     </Head>
     {preview && <Preview>{preview}</Preview>}
     <Body style={{ background: BRAND.bgMuted, margin: 0, padding: '24px 12px', fontFamily: fontSans, color: BRAND.text, WebkitTextSizeAdjust: '100%' }}>
@@ -91,9 +93,12 @@ export const SignupWelcome = ({ firstName, siteUrl = ORG.siteUrl, unsubscribeUrl
     </Section>
     {/* Anyone can submit the signup form with someone else's address, so say plainly
         what to do about it. The actual control lives in the footer. */}
+    {/* Only promise the link when the footer will actually render one. */}
     <Section style={{ padding: '0 32px 28px', textAlign: 'center' }}>
       <Text style={{ fontSize: 12, color: BRAND.textMuted, margin: 0, lineHeight: 1.5 }}>
-        Didn't sign up? Use the unsubscribe link below and you'll be removed straight away.
+        {unsubscribeUrl
+          ? "Didn't sign up? Use the unsubscribe link below and you'll be removed straight away."
+          : `Didn't sign up? Reply to this email and we'll remove you.`}
       </Text>
     </Section>
   </Shell>

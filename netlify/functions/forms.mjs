@@ -14,7 +14,7 @@ import { render } from '@react-email/render';
 import React from 'react';
 import { SignupWelcome, FormReceipt, InternalNotification } from '../../src/emails/Transactional.jsx';
 import { ORG } from '../../src/config/org.js';
-import { sign, verify, unsubscribeUrl } from '../../src/lib/sign.js';
+import { signNonce, verifyNonce, unsubscribeUrl } from '../../src/lib/sign.js';
 
 const SITE_URL = process.env.SITE_URL || ORG.siteUrl;
 
@@ -27,14 +27,14 @@ const MAX_NONCE_AGE_MS = 2 * 60 * 60 * 1000; // a long form fill, but not an inf
 // client-supplied timestamp, which an attacker bypassed simply by omitting the field
 // (`Number(undefined || 0)` made the form look two thousand years old). Deriving the time
 // server-side also fixes real users whose device clock is skewed.
-const mintNonce = () => { const ts = Date.now(); return `${ts}.${sign(ts)}`; };
+const mintNonce = () => { const ts = Date.now(); return `${ts}.${signNonce(ts)}`; };
 
 const checkNonce = (nonce) => {
   if (typeof nonce !== 'string') return 'missing';
   const [tsRaw, mac] = nonce.split('.');
   const ts = Number(tsRaw);
   if (!Number.isFinite(ts) || !mac) return 'malformed';
-  if (!verify(ts, mac)) return 'bad-signature';
+  if (!verifyNonce(ts, mac)) return 'bad-signature';
   const age = Date.now() - ts;
   if (age < MIN_FILL_MS) return 'too-fast';
   if (age > MAX_NONCE_AGE_MS) return 'expired';
@@ -103,10 +103,15 @@ const schoolList = (schools, other) => {
 export default async (req) => {
   // The browser calls this on page load to get a nonce it must hand back on submit.
   if (req.method === 'GET') {
-    return new Response(JSON.stringify({ nonce: mintNonce() }), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
-    });
+    try {
+      return new Response(JSON.stringify({ nonce: mintNonce() }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' },
+      });
+    } catch (err) {
+      console.error('Cannot mint a nonce:', err.message);
+      return json({ error: 'Form handling is not configured.' }, 500);
+    }
   }
   if (req.method !== 'POST') return json({ error: 'Method not allowed' }, 405);
 
@@ -152,7 +157,13 @@ export default async (req) => {
     console.log(`Honeypot tripped on ${formName}`);
     return json({ ok: true });
   }
-  const nonceProblem = checkNonce(body?._nonce);
+  let nonceProblem;
+  try {
+    nonceProblem = checkNonce(body?._nonce);
+  } catch (err) {
+    console.error('Nonce check failed:', err.message);
+    return json({ error: 'Form handling is not configured.' }, 500);
+  }
   if (nonceProblem) {
     console.log(`Rejected ${formName} submission: nonce ${nonceProblem}`);
     return json({ ok: true });

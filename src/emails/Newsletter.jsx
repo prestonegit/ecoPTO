@@ -55,10 +55,13 @@ export const Newsletter = ({
   return (
     <Html>
       <Head>
-        {/* Light-only: dark-mode clients otherwise invert the card while leaving the
-            inline colours alone, which looks broken on mobile. */}
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
+        {/* The meta tags below cover Apple Mail; this CSS form is the trigger it
+            honours most reliably. Gmail and Outlook ignore both and invert regardless,
+            so the real fix for the reported dark-mode artifact is the logo PNG having
+            a transparent background instead of a baked-in white square. */}
+        <style>{`:root { color-scheme: light; supported-color-schemes: light; }`}</style>
         <Font fontFamily="Plus Jakarta Sans" fallbackFontFamily="sans-serif"
           webFont={{ url: 'https://fonts.gstatic.com/s/plusjakartasans/v8/LDIbaomQNQcsA88c7O9yZ4KMCoOg4Ko20yw.woff2', format: 'woff2' }} fontWeight={400} fontStyle="normal" />
         <Font fontFamily="Playfair Display" fallbackFontFamily="serif"
