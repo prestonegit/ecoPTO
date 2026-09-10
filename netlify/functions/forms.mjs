@@ -9,12 +9,12 @@
 // Required env:  RESEND_API_KEY, RESEND_AUDIENCE_ID, RESEND_FROM
 // Optional env:  NOTIFY_EMAIL (catch-all), NOTIFY_SIGNUP, NOTIFY_STAFF, NOTIFY_CONTACT
 
-import crypto from 'node:crypto';
 import { Resend } from 'resend';
 import { render } from '@react-email/render';
 import React from 'react';
 import { SignupWelcome, FormReceipt, InternalNotification } from '../../src/emails/Transactional.jsx';
 import { ORG } from '../../src/config/org.js';
+import { sign, verify, unsubscribeUrl } from '../../src/lib/sign.js';
 
 const SITE_URL = process.env.SITE_URL || ORG.siteUrl;
 
@@ -27,10 +27,6 @@ const MAX_NONCE_AGE_MS = 2 * 60 * 60 * 1000; // a long form fill, but not an inf
 // client-supplied timestamp, which an attacker bypassed simply by omitting the field
 // (`Number(undefined || 0)` made the form look two thousand years old). Deriving the time
 // server-side also fixes real users whose device clock is skewed.
-const nonceSecret = () =>
-  process.env.FORM_SECRET || crypto.createHash('sha256').update(process.env.RESEND_API_KEY || '').digest('hex');
-
-const sign = (ts) => crypto.createHmac('sha256', nonceSecret()).update(String(ts)).digest('hex');
 const mintNonce = () => { const ts = Date.now(); return `${ts}.${sign(ts)}`; };
 
 const checkNonce = (nonce) => {
@@ -38,10 +34,7 @@ const checkNonce = (nonce) => {
   const [tsRaw, mac] = nonce.split('.');
   const ts = Number(tsRaw);
   if (!Number.isFinite(ts) || !mac) return 'malformed';
-  const expected = sign(ts);
-  // Constant-time compare; lengths are fixed so the length check can't leak.
-  if (mac.length !== expected.length ||
-      !crypto.timingSafeEqual(Buffer.from(mac, 'hex'), Buffer.from(expected, 'hex'))) return 'bad-signature';
+  if (!verify(ts, mac)) return 'bad-signature';
   const age = Date.now() - ts;
   if (age < MIN_FILL_MS) return 'too-fast';
   if (age > MAX_NONCE_AGE_MS) return 'expired';
@@ -215,12 +208,18 @@ export default async (req) => {
           }
         }
 
+        const unsubUrl = unsubscribeUrl(SITE_URL, email);
+        const welcomeProps = { firstName, siteUrl: SITE_URL, unsubscribeUrl: unsubUrl };
         await sendOrThrow(resend, {
           from,
           to: [email],
           subject: `Welcome to the ${ORG.newsletterName}`,
-          html: await render(React.createElement(SignupWelcome, { firstName, siteUrl: SITE_URL })),
-          text: await render(React.createElement(SignupWelcome, { firstName, siteUrl: SITE_URL }), { plainText: true }),
+          headers: {
+            'List-Unsubscribe': `<${unsubUrl}>, <mailto:${ORG.email}?subject=Unsubscribe>`,
+            'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+          },
+          html: await render(React.createElement(SignupWelcome, welcomeProps)),
+          text: await render(React.createElement(SignupWelcome, welcomeProps), { plainText: true }),
         });
       }
 

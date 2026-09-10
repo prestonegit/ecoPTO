@@ -8,22 +8,52 @@ const { fontSans, fontSerif } = BRAND;
 
 // Shared chrome for every one-to-one email we send (confirmations, receipts,
 // internal notifications). Deliberately lighter than the newsletter template.
-const Shell = ({ preview, siteUrl, children, showFooterAddress = true }) => (
+const Shell = ({ preview, siteUrl, children, showFooterAddress = true, unsubscribeUrl }) => (
   <Html>
-    <Head />
+    <Head>
+      {/* Tell dark-mode-aware clients this design is light-only. Without it, iOS Mail
+          and Outlook auto-invert the card to dark while leaving the inline colours
+          alone, which is what made the header look wrong on mobile. */}
+      <meta name="color-scheme" content="light" />
+      <meta name="supported-color-schemes" content="light" />
+    </Head>
     {preview && <Preview>{preview}</Preview>}
-    <Body style={{ background: BRAND.bgMuted, margin: 0, padding: '24px 0', fontFamily: fontSans, color: BRAND.text }}>
-      <Container style={{ maxWidth: 560, background: BRAND.bg, borderRadius: 8, overflow: 'hidden' }}>
-        <Section style={{ padding: '20px 24px', borderBottom: `1px solid ${BRAND.bgMuted}`, textAlign: 'center' }}>
-          <Img src={`${siteUrl}/email-logo.png`} alt={ORG.shortName} width="40" height="40" style={{ margin: '0 auto' }} />
+    <Body style={{ background: BRAND.bgMuted, margin: 0, padding: '24px 12px', fontFamily: fontSans, color: BRAND.text, WebkitTextSizeAdjust: '100%' }}>
+      <Container style={{ maxWidth: 560, width: '100%', background: BRAND.bg, borderRadius: 12, overflow: 'hidden' }}>
+        <Section style={{ padding: '32px 24px 24px', background: BRAND.bg, textAlign: 'center' }}>
+          {/* Rendered at 72px from a 256px transparent PNG, so it stays crisp on
+              high-DPI screens and has no white box to show through in dark mode. */}
+          <Img src={`${siteUrl}/email-logo.png`} alt={ORG.shortName}
+               width="72" height="72"
+               style={{ margin: '0 auto', display: 'block', width: 72, height: 72 }} />
         </Section>
         {children}
-        <Section style={{ background: BRAND.primary, padding: 24, textAlign: 'center' }}>
-          <Text style={{ fontSize: 12, color: '#fff', opacity: 0.8, margin: 0 }}>
-            {ORG.name} · <Link href={`mailto:${ORG.email}`} style={{ color: BRAND.secondary }}>{ORG.email}</Link>
+        <Section style={{ background: BRAND.primary, padding: '28px 24px', textAlign: 'center' }}>
+          <Text style={{ fontSize: 13, color: '#ffffff', margin: 0, fontWeight: 700 }}>{ORG.name}</Text>
+          <Text style={{ fontSize: 12, color: '#ffffff', margin: '6px 0 0', opacity: 0.85 }}>
+            <Link href={`mailto:${ORG.email}`} style={{ color: BRAND.secondary, textDecoration: 'underline' }}>{ORG.email}</Link>
           </Text>
           {showFooterAddress && hasPostalAddress() && (
-            <Text style={{ fontSize: 11, color: '#fff', opacity: 0.6, margin: '4px 0 0' }}>{ORG.postalAddress}</Text>
+            <Text style={{ fontSize: 12, color: '#ffffff', margin: '6px 0 0', opacity: 0.75 }}>{ORG.postalAddress}</Text>
+          )}
+          {unsubscribeUrl && (
+            <>
+              <Hr style={{ borderColor: 'rgba(255,255,255,0.25)', margin: '18px 0 14px' }} />
+              {/* Styled as an obvious control, not buried prose — the previous version
+                  read as a sentence with a link nobody could see. */}
+              <Link
+                href={unsubscribeUrl}
+                style={{
+                  display: 'inline-block', color: '#ffffff', fontSize: 13, fontWeight: 700,
+                  textDecoration: 'underline', padding: '8px 16px',
+                }}
+              >
+                Unsubscribe
+              </Link>
+              <Text style={{ fontSize: 11, color: '#ffffff', opacity: 0.7, margin: '2px 0 0' }}>
+                One click — no login, no reply needed.
+              </Text>
+            </>
           )}
         </Section>
       </Container>
@@ -40,9 +70,9 @@ const P = ({ children, muted }) => (
 );
 
 /** Sent to someone who just subscribed to the YEWsletter. */
-export const SignupWelcome = ({ firstName, siteUrl = ORG.siteUrl }) => (
-  <Shell preview={`Welcome to the ${ORG.newsletterName}`} siteUrl={siteUrl}>
-    <Section style={{ padding: '32px 32px 8px' }}>
+export const SignupWelcome = ({ firstName, siteUrl = ORG.siteUrl, unsubscribeUrl }) => (
+  <Shell preview={`Welcome to the ${ORG.newsletterName}`} siteUrl={siteUrl} unsubscribeUrl={unsubscribeUrl}>
+    <Section style={{ padding: '8px 32px 8px' }}>
       <H1>{firstName ? `Welcome, ${firstName}!` : 'Welcome!'}</H1>
       <P>
         Thanks for signing up. You're on the list for the <strong>{ORG.newsletterName}</strong> — our
@@ -59,11 +89,11 @@ export const SignupWelcome = ({ firstName, siteUrl = ORG.siteUrl }) => (
         See upcoming events
       </Button>
     </Section>
-    {/* Anyone can submit the signup form with someone else's address, so the person who
-        did not ask for this needs a way out of the very first email they receive. */}
+    {/* Anyone can submit the signup form with someone else's address, so say plainly
+        what to do about it. The actual control lives in the footer. */}
     <Section style={{ padding: '0 32px 28px', textAlign: 'center' }}>
-      <Text style={{ fontSize: 11, color: BRAND.textMuted, margin: 0 }}>
-        Didn't sign up? <Link href={`mailto:${ORG.email}?subject=Unsubscribe`} style={{ color: BRAND.textMuted }}>Tell us and we'll remove you</Link>.
+      <Text style={{ fontSize: 12, color: BRAND.textMuted, margin: 0, lineHeight: 1.5 }}>
+        Didn't sign up? Use the unsubscribe link below and you'll be removed straight away.
       </Text>
     </Section>
   </Shell>
@@ -72,7 +102,7 @@ export const SignupWelcome = ({ firstName, siteUrl = ORG.siteUrl }) => (
 /** Sent to someone who submitted the contact or staff-support form. */
 export const FormReceipt = ({ firstName, kind, siteUrl = ORG.siteUrl }) => (
   <Shell preview={`We got your ${kind}`} siteUrl={siteUrl}>
-    <Section style={{ padding: '32px 32px 32px' }}>
+    <Section style={{ padding: '8px 32px 32px' }}>
       <H1>{firstName ? `Thanks, ${firstName}!` : 'Thanks!'}</H1>
       <P>
         We've received your {kind} and a member of the ecoPTO team will get back to you.
@@ -91,7 +121,7 @@ export const FormReceipt = ({ firstName, kind, siteUrl = ORG.siteUrl }) => (
  */
 export const InternalNotification = ({ title, fields = [], siteUrl = ORG.siteUrl }) => (
   <Shell preview={title} siteUrl={siteUrl} showFooterAddress={false}>
-    <Section style={{ padding: '28px 32px 8px' }}>
+    <Section style={{ padding: '8px 32px 8px' }}>
       <H1>{title}</H1>
     </Section>
     <Section style={{ padding: '0 32px 28px' }}>

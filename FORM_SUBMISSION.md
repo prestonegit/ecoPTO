@@ -51,6 +51,27 @@ use it to mail arbitrary addresses from your verified domain and burn your Resen
 It is a speed bump, not a guarantee. If you ever see abuse, put Netlify's rate limiting
 or a CAPTCHA in front of it.
 
+### Unsubscribing
+
+The welcome email carries a real unsubscribe link to `/api/unsubscribe`, handled by
+`netlify/functions/unsubscribe.mjs`:
+
+- The address is **signed** (HMAC), so nobody can unsubscribe someone else by editing the
+  query string.
+- `GET` shows a confirmation page with one button. It deliberately does *not* unsubscribe
+  on its own — mail clients and security scanners prefetch links, and a GET that acted
+  would quietly unsubscribe people who never clicked.
+- `POST` performs it. That also satisfies RFC 8058 one-click, so the `List-Unsubscribe`
+  and `List-Unsubscribe-Post` headers we set make Gmail's and Apple Mail's own
+  Unsubscribe button work.
+
+Newsletter **broadcasts** don't use this endpoint — Resend substitutes its own
+`{{{RESEND_UNSUBSCRIBE_URL}}}` token there, wired into its suppression list.
+
+> `FORM_SECRET` signs both submission nonces and unsubscribe links. It defaults to a hash
+> of `RESEND_API_KEY`, so **rotating that key invalidates every outstanding unsubscribe
+> link**. Set `FORM_SECRET` explicitly before rotating.
+
 ### If a send fails
 
 The function checks the result of every Resend call and returns a 500 the visitor can

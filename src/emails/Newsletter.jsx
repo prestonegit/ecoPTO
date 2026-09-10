@@ -55,20 +55,25 @@ export const Newsletter = ({
   return (
     <Html>
       <Head>
+        {/* Light-only: dark-mode clients otherwise invert the card while leaving the
+            inline colours alone, which looks broken on mobile. */}
+        <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light" />
         <Font fontFamily="Plus Jakarta Sans" fallbackFontFamily="sans-serif"
           webFont={{ url: 'https://fonts.gstatic.com/s/plusjakartasans/v8/LDIbaomQNQcsA88c7O9yZ4KMCoOg4Ko20yw.woff2', format: 'woff2' }} fontWeight={400} fontStyle="normal" />
         <Font fontFamily="Playfair Display" fallbackFontFamily="serif"
           webFont={{ url: 'https://fonts.gstatic.com/s/playfairdisplay/v37/nuFvD-vYSZviVYUb_rj3ij__anPXJzDwcbmjWBN2PKdFvUDQ.woff2', format: 'woff2' }} fontWeight={500} fontStyle="normal" />
       </Head>
       {data.preheader && <Preview>{data.preheader}</Preview>}
-      <Body style={{ background: BRAND.bgMuted, margin: 0, padding: '24px 0', fontFamily: fontSans, color: BRAND.text }}>
-        <Container style={{ maxWidth: 600, background: BRAND.bg, borderRadius: 8, overflow: 'hidden' }}>
+      <Body style={{ background: BRAND.bgMuted, margin: 0, padding: '24px 12px', fontFamily: fontSans, color: BRAND.text, WebkitTextSizeAdjust: '100%' }}>
+        <Container style={{ maxWidth: 600, width: '100%', background: BRAND.bg, borderRadius: 12, overflow: 'hidden' }}>
 
           {/* Header — PNG, not SVG: Gmail/Outlook/Yahoo all strip inline SVG images */}
-          <Section style={{ padding: '20px 24px', borderBottom: `1px solid ${BRAND.bgMuted}` }}>
+          <Section style={{ padding: '20px 24px', borderBottom: `1px solid ${BRAND.bgMuted}`, background: BRAND.bg }}>
             <Row>
-              <Column style={{ width: 48 }}>
-                <Img src={`${siteUrl}/email-logo.png`} alt={ORG.shortName} width="36" height="36" />
+              <Column style={{ width: 60 }}>
+                <Img src={`${siteUrl}/email-logo.png`} alt={ORG.shortName} width="48" height="48"
+                     style={{ display: 'block', width: 48, height: 48 }} />
               </Column>
               <Column>
                 <Text style={{ fontSize: 22, fontWeight: 700, color: BRAND.primary, margin: 0 }}>
@@ -212,10 +217,13 @@ export const Newsletter = ({
                 {ORG.postalAddress}
               </Text>
             )}
-            <Hr style={{ borderColor: 'rgba(255,255,255,0.1)', margin: '16px 0' }} />
-            <Text style={{ fontSize: 11, color: '#fff', opacity: 0.5, margin: 0 }}>
-              You're receiving this because you subscribed at ecopto.org. <Link href={unsubscribeUrl} style={{ color: '#fff' }}>Unsubscribe</Link>
+            <Hr style={{ borderColor: 'rgba(255,255,255,0.25)', margin: '18px 0 14px' }} />
+            <Text style={{ fontSize: 11, color: '#ffffff', opacity: 0.7, margin: '0 0 6px' }}>
+              You're receiving this because you subscribed at ecopto.org.
             </Text>
+            <Link href={unsubscribeUrl} style={{ display: 'inline-block', color: '#ffffff', fontSize: 13, fontWeight: 700, textDecoration: 'underline', padding: '8px 16px' }}>
+              Unsubscribe
+            </Link>
           </Section>
         </Container>
       </Body>
