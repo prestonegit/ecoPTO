@@ -20,17 +20,19 @@ export const config = {
       frontmatter_format: "yaml",
       summary: "{{subject}} — {{status}}",
       fields: [
+        { label: "The email itself", name: "section_basics", widget: "section", required: false, hint: "Subject, timing, and the note at the top." },
         { label: "Subject Line", name: "subject", widget: "string", hint: "Shows in the recipient's inbox" },
         { label: "Inbox Preview Text", name: "preheader", widget: "string", required: false, hint: "Short snippet shown next to subject in most inboxes" },
         { label: "Send Date", name: "sendDate", widget: "datetime" },
         { label: "Hero Image", name: "heroImage", widget: "image", required: false, hint: "Optional banner image at the top" },
         { label: "Intro Message", name: "intro", widget: "markdown", required: false, hint: "A note from the team — supports formatting" },
 
+        { label: "What goes in it", name: "section_sections", widget: "section", required: false, hint: "Pull in events and news automatically, or add your own blocks below." },
         { label: "Include Upcoming Events?", name: "includeEvents", widget: "boolean", default: true },
-        { label: "Events Intro (optional)", name: "eventsIntro", widget: "string", required: false, hint: 'e.g. "Mark your calendars:"' },
+        { label: "Events Intro", name: "eventsIntro", widget: "string", required: false, hint: 'e.g. "Mark your calendars:"' },
 
         { label: "Include Latest News?", name: "includeNews", widget: "boolean", default: true },
-        { label: "News Intro (optional)", name: "newsIntro", widget: "string", required: false },
+        { label: "News Intro", name: "newsIntro", widget: "string", required: false },
 
         {
           label: "Custom Blocks",
@@ -85,6 +87,7 @@ export const config = {
           ],
         },
 
+        { label: "Attachments and sign-off", name: "section_extras", widget: "section", required: false, hint: "Linked files, plus the closing line." },
         {
           label: "Files & Downloads",
           label_singular: "File",
@@ -101,6 +104,7 @@ export const config = {
 
         { label: "Closing Note", name: "closing", widget: "markdown", required: false },
 
+        { label: "Sending", name: "section_send", widget: "section", required: false, hint: "Nothing leaves this site until you publish." },
         {
           label: "Last test sent",
           name: "lastTestSentAt",
@@ -108,7 +112,7 @@ export const config = {
           required: false,
         },
         {
-          label: "Send a test to (optional)",
+          label: "Send a test to",
           name: "testEmail",
           widget: "string",
           required: false,

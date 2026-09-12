@@ -1,25 +1,34 @@
 /* Visual theme for the Decap CMS admin.
  *
  * Decap exposes no styling API for its own chrome — registerPreviewStyle only reaches the
- * preview pane — so this overrides from the outside. It styles by Emotion's component-name
- * suffix (`[class*="-AppHeader"]`) rather than the hashed prefix: the hash changes on every
- * build, the component name only changes when Decap renames the component. That makes these
- * selectors durable across patch upgrades but not guaranteed across majors — if the admin
- * ever looks unstyled after a Decap bump, the component names moved, and the fix is to
- * re-check them against the DOM, not to chase hashes.
+ * preview pane — so this overrides from the outside, using the site's own tokens.
  *
- * Nothing here is load-bearing: every rule is cosmetic, so a selector that stops matching
- * degrades to stock Decap rather than to a broken editor.
+ * SELECTOR RULES, both learned the hard way. Emotion generates class names shaped
+ * `css-<hash>-<Component>` and *concatenates every composed style name* onto the end:
  *
- * The preview pane is a separate document and inherits none of this, which is correct —
- * it should look like the email, not like the CMS.
+ *   css-p68nzd-AppHeader
+ *   css-xic79f-AppHeaderNavLink-AppHeaderButton-button-buttonActive-...-AppHeaderButton
+ *   css-10hld09-ListCard-card   css-1qt2dwr-ListCardLink   css-dq4ygr-ListCardTitle
+ *
+ * 1. A loose `[class*="-ListCard"]` therefore also matches ListCardLink and ListCardTitle,
+ *    painting a card border around the title too. Match a component EXACTLY by requiring a
+ *    trailing dash or end-of-string: `[class*="-Name-"], [class$="-Name"]`.
+ * 2. Emotion injects its <style> tags at runtime, after anything in the document head, so
+ *    an equal-specificity override silently loses. Hence the `body` prefix throughout.
+ *
+ * The hash changes every build; the component name changes only when Decap renames the
+ * component. So this is durable across patch upgrades, not guaranteed across majors. Every
+ * rule here is cosmetic by design: a selector that stops matching degrades to stock Decap
+ * rather than to a broken editor.
+ *
+ * The preview pane is a separate document and inherits none of this, which is correct — it
+ * should look like the email, not like the CMS.
  */
 
 :root {
   --admin-primary: #b05b3b;
   --admin-primary-dark: #8f4629;
   --admin-secondary: #ffc099;
-  --admin-accent: #ff5050;
   --admin-ink: #2b2018;
   --admin-muted: #6b5d54;
   --admin-line: #e7ded7;
@@ -33,41 +42,46 @@
 
 /* ---- Typography ------------------------------------------------------------------ */
 
+html,
 body,
 body button,
 body input,
 body textarea,
-body select,
-body [class*="-AppHeader"],
-body [class*="-Sidebar"],
-body [class*="-Collection"],
-body [class*="-EditorControl"] {
+body select {
   font-family: var(--admin-sans);
 }
 
-body {
+/* Decap injects its own `body { background }` at runtime. Same specificity as a bare
+ * `body`, injected later, so it wins — which left the page grey down to the end of the
+ * content and cream below it. `html body` outranks it without reaching for !important. */
+html,
+html body {
   background: var(--admin-bg);
   color: var(--admin-ink);
   -webkit-font-smoothing: antialiased;
 }
 
-/* Collection and entry headings carry the site's display face. */
-body [class*="-CollectionTopHeading"],
-body [class*="-SidebarHeading"] {
+body [class*="-CollectionTopHeading-"],
+body [class$="-CollectionTopHeading"],
+body [class*="-SidebarHeading-"],
+body [class$="-SidebarHeading"] {
   font-family: var(--admin-serif);
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--admin-ink);
 }
 
-body [class*="-CollectionTopHeading"] {
-  font-size: 1.6rem;
+body [class*="-CollectionTopHeading-"],
+body [class$="-CollectionTopHeading"] {
+  font-size: 1.55rem;
 }
 
-/* Decap sets field labels in tiny uppercase, which turns a long form into a wall of
- * shouting. Sentence case at a readable size instead. */
-body [class*="-FieldLabel"],
-body [class*="-LabelComponent"] {
+/* Decap sets field labels in tiny all-caps, which turns a fifteen-field form into a wall
+ * of shouting. Sentence case at a readable size instead. */
+body [class*="-FieldLabel-"],
+body [class$="-FieldLabel"],
+body [class*="-LabelComponent-"],
+body [class$="-LabelComponent"] {
   text-transform: none;
   font-size: 0.82rem;
   font-weight: 600;
@@ -77,26 +91,47 @@ body [class*="-LabelComponent"] {
 
 /* ---- Header ---------------------------------------------------------------------- */
 
-body [class*="-AppHeader"] {
+/* Exact match: the bar itself, not its children. */
+body [class$="-AppHeader"] {
   background: var(--admin-primary);
   box-shadow: var(--admin-shadow);
 }
 
-body [class*="-AppHeaderNavLink"]:hover,
-body [class*="-AppHeaderButton"]:hover {
+/* The tabs ship with their own pale button background, which reads as grey chips stuck
+ * onto the terracotta bar. Strip it and let the bar show through. */
+body [class*="-AppHeaderNavLink-"],
+body [class*="-AppHeaderButton-"] {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+}
+
+body [class*="-AppHeaderNavLink-"]:hover,
+body [class*="-AppHeaderButton-"]:hover {
   background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+/* Decap marks the current tab with a plain, non-hashed class — but styles the active
+ * state through Emotion's `&&`, which compiles to a doubled class (0,2,0) and outranks
+ * `body .header-link-active`. Doubling ours the same way wins it back. */
+body .header-link-active.header-link-active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
 }
 
 /* ---- Sidebar --------------------------------------------------------------------- */
 
-body [class*="-SidebarContainer"] {
+body [class*="-SidebarContainer-"],
+body [class$="-SidebarContainer"] {
   background: var(--admin-surface);
   border: 1px solid var(--admin-line);
   border-radius: var(--admin-radius);
   box-shadow: var(--admin-shadow);
 }
 
-body [class*="-SidebarNavLink"] {
+body [class*="-SidebarNavLink-"],
+body [class$="-SidebarNavLink"] {
   border-radius: 8px;
   margin: 1px 6px;
   padding-left: 12px;
@@ -105,117 +140,128 @@ body [class*="-SidebarNavLink"] {
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-body [class*="-SidebarNavLink"]:hover {
+body [class*="-SidebarNavLink-"]:hover,
+body [class$="-SidebarNavLink"]:hover {
   background: var(--admin-bg);
   color: var(--admin-primary-dark);
 }
 
-/* The active link is the one thing in the sidebar that must be unmissable. */
-.sidebar-active {
-  background: var(--admin-secondary) !important;
-  color: var(--admin-primary-dark) !important;
+/* Also a plain class — and the reason this isn't matched on `sidebarNavLinkActive`, which
+ * appears in the class of every nav link whether it's active or not. */
+body .sidebar-active.sidebar-active {
+  background: var(--admin-secondary);
+  color: var(--admin-primary-dark);
   font-weight: 700;
 }
 
-/* ---- Cards and lists ------------------------------------------------------------- */
+/* ---- Entry list ------------------------------------------------------------------ */
 
-body [class*="-ListCard"],
-body [class*="-CollectionTopContainer"],
-body [class*="-ControlPaneContainer"],
-body [class*="-CardsGrid"] > li {
-  border-radius: var(--admin-radius);
-}
-
-body [class*="-ListCard"] {
+/* The card gets the border and shadow. Its link and title must not. */
+body [class*="-ListCard-"],
+body [class$="-ListCard"] {
   border: 1px solid var(--admin-line);
+  border-radius: var(--admin-radius);
   box-shadow: var(--admin-shadow);
+  overflow: hidden;
   transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.18s ease;
 }
 
-body [class*="-ListCard"]:hover {
+body [class*="-ListCard-"]:hover,
+body [class$="-ListCard"]:hover {
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(43, 32, 24, 0.1);
 }
 
+body [class*="-ListCardLink"],
+body [class*="-ListCardTitle"] {
+  border: 0;
+  box-shadow: none;
+  background: transparent;
+}
+
 body [class*="-ListCardTitle"] {
   font-weight: 700;
+  font-size: 1rem;
   color: var(--admin-ink);
+}
+
+body [class*="-CollectionTopContainer-"],
+body [class$="-CollectionTopContainer"] {
+  border-radius: var(--admin-radius);
+  box-shadow: var(--admin-shadow);
 }
 
 /* ---- Inputs ---------------------------------------------------------------------- */
 
-body [class*="-ControlContainer"] input,
-body [class*="-ControlContainer"] textarea,
-body [class*="-ControlContainer"] select,
+body [class*="-ControlContainer-"] input,
+body [class*="-ControlContainer-"] textarea,
+body [class*="-ControlContainer-"] select,
 body [class*="-SearchInput"] {
   font-size: 0.95rem;
   color: var(--admin-ink);
   border-radius: 8px;
 }
 
-body [class*="-ControlContainer"] input:focus,
-body [class*="-ControlContainer"] textarea:focus,
-body [class*="-widget"]:focus-within {
+body [class*="-ControlContainer-"] input:focus,
+body [class*="-ControlContainer-"] textarea:focus {
   box-shadow: 0 0 0 3px rgba(176, 91, 59, 0.16);
   border-color: var(--admin-primary);
   outline: none;
 }
 
-/* Decap tints the whole active field bright blue; keep the cue, drop the flood. */
-body [class*="-ControlContainer"]:focus-within [class*="-widget"] {
-  background: var(--admin-surface);
-}
-
 /* ---- Buttons --------------------------------------------------------------------- */
 
-body [class*="-CollectionTopNewButton"],
-body [class*="-AppHeaderQuickNewButton"] {
+body [class*="-CollectionTopNewButton-"],
+body [class*="-AppHeaderQuickNewButton-"] {
   border-radius: 999px;
   font-weight: 600;
 }
 
-body [class*="-CollectionTopNewButton"] {
+body [class*="-CollectionTopNewButton-"] {
   background: var(--admin-primary);
   color: #fff;
 }
 
-body [class*="-CollectionTopNewButton"]:hover {
+body [class*="-CollectionTopNewButton-"]:hover {
   background: var(--admin-primary-dark);
-}
-
-/* The publish control is the one button that changes the live site — let it read as
- * the primary action rather than as one more grey chip. */
-body [class*="-PublishButton"],
-body [class*="-StatusButton"] {
-  font-weight: 700;
-  border-radius: 8px;
 }
 
 /* ---- Editor shell ---------------------------------------------------------------- */
 
-body [class*="-EditorContainer"],
-body [class*="-EditorToolbar"] {
-  background: var(--admin-surface);
-}
-
-body [class*="-EditorToolbar"] {
+body [class*="-EditorToolbar-"],
+body [class$="-EditorToolbar"] {
   border-bottom: 1px solid var(--admin-line);
 }
 
-body [class*="-ControlPaneContainer"] {
+body [class*="-ControlPaneContainer-"],
+body [class$="-ControlPaneContainer"] {
   max-width: 48rem;
   margin: 0 auto;
 }
 
-/* Give each field room to breathe; the stock form runs them together. */
-body [class*="-ControlContainer"] {
+body [class*="-ControlContainer-"],
+body [class$="-ControlContainer"] {
   margin-bottom: 1.35rem;
 }
 
-/* Hints are guidance, not fine print — but they shouldn't outweigh the field itself. */
 body [class*="-ControlHint"] {
   font-size: 0.8rem;
   color: var(--admin-muted);
   font-style: normal;
   line-height: 1.45;
+}
+
+/* ---- Section dividers ------------------------------------------------------------ */
+
+/* SectionWidget draws its own heading, so hide the label chip and hint Decap wraps around
+ * every widget — otherwise the title and blurb each appear twice. Scoped with :has(), so
+ * on a browser without it the only consequence is that duplication coming back. */
+body [class*="-ControlContainer"]:has([data-section-divider]) > [class*="-ControlTopbar"],
+body [class*="-ControlContainer"]:has([data-section-divider]) > [class*="-ControlHint"] {
+  display: none;
+}
+
+/* The divider supplies its own spacing above. */
+body [class*="-ControlContainer"]:has([data-section-divider]) {
+  margin-bottom: 0.35rem;
 }
