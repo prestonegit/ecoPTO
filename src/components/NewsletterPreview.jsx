@@ -7,6 +7,16 @@ import { ORG } from '../config/org.js';
 // rather than re-implementing the layout, so an editor sees the real thing — same
 // markup and same inline styles Resend will send. Previously this file was a
 // hand-maintained copy of the template and the two drifted apart on every change.
+// Statuses that email the whole list on publish, and the reasons push-newsletter.mjs
+// will refuse to. Kept in sync with the gates in that script.
+const BULK = new Set(['send-now', 'send-now-confirmed']);
+const blockedReason = (data) => {
+  if (!BULK.has(data.status)) return '';
+  if (data.status === 'send-now' && !data.confirmSend) return ' — confirmation box not checked, will not send';
+  if (!data.lastTestSentAt) return ' — no test sent yet, will not send';
+  return '';
+};
+
 const NewsletterPreview = ({ entry, getAsset }) => {
   const data = entry.get('data').toJS();
   const [siteData, setSiteData] = useState({ events: [], news: [] });
@@ -116,8 +126,8 @@ const NewsletterPreview = ({ entry, getAsset }) => {
         <div style={{ marginTop: 2 }}><strong style={{ color: '#333' }}>Subject:</strong> {data.subject || <em>(no subject yet)</em>}</div>
         <div style={{ marginTop: 2 }}><strong style={{ color: '#333' }}>Inbox preview:</strong> {data.preheader || <em>(none)</em>}</div>
         {data.status && data.status !== 'draft' && (
-          <div style={{ marginTop: 6, display: 'inline-block', padding: '2px 8px', borderRadius: 999, background: data.status === 'send-now' ? '#fee2e2' : '#e0f2fe', color: data.status === 'send-now' ? '#b91c1c' : '#075985', fontWeight: 700 }}>
-            status: {data.status}{data.status === 'send-now' && !data.confirmSend ? ' — confirmation box not checked, will not send' : ''}
+          <div style={{ marginTop: 6, display: 'inline-block', padding: '2px 8px', borderRadius: 999, background: BULK.has(data.status) ? '#fee2e2' : '#e0f2fe', color: BULK.has(data.status) ? '#b91c1c' : '#075985', fontWeight: 700 }}>
+            status: {data.status}{blockedReason(data)}
           </div>
         )}
       </div>

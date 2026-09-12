@@ -4,7 +4,11 @@
 //   draft         → ignored
 //   send-test     → one-off email to testEmail, then resets to draft so it can't re-fire
 //   ready-to-send → creates a DRAFT broadcast in Resend; you press Send there
-//   send-now      → creates AND sends a broadcast to the whole audience (needs confirmSend)
+//   send-now-confirmed → creates AND sends a broadcast to the whole audience. Written by
+//                        the staged Send control in the CMS, which only produces it after
+//                        an explicit typed confirmation. Requires a test to have landed first.
+//   send-now      → legacy equivalent for files written before that control existed; still
+//                   honoured, but needs confirmSend: true in the frontmatter
 //   in-resend     → a draft is waiting in Resend; ignored by this script
 //   sent          → done; ignored, and the issue appears in the public archive
 //
@@ -88,7 +92,7 @@ async function loadNews() {
     }));
 }
 
-const ACTIONABLE = new Set(['ready-to-send', 'send-test', 'send-now']);
+const ACTIONABLE = new Set(['ready-to-send', 'send-test', 'send-now', 'send-now-confirmed']);
 
 // Every broadcast we create is named deterministically from the issue slug, which makes
 // Resend itself the durable record of what has gone out. Git cannot be trusted for this:
@@ -241,8 +245,10 @@ async function main() {
       console.log(`Sending TEST of "${data.subject}" to ${to}...`);
       const res = await resend.emails.send({ from, to: [to], subject: `[TEST] ${data.subject}`, html: testHtml, text: testText });
       if (res.error) { console.error(`  Failed: ${res.error.message}`); continue; }
-      // Reset to draft: leaving it on 'send-test' re-fires on every later push.
-      await setStatus(filePath, 'draft');
+      // Reset to draft: leaving it on 'send-test' re-fires on every later push. The
+      // timestamp is what unlocks the later steps in the CMS Send control — it records a
+      // test that Resend actually accepted, not merely one that was asked for.
+      await setStatus(filePath, 'draft', { lastTestSentAt: new Date().toISOString() });
       console.log(`  Test sent, status reset to draft. Edit and re-test, or switch to 'SEND NOW' when ready.`);
       continue;
     }
@@ -272,10 +278,19 @@ async function main() {
     const idempotencyKey = `newsletter-${slug}`;
 
     // --- SEND NOW: to all subscribers, but only with explicit confirmation ---
-    if (data.status === 'send-now') {
-      if (data.confirmSend !== true) {
+    if (data.status === 'send-now' || data.status === 'send-now-confirmed') {
+      // 'send-now-confirmed' carries its own confirmation: the CMS control only writes it
+      // after the editor types SEND. Bare 'send-now' predates that and still needs the box.
+      if (data.status === 'send-now' && data.confirmSend !== true) {
         console.error(`  ${label}: status is 'SEND NOW' but the confirmation box is not checked. Refusing to send.`);
         console.error(`  Check "I confirm: SEND NOW will email ALL subscribers" in the editor, then re-run.`);
+        continue;
+      }
+      // A UI gate is only a suggestion once the file is on disk — anyone can hand-edit
+      // frontmatter or commit from a branch. Enforce the test-first rule here too.
+      if (!data.lastTestSentAt) {
+        console.error(`  ${label}: no test has ever been sent for this issue. Refusing to email the whole list.`);
+        console.error(`  Set "Send a test to" in the editor, publish, check your inbox, then send.`);
         continue;
       }
       console.log(`SENDING "${data.subject}" to ALL subscribers in audience ${audienceId}...`);
