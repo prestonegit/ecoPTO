@@ -23,7 +23,7 @@ There are three forms, all handled by the same function:
 
 | Form | Where | What happens |
 |---|---|---|
-| `signup` | Get Involved modal | Adds a Resend contact with school/interests/volunteer roles as contact properties, sends a welcome email, notifies the team |
+| `signup` | Get Involved modal | Adds a Resend contact with school/interests/strengths as contact properties, sends a welcome email, notifies the team |
 | `staff-support` | Get Involved modal | Receipt to the sender, detailed notification to the team |
 | `contact` | Home page contact section | Receipt to the sender, detailed notification to the team |
 

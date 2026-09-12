@@ -185,9 +185,12 @@ export default async (req) => {
       const name = clean(f['first-name']) || '';
       const { firstName, lastName } = splitName(name);
       const schools = schoolList(f.school, clean(f['school-other']));
-      const roles = asArray(f['selected-volunteer-roles']).filter((r) => r && r !== 'None');
-      const wantsUpdates = isChecked(f['receive-updates']);
-      const activeRole = f['active-role'] === true || hasValue(f['active-role'], 'Yes');
+      const strengths = asArray(f.strengths).filter((s) => s && s !== 'None');
+      const strengthsOther = clean(f['strengths-other']);
+      const formattedStrengths = strengths.map((s) => (s === 'Other' && strengthsOther ? `Other: ${strengthsOther}` : s));
+      const onlyUpdates = formattedStrengths.includes('Updates only') || formattedStrengths.includes('I only want updates');
+      const wantsActiveRole = formattedStrengths.length > 0 && !onlyUpdates;
+      const wantsUpdates = isChecked(f['receive-updates']) || onlyUpdates;
       const impactFocus = clean(f['impact-focus']) || '';
 
       // Only people who ticked the updates box go into the mailing audience.
@@ -200,8 +203,8 @@ export default async (req) => {
           const properties = {
             schools: schools.join(', '),
             impact_focus: impactFocus,
-            volunteer_roles: roles.join(', '),
-            wants_active_role: activeRole ? 'yes' : 'no',
+            volunteer_roles: formattedStrengths.join(', '),
+            wants_active_role: wantsActiveRole ? 'yes' : 'no',
             signed_up_at: new Date().toISOString(),
             // Provenance, so the audience stays sortable against the legacy contacts
             // imported from Karen's Google Contacts labels. See FORM_SUBMISSION.md.
@@ -242,10 +245,9 @@ export default async (req) => {
         ['Name', name],
         ['Email', email],
         ['School / affiliation', schools.join(', ')],
+        ['Strengths & expertise', formattedStrengths.join('\n') || (onlyUpdates ? 'Updates only' : '—')],
         ['What they care about', impactFocus],
         ['Wants newsletter', wantsUpdates ? 'Yes' : 'No'],
-        ['Wants an active role', activeRole ? 'Yes' : 'No'],
-        ['Volunteer roles', roles.join('\n')],
       ];
       await sendOrThrow(resend, {
         from,

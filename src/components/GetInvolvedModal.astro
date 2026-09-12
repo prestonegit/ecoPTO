@@ -1,7 +1,6 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getEntry } from 'astro:content';
 
-const getInvolved = await getCollection('get-involved');
 const signupContent = await getEntry('signup', 'signup');
 ---
 <dialog id="get-involved-modal" class="modal">
@@ -53,36 +52,39 @@ const signupContent = await getEntry('signup', 'signup');
           </div>
           <input type="text" id="school-other-detail" name="school-other" placeholder={signupContent.data.signup_other_school_placeholder || "Please specify your affiliation"} class="w-full p-3 mt-2 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent hidden" />
         </div>
+        <!-- Strengths / Expertise Section (Required) -->
+        <div id="strengths-section" class="pt-1">
+          <label class="text-sm font-bold text-text-secondary block">
+            {signupContent.data.signup_strengths_label || "Your Strengths & How You Can Help (Required)"}
+          </label>
+          <p class="text-xs text-text-secondary mt-1 mb-2 leading-relaxed">
+            {signupContent.data.signup_strengths_prompt || "When specific needs arise (e.g. building garden beds, reviewing legal terms, updating the website), we want to know who to reach out to. Select any areas where you have experience or are willing to help, or choose updates only:"}
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Gardening & Landscaping" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Gardening & Landscaping</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Carpentry & Hands-on Building" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Carpentry & Building</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Software, Web & Technology" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Software & Technology</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Legal & Non-profit Governance" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Legal & Governance</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Finance, Bookkeeping & Budgeting" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Finance & Bookkeeping</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Fundraising & Grant Writing" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Fundraising & Grants</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Communications, Writing & PR" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Communications & PR</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Event Planning & Coordination" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Event Planning</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Education" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Education</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Politics & Policy" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Politics & Policy</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Art, Design & Photography" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Art, Design & Photos</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" id="strengths-other-checkbox" name="strengths" value="Other" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Other expertise</label></div>
+            <div class="w-full"><label class="flex items-start"><input type="checkbox" id="updates-only-checkbox" name="strengths" value="Updates only" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">{signupContent.data.signup_updates_only_label || "I only want updates"}</label></div>
+          </div>
+          <input type="text" id="strengths-other-detail" name="strengths-other" placeholder={signupContent.data.signup_strengths_other_placeholder || "Please specify your skill or background"} class="w-full p-3 mt-2 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent hidden" />
+          <p id="strengths-error" class="text-xs text-red-600 font-bold mt-2 hidden" role="alert">Please select at least one skill or choose 'I only want updates'.</p>
+        </div>
+
         <div>
           <label for="impact-focus" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_impact_focus_label}</label>
           <textarea id="impact-focus" name="impact-focus" class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" placeholder={signupContent.data.signup_impact_focus_placeholder}></textarea>
         </div>
-        <div class="flex items-center">
-          <input type="checkbox" id="receive-updates" name="receive-updates" checked class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
-          <label for="receive-updates" class="ml-2 text-text-secondary">{signupContent.data.signup_receive_updates_label}</label>
-        </div>
-        <div class="flex items-center">
-          <input type="hidden" name="active-role" value="No" />
-          <input type="checkbox" id="active-role" name="active-role" value="Yes" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
-          <label for="active-role" class="ml-2 text-text-secondary">{signupContent.data.signup_active_role_label}</label>
-        </div>
 
-        <input type="hidden" name="selected-volunteer-roles" value="None" />
-        <div id="volunteer-roles-section" class="hidden mt-4 space-y-2">
-          <p class="text-sm font-bold text-text-secondary">{signupContent.data.signup_volunteer_roles_prompt}</p>
-          {getInvolved.length > 0 ? (
-            getInvolved.map(opportunity => (
-              <div>
-                <label class="flex items-center">
-                  <input type="checkbox" name="selected-volunteer-roles" value={opportunity.data.title} class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
-                  <span class="text-text-secondary">{opportunity.data.title}</span>
-                </label>
-              </div>
-            ))
-          ) : (
-            <p class="text-text-secondary text-sm">{signupContent.data.signup_no_volunteer_roles_message}</p>
-          )}
-        </div>
+        <input type="hidden" name="receive-updates" value="true" />
 
         <div class="modal-action mt-6 flex justify-center gap-4">
           <button type="submit" class="btn-standard btn-bg-primary-color px-8 py-3 rounded-full">{signupContent.data.signup_button_text.toUpperCase()}</button>
@@ -204,8 +206,13 @@ const signupContent = await getEntry('signup', 'signup');
       const successFeedback = document.getElementById('form-success-feedback');
       const modalTabs = document.getElementById('modal-tabs');
 
-      const activeRoleCheckbox = document.getElementById('active-role');
-      const volunteerRolesSection = document.getElementById('volunteer-roles-section');
+      const joinForm = modal.querySelector('form[data-resend-form="signup"]');
+      const strengthsSection = document.getElementById('strengths-section');
+      const strengthCheckboxes = Array.from(modal.querySelectorAll('.strength-checkbox'));
+      const updatesOnlyCheckbox = document.getElementById('updates-only-checkbox');
+      const strengthsOtherCheckbox = document.getElementById('strengths-other-checkbox');
+      const strengthsOtherDetail = document.getElementById('strengths-other-detail');
+      const strengthsError = document.getElementById('strengths-error');
       const schoolOtherCheckbox = document.getElementById('school-other-checkbox');
       const schoolOtherDetail = document.getElementById('school-other-detail');
       const staffSchoolSelect = document.getElementById('staff-school');
@@ -278,8 +285,14 @@ const signupContent = await getEntry('signup', 'signup');
           successFeedback.classList.remove('flex');
         }
 
-        if (volunteerRolesSection instanceof HTMLElement) {
-          volunteerRolesSection.classList.add('hidden');
+        if (strengthsOtherDetail instanceof HTMLInputElement) {
+          strengthsOtherDetail.classList.add('hidden');
+          strengthsOtherDetail.required = false;
+          strengthsOtherDetail.value = '';
+        }
+
+        if (strengthsError instanceof HTMLElement) {
+          strengthsError.classList.add('hidden');
         }
 
         if (staffOtherSchoolInput instanceof HTMLInputElement) {
@@ -355,15 +368,77 @@ const signupContent = await getEntry('signup', 'signup');
         });
       });
 
-      // Handle active role checkbox
-      if (activeRoleCheckbox && volunteerRolesSection) {
-        activeRoleCheckbox.addEventListener('change', () => {
-          if (activeRoleCheckbox.checked) {
-            volunteerRolesSection.classList.remove('hidden');
-          } else {
-            volunteerRolesSection.classList.add('hidden');
+      // Handle strengths / updates-only mutual exclusivity and validation
+      const allStrengthInputs = [...strengthCheckboxes, updatesOnlyCheckbox].filter(Boolean);
+      const isAnyStrengthChecked = () => allStrengthInputs.some(cb => cb instanceof HTMLInputElement && cb.checked);
+
+      allStrengthInputs.forEach(cb => {
+        cb?.addEventListener('change', () => {
+          if (isAnyStrengthChecked() && strengthsError) {
+            strengthsError.classList.add('hidden');
           }
         });
+      });
+
+      if (updatesOnlyCheckbox instanceof HTMLInputElement) {
+        updatesOnlyCheckbox.addEventListener('change', () => {
+          if (updatesOnlyCheckbox.checked) {
+            strengthCheckboxes.forEach(cb => {
+              if (cb instanceof HTMLInputElement) cb.checked = false;
+            });
+            if (strengthsOtherDetail instanceof HTMLInputElement) {
+              strengthsOtherDetail.classList.add('hidden');
+              strengthsOtherDetail.required = false;
+              strengthsOtherDetail.value = '';
+            }
+          }
+        });
+      }
+
+      strengthCheckboxes.forEach(cb => {
+        cb?.addEventListener('change', () => {
+          if (cb instanceof HTMLInputElement && cb.checked && updatesOnlyCheckbox instanceof HTMLInputElement) {
+            updatesOnlyCheckbox.checked = false;
+          }
+        });
+      });
+
+      // Handle "Other" strengths option
+      if (strengthsOtherCheckbox && strengthsOtherDetail) {
+        strengthsOtherCheckbox.addEventListener('change', () => {
+          if (strengthsOtherCheckbox instanceof HTMLInputElement && strengthsOtherCheckbox.checked) {
+            strengthsOtherDetail.classList.remove('hidden');
+            strengthsOtherDetail.required = true;
+            if (strengthsOtherDetail instanceof HTMLInputElement) {
+              strengthsOtherDetail.focus();
+            }
+          } else if (strengthsOtherDetail instanceof HTMLInputElement) {
+            strengthsOtherDetail.classList.add('hidden');
+            strengthsOtherDetail.required = false;
+            strengthsOtherDetail.value = '';
+          }
+        });
+      }
+
+      // Validate that at least one strength or "updates only" is checked on submit
+      if (joinForm) {
+        joinForm.addEventListener('submit', (e) => {
+          if (!isAnyStrengthChecked()) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            if (strengthsError) {
+              strengthsError.classList.remove('hidden');
+            }
+            if (strengthsSection) {
+              strengthsSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            const firstCheckbox = strengthCheckboxes[0] || updatesOnlyCheckbox;
+            if (firstCheckbox instanceof HTMLInputElement) {
+              firstCheckbox.focus();
+            }
+            return false;
+          }
+        }, true);
       }
 
       // Handle "Other" school option for Join Us form
