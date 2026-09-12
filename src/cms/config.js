@@ -156,7 +156,6 @@ export const config = {
             { label: "Signup School Affiliation Label", name: "signup_school_affiliation_label", widget: "string" },
             { label: "Other School/Affiliation Placeholder", name: "signup_other_school_placeholder", widget: "string", required: false },
             { label: "Signup Strengths Section Title", name: "signup_strengths_label", widget: "string" },
-            { label: "Signup Strengths Prompt", name: "signup_strengths_prompt", widget: "text" },
             { label: "Other Strengths Input Placeholder", name: "signup_strengths_other_placeholder", widget: "string", required: false },
             { label: "Updates Only Checkbox Label", name: "signup_updates_only_label", widget: "string" },
             { label: "Signup Topics Label", name: "signup_impact_focus_label", widget: "text" },

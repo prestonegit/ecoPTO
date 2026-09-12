@@ -52,14 +52,11 @@ const signupContent = await getEntry('signup', 'signup');
           </div>
           <input type="text" id="school-other-detail" name="school-other" placeholder={signupContent.data.signup_other_school_placeholder || "Please specify your affiliation"} class="w-full p-3 mt-2 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent hidden" />
         </div>
-        <!-- Strengths / Expertise Section (Required) -->
-        <div id="strengths-section" class="pt-1">
+        <!-- Strengths / Expertise Section -->
+        <div id="strengths-section">
           <label class="text-sm font-bold text-text-secondary block">
-            {signupContent.data.signup_strengths_label || "Your Strengths & How You Can Help (Required)"}
+            {signupContent.data.signup_strengths_label || "Your Strengths & How You Can Help"}
           </label>
-          <p class="text-xs text-text-secondary mt-1 mb-2 leading-relaxed">
-            {signupContent.data.signup_strengths_prompt || "When specific needs arise (e.g. building garden beds, reviewing legal terms, updating the website), we want to know who to reach out to. Select any areas where you have experience or are willing to help, or choose updates only:"}
-          </p>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
             <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Gardening & Landscaping" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Gardening & Landscaping</label></div>
             <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Carpentry & Hands-on Building" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Carpentry & Building</label></div>
