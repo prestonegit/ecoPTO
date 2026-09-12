@@ -104,7 +104,7 @@ export const config = {
 
         { label: "Closing Note", name: "closing", widget: "markdown", required: false },
 
-        { label: "Sending", name: "section_send", widget: "section", required: false, hint: "Nothing leaves this site until you publish." },
+        { label: "Sending", name: "section_send", widget: "section", required: false, hint: "Nothing is emailed until you save, and never to the list without a test first." },
         {
           label: "Last test sent",
           name: "lastTestSentAt",
@@ -117,14 +117,13 @@ export const config = {
           widget: "string",
           required: false,
           pattern: ["^$|^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$", "Must be a valid email or blank"],
-          hint: "Where step 1 below sends the test copy. Use your own address.",
+
         },
         {
           label: "Send",
           name: "status",
           widget: "newsletter-send",
           default: "draft",
-          hint: "Nothing is emailed until you publish. Test first — the later steps stay locked until a test has actually been delivered.",
         },
       ],
     },

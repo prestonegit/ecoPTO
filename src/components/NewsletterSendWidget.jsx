@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 
 // Staged replacement for the raw `status` dropdown + `confirmSend` checkbox.
 //
@@ -62,7 +62,9 @@ const fmt = (iso) => {
   return Number.isNaN(d.getTime()) ? String(iso) : d.toLocaleString();
 };
 
-const NewsletterSendControl = (props) => {
+// forwardRef: Decap hands every widget control a ref. Unused here, but a plain function
+// component can't receive one without a React warning.
+const NewsletterSendControl = forwardRef((props, ref) => {
   const { value, onChange, entry, classNameWrapper } = props;
   const status = value || 'draft';
 
@@ -75,30 +77,50 @@ const NewsletterSendControl = (props) => {
   const lastTestSentAt = read('lastTestSentAt').trim();
   const subject = read('subject').trim();
 
-  // `entry` is only as fresh as the last time Decap re-rendered *this* widget, and it
-  // does not re-render one field when a sibling changes. So the address someone just
-  // typed into "Send a test to" is invisible here — which would leave step 1 disabled
-  // while the box visibly has an address in it. Track the live input instead, falling
-  // back to the entry. Decap ids inputs as `<fieldName>-field-<n>`; the suffix moves
-  // around, the prefix doesn't.
+  // The test address is asked for inside step 1, where it's needed — not as a loose field
+  // somewhere further up the form. But a Decap widget owns exactly one field and has no
+  // supported way to write a sibling (`onChangeObject` only reaches keys inside an object
+  // widget, not top-level fields). So `testEmail` stays a real field in the collection,
+  // its own control is hidden by decap-admin.css, and the input below proxies it:
+  // reads follow the live DOM value, writes go through React's native value setter so
+  // Decap's own onChange fires and the value persists exactly as if it had been typed
+  // into the original box.
+  //
+  // Reading from the DOM rather than from `entry` is also required on its own merits:
+  // Decap doesn't re-render a widget when a sibling field changes, so `entry` goes stale
+  // and step 1 would sit disabled beside a filled-in address.
+  const TEST_EMAIL_SELECTOR = 'input[id^="testEmail-field-"]';
   const [liveTestEmail, setLiveTestEmail] = useState(null);
   useEffect(() => {
-    const sel = 'input[id^="testEmail-field-"]';
     const sync = () => {
-      const el = document.querySelector(sel);
+      const el = document.querySelector(TEST_EMAIL_SELECTOR);
       setLiveTestEmail(el ? el.value : null);
     };
     sync();
-    const onInput = (e) => { if (e.target && e.target.matches && e.target.matches(sel)) setLiveTestEmail(e.target.value); };
+    const onInput = (e) => {
+      if (e.target && e.target.matches && e.target.matches(TEST_EMAIL_SELECTOR)) setLiveTestEmail(e.target.value);
+    };
     document.addEventListener('input', onInput, true);
     return () => document.removeEventListener('input', onInput, true);
   }, []);
+
+  const writeTestEmail = (next) => {
+    const el = document.querySelector(TEST_EMAIL_SELECTOR);
+    if (!el) return;
+    // Assigning .value directly is swallowed by React's synthetic event layer; going
+    // through the prototype setter makes it look like a real keystroke.
+    const setter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value').set;
+    setter.call(el, next);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    setLiveTestEmail(next);
+  };
+
   const testEmail = (liveTestEmail == null ? read('testEmail') : liveTestEmail).trim();
 
   const [confirming, setConfirming] = useState(false);
   const [typed, setTyped] = useState('');
 
-  const testable = EMAIL_RE.test(testEmail) || liveTestEmail === null;
+  const testable = EMAIL_RE.test(testEmail);
   const tested = Boolean(lastTestSentAt);
 
   const set = (next) => { setConfirming(false); setTyped(''); onChange(next); };
@@ -113,7 +135,7 @@ const NewsletterSendControl = (props) => {
         </div>
         <p style={{ fontSize: 13, color: C.muted, margin: '6px 0 12px' }}>
           {sent
-            ? 'This issue has gone out and now appears in the public archive. Publishing again will not re-send it.'
+            ? 'This issue has gone out and now appears in the public archive. Saving again will not re-send it.'
             : 'A draft broadcast is sitting in Resend. Open Resend and press Send there. Then set this to Sent.'}
         </p>
         <div style={{ display: 'flex', gap: 8 }}>
@@ -130,17 +152,17 @@ const NewsletterSendControl = (props) => {
       'send-test': {
         tone: 'ok',
         title: 'Test queued',
-        body: <>On publish, one test copy goes to <strong>{testEmail || '(no address set)'}</strong> and nothing else happens. The status resets itself to Draft afterwards.</>,
+        body: <>When you save, one test copy goes to <strong>{testEmail || '(no address set)'}</strong> and nothing else happens. The status resets itself to Draft afterwards.</>,
       },
       'ready-to-send': {
         tone: 'warn',
         title: 'Draft queued in Resend',
-        body: <>On publish, a <strong>draft</strong> broadcast is created in Resend. No one is emailed until you open Resend and press Send there.</>,
+        body: <>When you save, a <strong>draft</strong> broadcast is created in Resend. No one is emailed until you open Resend and press Send there.</>,
       },
       'send-now-confirmed': {
         tone: 'danger',
         title: 'Sending to everyone on publish',
-        body: <>On publish, this emails <strong>every subscriber</strong> immediately. This cannot be undone.</>,
+        body: <>When you save, this emails <strong>every subscriber</strong> immediately. This cannot be undone.</>,
       },
     }[status];
     return (
@@ -163,11 +185,23 @@ const NewsletterSendControl = (props) => {
         ) : (
           <Banner tone="warn">No test has been sent yet. Check it in a real inbox before it goes to the list.</Banner>
         )}
-        {!testable && (
-          <p style={{ fontSize: 13, color: C.red, margin: '0 0 10px' }}>
-            Fill in <strong>“Send a test to”</strong> above with a valid email address to enable this.
-          </p>
-        )}
+        <label style={{ display: 'block', fontSize: 13, color: C.ink, fontWeight: 600, marginBottom: 5 }}>
+          Send it to
+        </label>
+        <input
+          type="email"
+          value={liveTestEmail == null ? read('testEmail') : liveTestEmail}
+          onChange={(e) => writeTestEmail(e.target.value)}
+          placeholder="you@example.com"
+          style={{
+            border: `1px solid ${testEmail && !testable ? C.red : C.line}`,
+            borderRadius: 6, padding: '8px 10px', fontSize: 14, width: '100%',
+            maxWidth: 320, fontFamily: 'inherit', marginBottom: 4, boxSizing: 'border-box',
+          }}
+        />
+        <p style={{ fontSize: 12, color: testEmail && !testable ? C.red : C.muted, margin: '0 0 10px' }}>
+          {testEmail && !testable ? 'That doesn’t look like an email address.' : 'Use your own address — only you get this copy.'}
+        </p>
         <button type="button" disabled={!testable} style={{ ...btn(testable ? C.blue : '#8c959f'), cursor: testable ? 'pointer' : 'not-allowed' }} onClick={() => set('send-test')}>
           {tested ? 'Send another test' : 'Send a test'}
         </button>
@@ -176,7 +210,7 @@ const NewsletterSendControl = (props) => {
       <Step n={2} of={3} title="Put it in front of the group">
         {!tested ? (
           <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>
-            Locked until a test has actually been delivered. Finish step 1 and publish first.
+            Locked until a test has actually been delivered. Do step 1, then save.
           </p>
         ) : (
           <>
@@ -197,7 +231,7 @@ const NewsletterSendControl = (props) => {
         ) : !confirming ? (
           <>
             <p style={{ fontSize: 13, color: C.muted, margin: '0 0 10px' }}>
-              Skips the review step in Resend and emails the whole list on publish.
+              Skips the review step in Resend and emails the whole list when you save.
             </p>
             <button type="button" style={ghost} onClick={() => setConfirming(true)}>Send to everyone…</button>
           </>
@@ -205,7 +239,7 @@ const NewsletterSendControl = (props) => {
           <>
             <Banner tone="danger">
               This emails <strong>every subscriber</strong>{subject ? <> with the subject “{subject}”</> : null} as soon as
-              you publish. There is no recall.
+              you save. There is no recall.
             </Banner>
             <p style={{ fontSize: 13, color: C.ink, margin: '0 0 6px' }}>Type <strong>SEND</strong> to confirm:</p>
             <input
@@ -229,7 +263,9 @@ const NewsletterSendControl = (props) => {
       </Step>
     </div>
   );
-};
+});
+
+NewsletterSendControl.displayName = 'NewsletterSendControl';
 
 export const NewsletterSendPreview = ({ value }) => (
   <span>{value || 'draft'}</span>

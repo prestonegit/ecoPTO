@@ -5,9 +5,12 @@ import { config } from '../cms/config.js';
 import NewsletterPreview from './NewsletterPreview.jsx';
 import NewsletterSendControl, { NewsletterSendPreview } from './NewsletterSendWidget.jsx';
 import SectionControl, { SectionPreview } from './SectionWidget.jsx';
+import { enPlain } from '../cms/locale.js';
 
 const Admin = () => {
   useEffect(() => {
+    // Must register before init so the toolbar picks up the plain-language strings.
+    CMS.registerLocale('en', enPlain);
     CMS.init({ config });
     CMS.registerPreviewTemplate('newsletters', NewsletterPreview);
     CMS.registerWidget('newsletter-send', NewsletterSendControl, NewsletterSendPreview);

@@ -265,3 +265,11 @@ body [class*="-ControlContainer"]:has([data-section-divider]) > [class*="-Contro
 body [class*="-ControlContainer"]:has([data-section-divider]) {
   margin-bottom: 0.35rem;
 }
+
+/* The Send control renders its own "Send it to" input inside step 1 and proxies this
+ * field, so showing the original control too would be asking for the same address twice.
+ * The field itself must stay in the collection — it's where the value persists, and
+ * push-newsletter.mjs reads it from the frontmatter. */
+body [class*="-ControlContainer"]:has(input[id^="testEmail-field-"]) {
+  display: none;
+}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { forwardRef } from 'react';
 
 // A field that isn't a field: renders a section heading inside the editor form so a long
 // flat list of inputs reads as grouped steps.
@@ -13,7 +13,9 @@ import React from 'react';
 // heading this draws. decap-admin.css hides both for containers marked with
 // `data-section-divider`.
 
-const SectionControl = ({ field, classNameWrapper }) => {
+// Decap passes a ref to every widget control, which a plain function component can't
+// accept — forwardRef keeps React from warning. Nothing here needs the ref itself.
+const SectionControl = forwardRef(({ field, classNameWrapper }, ref) => {
   const title = field.get('label') || '';
   const blurb = field.get('hint') || '';
   return (
@@ -46,7 +48,9 @@ const SectionControl = ({ field, classNameWrapper }) => {
       )}
     </div>
   );
-};
+});
+
+SectionControl.displayName = 'SectionControl';
 
 // Nothing to show in the preview pane; the real preview renders the email itself.
 export const SectionPreview = () => null;
