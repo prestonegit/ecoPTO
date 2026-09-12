@@ -10,7 +10,7 @@ export const config = {
     // Newsletters
     {
       name: "newsletters",
-      label: "Newsletter - Issues",
+      label: "Newsletter issues",
       label_singular: "Newsletter Issue",
       folder: "src/content/newsletters",
       create: true,
@@ -18,7 +18,17 @@ export const config = {
       extension: "md",
       format: "frontmatter",
       frontmatter_format: "yaml",
-      summary: "{{subject}} — {{status}}",
+      summary: "{{subject}} · {{sendDate | date('MMM D, YYYY')}} · {{status | default('draft')}}",
+      sortable_fields: [
+        { field: "sendDate", label: "Send date", default_sort: "desc" },
+        { field: "subject", label: "Subject" },
+        { field: "status", label: "Status" },
+      ],
+      view_filters: [
+        { label: "Drafts", field: "status", pattern: "draft" },
+        { label: "Waiting in Resend", field: "status", pattern: "in-resend" },
+        { label: "Sent", field: "status", pattern: "sent" },
+      ],
       fields: [
         { label: "The email itself", name: "section_basics", widget: "section", required: false, hint: "Subject, timing, and the note at the top." },
         { label: "Subject Line", name: "subject", widget: "string", hint: "Shows in the recipient's inbox" },
@@ -130,7 +140,7 @@ export const config = {
     // Form
     {
       name: "signup",
-      label: "Form - Signup",
+      label: "Signup form",
       files: [
         {
           file: "src/content/signup/signup.json",
@@ -162,7 +172,7 @@ export const config = {
     // Pages
     {
       name: "about-us",
-      label: "Page - About Us",
+      label: "About us",
       folder: "src/content/aboutUs",
       create: false,
       extension: "mdx",
@@ -178,7 +188,7 @@ export const config = {
     },
     {
       name: "impact-page",
-      label: "Page - Community Impact",
+      label: "Community impact",
       folder: "src/content/pages",
       create: false,
       extension: "mdx",
@@ -205,7 +215,7 @@ export const config = {
     },
     {
       name: "research-page",
-      label: "Page - Research",
+      label: "Research",
       folder: "src/content/research",
       create: false, // Singleton-ish for now, or just one file
       extension: "mdx",
@@ -250,7 +260,7 @@ export const config = {
     },
     {
       name: "pages",
-      label: "Page - Homepage Content",
+      label: "Homepage",
       files: [
         {
           file: "src/content/homepage/home.json",
@@ -285,7 +295,12 @@ export const config = {
     // Content
     {
       name: "events",
-      label: "Content - Events",
+      label: "Events",
+      summary: "{{title}} · {{eventDate | date('ddd MMM D, YYYY')}}",
+      sortable_fields: [
+        { field: "eventDate", label: "Event date", default_sort: "desc" },
+        { field: "title", label: "Title" },
+      ],
       folder: "src/content/events",
       create: true,
       slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
@@ -305,7 +320,8 @@ export const config = {
     },
     {
       name: "get-involved",
-      label: "Content - Get Involved",
+      label: "Get involved",
+      summary: "{{title}}",
       folder: "src/content/get-involved",
       create: true,
       slug: "{{slug}}",
@@ -317,7 +333,12 @@ export const config = {
     },
     {
       name: "leaders",
-      label: "Content - Leaders",
+      label: "Leadership",
+      summary: "{{name}} — {{title}}",
+      sortable_fields: [
+        { field: "order", label: "Display order", default_sort: "asc" },
+        { field: "name", label: "Name" },
+      ],
       folder: "src/content/leadership",
       create: true,
       slug: "{{slug}}",
@@ -334,7 +355,13 @@ export const config = {
     },
     {
       name: "news",
-      label: "Content - News Posts",
+      label: "News posts",
+      summary: "{{title}} · {{pubDate | date('MMM D, YYYY')}} · {{author | default('no author')}}",
+      sortable_fields: [
+        { field: "pubDate", label: "Publish date", default_sort: "desc" },
+        { field: "title", label: "Title" },
+        { field: "author", label: "Author" },
+      ],
       folder: "src/content/news",
       create: true,
       slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
@@ -352,7 +379,9 @@ export const config = {
     },
     {
       name: "projects",
-      label: "Content - Projects",
+      label: "Projects",
+      summary: "{{title}}",
+      sortable_fields: [{ field: "title", label: "Title", default_sort: "asc" }],
       folder: "src/content/projects",
       create: true,
       slug: "{{slug}}",
@@ -378,7 +407,12 @@ export const config = {
     },
     {
       name: "transparency",
-      label: "Content - Transparency",
+      label: "Transparency",
+      summary: "{{title}} · {{pubDate | date('MMM D, YYYY')}}",
+      sortable_fields: [
+        { field: "pubDate", label: "Publish date", default_sort: "desc" },
+        { field: "title", label: "Title" },
+      ],
       folder: "src/content/transparency",
       create: true,
       slug: "{{slug}}",
@@ -395,7 +429,7 @@ export const config = {
     // Site Settings
     {
       name: "settings",
-      label: "Site Settings - Global",
+      label: "Global settings",
       files: [
         {
           file: "src/content/settings/global.json",

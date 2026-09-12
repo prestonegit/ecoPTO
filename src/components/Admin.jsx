@@ -6,6 +6,7 @@ import NewsletterPreview from './NewsletterPreview.jsx';
 import NewsletterSendControl, { NewsletterSendPreview } from './NewsletterSendWidget.jsx';
 import SectionControl, { SectionPreview } from './SectionWidget.jsx';
 import { enPlain } from '../cms/locale.js';
+import { installSidebarGroups } from '../cms/sidebar-groups.js';
 
 const Admin = () => {
   useEffect(() => {
@@ -15,6 +16,9 @@ const Admin = () => {
     CMS.registerPreviewTemplate('newsletters', NewsletterPreview);
     CMS.registerWidget('newsletter-send', NewsletterSendControl, NewsletterSendPreview);
     CMS.registerWidget('section', SectionControl, SectionPreview);
+
+    // Decap has no collection grouping of its own, so this is layered on afterwards.
+    return installSidebarGroups();
   }, []);
 
   // The CMS will mount itself in the page's body,
