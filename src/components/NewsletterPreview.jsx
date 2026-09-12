@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { render } from '@react-email/render';
 import Newsletter from '../emails/Newsletter.jsx';
 import { ORG } from '../config/org.js';
@@ -11,7 +11,35 @@ const NewsletterPreview = ({ entry, getAsset }) => {
   const data = entry.get('data').toJS();
   const [siteData, setSiteData] = useState({ events: [], news: [] });
   const [html, setHtml] = useState('');
+  const [previewUrl, setPreviewUrl] = useState('');
   const [error, setError] = useState(null);
+
+  // Decap mounts this component inside the preview pane's own iframe, and that
+  // document gets no height and keeps the default 8px body margin. Both break the
+  // full-height layout below: `height: 100%` on the root resolves against an
+  // auto-height body and collapses to content height, leaving the email iframe a
+  // ~150px sliver of the pane. Reach the frame's document through the mounted node —
+  // this component's code runs in the *parent* window, so a bare `document` here is
+  // the admin page, not the preview. The root below is sized in `vh` rather than `%`
+  // because Decap nests the template in its own auto-height wrappers, which break any
+  // percentage chain; inside the frame, `vh` is the pane's own viewport. The margin
+  // reset keeps that 100vh from overflowing into a scrollbar. Undo on unmount.
+  const rootRef = useRef(null);
+  useEffect(() => {
+    const doc = rootRef.current?.ownerDocument;
+    if (!doc) return undefined;
+    const html = doc.documentElement;
+    const { body } = doc;
+    const prev = { html: html.style.height, height: body.style.height, margin: body.style.margin };
+    html.style.height = '100%';
+    body.style.height = '100%';
+    body.style.margin = '0';
+    return () => {
+      html.style.height = prev.html;
+      body.style.height = prev.height;
+      body.style.margin = prev.margin;
+    };
+  }, []);
 
   useEffect(() => {
     fetch('/newsletter-data.json')
@@ -52,6 +80,25 @@ const NewsletterPreview = ({ entry, getAsset }) => {
     return () => { cancelled = true; };
   }, [key]);
 
+  // Feed the frame a blob URL rather than `srcDoc`. React updates the srcDoc attribute
+  // fine, but a sandboxed frame does not re-navigate on that change, so the pane kept
+  // showing whatever it loaded first — in practice the empty string from the initial
+  // render, i.e. a blank preview for the whole session. Assigning a fresh src does
+  // navigate. Debounced so typing doesn't thrash the frame on every keystroke.
+  useEffect(() => {
+    if (!html) return undefined;
+    let url;
+    const timer = setTimeout(() => {
+      url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+      setPreviewUrl(url);
+    }, 250);
+    return () => {
+      clearTimeout(timer);
+      // Safe once the frame has loaded it; revoking only frees the handle.
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [html]);
+
   if (error) {
     return (
       <div style={{ padding: 24, fontFamily: 'system-ui, sans-serif', color: '#b91c1c' }}>
@@ -62,7 +109,7 @@ const NewsletterPreview = ({ entry, getAsset }) => {
   }
 
   return (
-    <div style={{ height: '100%', display: 'flex', flexDirection: 'column', background: '#f5f5f5' }}>
+    <div ref={rootRef} style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: '#f5f5f5' }}>
       {/* Inbox chrome — the bits an editor can't see inside the email body itself. */}
       <div style={{ background: '#fafafa', padding: '12px 20px', borderBottom: '1px solid #e5e5e5', fontSize: 12, color: '#666', fontFamily: 'system-ui, sans-serif' }}>
         <div><strong style={{ color: '#333' }}>From:</strong> {ORG.name}</div>
@@ -77,8 +124,8 @@ const NewsletterPreview = ({ entry, getAsset }) => {
       <iframe
         title="Email preview"
         sandbox=""
-        srcDoc={html}
-        style={{ flex: 1, width: '100%', border: 0, background: '#f5f5f5' }}
+        src={previewUrl}
+        style={{ flex: 1, minHeight: 0, width: '100%', border: 0, background: '#f5f5f5' }}
       />
     </div>
   );
