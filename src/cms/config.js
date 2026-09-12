@@ -149,8 +149,10 @@ export const config = {
           fields: [
             { label: "Signup Form Title", name: "signupFormTitle", widget: "string" },
             { label: "Signup Form Subtitle", name: "signupFormSubtitle", widget: "text", required: false },
-            { label: "Signup Name Label", name: "signup_name_label", widget: "string" },
-            { label: "Name Input Placeholder", name: "signup_first_name_placeholder", widget: "string" },
+            { label: "First Name Label", name: "signup_first_name_label", widget: "string" },
+            { label: "First Name Placeholder", name: "signup_first_name_placeholder", widget: "string" },
+            { label: "Last Name Label", name: "signup_last_name_label", widget: "string" },
+            { label: "Last Name Placeholder", name: "signup_last_name_placeholder", widget: "string" },
             { label: "Signup Email Label", name: "signup_email_label", widget: "string" },
             { label: "Email Input Placeholder", name: "signupFormPlaceholder", widget: "string" },
             { label: "Signup School Affiliation Label", name: "signup_school_affiliation_label", widget: "string" },

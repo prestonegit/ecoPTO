@@ -4,7 +4,7 @@ import { getEntry } from 'astro:content';
 const signupContent = await getEntry('signup', 'signup');
 ---
 <dialog id="get-involved-modal" class="modal">
-  <div class="modal-box bg-white text-text-primary p-8 rounded-lg shadow-lg max-w-lg w-full relative">
+  <div class="modal-box bg-white text-text-primary p-8 rounded-lg shadow-lg max-w-xl w-full relative">
     <button class="btn-close-modal absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold" aria-label="Close modal">&times;</button>
     
     <!-- Tabs -->
@@ -31,9 +31,15 @@ const signupContent = await getEntry('signup', 'signup');
       <p class="py-2 text-text-secondary mb-4">{signupContent.data.signupFormSubtitle}</p>
       
       <form method="post" action="/api/forms" data-resend-form="signup" data-success-message="You're in! Check your inbox for a welcome email." class="space-y-4 bg-white flex-grow">
-        <div>
-          <label for="first-name" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_name_label}</label>
-          <input type="text" id="first-name" name="first-name" placeholder={signupContent.data.signup_first_name_placeholder} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label for="first-name" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_first_name_label || "First Name"}</label>
+            <input type="text" id="first-name" name="first-name" placeholder={signupContent.data.signup_first_name_placeholder || "First Name"} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required autocomplete="given-name" />
+          </div>
+          <div>
+            <label for="last-name" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_last_name_label || "Last Name"}</label>
+            <input type="text" id="last-name" name="last-name" placeholder={signupContent.data.signup_last_name_placeholder || "Last Name"} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required autocomplete="family-name" />
+          </div>
         </div>
         <div>
           <label for="email" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_email_label}</label>
@@ -57,20 +63,20 @@ const signupContent = await getEntry('signup', 'signup');
           <label class="text-sm font-bold text-text-secondary block">
             {signupContent.data.signup_strengths_label || "Your Strengths & How You Can Help"}
           </label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Gardening & Landscaping" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Gardening & Landscaping</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Carpentry & Hands-on Building" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Carpentry & Building</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Software, Web & Technology" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Software & Technology</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Legal & Non-profit Governance" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Legal & Governance</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Finance, Bookkeeping & Budgeting" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Finance & Bookkeeping</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Fundraising & Grant Writing" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Fundraising & Grants</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Communications, Writing & PR" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Communications & PR</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Event Planning & Coordination" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Event Planning</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Education" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Education</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Politics & Policy" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Politics & Policy</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" name="strengths" value="Art, Design & Photography" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Art, Design & Photos</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" id="strengths-other-checkbox" name="strengths" value="Other" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Other expertise</label></div>
-            <div class="w-full"><label class="flex items-start"><input type="checkbox" id="updates-only-checkbox" name="strengths" value="Updates only" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">{signupContent.data.signup_updates_only_label || "I only want updates"}</label></div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-sm">
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Gardening & Landscaping" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span class="whitespace-nowrap">Gardening & Landscaping</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Carpentry & Hands-on Building" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Carpentry & Building</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Software, Web & Technology" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Software & Technology</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Legal & Non-profit Governance" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Legal & Governance</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Finance, Bookkeeping & Budgeting" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Finance & Bookkeeping</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Fundraising & Grant Writing" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Fundraising & Grants</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Communications, Writing & PR" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Communications & PR</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Event Planning & Coordination" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Event Planning</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Education" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Education</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Politics & Policy" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Politics & Policy</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Art, Design & Photography" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Art, Design & Photos</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" id="strengths-other-checkbox" name="strengths" value="Other" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Other expertise</span></label></div>
+            <div class="w-full"><label class="flex items-center"><input type="checkbox" id="updates-only-checkbox" name="strengths" value="Updates only" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>{signupContent.data.signup_updates_only_label || "I only want updates"}</span></label></div>
           </div>
           <input type="text" id="strengths-other-detail" name="strengths-other" placeholder={signupContent.data.signup_strengths_other_placeholder || "Please specify your skill or background"} class="w-full p-3 mt-2 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent hidden" />
           <p id="strengths-error" class="text-xs text-red-600 font-bold mt-2 hidden" role="alert">Please select at least one skill or choose 'I only want updates'.</p>

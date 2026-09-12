@@ -1,8 +1,10 @@
 {
   "signupFormTitle": "Join the ecoPTO Community!",
   "signupFormSubtitle": "Please fill out the form below to join our community.",
-  "signup_name_label": "Name",
-  "signup_first_name_placeholder": "First and Last",
+  "signup_first_name_label": "First Name",
+  "signup_first_name_placeholder": "First Name",
+  "signup_last_name_label": "Last Name",
+  "signup_last_name_placeholder": "Last Name",
   "signup_email_label": "Email",
   "signupFormPlaceholder": "Enter email here",
   "signup_school_affiliation_label": "School(s) Affiliation",

@@ -182,8 +182,14 @@ export default async (req) => {
       const email = String(clean(f.email) || '').toLowerCase();
       if (!email.includes('@')) return json({ error: 'Please enter a valid email address.' }, 400);
 
-      const name = clean(f['first-name']) || '';
-      const { firstName, lastName } = splitName(name);
+      let firstName = clean(f['first-name']) || '';
+      let lastName = clean(f['last-name']) || '';
+      if (!lastName && firstName.includes(' ')) {
+        const split = splitName(firstName);
+        firstName = split.firstName || '';
+        lastName = split.lastName || '';
+      }
+      const name = [firstName, lastName].filter(Boolean).join(' ');
       const schools = schoolList(f.school, clean(f['school-other']));
       const strengths = asArray(f.strengths).filter((s) => s && s !== 'None');
       const strengthsOther = clean(f['strengths-other']);
