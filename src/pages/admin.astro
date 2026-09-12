@@ -1,6 +1,7 @@
 ---
 // src/pages/admin.astro
 import Admin from '../components/Admin.jsx';
+import adminTheme from '../styles/decap-admin.css?raw';
 ---
 <html lang="en">
   <head>
@@ -8,6 +9,12 @@ import Admin from '../components/Admin.jsx';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
     <link rel="stylesheet" href="https://unpkg.com/decap-cms-app@3.16.2/dist/main.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    {/* Inlined after Decap's own stylesheet so these overrides win without !important
+        everywhere, and so the admin never flashes unstyled while a CSS file loads. */}
+    <style is:inline set:html={adminTheme}></style>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
   </head>
   <body>
