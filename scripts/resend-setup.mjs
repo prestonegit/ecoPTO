@@ -86,7 +86,7 @@ function printDns(d) {
 // The signup form writes these onto each contact. Resend treats properties as a typed
 // schema resource, so they have to exist before a contact can carry them — otherwise
 // contacts.create fails and the person gets a welcome email without being subscribed.
-const CONTACT_PROPERTIES = ['schools', 'impact_focus', 'volunteer_roles', 'wants_active_role', 'signed_up_at'];
+const CONTACT_PROPERTIES = ['schools', 'impact_focus', 'volunteer_roles', 'wants_active_role', 'signed_up_at', 'source', 'list_group'];
 
 async function ensureContactProperties() {
   const { data: list } = await resend.contactProperties.list();

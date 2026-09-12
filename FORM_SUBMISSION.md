@@ -51,6 +51,19 @@ use it to mail arbitrary addresses from your verified domain and burn your Resen
 It is a speed bump, not a guarantee. If you ever see abuse, put Netlify's rate limiting
 or a CAPTCHA in front of it.
 
+### Contact properties
+
+Each contact carries these, so the audience stays sortable:
+
+| Property | Set by |
+|---|---|
+| `schools`, `impact_focus`, `volunteer_roles`, `wants_active_role`, `signed_up_at` | the signup form |
+| `source` | `website-form` for form signups; `legacy-manual` / `meeting-signin` for contacts imported from the pre-website Google Contacts lists |
+| `list_group` | `general` for form signups; `admin` / `partners` / `ptos` for the imported groups |
+
+They must exist in Resend before a contact can carry them — `scripts/resend-setup.mjs`
+creates them all.
+
 ### Unsubscribing
 
 The welcome email carries a real unsubscribe link to `/api/unsubscribe`, handled by

@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parent Petition for Intentional Tech @ HVRSD | ecoPTO Beyond Screens</title>
+  
+  <!-- Google Fonts: Playfair Display + Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;0,700;0,800;1,400;1,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              terracotta: '#B05B3B',
+              terracottaDark: '#8A3E22',
+              peach: '#FFC099',
+              peachLight: '#FFF2EB',
+              accent: '#FF5050',
+              charcoal: '#2D2D2D',
+              muted: '#615953',
+              sand: '#F7F2EB',
+              cream: '#FDFBF7',
+              forest: '#2C5E43',
+              forestLight: '#EBF4EF'
+            }
+          },
+          fontFamily: {
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+          },
+          boxShadow: {
+            'soft': '0 8px 30px rgba(176, 91, 59, 0.08)',
+            'card': '0 4px 20px rgba(0, 0, 0, 0.04)',
+            'elevated': '0 12px 36px rgba(176, 91, 59, 0.12)',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      color: #2D2D2D;
+      background-color: #FDFBF7;
+    }
+    h1, h2, h3, .font-serif {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+    .spring-btn {
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .spring-btn:hover {
+      transform: translateY(-2px) scale(1.015);
+    }
+    .spring-btn:active {
+      transform: translateY(1px) scale(0.985);
+    }
+    .leaf-bg {
+      background-image: radial-gradient(#B05B3B 0.75px, transparent 0.75px);
+      background-size: 16px 16px;
+    }
+  </style>
+</head>
+<body class="selection:bg-brand-peach selection:text-brand-terracottaDark antialiased text-brand-charcoal">
+
+  <!-- Top Announcement Bar -->
+  <div class="bg-brand-terracotta text-white text-xs sm:text-sm font-medium py-2 px-4 text-center">
+    <div class="max-w-5xl mx-auto flex items-center justify-center gap-2 flex-wrap">
+      <span class="inline-block bg-white/20 px-2 py-0.5 rounded-full text-[11px] uppercase tracking-wider font-bold">Fall 2026 Action</span>
+      <span>HVRSD Parent Coalition for Balanced, Deliberate Classroom Tech</span>
+      <a href="#petition-form" class="underline underline-offset-2 hover:text-brand-peach transition-colors font-semibold ml-1">Add Your Signature &darr;</a>
+    </div>
+  </div>
+
+  <!-- Main Navigation -->
+  <header class="sticky top-0 z-40 bg-brand-cream/95 backdrop-blur-md border-b border-brand-sand">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <!-- ecoPTO Tree Yew Logo -->
+        <a href="https://ecopto.org" target="_blank" class="flex items-center gap-3 group">
+          <div class="w-11 h-11 rounded-full bg-brand-terracotta flex items-center justify-center p-1.5 shadow-sm group-hover:scale-105 transition-transform">
+            <svg class="w-full h-full text-brand-peach" viewBox="0 0 100 100" fill="currentColor">
+              <circle cx="50" cy="50" r="46" fill="#B05B3B" stroke="#FFC099" stroke-width="4"/>
+              <path d="M50 22 C48 35 40 45 34 56 C30 63 32 74 44 76 L44 86 L56 86 L56 76 C68 74 70 63 66 56 C60 45 52 35 50 22 Z" fill="#FFC099"/>
+              <circle cx="50" cy="42" r="6" fill="#FF5050"/>
+            </svg>
+          </div>
+          <div>
+            <div class="font-serif font-bold text-xl leading-tight text-brand-terracotta">ecoPTO</div>
+            <div class="text-[11px] uppercase tracking-widest text-brand-muted font-semibold">Beyond Screens Circle</div>
+          </div>
+        </a>
+      </div>
+
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-brand-muted">
+        <a href="#why-now" class="hover:text-brand-terracotta transition-colors">Why Now</a>
+        <a href="#5-milestones" class="hover:text-brand-terracotta transition-colors">The 5 Milestones</a>
+        <a href="#screen-limits" class="hover:text-brand-terracotta transition-colors">Daily Limits</a>
+        <a href="#faqs" class="hover:text-brand-terracotta transition-colors">IEP / FAQs</a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a href="#petition-form" class="spring-btn badge-pill bg-brand-terracotta hover:bg-brand-terracottaDark text-white shadow-md text-sm py-2.5 px-5">
+          <span>Sign Petition</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="relative pt-12 pb-16 lg:pt-16 lg:pb-24 overflow-hidden">
+    <!-- Subtle warm glow background -->
+    <div class="absolute inset-0 bg-gradient-to-b from-brand-peachLight/40 via-transparent to-transparent -z-10"></div>
+    <div class="absolute -top-24 right-0 w-96 h-96 bg-brand-peach/25 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <!-- Breadcrumb badge -->
+      <div class="flex items-center justify-center sm:justify-start gap-2 mb-6">
+        <span class="badge-pill bg-brand-peachLight text-brand-terracotta border border-brand-peach/60">
+          <span class="w-2 h-2 rounded-full bg-brand-accent animate-pulse"></span>
+          Hopewell Valley Regional School District
+        </span>
+        <span class="hidden sm:inline-block text-xs font-semibold text-brand-muted">• 2026 Initiative</span>
+      </div>
+
+      <!-- Main Headline -->
+      <h1 class="text-3xl sm:text-5xl lg:text-6xl font-serif font-extrabold text-brand-terracotta tracking-tight leading-[1.15] text-center sm:text-left mb-6">
+        Parent Petition for Intentional Tech @ HVRSD
+      </h1>
+
+      <p class="text-lg sm:text-xl text-brand-muted leading-relaxed font-normal max-w-3xl text-center sm:text-left mb-10">
+        Supporting our superintendent's vision with concrete, measurable milestones: returning to <strong class="text-brand-charcoal font-semibold">analog-first learning</strong>, measuring screen exposure, setting healthy classroom limits, and keeping take-home screens out of elementary homes.
+      </p>
+
+      <!-- Signature Progress Tracker & Social Proof Bar -->
+      <div class="bg-white rounded-2xl p-6 sm:p-7 shadow-soft border border-brand-sand max-w-3xl mb-12">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+          <div>
+            <div class="flex items-baseline gap-2">
+              <span class="font-serif text-3xl font-extrabold text-brand-terracotta" id="signature-count">184</span>
+              <span class="text-sm font-semibold text-brand-muted">HVRSD parents & guardians have signed</span>
+            </div>
+            <div class="text-xs text-brand-muted mt-0.5">Next milestone goal: 250 signatures for the upcoming Board of Education meeting</div>
+          </div>
+          <a href="#petition-form" class="spring-btn inline-flex items-center justify-center px-5 py-2.5 rounded-full bg-brand-forest hover:bg-[#234b35] text-white text-sm font-semibold shadow-sm text-center">
+            Sign In 30 Seconds &rarr;
+          </a>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-full bg-brand-sand rounded-full h-3 overflow-hidden">
+          <div class="bg-gradient-to-r from-brand-terracotta to-brand-peach h-full rounded-full transition-all duration-1000" style="width: 74%;"></div>
+        </div>
+
+        <div class="flex items-center justify-between text-xs text-brand-muted mt-3 font-medium">
+          <span>CHS · TMS · Hopewell · Bear Tavern · Stonybrook · Toll Gate</span>
+          <span class="text-brand-terracotta font-semibold">74% of Phase 1 Goal</span>
+        </div>
+      </div>
+
+      <!-- Quick Trust Anchors -->
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2 border-t border-brand-sand/80">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-brand-peachLight flex items-center justify-center text-brand-terracotta flex-shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          <span class="text-sm font-medium text-brand-muted"><strong class="text-brand-charcoal">Screens Down, Pencils Up:</strong> Analog by default</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-brand-peachLight flex items-center justify-center text-brand-terracotta flex-shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+          </div>
+          <span class="text-sm font-medium text-brand-muted"><strong class="text-brand-charcoal">Protects Accommodations:</strong> Full IEP / 504 carveout</span>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-full bg-brand-peachLight flex items-center justify-center text-brand-terracotta flex-shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          </div>
+          <span class="text-sm font-medium text-brand-muted"><strong class="text-brand-charcoal">Collaborative:</strong> Partnering with Dr. Treece</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Spotlight: Superintendent Treece's Statement -->
+  <section id="why-now" class="py-12 bg-white border-y border-brand-sand">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="relative bg-brand-sand/50 rounded-3xl p-8 sm:p-10 border border-brand-sand">
+        <!-- Giant Quote Mark -->
+        <span class="absolute top-4 left-6 text-7xl font-serif text-brand-peach/50 select-none leading-none pointer-events-none">&ldquo;</span>
+        
+        <div class="relative z-10">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="badge-pill bg-brand-terracotta text-white text-[11px] uppercase tracking-wider font-semibold">Momentum in HVRSD</span>
+            <span class="text-xs text-brand-muted">August 27, 2026 District Statement</span>
+          </div>
+
+          <blockquote class="font-serif text-xl sm:text-2xl text-brand-charcoal leading-snug italic mb-6">
+            As school districts from LA to NYC take bold steps to curb classroom device use, we applaud Superintendent Treece's statement that our district will be:
+            <span class="not-italic font-semibold text-brand-terracotta bg-brand-peachLight px-1.5 py-0.5 rounded">&ldquo;limiting student technology use in our primary grades&rdquo;</span>,
+            prioritizing
+            <span class="not-italic font-semibold text-brand-terracotta bg-brand-peachLight px-1.5 py-0.5 rounded">&ldquo;face-to-face interaction, meaningful relationships, and active engagement in learning&rdquo;</span>,
+            and desires
+            <span class="not-italic font-semibold text-brand-terracotta bg-brand-peachLight px-1.5 py-0.5 rounded">&ldquo;not to have technology do the thinking and problem-solving for students across all grade levels.&rdquo;</span>
+          </blockquote>
+
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-4 border-t border-brand-sand text-sm">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-brand-terracotta text-white flex items-center justify-center font-serif font-bold text-base">
+                RT
+              </div>
+              <div>
+                <div class="font-semibold text-brand-charcoal">Dr. Rosetta Treece</div>
+                <div class="text-xs text-brand-muted">Superintendent of Schools, HVRSD</div>
+              </div>
+            </div>
+            <p class="text-xs text-brand-muted max-w-sm sm:text-right italic">
+              As parents, our goal is to encourage Dr. Treece's vision by supporting actionable, measurable district milestones.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The 5 Actionable Milestones -->
+  <section id="5-milestones" class="py-16 sm:py-20">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-2xl mx-auto mb-14">
+        <span class="badge-pill bg-brand-peachLight text-brand-terracotta border border-brand-peach/70 mb-3">Our Core Proposals</span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-extrabold text-brand-terracotta">
+          5 Actionable Milestones for Healthy Learning
+        </h2>
+        <p class="text-brand-muted mt-3 text-base">
+          Here is what we are asking the Hopewell Valley Board of Education and administration to adopt into policy:
+        </p>
+      </div>
+
+      <div class="space-y-6">
+        
+        <!-- Milestone 1: Analog-First -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-brand-sand shadow-card hover:border-brand-peach/80 transition-all">
+          <div class="flex flex-col md:flex-row md:items-start gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-brand-peachLight text-brand-terracotta flex items-center justify-center font-serif text-2xl font-bold flex-shrink-0 shadow-sm">
+              01
+            </div>
+            <div class="flex-grow">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <h3 class="font-serif text-2xl font-bold text-brand-terracotta">Analog-First Learning</h3>
+                <span class="badge-pill bg-brand-peach/40 text-brand-charcoal text-xs">Screens down, pencils up!</span>
+              </div>
+              <p class="text-brand-charcoal leading-relaxed">
+                The evidence is clear: reading physical books and writing by hand increases student comprehension, retention, mental focus, and academic performance. Devices, in contrast, have been shown to encourage distraction, multitasking, cognitive fatigue, and anxiety, while disrupting social-emotional learning, relational connection, and sleep.
+              </p>
+              <div class="mt-4 p-3.5 bg-brand-sand/60 rounded-xl text-sm font-medium text-brand-terracottaDark flex items-center gap-2">
+                <svg class="w-5 h-5 flex-shrink-0 text-brand-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Policy Goal:</strong> Embrace analog tools as the default across subjects, unless a learning objective specifically requires a digital device.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestone 2: Measure Screen Time -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-brand-sand shadow-card hover:border-brand-peach/80 transition-all">
+          <div class="flex flex-col md:flex-row md:items-start gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-brand-peachLight text-brand-terracotta flex items-center justify-center font-serif text-2xl font-bold flex-shrink-0 shadow-sm">
+              02
+            </div>
+            <div class="flex-grow">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <h3 class="font-serif text-2xl font-bold text-brand-terracotta">Measure School-Device Screen Time</h3>
+                <span class="badge-pill bg-brand-forestLight text-brand-forest text-xs font-semibold">Data Transparency</span>
+              </div>
+              <p class="text-brand-charcoal leading-relaxed">
+                How many hours per day are students currently spending looking at school-issued screens? Right now, we don’t actually know. To get a complete picture of school-related screen use, we propose following in the footsteps of the Los Angeles Unified School District (LAUSD)—tracking and measuring all student time spent on school-issued devices.
+              </p>
+              <div class="mt-4 p-3.5 bg-brand-sand/60 rounded-xl text-sm font-medium text-brand-terracottaDark flex items-center gap-2">
+                <svg class="w-5 h-5 flex-shrink-0 text-brand-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Policy Goal:</strong> Track and audit school-device screentime, and make transparent aggregate usage data easily accessible to parents.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestone 3: Daily Limits (With Sub-Matrix) -->
+        <div id="screen-limits" class="bg-white rounded-2xl p-6 sm:p-8 border-2 border-brand-terracotta/30 shadow-elevated transition-all">
+          <div class="flex flex-col md:flex-row md:items-start gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-brand-terracotta text-white flex items-center justify-center font-serif text-2xl font-bold flex-shrink-0 shadow-md">
+              03
+            </div>
+            <div class="flex-grow">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <h3 class="font-serif text-2xl font-bold text-brand-terracotta">Daily Limits on Classroom Screen Time</h3>
+                <span class="badge-pill bg-brand-accent/15 text-brand-accent text-xs font-bold">Key Recommendation</span>
+              </div>
+              <p class="text-brand-charcoal leading-relaxed mb-6">
+                As districts like LA, NYC, and others have done, we propose establishing clear, enforceable daily time limits for student screen time (excluding courses where the subject matter itself is inherently digital, such as computer science, robotics programming, or typing class, and allowing for extraordinary case-by-case exceptions).
+              </p>
+
+              <!-- Grade-Level Limit Matrix -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
+                
+                <!-- PreK-2 -->
+                <div class="bg-brand-sand/70 rounded-xl p-4 border border-brand-sand text-center flex flex-col justify-between">
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-muted">Primary</span>
+                    <div class="font-serif font-bold text-xl text-brand-terracotta mt-1">PreK – 2nd Grade</div>
+                  </div>
+                  <div class="my-4">
+                    <span class="inline-block px-3 py-1 bg-white rounded-full text-brand-forest font-bold text-sm shadow-sm border border-emerald-100">
+                      0 Screen Time
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-brand-muted leading-tight">Screen-free classroom foundation; tactile & social learning</div>
+                </div>
+
+                <!-- 3rd - 5th -->
+                <div class="bg-brand-sand/70 rounded-xl p-4 border border-brand-sand text-center flex flex-col justify-between">
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-muted">Elementary</span>
+                    <div class="font-serif font-bold text-xl text-brand-terracotta mt-1">Grades 3rd – 5th</div>
+                  </div>
+                  <div class="my-4">
+                    <span class="inline-block px-3 py-1 bg-white rounded-full text-brand-terracotta font-bold text-sm shadow-sm border border-orange-100">
+                      &le; 30 mins / day
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-brand-muted leading-tight">Focused, brief research or math checks; physical books default</div>
+                </div>
+
+                <!-- Middle School -->
+                <div class="bg-brand-sand/70 rounded-xl p-4 border border-brand-sand text-center flex flex-col justify-between">
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-muted">Middle School</span>
+                    <div class="font-serif font-bold text-xl text-brand-terracotta mt-1">Grades 6th – 8th</div>
+                  </div>
+                  <div class="my-4">
+                    <span class="inline-block px-3 py-1 bg-white rounded-full text-brand-terracotta font-bold text-sm shadow-sm border border-orange-100">
+                      &le; 45 mins / day
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-brand-muted leading-tight">Timberlane Middle; protecting peer engagement & study focus</div>
+                </div>
+
+                <!-- High School -->
+                <div class="bg-brand-sand/70 rounded-xl p-4 border border-brand-sand text-center flex flex-col justify-between">
+                  <div>
+                    <span class="text-xs font-bold uppercase tracking-wider text-brand-muted">High School</span>
+                    <div class="font-serif font-bold text-xl text-brand-terracotta mt-1">Grades 9th – 12th</div>
+                  </div>
+                  <div class="my-4">
+                    <span class="inline-block px-3 py-1 bg-white rounded-full text-brand-terracotta font-bold text-sm shadow-sm border border-orange-100">
+                      &le; 45 mins / day*
+                    </span>
+                  </div>
+                  <div class="text-[11px] text-brand-muted leading-tight">*With relevant exceptions for CS, robotics, audio/digital arts</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestone 4: Take-Home Chromebooks -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-brand-sand shadow-card hover:border-brand-peach/80 transition-all">
+          <div class="flex flex-col md:flex-row md:items-start gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-brand-peachLight text-brand-terracotta flex items-center justify-center font-serif text-2xl font-bold flex-shrink-0 shadow-sm">
+              04
+            </div>
+            <div class="flex-grow">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <h3 class="font-serif text-2xl font-bold text-brand-terracotta">End Routine Take-Home Chromebooks</h3>
+                <span class="badge-pill bg-brand-peachLight text-brand-terracotta text-xs font-semibold">Protecting Family Time</span>
+              </div>
+              <p class="text-brand-charcoal leading-relaxed">
+                In an analog-first ecosystem, homework should be analog by default. Chromebooks should stay at school unless a family requests otherwise, or an exceptional project requires it.
+              </p>
+              <div class="my-3 p-4 bg-brand-sand/40 rounded-xl border-l-4 border-brand-terracotta text-brand-charcoal text-sm italic">
+                &ldquo;Currently, mandatory take-home Chromebooks can function as an educational Trojan horse, bringing open-ended digital distraction into our homes under the mantle of required schoolwork. By mandating screens within the home, the district unintentionally undermines parental authority and displaces essential family time, unstructured time, outdoor time, and the option of screen-free evenings and weekends.&rdquo;
+              </div>
+              <div class="mt-2 p-3.5 bg-brand-sand/60 rounded-xl text-sm font-medium text-brand-terracottaDark flex items-center gap-2">
+                <svg class="w-5 h-5 flex-shrink-0 text-brand-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Policy Goal:</strong> Devices remain in charging carts at school by default. Homework returns to paper, books, and conversation.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Milestone 5: 60-Day Working Group -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-brand-sand shadow-card hover:border-brand-peach/80 transition-all">
+          <div class="flex flex-col md:flex-row md:items-start gap-5">
+            <div class="w-14 h-14 rounded-2xl bg-brand-peachLight text-brand-terracotta flex items-center justify-center font-serif text-2xl font-bold flex-shrink-0 shadow-sm">
+              05
+            </div>
+            <div class="flex-grow">
+              <div class="flex flex-wrap items-center gap-2 mb-2">
+                <h3 class="font-serif text-2xl font-bold text-brand-terracotta">Form a Working Group Within 60 Days</h3>
+                <span class="badge-pill bg-brand-forestLight text-brand-forest text-xs font-semibold">Prompt Implementation</span>
+              </div>
+              <p class="text-brand-charcoal leading-relaxed">
+                To help turn these goals into formal district policy, we recommend forming a working group comprised of parents, educators, administrators, and outside experts (where available). This group would co-create a detailed pathway forward and keep Hopewell Valley striding toward our milestones in a timely manner.
+              </p>
+              <div class="mt-4 p-3.5 bg-brand-sand/60 rounded-xl text-sm font-medium text-brand-terracottaDark flex items-center gap-2">
+                <svg class="w-5 h-5 flex-shrink-0 text-brand-terracotta" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                <span><strong>Policy Goal:</strong> Convene the collaborative task force this fall with regular reporting to the Board of Ed.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Clear Accessibility / IEP Guarantee -->
+  <section id="faqs" class="py-10 bg-brand-sand/50">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="bg-white rounded-2xl p-6 sm:p-7 border border-brand-sand flex items-start gap-4">
+        <div class="w-12 h-12 rounded-xl bg-emerald-50 text-brand-forest flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        </div>
+        <div>
+          <h4 class="font-serif text-lg font-bold text-brand-charcoal mb-1">Important Protection for Accommodations</h4>
+          <p class="text-sm text-brand-muted leading-relaxed">
+            Please note that these goals, milestones, and limits <strong class="text-brand-charcoal">would not apply to students with an IEP or Section 504 Plan</strong> whose accommodations require assistive technology or screen-based tools. We champion full support and access for every child who relies on specialized digital assistive devices.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Signature Section: Interactive Signing Interface -->
+  <section id="petition-form" class="py-16 sm:py-20 bg-brand-cream relative">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6">
+      
+      <div class="text-center mb-10">
+        <span class="badge-pill bg-brand-terracotta text-white mb-3">Add Your Voice</span>
+        <h2 class="text-3xl sm:text-4xl font-serif font-extrabold text-brand-terracotta">
+          Sign the Parent Petition
+        </h2>
+        <p class="text-brand-muted mt-2 text-base">
+          By signing below, you show your support for our district's ongoing progress towards more deliberate technology use, and the implementation of the clear and measurable action steps outlined above.
+        </p>
+      </div>
+
+      <!-- Main Form Card -->
+      <div class="bg-white rounded-3xl p-7 sm:p-10 shadow-elevated border border-brand-sand relative">
+        
+        <!-- Live Form -->
+        <form id="interactive-petition-form" class="space-y-6" onsubmit="handleSignatureSubmit(event)">
+          
+          <!-- Name Field -->
+          <div>
+            <label for="fullName" class="block text-sm font-semibold text-brand-charcoal mb-1.5">
+              Your Name <span class="text-brand-accent">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="fullName" 
+              name="fullName" 
+              required
+              placeholder="First and last name (e.g. Maya Lin)" 
+              class="w-full px-4 py-3 rounded-xl border border-brand-sand bg-brand-cream/50 text-brand-charcoal focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-terracotta/40 focus:border-brand-terracotta transition-all text-sm"
+            />
+          </div>
+
+          <!-- Email Field -->
+          <div>
+            <label for="email" class="block text-sm font-semibold text-brand-charcoal mb-1.5">
+              Email Address <span class="text-brand-accent">*</span>
+            </label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              required
+              placeholder="you@example.com (for verification & updates)" 
+              class="w-full px-4 py-3 rounded-xl border border-brand-sand bg-brand-cream/50 text-brand-charcoal focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-terracotta/40 focus:border-brand-terracotta transition-all text-sm"
+            />
+          </div>
+
+          <!-- Schools Selection -->
+          <div>
+            <label class="block text-sm font-semibold text-brand-charcoal mb-2">
+              What school(s) does your child (or children) attend? <span class="text-brand-accent">*</span>
+            </label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5" id="school-checkboxes">
+              
+              <label class="flex items-center gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="schools" value="Central High School" class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span class="text-brand-charcoal font-medium">Central High School</span>
+              </label>
+
+              <label class="flex items-center gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="schools" value="Timberlane Middle School" class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span class="text-brand-charcoal font-medium">Timberlane Middle School</span>
+              </label>
+
+              <label class="flex items-center gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="schools" value="Hopewell Elementary School" class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span class="text-brand-charcoal font-medium">Hopewell Elementary School</span>
+              </label>
+
+              <label class="flex items-center gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="schools" value="Bear Tavern Elementary School" class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span class="text-brand-charcoal font-medium">Bear Tavern Elementary School</span>
+              </label>
+
+              <label class="flex items-center gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="schools" value="Stonybrook Elementary School" class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span class="text-brand-charcoal font-medium">Stonybrook Elementary School</span>
+              </label>
+
+              <label class="flex items-center gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="schools" value="Toll Gate Grammar School" class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span class="text-brand-charcoal font-medium">Toll Gate Grammar School</span>
+              </label>
+
+            </div>
+          </div>
+
+          <!-- School Board Meeting Attendance -->
+          <div>
+            <label class="block text-sm font-semibold text-brand-charcoal mb-1">
+              Would you be willing to attend a school board meeting in support of this petition?
+            </label>
+            <p class="text-xs text-brand-muted mb-2.5">Your response won't be shared publicly.</p>
+            <div class="space-y-2">
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="radio" name="boardMeeting" value="Yes" class="mt-0.5 text-brand-terracotta focus:ring-brand-terracotta" checked>
+                <span>Yes, I'd be willing to attend</span>
+              </label>
+
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="radio" name="boardMeeting" value="If50" class="mt-0.5 text-brand-terracotta focus:ring-brand-terracotta">
+                <span>I would attend if I knew that at least 50 other concerned parents were also attending</span>
+              </label>
+
+              <label class="flex items-start gap-3 p-3 rounded-xl border border-brand-sand hover:bg-brand-peachLight/50 cursor-pointer transition-colors text-sm">
+                <input type="radio" name="boardMeeting" value="No" class="mt-0.5 text-brand-terracotta focus:ring-brand-terracotta">
+                <span>No, I would prefer not to attend</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Next Steps & Circles -->
+          <div>
+            <label class="block text-sm font-semibold text-brand-charcoal mb-2">
+              Stay Involved (Select all that apply):
+            </label>
+            <div class="space-y-2">
+              <label class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-brand-sand/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="options" value="updates" checked class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span>Please update me with major news about this petition's progress</span>
+              </label>
+
+              <label class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-brand-sand/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="options" value="beyondScreens" checked class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span>I want to learn more about the <strong>&ldquo;Beyond Screens&rdquo;</strong> circle of ecoPTO</span>
+              </label>
+
+              <label class="flex items-center gap-3 p-2.5 rounded-lg hover:bg-brand-sand/50 cursor-pointer transition-colors text-sm">
+                <input type="checkbox" name="options" value="ecoPTO" class="w-4 h-4 rounded text-brand-terracotta focus:ring-brand-terracotta">
+                <span>I want to learn more about our <strong>ecoPTO</strong></span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="pt-4">
+            <button 
+              type="submit" 
+              class="spring-btn w-full py-4 px-8 rounded-full bg-brand-terracotta hover:bg-brand-terracottaDark text-white font-bold text-base shadow-elevated flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Add My Signature to Petition</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </button>
+            <p class="text-[11px] text-center text-brand-muted mt-3">
+              Prototype Mode: Submitting will test the UI flow and display confirmation. Or open the 
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" target="_blank" class="text-brand-terracotta underline hover:text-brand-terracottaDark font-medium">live Google Form in a new tab</a>.
+            </p>
+          </div>
+        </form>
+
+        <!-- Simulated Success Confirmation Modal/State -->
+        <div id="form-success-state" class="hidden text-center py-8">
+          <div class="w-16 h-16 bg-brand-forestLight text-brand-forest rounded-full mx-auto flex items-center justify-center mb-4">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+          </div>
+          <h3 class="font-serif text-2xl font-bold text-brand-terracotta mb-2">Thank You for Supporting Our Schools!</h3>
+          <p class="text-brand-muted text-sm max-w-md mx-auto mb-6" id="success-message">
+            Your signature has been registered. You are standing with fellow parents across Hopewell Valley for purposeful, balanced technology.
+          </p>
+
+          <!-- Quick Share Box -->
+          <div class="p-5 bg-brand-sand/60 rounded-2xl max-w-md mx-auto mb-6 text-left">
+            <div class="text-xs font-bold uppercase tracking-wider text-brand-muted mb-2">Help Us Reach 250 Signatures</div>
+            <div class="text-xs text-brand-charcoal mb-3">Share this petition with your classroom WhatsApp group, sports team, or neighborhood friends:</div>
+            <div class="flex gap-2">
+              <input type="text" readonly value="https://ecopto.org/petition-intentional-tech" id="share-link-input" class="text-xs bg-white border border-brand-sand rounded-lg px-3 py-2 flex-grow text-brand-muted">
+              <button onclick="copyShareLink()" class="px-3 py-2 bg-brand-terracotta text-white rounded-lg text-xs font-semibold hover:bg-brand-terracottaDark">
+                Copy
+              </button>
+            </div>
+          </div>
+
+          <button onclick="resetPetitionForm()" class="text-xs text-brand-muted underline hover:text-brand-terracotta">
+            Submit another family member signature
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Coalition & Partner Endorsements -->
+  <section class="py-14 bg-white border-t border-brand-sand">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <span class="badge-pill bg-brand-sand text-brand-muted text-xs uppercase tracking-widest font-bold">Coalition Partners</span>
+        <h3 class="font-serif text-2xl font-bold text-brand-charcoal mt-1">Community Support & Origins</h3>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- ecoPTO Beyond Screens -->
+        <div class="bg-brand-cream p-6 rounded-2xl border border-brand-sand text-center flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-brand-terracotta text-white rounded-full mx-auto flex items-center justify-center font-serif font-bold text-lg mb-3 shadow-sm">
+              e
+            </div>
+            <h4 class="font-bold text-brand-charcoal text-base mb-1">ecoPTO "Beyond Screens"</h4>
+            <p class="text-xs text-brand-muted leading-relaxed mb-4">
+              A grassroots working circle of the Hopewell Valley Regional School District Parent Teacher Organization.
+            </p>
+          </div>
+          <a href="https://ecopto.org" target="_blank" class="text-xs font-semibold text-brand-terracotta hover:underline">
+            Visit ecoPTO.org &rarr;
+          </a>
+        </div>
+
+        <!-- Schools Beyond Screens -->
+        <div class="bg-brand-cream p-6 rounded-2xl border border-brand-sand text-center flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-brand-forest text-white rounded-full mx-auto flex items-center justify-center font-serif font-bold text-lg mb-3 shadow-sm">
+              SBS
+            </div>
+            <h4 class="font-bold text-brand-charcoal text-base mb-1">Schools Beyond Screens</h4>
+            <p class="text-xs text-brand-muted leading-relaxed mb-4">
+              Hopewell's local chapter supporting evidence-based digital balance and hands-on learning across New Jersey.
+            </p>
+          </div>
+          <a href="https://www.schoolsbeyondscreens.com/" target="_blank" class="text-xs font-semibold text-brand-terracotta hover:underline">
+            schoolsbeyondscreens.com &rarr;
+          </a>
+        </div>
+
+        <!-- Wait Until 8th -->
+        <div class="bg-brand-cream p-6 rounded-2xl border border-brand-sand text-center flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-[#D2691E] text-white rounded-full mx-auto flex items-center justify-center font-serif font-bold text-lg mb-3 shadow-sm">
+              W8
+            </div>
+            <h4 class="font-bold text-brand-charcoal text-base mb-1">Wait Until 8th Initiative</h4>
+            <p class="text-xs text-brand-muted leading-relaxed mb-4">
+              Empowering parents to delay smartphones until at least the end of 8th grade and protect childhood.
+            </p>
+          </div>
+          <a href="https://www.waituntil8th.org/" target="_blank" class="text-xs font-semibold text-brand-terracotta hover:underline">
+            waituntil8th.org &rarr;
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Parent Organizers Contact -->
+      <div class="mt-10 p-5 bg-brand-peachLight/60 rounded-2xl border border-brand-peach/50 max-w-2xl mx-auto text-center">
+        <div class="text-xs font-bold uppercase tracking-wider text-brand-terracotta mb-1">Parent Organizers & Contact</div>
+        <p class="text-sm text-brand-charcoal font-medium">
+          Gabe Dominguez & Sonya Cotton (HVRSD parents)
+        </p>
+        <p class="text-xs text-brand-muted mt-1">
+          Have ideas or questions? Reach us directly at:
+          <a href="mailto:tinyhome@tinyhomemusic.com" class="text-brand-terracotta underline font-semibold hover:text-brand-terracottaDark">tinyhome@tinyhomemusic.com</a>
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-brand-cream py-10 border-t border-brand-sand text-center text-xs text-brand-muted">
+    <div class="max-w-4xl mx-auto px-4 space-y-3">
+      <div class="flex items-center justify-center gap-2">
+        <span class="font-serif font-bold text-brand-terracotta text-sm">Hopewell Valley ecoPTO</span>
+        <span>·</span>
+        <span>Pennington, NJ 08534</span>
+      </div>
+      <p class="max-w-xl mx-auto text-[11px] leading-relaxed">
+        This prototype petition page is designed in accordance with the ecoPTO style system and brand identity to support productive parent-educator dialogue.
+      </p>
+      <div class="text-[11px] pt-2 text-brand-muted/80">
+        &copy; 2026 Hopewell Valley ecoPTO · "Beyond Screens" Working Circle
+      </div>
+    </div>
+  </footer>
+
+  <!-- Script for Interactive Prototype Logic -->
+  <script>
+    function handleSignatureSubmit(e) {
+      e.preventDefault();
+      const form = document.getElementById('interactive-petition-form');
+      const name = document.getElementById('fullName').value;
+      const countEl = document.getElementById('signature-count');
+
+      // Update simulated count
+      if (countEl) {
+        const current = parseInt(countEl.innerText, 10);
+        countEl.innerText = current + 1;
+      }
+
+      // Show confirmation state
+      form.classList.add('hidden');
+      const successBox = document.getElementById('form-success-state');
+      if (successBox) {
+        successBox.classList.remove('hidden');
+        const msg = document.getElementById('success-message');
+        if (msg) {
+          msg.innerHTML = `Thank you, <strong>${name}</strong>! Your signature has been registered. You are standing with fellow parents across Hopewell Valley for purposeful, balanced technology.`;
+        }
+      }
+    }
+
+    function resetPetitionForm() {
+      const form = document.getElementById('interactive-petition-form');
+      const successBox = document.getElementById('form-success-state');
+      form.reset();
+      successBox.classList.add('hidden');
+      form.classList.remove('hidden');
+    }
+
+    function copyShareLink() {
+      const copyText = document.getElementById("share-link-input");
+      copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(copyText.value).then(() => {
+        alert("Petition link copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>

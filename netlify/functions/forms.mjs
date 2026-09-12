@@ -203,6 +203,10 @@ export default async (req) => {
             volunteer_roles: roles.join(', '),
             wants_active_role: activeRole ? 'yes' : 'no',
             signed_up_at: new Date().toISOString(),
+            // Provenance, so the audience stays sortable against the legacy contacts
+            // imported from Karen's Google Contacts labels. See FORM_SUBMISSION.md.
+            source: 'website-form',
+            list_group: 'general',
           };
           const res = await resend.contacts.create({
             audienceId, email, firstName, lastName, unsubscribed: false, properties,
