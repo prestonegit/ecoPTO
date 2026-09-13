@@ -12,6 +12,7 @@ export const config = {
       name: "newsletters",
       label: "Newsletter issues",
       label_singular: "Newsletter Issue",
+      description: "Tip: the newsletter composer at /admin/newsletter is the easier way to write, test, and send an issue. It edits these same files, so either works.",
       folder: "src/content/newsletters",
       create: true,
       slug: "{{year}}-{{month}}-{{slug}}",

@@ -1,0 +1,24 @@
+---
+// src/pages/admin/newsletter.astro — the newsletter composer. See src/components/composer/.
+import Composer from '../../components/composer/Composer.jsx';
+import '../../styles/composer.css';
+---
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Newsletter · ecoPTO</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    {/* Must stay a classic, blocking script ahead of the app bundle: the git-gateway
+        backend checks for window.netlifyIdentity once, when its module is first imported,
+        and never looks again. Loaded later, sign-in silently falls back to a path that
+        doesn't match the Decap admin's. */}
+    <script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+  </head>
+  <body>
+    <Composer client:only="react" />
+  </body>
+</html>

@@ -11,7 +11,11 @@
 // a collection, add its name here next to its neighbours and keep config.js in the same
 // order.
 export const SIDEBAR_GROUPS = [
-  { label: 'Newsletter', collections: ['newsletters'] },
+  {
+    label: 'Newsletter',
+    collections: ['newsletters'],
+    link: { label: 'Open the composer →', href: '/admin/newsletter' },
+  },
   { label: 'Forms', collections: ['signup'] },
   { label: 'Pages', collections: ['about-us', 'impact-page', 'research-page', 'pages'] },
   {
@@ -54,6 +58,24 @@ const headingStyle = `
   letter-spacing: 0.07em; text-transform: uppercase; color: #6b5d54;
   cursor: pointer; text-align: left; border-radius: 6px;
 `;
+
+// Groups can carry a link to a page outside Decap. Decap 3.16 has no registerAdditionalLink,
+// so this is the only way to put the newsletter composer in the sidebar people already use.
+function buildLink(link) {
+  const li = document.createElement('li');
+  li.setAttribute('data-cms-group', `${link.label}-link`);
+  const a = document.createElement('a');
+  a.href = link.href;
+  a.textContent = link.label;
+  a.setAttribute(
+    'style',
+    `display:flex; align-items:center; gap:6px; margin:2px 6px 4px; padding:8px 12px;
+     border-radius:8px; background:#b05b3b; color:#fff; font:600 13px/1.2 'Plus Jakarta Sans', -apple-system, sans-serif;
+     text-decoration:none;`,
+  );
+  li.append(a);
+  return li;
+}
 
 function buildHeading(group, collapsed, onToggle) {
   const li = document.createElement('li');
@@ -117,6 +139,7 @@ export function installSidebarGroups() {
         if (members.length === 0) return;
         const isCollapsed = collapsed.has(group.label);
         list.insertBefore(buildHeading(group, isCollapsed, toggle), members[0]);
+        if (group.link && !isCollapsed) list.insertBefore(buildLink(group.link), members[0]);
         members.forEach((li) => {
           // A collapsed group still shows the collection you're currently looking at —
           // hiding the active link would make the sidebar contradict the main pane.

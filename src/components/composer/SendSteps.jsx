@@ -1,0 +1,165 @@
+import React, { useState } from 'react';
+
+// Test → hand to Resend → (or) send to everyone.
+//
+// Unlike the Decap widget this replaces for most people, each action here SAVES — there's
+// no separate "now remember to press Save" step to forget. The status semantics are
+// unchanged and the real gates still live in push-newsletter.mjs, which runs in CI a
+// minute or so after the save lands: no bulk send without a delivered test
+// (lastTestSentAt), and 'send-now-confirmed' is only ever written after typing SEND.
+
+const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+
+const when = (v) => {
+  if (!v) return '';
+  const d = v instanceof Date ? v : new Date(v);
+  return Number.isNaN(d.getTime())
+    ? String(v)
+    : d.toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' });
+};
+
+function Step({ n, title, state, children }) {
+  return (
+    <section className={`cmp-step is-${state}`}>
+      <div className="cmp-step-num" aria-hidden="true">{state === 'done' ? '✓' : n}</div>
+      <div className="cmp-step-body">
+        <h3>{title}</h3>
+        {children}
+      </div>
+    </section>
+  );
+}
+
+export default function SendSteps({ data, update, onSend, onRefresh, busy, blocked }) {
+  const status = data.status || 'draft';
+  const testEmail = (data.testEmail || '').trim();
+  const tested = Boolean(data.lastTestSentAt);
+  const [confirming, setConfirming] = useState(false);
+  const [typed, setTyped] = useState('');
+  const canTest = EMAIL_RE.test(testEmail);
+  const disabled = busy || blocked;
+
+  if (status === 'sent') {
+    return (
+      <div className="cmp-callout is-ok">
+        <h3>This issue has been sent</h3>
+        <p>It’s in the public newsletter archive. Saving it again won’t send it again.</p>
+      </div>
+    );
+  }
+
+  const queued = {
+    'send-test': {
+      tone: 'info',
+      title: 'Your test is on its way',
+      body: <>A copy is going to <strong>{testEmail || 'the test address'}</strong>. It usually arrives within two minutes. When it has, check again here to unlock the next step.</>,
+    },
+    'ready-to-send': {
+      tone: 'info',
+      title: 'Being set up in Resend',
+      body: <>A draft is being created in Resend. No one is emailed until an admin opens Resend and presses Send.</>,
+    },
+    'in-resend': {
+      tone: 'info',
+      title: 'Waiting in Resend',
+      body: <>The draft is in Resend. Once someone presses Send there, mark it as sent here.</>,
+    },
+    'send-now-confirmed': {
+      tone: 'danger',
+      title: 'Sending to everyone',
+      body: <>This issue is going to every subscriber now.</>,
+    },
+    'send-now': {
+      tone: 'danger',
+      title: 'Sending to everyone',
+      body: <>This issue is queued to go to every subscriber.</>,
+    },
+  }[status];
+
+  if (queued) {
+    return (
+      <div className={`cmp-callout is-${queued.tone}`}>
+        <h3>{queued.title}</h3>
+        <p>{queued.body}</p>
+        <div className="cmp-row">
+          <button type="button" className="cmp-btn cmp-btn-quiet" onClick={onRefresh} disabled={busy}>Check again</button>
+          {status === 'in-resend' && (
+            <button type="button" className="cmp-btn cmp-btn-quiet" onClick={() => onSend('sent')} disabled={disabled}>Mark as sent</button>
+          )}
+          {status !== 'send-now-confirmed' && status !== 'send-now' && (
+            <button type="button" className="cmp-btn cmp-btn-link" onClick={() => onSend('draft')} disabled={disabled}>Cancel and go back to draft</button>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="cmp-steps">
+      <Step n={1} title="Send yourself a test" state={tested ? 'done' : 'current'}>
+        {tested && <p className="cmp-note is-ok">Last test sent {when(data.lastTestSentAt)}{testEmail ? ` to ${testEmail}` : ''}.</p>}
+        <p className="cmp-step-text">Check it in a real inbox before it goes to the list. Only you get this copy.</p>
+        <div className="cmp-inline">
+          <input
+            className="cmp-input"
+            type="email"
+            aria-label="Your email address"
+            placeholder="you@example.com"
+            value={data.testEmail || ''}
+            onChange={(e) => update({ testEmail: e.target.value })}
+          />
+          <button type="button" className="cmp-btn cmp-btn-primary" disabled={disabled || !canTest} onClick={() => onSend('send-test')}>
+            {tested ? 'Send another test' : 'Send me a test'}
+          </button>
+        </div>
+        {testEmail && !canTest && <p className="cmp-error">That doesn’t look like an email address.</p>}
+      </Step>
+
+      <Step n={2} title="Hand it to Resend for a final look" state={tested ? 'current' : 'locked'}>
+        {tested ? (
+          <>
+            <p className="cmp-step-text">Recommended. Creates the broadcast in Resend without sending it, so an admin can check it and press Send there.</p>
+            <button type="button" className="cmp-btn cmp-btn-primary" disabled={disabled} onClick={() => onSend('ready-to-send')}>
+              Create the draft in Resend
+            </button>
+          </>
+        ) : (
+          <p className="cmp-step-text">Unlocks once a test has arrived.</p>
+        )}
+      </Step>
+
+      <Step n={3} title="Or send it to everyone now" state={tested ? 'current' : 'locked'}>
+        {!tested ? (
+          <p className="cmp-step-text">Unlocks once a test has arrived.</p>
+        ) : !confirming ? (
+          <>
+            <p className="cmp-step-text">Skips the check in Resend and emails the whole list right away.</p>
+            <button type="button" className="cmp-btn cmp-btn-quiet" disabled={disabled} onClick={() => setConfirming(true)}>Send to everyone…</button>
+          </>
+        ) : (
+          <div className="cmp-confirm">
+            <p>
+              This emails <strong>every subscriber</strong>
+              {data.subject ? <> with the subject “{data.subject}”</> : null}. It can’t be recalled.
+            </p>
+            <label>
+              Type <strong>SEND</strong> to confirm
+              <input className="cmp-input" value={typed} onChange={(e) => setTyped(e.target.value)} autoComplete="off" />
+            </label>
+            <div className="cmp-row">
+              <button
+                type="button"
+                className="cmp-btn cmp-btn-danger"
+                disabled={disabled || typed.trim().toUpperCase() !== 'SEND'}
+                onClick={() => { setConfirming(false); setTyped(''); onSend('send-now-confirmed'); }}
+              >
+                Send to everyone
+              </button>
+              <button type="button" className="cmp-btn cmp-btn-link" onClick={() => { setConfirming(false); setTyped(''); }}>Cancel</button>
+            </div>
+          </div>
+        )}
+      </Step>
+    </div>
+  );
+}

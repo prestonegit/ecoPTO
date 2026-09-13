@@ -40,7 +40,10 @@ const Markdown = ({ source, style }) => (
 
 // Resolve a CMS-entered path (/assets/images/foo.png) to an absolute URL.
 // Email clients cannot resolve relative paths.
-const absolute = (src, siteUrl) => (src?.startsWith('http') ? src : `${siteUrl}${src}`);
+// blob: and data: URLs are editor previews of an image uploaded but not yet deployed; they
+// are already absolute; prefixing the site URL onto them produces a dead link. Real sends
+// only ever carry /public paths, so this changes nothing in an actual email.
+const absolute = (src, siteUrl) => (/^(https?:|blob:|data:)/.test(src || '') ? src : `${siteUrl}${src}`);
 
 export const Newsletter = ({
   data,
