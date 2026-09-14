@@ -18,9 +18,9 @@ const ProjectModal = ({ project, onClose }) => {
         </button>
         <h2 className="text-3xl font-bold mb-4 font-sans text-primary">{project.data.title}</h2>
         <h3 className="text-xl font-semibold mb-2 font-sans">Goal</h3>
-        <p className="mb-4 font-sans">{project.data.goal}</p>
+        <div className="prose font-sans mb-4" dangerouslySetInnerHTML={{ __html: project.data.goalHtml || '' }}></div>
         <h3 className="text-xl font-semibold mb-2 font-sans">Description</h3>
-        <div className="prose font-sans mb-6" dangerouslySetInnerHTML={{ __html: project.data.description }}></div>
+        <div className="prose font-sans mb-6" dangerouslySetInnerHTML={{ __html: project.data.descriptionHtml || '' }}></div>
 
         {project.data.participants && project.data.participants.length > 0 && (
           <div className="mb-6">

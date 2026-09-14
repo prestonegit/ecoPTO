@@ -3,7 +3,20 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import ProjectsVisualization from '../components/ProjectsVisualization.jsx';
 
-const projects = await getCollection('projects');
+import { marked } from 'marked';
+
+// Goal and Description are formatted text. Render them to HTML here, at build time, rather
+// than in the browser: the component used to print Goal as plain text (so bold showed as
+// asterisks) and to inject Description's raw markdown as if it were HTML. The raw fields stay
+// as they are, since the search box matches against them.
+const projects = (await getCollection('projects')).map((p) => ({
+  ...p,
+  data: {
+    ...p.data,
+    goalHtml: p.data.goal ? marked.parse(p.data.goal) : '',
+    descriptionHtml: p.data.description ? marked.parse(p.data.description) : '',
+  },
+}));
 ---
 
 <Layout title="Projects">

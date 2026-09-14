@@ -41,11 +41,10 @@ export const config = {
         { label: "Preview text", name: "preheader", widget: "string", required: false, hint: "The short line shown next to the subject in most inboxes." },
         { label: "Issue date", name: "sendDate", widget: "datetime", hint: "Shown on the issue and in the archive. It doesn’t schedule anything: sending happens in the Send step." },
         { label: "Banner image", name: "heroImage", widget: "image", required: false, hint: "Appears across the top of the email." },
-        // Markdown is edited in plain `text` widgets (a <textarea>) throughout this collection.
-        // Decap's markdown widget is built on the Slate editor in BOTH its modes (RawEditor.js
-        // imports slate-react too), and Slate is what crashed and lost a newsletter draft. The
-        // file stores the same markdown string either way, and the email renders it the same.
-        { label: "Opening note", name: "intro", widget: "text", required: false, hint: "A note from the team at the top. Markdown formatting works: **bold**, _italic_, [link](https://…)." },
+        // Formatted text uses the shared visual editor (`rich-text`, RichTextEditor.jsx) here and in
+        // every collection. Decap's own markdown widget is built on Slate in both its modes, and
+        // Slate is what crashed and lost a newsletter draft. Files still store markdown.
+        { label: "Opening note", name: "intro", widget: "rich-text", required: false, hint: "A note from the team at the top." },
 
         { label: "What’s in it", name: "section_sections", widget: "section", required: false, hint: "Pull in events and news automatically, or add your own blocks below." },
         { label: "Include upcoming events", name: "includeEvents", widget: "boolean", default: true, hint: "Pulled from the Events section of the site automatically." },
@@ -69,7 +68,7 @@ export const config = {
               fields: [
                 { label: "Type", name: "type", widget: "hidden", default: "callout" },
                 { label: "Title", name: "title", widget: "string" },
-                { label: "Text", name: "body", widget: "text" },
+                { label: "Text", name: "body", widget: "rich-text" },
               ],
             },
             {
@@ -80,7 +79,7 @@ export const config = {
                 { label: "Type", name: "type", widget: "hidden", default: "story" },
                 { label: "Title", name: "title", widget: "string" },
                 { label: "Image", name: "image", widget: "image", required: false },
-                { label: "Text", name: "body", widget: "text" },
+                { label: "Text", name: "body", widget: "rich-text" },
               ],
             },
             {
@@ -122,7 +121,7 @@ export const config = {
           ],
         },
 
-        { label: "Closing note", name: "closing", widget: "text", required: false },
+        { label: "Closing note", name: "closing", widget: "rich-text", required: false },
 
         { label: "Send", name: "section_send", widget: "section", required: false, hint: "Nothing is emailed until you save, and never to the list without a test of this version first." },
         {
@@ -201,9 +200,9 @@ export const config = {
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "History Title", name: "history_title", widget: "string", required: false },
-        { label: "History Content", name: "history_content", widget: "markdown", required: false },
+        { label: "History Content", name: "history_content", widget: "rich-text", required: false },
         { label: "Who We Are Title", name: "who_we_are_title", widget: "string", required: false },
-        { label: "Who We Are Content", name: "who_we_are_content", widget: "markdown", required: false },
+        { label: "Who We Are Content", name: "who_we_are_content", widget: "rich-text", required: false },
       ]
     },
     {
@@ -243,7 +242,7 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Page Title", name: "title", widget: "string" },
-        { label: "Page Description", name: "description", widget: "markdown", required: false },
+        { label: "Page Description", name: "description", widget: "rich-text", required: false },
         {
           label: "Peer-Reviewed Research",
           name: "peer_reviewed_research",
@@ -330,7 +329,7 @@ export const config = {
       fields: [
         { label: "Title", name: "title", widget: "string" },
         { label: "Event Card Description", name: "cardDescription", widget: "text", required: false },
-        { label: "Event Page Description", name: "description", widget: "markdown", required: false },
+        { label: "Event Page Description", name: "description", widget: "rich-text", required: false },
         { label: "Event Date", name: "eventDate", widget: "datetime" },
         { label: "Date Override", name: "dateOverride", widget: "string", required: false, hint: "e.g., 'Various Dates'. If used, this text will be displayed instead of the event date." },
         { label: "Location", name: "location", widget: "string", required: false },
@@ -368,7 +367,7 @@ export const config = {
       fields: [
         { label: "Name", name: "name", widget: "string" },
         { label: "Title", name: "title", widget: "string" },
-        { label: "Bio", name: "bio", widget: "markdown", required: false },
+        { label: "Bio", name: "bio", widget: "rich-text", required: false },
         { label: "Image", name: "image", widget: "image", required: false },
         { label: "Display Order", name: "order", widget: "number", required: false }
       ]
@@ -394,7 +393,7 @@ export const config = {
         { label: "Author", name: "author", widget: "string" },
         { label: "Publish Date", name: "pubDate", widget: "datetime" },
         { label: "Featured Image", name: "image", widget: "image", required: false },
-        { label: "Body", name: "body", widget: "markdown", required: false }
+        { label: "Body", name: "body", widget: "rich-text", mdx: true, required: false }
       ]
     },
     {
@@ -410,8 +409,8 @@ export const config = {
       frontmatter_format: 'yaml',
       fields: [
         { label: "Title", name: "title", widget: "string" },
-        { label: "Goal", name: "goal", widget: "markdown", required: false },
-        { label: "Description", name: "description", widget: "markdown", required: false },
+        { label: "Goal", name: "goal", widget: "rich-text", required: false },
+        { label: "Description", name: "description", widget: "rich-text", required: false },
         {
           label: "Participants",
           name: "participants",

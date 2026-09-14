@@ -1,6 +1,7 @@
-import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useRef, useState } from 'react';
 import { toDate } from './format.js';
 import { acceptFor } from './backend.js';
+import RichTextEditor from '../RichTextEditor.jsx';
 
 // The hint or error below a field is tied to its input with aria-describedby, and an error
 // sets aria-invalid, so a screen reader announces "Subject, invalid, Give the email a subject
@@ -10,7 +11,7 @@ export const describedBy = (id, hint, error) => (hint || error ? `${id}-desc` : 
 export function Field({ label, hint, optional, error, children, htmlFor }) {
   return (
     <div className={`cmp-field${error ? ' has-error' : ''}`}>
-      <label className="cmp-label" htmlFor={htmlFor}>
+      <label className="cmp-label" htmlFor={htmlFor} id={`${htmlFor}-label`}>
         {label}
         {optional && <span className="cmp-optional">optional</span>}
       </label>
@@ -84,74 +85,23 @@ export function Toggle({ label, hint, checked, onChange }) {
   );
 }
 
-// A plain textarea with a small formatting toolbar, deliberately not a rich-text editor.
-// The rich markdown editor in Decap (Slate) is what crashed and lost a newsletter draft at
-// the start of all this; a textarea can't get into that state. The email renders the
-// markdown, so the preview shows the formatting as it will actually appear.
-export function MarkdownField({ label, hint, optional, error, value, onChange, rows = 5 }) {
+// Visual text editing: bold looks bold, links look like links, and nobody sees markdown.
+// The shared editor lives in ../RichTextEditor.jsx (also used by Decap). It stores markdown,
+// so the files, the site and the email are unchanged.
+export function MarkdownField({ label, hint, optional, error, value, onChange, rows = 5, mdx = false }) {
   const id = useId();
-  const ref = useRef(null);
-
-  // Grow with the content instead of scrolling inside a small box.
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.height = 'auto';
-    el.style.height = `${Math.max(el.scrollHeight + 2, rows * 24)}px`;
-  }, [value, rows]);
-
-  const wrap = (before, after = before, placeholder = 'text') => {
-    const el = ref.current;
-    const v = value || '';
-    const s = el.selectionStart;
-    const e = el.selectionEnd;
-    const chosen = v.slice(s, e) || placeholder;
-    const next = v.slice(0, s) + before + chosen + after + v.slice(e);
-    onChange(next);
-    requestAnimationFrame(() => {
-      el.focus();
-      el.setSelectionRange(s + before.length, s + before.length + chosen.length);
-    });
-  };
-
-  const prefixLines = (prefix) => {
-    const el = ref.current;
-    const v = value || '';
-    const s = v.lastIndexOf('\n', el.selectionStart - 1) + 1;
-    const e = el.selectionEnd;
-    const block = v.slice(s, e) || 'List item';
-    const next = v.slice(0, s) + block.split('\n').map((l) => prefix + l).join('\n') + v.slice(e);
-    onChange(next);
-    requestAnimationFrame(() => el.focus());
-  };
-
-  const link = () => {
-    const url = window.prompt('Link to which web address?', 'https://');
-    if (!url || url === 'https://') return;
-    wrap('[', `](${url})`, 'link text');
-  };
-
   return (
     <Field label={label} hint={hint} optional={optional} error={error} htmlFor={id}>
-      <div className="cmp-md">
-        <div className="cmp-md-bar" role="toolbar" aria-label={`Formatting for ${label}`}>
-          <button type="button" onClick={() => wrap('**')} title="Bold"><strong>B</strong></button>
-          <button type="button" onClick={() => wrap('_')} title="Italic"><em>I</em></button>
-          <button type="button" onClick={link} title="Add a link">Link</button>
-          <button type="button" onClick={() => prefixLines('### ')} title="Heading">Heading</button>
-          <button type="button" onClick={() => prefixLines('- ')} title="Bulleted list">• List</button>
-        </div>
-        <textarea
-          id={id}
-          ref={ref}
-          className="cmp-textarea"
-          rows={rows}
-          aria-invalid={error ? true : undefined}
-          aria-describedby={describedBy(id, hint, error)}
-          value={value || ''}
-          onChange={(e) => onChange(e.target.value)}
-        />
-      </div>
+      <RichTextEditor
+        id={id}
+        value={value || ''}
+        onChange={onChange}
+        labelledBy={`${id}-label`}
+        describedBy={describedBy(id, hint, error)}
+        invalid={!!error}
+        minRows={rows}
+        mdx={mdx}
+      />
     </Field>
   );
 }

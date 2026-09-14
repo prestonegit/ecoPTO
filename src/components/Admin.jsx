@@ -6,6 +6,7 @@ import NewsletterPreview from './NewsletterPreview.jsx';
 import NewsletterSendControl, { NewsletterSendPreview } from './NewsletterSendWidget.jsx';
 import SectionControl, { SectionPreview } from './SectionWidget.jsx';
 import ComposerLinkControl, { ComposerLinkPreview } from './ComposerLinkWidget.jsx';
+import RichTextControl, { RichTextPreview } from './RichTextWidget.jsx';
 import { enPlain } from '../cms/locale.js';
 import { installSidebarGroups } from '../cms/sidebar-groups.js';
 
@@ -18,6 +19,7 @@ const Admin = () => {
     CMS.registerWidget('newsletter-send', NewsletterSendControl, NewsletterSendPreview);
     CMS.registerWidget('section', SectionControl, SectionPreview);
     CMS.registerWidget('composer-link', ComposerLinkControl, ComposerLinkPreview);
+    CMS.registerWidget('rich-text', RichTextControl, RichTextPreview);
 
     // Decap has no collection grouping of its own, so this is layered on afterwards.
     return installSidebarGroups();
