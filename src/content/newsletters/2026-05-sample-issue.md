@@ -1,6 +1,7 @@
 ---
 subject: "June at ecoPTO: "
-preheader: Upcoming meetings, a volunteer story, and how to get involved this month.
+preheader: Upcoming meetings, a featured volunteer story, and how to get
+  involved this month.
 sendDate: 2026-05-15
 heroImage: ""
 intro: Hello ecoPTO community! The school year is almost over but our work for
