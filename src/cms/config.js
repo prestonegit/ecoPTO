@@ -12,9 +12,12 @@ export const config = {
       name: "newsletters",
       label: "Newsletter issues",
       label_singular: "Newsletter Issue",
-      description: "Tip: the newsletter composer at /admin/newsletter is the easier way to write, test, and send an issue. It edits these same files, so either works.",
+      description: "New issues are started in the newsletter composer (Open the composer, in the sidebar). Existing issues can still be edited here.",
       folder: "src/content/newsletters",
-      create: true,
+      // New issues start in the composer (/admin/newsletter), confirmed working on the live site
+      // 2026-09-14. Keeps one place to begin an issue, with its test-first send steps and backup.
+      // Also removes newsletters from Decap's "Quick add" menu and its "make a copy" action.
+      create: false,
       slug: "{{year}}-{{month}}-{{slug}}",
       extension: "md",
       format: "frontmatter",
