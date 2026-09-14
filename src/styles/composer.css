@@ -190,6 +190,7 @@ h1 { font-family: var(--c-serif); font-size: 2rem; letter-spacing: -0.01em; }
 .cmp-step-text { margin: 0 0 10px; color: var(--c-muted); font-size: 0.9rem; }
 .cmp-note { margin: 0 0 8px; font-size: 0.88rem; }
 .cmp-note.is-ok { color: var(--c-ok); font-weight: 600; }
+.cmp-note.is-warn { background: var(--c-warn-bg); border-radius: 8px; padding: 8px 10px; font-weight: 500; }
 .cmp-inline { display: flex; gap: 8px; flex-wrap: wrap; }
 .cmp-inline .cmp-input { flex: 1 1 220px; }
 .cmp-confirm { background: var(--c-danger-bg); border-radius: 10px; padding: 14px; }

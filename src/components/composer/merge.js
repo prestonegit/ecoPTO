@@ -2,7 +2,7 @@
 
 // Fields that CI writes back after this composer saves (push-newsletter.mjs resets status,
 // stamps lastTestSentAt, records the broadcast id).
-const BOT_KEYS = new Set(['status', 'lastTestSentAt', 'resendBroadcastId', 'confirmSend']);
+export const BOT_KEYS = new Set(['status', 'lastTestSentAt', 'lastTestHash', 'resendBroadcastId', 'confirmSend']);
 
 const same = (a, b) => JSON.stringify(a) === JSON.stringify(b);
 

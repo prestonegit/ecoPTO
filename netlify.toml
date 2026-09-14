@@ -10,3 +10,50 @@
 
 # Netlify Forms is no longer used — every form POSTs to /api/forms, routed by the
 # `config.path` export in netlify/functions/forms.mjs. See FORM_SUBMISSION.md.
+
+# Uploaded media is served from ecopto.org itself — the same origin as /admin, where an
+# editor's Netlify Identity session is kept in localStorage. A script-capable file uploaded
+# through Decap's media library (which has no file-type filter) would run as ecopto.org when
+# opened directly, e.g. from a newsletter link. These rules make such files inert:
+#   - nosniff stops a browser treating a mislabelled upload as HTML or script;
+#   - SVGs get a sandboxing CSP, so script inside one never runs, while <img src="x.svg">
+#     keeps working (images don't run script anyway);
+#   - HTML/XML is sandboxed and downloaded rather than rendered.
+# Netlify's `*` matches within one path segment only, so each folder is listed explicitly,
+# and its docs don't say how overlapping rules combine, so every rule repeats nosniff.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/assets/images/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/assets/images/*.svg"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Content-Security-Policy = "default-src 'none'; style-src 'unsafe-inline'; sandbox"
+
+[[headers]]
+  for = "/assets/images/*.html"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Content-Security-Policy = "default-src 'none'; sandbox"
+    Content-Disposition = "attachment"
+
+[[headers]]
+  for = "/assets/images/*.htm"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Content-Security-Policy = "default-src 'none'; sandbox"
+    Content-Disposition = "attachment"
+
+[[headers]]
+  for = "/assets/images/*.xml"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Content-Security-Policy = "default-src 'none'; sandbox"
+    Content-Disposition = "attachment"

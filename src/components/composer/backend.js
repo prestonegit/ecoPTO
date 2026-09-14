@@ -92,7 +92,14 @@ const pathFor = (slug) => `${NEWSLETTER_FOLDER}/${slug}.${NEWSLETTER_EXTENSION}`
 const slugOf = (path) => path.split('/').pop().replace(/\.(md|mdx)$/, '');
 
 export async function listIssues(backend) {
-  const entries = await backend.entriesByFolder(NEWSLETTER_FOLDER, NEWSLETTER_EXTENSION, 1);
+  // allEntriesByFolder, not entriesByFolder: on GitHub the latter returns only the first page
+  // (20 files) AND turns a failed file read into an empty string. That short, silently
+  // incomplete list is what new-issue naming was checked against, so an issue beyond the
+  // first page could be overwritten. The local proxy has no allEntriesByFolder, but it lists
+  // everything anyway.
+  const entries = backend.allEntriesByFolder
+    ? await backend.allEntriesByFolder(NEWSLETTER_FOLDER, NEWSLETTER_EXTENSION, 1)
+    : await backend.entriesByFolder(NEWSLETTER_FOLDER, NEWSLETTER_EXTENSION, 1);
   return entries
     .map((e) => {
       try {
@@ -105,14 +112,36 @@ export async function listIssues(backend) {
     .sort((a, b) => String(b.data.sendDate || '').localeCompare(String(a.data.sendDate || '')));
 }
 
+export class IssueUnavailableError extends Error {}
+
 export async function loadIssue(backend, path) {
   const entry = await backend.getEntry(path);
+  // Decap's GitHub backend (what git-gateway uses in production) catches EVERY read error —
+  // a network blip, an expired session, a file that doesn't exist — and returns the file as
+  // an empty string. Taken at face value that's "someone emptied this issue": the merge
+  // before a save then treats every field as deleted remotely and writes a nearly blank
+  // file, and a bad link opens a blank editor that saves a new file. A newsletter file is
+  // never legitimately empty, so an empty read is always a failure.
+  if (!entry || typeof entry.data !== 'string' || entry.data.trim() === '') {
+    throw new IssueUnavailableError(
+      'This issue couldn’t be read. It may not exist, or the connection or sign-in may have lapsed.',
+    );
+  }
   return { path, slug: slugOf(path), raw: entry.data, ...parseIssue(entry.data) };
 }
 
 export { mergeRemoteChanges } from './merge.js';
 
-export async function saveIssue(backend, { path, slug, raw, isNew, subject }) {
+// A new issue's filename must not already exist. Checked against a FRESH full listing at the
+// moment of creation, not the list the page loaded earlier, which may be incomplete, stale
+// (another tab created an issue), or still loading on a direct #/new visit. persistEntry
+// does no existence check of its own; it just writes the file.
+export async function freeSlugForNewIssue(backend, data, slugFor) {
+  const fresh = await listIssues(backend); // throws on failure, rather than returning a short list
+  return slugFor(data, new Set(fresh.map((i) => i.slug)));
+}
+
+export async function saveIssue(backend, { path, slug, raw, isNew }) {
   const commitMessage = isNew
     ? `Create Newsletter Issue “${slug}”`
     : `Update Newsletter Issue “${slug}”`;
@@ -120,7 +149,7 @@ export async function saveIssue(backend, { path, slug, raw, isNew, subject }) {
     { dataFiles: [{ path, slug, raw }], assets: [] },
     { commitMessage, newEntry: isNew, collectionName: 'newsletters', useWorkflow: false, unpublished: false },
   );
-  return { path, slug, raw, subject };
+  return { path, slug, raw };
 }
 
 export { pathFor, slugOf };
@@ -138,10 +167,27 @@ const toBase64 = (file) =>
 
 // Uploads go where Decap's image and file widgets put them, so an issue edited in either
 // tool points at the same place and push-newsletter.mjs's /public check still finds them.
-export async function uploadFile(backend, file) {
+// Only formats that can't carry script. Uploads are committed into /public and served from
+// ecopto.org itself, the same origin as the admin pages, where an editor's Netlify Identity
+// session sits in localStorage. An uploaded .svg or .html with a script inside, opened from a
+// newsletter link, would run as ecopto.org and could read that session. Checked by both
+// extension and reported type, since either alone is easy to get wrong. (netlify.toml also
+// neuters such files if one arrives another way, e.g. Decap's own media library.)
+export const UPLOAD_TYPES = {
+  image: { '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.gif': 'image/gif', '.webp': 'image/webp' },
+  file: { '.pdf': 'application/pdf', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.png': 'image/png', '.gif': 'image/gif', '.webp': 'image/webp' },
+};
+export const acceptFor = (kind) => Object.keys(UPLOAD_TYPES[kind]).join(',');
+
+export async function uploadFile(backend, file, kind = 'image') {
   const dot = file.name.lastIndexOf('.');
   const stem = dot > 0 ? file.name.slice(0, dot) : file.name;
   const ext = dot > 0 ? file.name.slice(dot).toLowerCase() : '';
+  const allowed = UPLOAD_TYPES[kind] || UPLOAD_TYPES.image;
+  if (!allowed[ext] || file.type !== allowed[ext]) {
+    const names = kind === 'file' ? 'a PDF or an image (JPG, PNG, GIF, WebP)' : 'a JPG, PNG, GIF, or WebP image';
+    throw new Error(`That file type can’t be uploaded here. Please use ${names}.`);
+  }
   const safe = `${stem.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'file'}-${Date.now().toString(36)}${ext}`;
   const repoPath = `${MEDIA_FOLDER}/${safe}`;
   const base64 = await toBase64(file);

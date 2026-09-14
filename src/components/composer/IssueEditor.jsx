@@ -7,7 +7,9 @@ import EmailPreview from './EmailPreview.jsx';
 import {
   cleanForSave, normalizeData, parseIssue, slugForNewIssue, stringifyIssue,
 } from './format.js';
-import { loadIssue, mergeRemoteChanges, pathFor, saveIssue, uploadFile } from './backend.js';
+import { freeSlugForNewIssue, loadIssue, mergeRemoteChanges, pathFor, saveIssue, uploadFile } from './backend.js';
+import { contentFingerprint } from '../../utils/newsletter-fingerprint.js';
+import { BOT_KEYS } from './merge.js';
 
 // Same defaults Decap writes into a brand-new issue, so a file created here is
 // indistinguishable from one created there.
@@ -22,6 +24,9 @@ export const STATUS_LABEL = {
   'send-now-confirmed': 'Sending to everyone',
   sent: 'Sent',
 };
+
+// Statuses that make CI send something. Only an explicit send action may write one.
+const ARMED = new Set(['send-test', 'ready-to-send', 'send-now', 'send-now-confirmed']);
 
 const backupKey = (path) => `ecopto-composer:${path || 'new'}`;
 
@@ -74,6 +79,26 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
   const [restore, setRestore] = useState(() => readBackup(issue)); // backup offer
   const [savedAt, setSavedAt] = useState(null);
   const [localUrls, setLocalUrls] = useState({});
+
+  // Is the most recent test a test of what's in the form right now? Recomputed as they type;
+  // SHA-256 of a few kilobytes is instant. 'none' = never tested, 'legacy' = tested before
+  // tests were fingerprinted (the send script will ask for a fresh one), 'stale' = edited since.
+  const [testState, setTestState] = useState('none');
+  useEffect(() => {
+    let cancelled = false;
+    if (!data.lastTestSentAt || !base) {
+      setTestState('none');
+      return undefined;
+    }
+    if (!data.lastTestHash) {
+      setTestState('legacy');
+      return undefined;
+    }
+    contentFingerprint(base.slug, data).then((fp) => {
+      if (!cancelled) setTestState(fp === data.lastTestHash ? 'current' : 'stale');
+    });
+    return () => { cancelled = true; };
+  }, [data, base]);
 
   // The freshest data, readable from inside async save code without a stale closure.
   const latest = useRef(data);
@@ -135,7 +160,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
 
   // ---- Saving ---------------------------------------------------------------------------
   const persist = useCallback(
-    async (nextData, { successText = 'Saved.', overrideBase } = {}) => {
+    async (nextData, { successText = 'Saved.', overrideBase, status: sendStatus } = {}) => {
       const v = validate(nextData);
       setErrors(v);
       if (Object.keys(v).length) {
@@ -148,8 +173,13 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
       const snapshot = nextData;
       const baseline = overrideBase || base;
       try {
-        let toWrite = normalizeData(nextData);
+        // A send's status is a parameter of THIS save, never part of the form. It used to be
+        // written into the form first, so when the save hit a conflict (or failed) the form
+        // was left holding an unsaved 'send-now-confirmed', with no cancel button shown for
+        // that state, and the next ordinary Save or Cmd+S emailed the whole list.
+        let toWrite = normalizeData(sendStatus ? { ...nextData, status: sendStatus } : nextData);
         let cleanAgainst = baseline ? baseline.data : {};
+        let serverStatus = baseline ? baseline.data.status : undefined;
         let mergedKeys = [];
         let bodyToWrite = body;
         let path;
@@ -157,7 +187,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
         const isNew = !baseline;
 
         if (isNew) {
-          slug = slugForNewIssue(toWrite, existingSlugs);
+          slug = await freeSlugForNewIssue(backend, toWrite, slugForNewIssue);
           path = pathFor(slug);
         } else {
           ({ path, slug } = baseline);
@@ -166,7 +196,9 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
           if (remote.raw !== baseline.raw) {
             const m = mergeRemoteChanges({ base: baseline, remote, local: { data: toWrite, body } });
             if (!m.ok) {
-              setConflict({ remote, changed: m.remoteChanged, pending: nextData, against: baseline });
+              // `nextData` never carries the send status (see above), so resolving the
+              // conflict can't quietly re-arm a send. `interruptedSend` is only for the message.
+              setConflict({ remote, changed: m.remoteChanged, pending: nextData, against: baseline, interruptedSend: sendStatus });
               return false;
             }
             toWrite = normalizeData(m.data);
@@ -174,6 +206,14 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
             cleanAgainst = remote.data;
             mergedKeys = m.merged || [];
           }
+          serverStatus = remote.data.status;
+        }
+
+        // Invariant, whatever path the form state took to get here (a restored backup, a
+        // merge, a resolved conflict): only an explicit send action can set a send in motion.
+        // An ordinary save keeps whatever status the file already has on the server.
+        if (!sendStatus && ARMED.has(toWrite.status) && toWrite.status !== serverStatus) {
+          toWrite = { ...toWrite, status: serverStatus || 'draft' };
         }
 
         const raw = stringifyIssue(cleanForSave(toWrite, cleanAgainst), bodyToWrite);
@@ -196,7 +236,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
           return normalizeData(carried);
         });
         setSavedAt(Date.now());
-        const others = mergedKeys.filter((k) => !['status', 'lastTestSentAt', 'resendBroadcastId', 'confirmSend'].includes(k));
+        const others = mergedKeys.filter((k) => !BOT_KEYS.has(k));
         setNotice({
           tone: 'ok',
           text: others.length
@@ -206,13 +246,14 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
         onSaved(nextBase, isNew);
         return true;
       } catch (e) {
-        setNotice({ tone: 'error', text: `Couldn’t save: ${e.message || e}. Your changes are still here and backed up in this browser.` });
+        const why = String(e.message || e).replace(/[.\s]+$/, '');
+        setNotice({ tone: 'error', text: `Couldn’t save: ${why}. Your changes are still here and backed up in this browser.` });
         return false;
       } finally {
         setSaving(false);
       }
     },
-    [backend, base, body, existingSlugs, onSaved],
+    [backend, base, body, onSaved],
   );
 
   const save = useCallback(() => persist(latest.current), [persist]);
@@ -236,7 +277,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
       sent: 'Marked as sent.',
       draft: 'Back to draft.',
     }[status];
-    return persist({ ...latest.current, status }, { successText: text });
+    return persist(latest.current, { successText: text, status });
   };
 
   const refresh = async () => {
@@ -272,15 +313,19 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
   // Settle only the colliding fields; everyone's other edits stay. Choosing "theirs" loads
   // the combined result without saving, so it can be looked over first; "mine" saves.
   const resolveConflict = (prefer) => {
-    const { remote, pending, against } = conflict;
+    const { remote, pending, against, interruptedSend } = conflict;
     const m = mergeRemoteChanges({ base: against, remote, local: { data: normalizeData(pending), body }, prefer });
     setConflict(null);
     setBase(remote);
-    setData(normalizeData(m.data));
+    // Take the status from the server, never from the form: resolving a conflict must not be
+    // what starts or re-starts a send.
+    const merged = normalizeData({ ...m.data, status: remote.data.status });
+    setData(merged);
+    const sendNote = interruptedSend ? ' Nothing was sent. Look it over, then use the send step again.' : '';
     if (prefer === 'local') {
-      persist(m.data, { overrideBase: remote, successText: 'Saved with your version.' });
+      persist(merged, { overrideBase: remote, successText: `Saved with your version.${sendNote}` });
     } else {
-      setNotice({ tone: 'info', text: 'Using their version of that. Your other changes are still here; save when ready.' });
+      setNotice({ tone: 'info', text: `Using their version of that. Your other changes are still here; save when ready.${sendNote}` });
     }
   };
 
@@ -310,8 +355,8 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
     }
   };
 
-  const onUpload = async (file) => {
-    const { publicPath, localUrl } = await uploadFile(backend, file);
+  const onUpload = async (file, kind) => {
+    const { publicPath, localUrl } = await uploadFile(backend, file, kind);
     setLocalUrls((u) => ({ ...u, [publicPath]: localUrl }));
     return publicPath;
   };
@@ -369,7 +414,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
             <TextField label="Subject" hint="What people see in their inbox." value={data.subject} error={errors.subject} onChange={(v) => update({ subject: v })} maxLength={150} />
             <TextField label="Preview text" optional hint="The short line shown next to the subject in most inboxes." value={data.preheader} onChange={(v) => update({ preheader: v })} maxLength={200} />
             <DateTimeField label="Send date" hint="The date shown on the issue and in the archive." value={data.sendDate} error={errors.sendDate} onChange={(v) => update({ sendDate: v })} />
-            <UploadField label="Banner image" optional hint="Appears across the top of the email." value={data.heroImage} onChange={(v) => update({ heroImage: v })} onUpload={onUpload} localUrls={localUrls} accept="image/*" />
+            <UploadField label="Banner image" optional hint="Appears across the top of the email." value={data.heroImage} onChange={(v) => update({ heroImage: v })} onUpload={onUpload} localUrls={localUrls} />
             <MarkdownField label="Opening note" optional hint="A note from the team at the top." value={data.intro} onChange={(v) => update({ intro: v })} rows={6} />
           </section>
 
@@ -398,6 +443,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
             <h2><span>4</span> Send</h2>
             <SendSteps
               data={data}
+              testState={testState}
               update={update}
               onSend={onSend}
               onRefresh={refresh}

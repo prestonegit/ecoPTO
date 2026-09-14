@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { lockDownPreviewHtml } from '../utils/preview-csp.js';
 import { render } from '@react-email/render';
 import Newsletter from '../emails/Newsletter.jsx';
 import { ORG } from '../config/org.js';
@@ -99,7 +100,7 @@ const NewsletterPreview = ({ entry, getAsset }) => {
     if (!html) return undefined;
     let url;
     const timer = setTimeout(() => {
-      url = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+      url = URL.createObjectURL(new Blob([lockDownPreviewHtml(html)], { type: 'text/html' }));
       setPreviewUrl(url);
     }, 250);
     return () => {

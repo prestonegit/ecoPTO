@@ -122,6 +122,14 @@ export const config = {
           widget: "hidden",
           required: false,
         },
+        // Written by push-newsletter.mjs alongside lastTestSentAt: a fingerprint of the content
+        // that test was of. Declared so Decap keeps it when saving; undeclared fields are dropped.
+        {
+          label: "Last test content",
+          name: "lastTestHash",
+          widget: "hidden",
+          required: false,
+        },
         {
           label: "Send a test to",
           name: "testEmail",

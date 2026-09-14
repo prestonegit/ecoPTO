@@ -1,5 +1,6 @@
 import React, { useId, useLayoutEffect, useRef, useState } from 'react';
 import { toDate } from './format.js';
+import { acceptFor } from './backend.js';
 
 export function Field({ label, hint, optional, error, children, htmlFor }) {
   return (
@@ -155,7 +156,7 @@ export function UploadField({ label, hint, optional, value, onChange, onUpload, 
     setBusy(true);
     setErr(null);
     try {
-      onChange(await onUpload(file));
+      onChange(await onUpload(file, kind));
     } catch (x) {
       setErr(`Upload failed: ${x.message}`);
     } finally {
@@ -176,7 +177,7 @@ export function UploadField({ label, hint, optional, value, onChange, onUpload, 
             <button type="button" className="cmp-btn cmp-btn-link" onClick={() => onChange('')}>Remove</button>
           )}
         </div>
-        <input ref={input} type="file" accept={accept} hidden onChange={pick} />
+        <input ref={input} type="file" accept={accept || acceptFor(kind)} hidden onChange={pick} />
       </div>
     </Field>
   );
@@ -227,7 +228,7 @@ export function BlocksEditor({ blocks = [], onChange, onUpload, localUrls }) {
               onChange={(v) => update(i, { image: v })}
               onUpload={onUpload}
               localUrls={localUrls}
-              accept="image/*"
+              
             />
           )}
           {(b.type === 'callout' || b.type === 'story') && (

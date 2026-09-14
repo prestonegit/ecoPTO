@@ -6,9 +6,11 @@
 //   ready-to-send → creates a DRAFT broadcast in Resend; you press Send there
 //   send-now-confirmed → creates AND sends a broadcast to the whole audience. Written by
 //                        the staged Send control in the CMS, which only produces it after
-//                        an explicit typed confirmation. Requires a test to have landed first.
+//                        an explicit typed confirmation. Requires a test OF THIS CONTENT to
+//                        have landed first (lastTestHash must match the issue as it is now).
 //   send-now      → legacy equivalent for files written before that control existed; still
-//                   honoured, but needs confirmSend: true in the frontmatter
+//                   honoured, but needs confirmSend: true in the frontmatter, and the same
+//                   matching test as send-now-confirmed
 //   in-resend     → a draft is waiting in Resend; ignored by this script
 //   sent          → done; ignored, and the issue appears in the public archive
 //
@@ -29,6 +31,7 @@ import React from 'react';
 import { Resend } from 'resend';
 import Newsletter from '../src/emails/Newsletter.jsx';
 import { ORG, hasPostalAddress } from '../src/config/org.js';
+import { contentFingerprint } from '../src/utils/newsletter-fingerprint.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -177,7 +180,7 @@ async function checkFiles(data) {
 async function main() {
   const issues = await findIssues();
   if (issues.length === 0) {
-    console.log('No newsletter issues awaiting action (ready-to-send / send-test / send-now). Nothing to do.');
+    console.log('No newsletter issues awaiting action (send-test / ready-to-send / send-now-confirmed / send-now). Nothing to do.');
     return;
   }
 
@@ -245,15 +248,35 @@ async function main() {
       console.log(`Sending TEST of "${data.subject}" to ${to}...`);
       const res = await resend.emails.send({ from, to: [to], subject: `[TEST] ${data.subject}`, html: testHtml, text: testText });
       if (res.error) { console.error(`  Failed: ${res.error.message}`); continue; }
-      // Reset to draft: leaving it on 'send-test' re-fires on every later push. The
-      // timestamp is what unlocks the later steps in the CMS Send control — it records a
-      // test that Resend actually accepted, not merely one that was asked for.
-      await setStatus(filePath, 'draft', { lastTestSentAt: new Date().toISOString() });
-      console.log(`  Test sent, status reset to draft. Edit and re-test, or switch to 'SEND NOW' when ready.`);
+      // Reset to draft: leaving it on 'send-test' re-fires on every later push. The timestamp
+      // records a test Resend actually accepted, not merely one that was asked for; the hash
+      // records WHICH content that test was of. Together they unlock the later send steps,
+      // and only for as long as the issue still hashes the same.
+      const lastTestHash = await contentFingerprint(slug, data);
+      await setStatus(filePath, 'draft', { lastTestSentAt: new Date().toISOString(), lastTestHash });
+      console.log(`  Test sent, status reset to draft. Edit and re-test, or hand it to Resend / send to everyone when ready.`);
       continue;
     }
 
-    // Everything below is a bulk send to real subscribers.
+    // Everything below is a bulk send to real subscribers, or (ready-to-send) a Resend draft
+    // an admin will review before sending.
+    if (data.status === 'send-now' || data.status === 'send-now-confirmed') {
+      // A UI gate is only a suggestion once the file is on disk: anyone can hand-edit
+      // frontmatter, commit from a branch, or duplicate a tested issue in Decap (Duplicate
+      // copies hidden fields too). So enforce test-first here, against the content itself.
+      if (!data.lastTestSentAt || !data.lastTestHash) {
+        console.error(`  ${label}: no test has been sent for this issue. Refusing to email the whole list.`);
+        console.error(`  Send yourself a test from the newsletter composer, check your inbox, then send.`);
+        continue;
+      }
+      const currentHash = await contentFingerprint(slug, data);
+      if (currentHash !== data.lastTestHash) {
+        console.error(`  ${label}: the issue has changed since its last test. Refusing to email the whole list.`);
+        console.error(`  Send a fresh test of this version, check it, then send.`);
+        continue;
+      }
+    }
+
     if (!hasPostalAddress()) {
       console.error(`  ${label}: ORG.postalAddress is not set in src/config/org.js.`);
       console.error(`  CAN-SPAM requires a physical postal address in bulk email. Refusing to send.`);
@@ -284,13 +307,6 @@ async function main() {
       if (data.status === 'send-now' && data.confirmSend !== true) {
         console.error(`  ${label}: status is 'SEND NOW' but the confirmation box is not checked. Refusing to send.`);
         console.error(`  Check "I confirm: SEND NOW will email ALL subscribers" in the editor, then re-run.`);
-        continue;
-      }
-      // A UI gate is only a suggestion once the file is on disk — anyone can hand-edit
-      // frontmatter or commit from a branch. Enforce the test-first rule here too.
-      if (!data.lastTestSentAt) {
-        console.error(`  ${label}: no test has ever been sent for this issue. Refusing to email the whole list.`);
-        console.error(`  Set "Send a test to" in the editor, publish, check your inbox, then send.`);
         continue;
       }
       console.log(`SENDING "${data.subject}" to ALL subscribers in audience ${audienceId}...`);

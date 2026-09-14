@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { lockDownPreviewHtml } from '../../utils/preview-csp.js';
 import { render } from '@react-email/render';
 import Newsletter from '../../emails/Newsletter.jsx';
 import { ORG } from '../../config/org.js';
@@ -53,7 +54,7 @@ export default function EmailPreview({ data, localUrls }) {
       )
         .then((html) => {
           if (cancelled) return;
-          made = URL.createObjectURL(new Blob([html], { type: 'text/html' }));
+          made = URL.createObjectURL(new Blob([lockDownPreviewHtml(html)], { type: 'text/html' }));
           setUrl((prev) => {
             if (prev) URL.revokeObjectURL(prev);
             return made;

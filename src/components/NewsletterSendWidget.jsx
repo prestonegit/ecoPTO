@@ -1,4 +1,5 @@
 import React, { forwardRef, useEffect, useState } from 'react';
+import { contentFingerprint } from '../utils/newsletter-fingerprint.js';
 
 // Staged replacement for the raw `status` dropdown + `confirmSend` checkbox.
 //
@@ -121,7 +122,30 @@ const NewsletterSendControl = forwardRef((props, ref) => {
   const [typed, setTyped] = useState('');
 
   const testable = EMAIL_RE.test(testEmail);
-  const tested = Boolean(lastTestSentAt);
+  // A test only counts if it was a test of this content. Decap's Duplicate button copies
+  // lastTestSentAt into the copy, and edits after a test don't clear it, so "a test exists"
+  // let untested content through. The slug is part of the fingerprint, so a duplicate never
+  // matches its original's test.
+  //
+  // Caveat: `entry` is only as fresh as this widget's last render, and Decap doesn't re-render
+  // it when another field changes, so after editing other fields this can still read as
+  // tested until the widget next renders. That's acceptable only because push-newsletter.mjs
+  // recomputes the fingerprint and refuses a bulk send whose content no longer matches.
+  const lastTestHash = read('lastTestHash').trim();
+  const slug = entry && entry.get ? entry.get('slug') : '';
+  const [testState, setTestState] = useState('none');
+  const dataKey = data && data.toJS ? JSON.stringify(data.toJS()) : '';
+  useEffect(() => {
+    let cancelled = false;
+    if (!lastTestSentAt || !slug) { setTestState('none'); return undefined; }
+    if (!lastTestHash) { setTestState('legacy'); return undefined; }
+    contentFingerprint(slug, data.toJS()).then((fp) => {
+      if (!cancelled) setTestState(fp === lastTestHash ? 'current' : 'stale');
+    });
+    return () => { cancelled = true; };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dataKey, slug, lastTestSentAt, lastTestHash]);
+  const tested = testState === 'current';
 
   const set = (next) => { setConfirming(false); setTyped(''); onChange(next); };
 
@@ -181,7 +205,11 @@ const NewsletterSendControl = forwardRef((props, ref) => {
     <div className={classNameWrapper} style={{ display: 'grid', gap: 10 }}>
       <Step n={1} of={3} title="Send yourself a test">
         {tested ? (
-          <Banner tone="ok">Last test sent {fmt(lastTestSentAt)}{testEmail ? <> to <strong>{testEmail}</strong></> : null}.</Banner>
+          <Banner tone="ok">Last test sent {fmt(lastTestSentAt)}. Nothing has changed since.</Banner>
+        ) : testState === 'stale' ? (
+          <Banner tone="warn">This issue has changed since the last test ({fmt(lastTestSentAt)}). Send a fresh test of this version first.</Banner>
+        ) : testState === 'legacy' ? (
+          <Banner tone="warn">A test was sent {fmt(lastTestSentAt)}, before tests were matched to content. Send a fresh one to continue.</Banner>
         ) : (
           <Banner tone="warn">No test has been sent yet. Check it in a real inbox before it goes to the list.</Banner>
         )}

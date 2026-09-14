@@ -5,8 +5,8 @@ import React, { useState } from 'react';
 // Unlike the Decap widget this replaces for most people, each action here SAVES — there's
 // no separate "now remember to press Save" step to forget. The status semantics are
 // unchanged and the real gates still live in push-newsletter.mjs, which runs in CI a
-// minute or so after the save lands: no bulk send without a delivered test
-// (lastTestSentAt), and 'send-now-confirmed' is only ever written after typing SEND.
+// minute or so after the save lands: no bulk send without a delivered test of the content
+// as it is now (lastTestHash), and 'send-now-confirmed' is only ever written after typing SEND.
 
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 
@@ -30,10 +30,14 @@ function Step({ n, title, state, children }) {
   );
 }
 
-export default function SendSteps({ data, update, onSend, onRefresh, busy, blocked }) {
+export default function SendSteps({ data, testState = 'none', update, onSend, onRefresh, busy, blocked }) {
   const status = data.status || 'draft';
   const testEmail = (data.testEmail || '').trim();
-  const tested = Boolean(data.lastTestSentAt);
+  // Unlocked only by a test of the content as it is NOW. A test of an earlier version (or one
+  // from before tests were fingerprinted) doesn't count, and the send script agrees: it
+  // refuses a bulk send whose content no longer matches its test.
+  const tested = testState === 'current';
+  const outdated = testState === 'stale' || testState === 'legacy';
   const [confirming, setConfirming] = useState(false);
   const [typed, setTyped] = useState('');
   const canTest = EMAIL_RE.test(testEmail);
@@ -67,12 +71,12 @@ export default function SendSteps({ data, update, onSend, onRefresh, busy, block
     'send-now-confirmed': {
       tone: 'danger',
       title: 'Sending to everyone',
-      body: <>This issue is going to every subscriber now.</>,
+      body: <>This issue is going to every subscriber. It usually starts within two minutes. If that hasn’t happened yet, you can still stop it.</>,
     },
     'send-now': {
       tone: 'danger',
       title: 'Sending to everyone',
-      body: <>This issue is queued to go to every subscriber.</>,
+      body: <>This issue is queued to go to every subscriber. If it hasn’t started yet, you can still stop it.</>,
     },
   }[status];
 
@@ -86,9 +90,18 @@ export default function SendSteps({ data, update, onSend, onRefresh, busy, block
           {status === 'in-resend' && (
             <button type="button" className="cmp-btn cmp-btn-quiet" onClick={() => onSend('sent')} disabled={disabled}>Mark as sent</button>
           )}
-          {status !== 'send-now-confirmed' && status !== 'send-now' && (
-            <button type="button" className="cmp-btn cmp-btn-link" onClick={() => onSend('draft')} disabled={disabled}>Cancel and go back to draft</button>
-          )}
+          {/* Always offered. It used to be hidden for a queued send to everyone, which is the
+              one moment a mistake most needs stopping, and it left an issue the send script
+              refused (say, no postal address) stuck with no way back. If the send has already
+              gone out, the script's Resend check marks the issue sent regardless. */}
+          <button
+            type="button"
+            className={status === 'send-now-confirmed' || status === 'send-now' ? 'cmp-btn cmp-btn-danger' : 'cmp-btn cmp-btn-link'}
+            onClick={() => onSend('draft')}
+            disabled={busy}
+          >
+            {status === 'send-now-confirmed' || status === 'send-now' ? 'Stop, go back to draft' : 'Cancel and go back to draft'}
+          </button>
         </div>
       </div>
     );
@@ -97,7 +110,14 @@ export default function SendSteps({ data, update, onSend, onRefresh, busy, block
   return (
     <div className="cmp-steps">
       <Step n={1} title="Send yourself a test" state={tested ? 'done' : 'current'}>
-        {tested && <p className="cmp-note is-ok">Last test sent {when(data.lastTestSentAt)}{testEmail ? ` to ${testEmail}` : ''}.</p>}
+        {tested && <p className="cmp-note is-ok">Last test sent {when(data.lastTestSentAt)}. Nothing has changed since.</p>}
+        {outdated && (
+          <p className="cmp-note is-warn">
+            {testState === 'legacy'
+              ? `A test was sent ${when(data.lastTestSentAt)}, before tests were matched to content. Send a fresh one to continue.`
+              : `You’ve changed this issue since the last test (${when(data.lastTestSentAt)}). Send a fresh test of this version before handing it off.`}
+          </p>
+        )}
         <p className="cmp-step-text">Check it in a real inbox before it goes to the list. Only you get this copy.</p>
         <div className="cmp-inline">
           <input
@@ -109,7 +129,7 @@ export default function SendSteps({ data, update, onSend, onRefresh, busy, block
             onChange={(e) => update({ testEmail: e.target.value })}
           />
           <button type="button" className="cmp-btn cmp-btn-primary" disabled={disabled || !canTest} onClick={() => onSend('send-test')}>
-            {tested ? 'Send another test' : 'Send me a test'}
+            {tested ? 'Send another test' : outdated ? 'Send a fresh test' : 'Send me a test'}
           </button>
         </div>
         {testEmail && !canTest && <p className="cmp-error">That doesn’t look like an email address.</p>}
@@ -124,13 +144,13 @@ export default function SendSteps({ data, update, onSend, onRefresh, busy, block
             </button>
           </>
         ) : (
-          <p className="cmp-step-text">Unlocks once a test has arrived.</p>
+          <p className="cmp-step-text">{outdated ? 'Send a fresh test of this version first.' : 'Unlocks once a test has arrived.'}</p>
         )}
       </Step>
 
       <Step n={3} title="Or send it to everyone now" state={tested ? 'current' : 'locked'}>
         {!tested ? (
-          <p className="cmp-step-text">Unlocks once a test has arrived.</p>
+          <p className="cmp-step-text">{outdated ? 'Send a fresh test of this version first.' : 'Unlocks once a test has arrived.'}</p>
         ) : !confirming ? (
           <>
             <p className="cmp-step-text">Skips the check in Resend and emails the whole list right away.</p>
