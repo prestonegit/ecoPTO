@@ -6,7 +6,7 @@ import { contentFingerprint } from '../utils/newsletter-fingerprint.js';
 // The CMS cannot send anything itself — publishing only commits the file, and
 // scripts/push-newsletter.mjs does the sending from CI afterwards. So this widget is a
 // staged *control*: it decides which status the file is committed with, and shows in
-// plain language what will happen on publish. The real gates stay in the script, which
+// plain language what will happen on save. The real gates stay in the script, which
 // is the only thing standing between a volunteer and 400 inboxes.
 //
 // The confirmation is encoded in the status value itself ('send-now-confirmed') rather
@@ -164,7 +164,7 @@ const NewsletterSendControl = forwardRef((props, ref) => {
         </p>
         <div style={{ display: 'flex', gap: 8 }}>
           {!sent && <button type="button" style={btn(C.green)} onClick={() => set('sent')}>Mark as sent</button>}
-          <button type="button" style={ghost} onClick={() => set('draft')}>Move back to draft</button>
+          <button type="button" style={ghost} onClick={() => set('draft')}>Cancel and go back to draft</button>
         </div>
       </div>
     );
@@ -175,17 +175,17 @@ const NewsletterSendControl = forwardRef((props, ref) => {
     const copy = {
       'send-test': {
         tone: 'ok',
-        title: 'Test queued',
+        title: 'Your test is on its way',
         body: <>When you save, one test copy goes to <strong>{testEmail || '(no address set)'}</strong> and nothing else happens. The status resets itself to Draft afterwards.</>,
       },
       'ready-to-send': {
         tone: 'warn',
-        title: 'Draft queued in Resend',
+        title: 'Being set up in Resend',
         body: <>When you save, a <strong>draft</strong> broadcast is created in Resend. No one is emailed until you open Resend and press Send there.</>,
       },
       'send-now-confirmed': {
         tone: 'danger',
-        title: 'Sending to everyone on publish',
+        title: 'Sending to everyone',
         body: <>When you save, this emails <strong>every subscriber</strong> immediately. This cannot be undone.</>,
       },
     }[status];
@@ -195,14 +195,24 @@ const NewsletterSendControl = forwardRef((props, ref) => {
           {copy.title}
         </div>
         <Banner tone={copy.tone}>{copy.body}</Banner>
-        <button type="button" style={ghost} onClick={() => set('draft')}>Cancel — back to draft</button>
+        {/* Same labels as the composer. "Stop" for a queued send to everyone. */}
+        <button type="button" style={status === 'send-now-confirmed' ? btn(C.red) : ghost} onClick={() => set('draft')}>
+          {status === 'send-now-confirmed' ? 'Stop, go back to draft' : 'Cancel and go back to draft'}
+        </button>
       </div>
     );
   }
 
   // --- Draft: the wizard proper. ---
+  const lastError = read('lastError').trim();
   return (
     <div className={classNameWrapper} style={{ display: 'grid', gap: 10 }}>
+      {lastError && (
+        <div style={{ ...box, borderColor: C.red, background: C.redBg }} role="alert">
+          <div style={{ fontSize: 15, fontWeight: 700, color: C.red }}>The last attempt didn’t go through</div>
+          <p style={{ fontSize: 13, color: C.ink, margin: '6px 0 0' }}>{lastError} Nothing was sent. Fix what it says, then try the step again.</p>
+        </div>
+      )}
       <Step n={1} of={3} title="Send yourself a test">
         {tested ? (
           <Banner tone="ok">Last test sent {fmt(lastTestSentAt)}. Nothing has changed since.</Banner>
@@ -231,19 +241,19 @@ const NewsletterSendControl = forwardRef((props, ref) => {
           {testEmail && !testable ? 'That doesn’t look like an email address.' : 'Use your own address — only you get this copy.'}
         </p>
         <button type="button" disabled={!testable} style={{ ...btn(testable ? C.blue : '#8c959f'), cursor: testable ? 'pointer' : 'not-allowed' }} onClick={() => set('send-test')}>
-          {tested ? 'Send another test' : 'Send a test'}
+          {tested ? 'Send another test' : testState === 'stale' || testState === 'legacy' ? 'Send a fresh test' : 'Send me a test'}
         </button>
       </Step>
 
-      <Step n={2} of={3} title="Put it in front of the group">
+      <Step n={2} of={3} title="Hand it to Resend for a final look">
         {!tested ? (
           <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>
-            Locked until a test has actually been delivered. Do step 1, then save.
+            Unlocks once a test of this version has arrived. Do step 1, then save.
           </p>
         ) : (
           <>
             <p style={{ fontSize: 13, color: C.muted, margin: '0 0 10px' }}>
-              The safe choice: build the broadcast in Resend and leave it unsent, so an admin can look it
+              Recommended. Creates the broadcast in Resend without sending it, so an admin can look it
               over and press Send there.
             </p>
             <button type="button" style={btn(C.green)} onClick={() => set('ready-to-send')}>
@@ -253,13 +263,13 @@ const NewsletterSendControl = forwardRef((props, ref) => {
         )}
       </Step>
 
-      <Step n={3} of={3} title="Or send to everyone from here">
+      <Step n={3} of={3} title="Or send it to everyone now">
         {!tested ? (
-          <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Locked until a test has been delivered.</p>
+          <p style={{ fontSize: 13, color: C.muted, margin: 0 }}>Unlocks once a test of this version has arrived.</p>
         ) : !confirming ? (
           <>
             <p style={{ fontSize: 13, color: C.muted, margin: '0 0 10px' }}>
-              Skips the review step in Resend and emails the whole list when you save.
+              Skips the check in Resend and emails the whole list when you save.
             </p>
             <button type="button" style={ghost} onClick={() => setConfirming(true)}>Send to everyone…</button>
           </>
@@ -282,7 +292,7 @@ const NewsletterSendControl = forwardRef((props, ref) => {
                 style={{ ...btn(typed.trim().toUpperCase() === 'SEND' ? C.red : '#8c959f'), cursor: typed.trim().toUpperCase() === 'SEND' ? 'pointer' : 'not-allowed' }}
                 onClick={() => set('send-now-confirmed')}
               >
-                Confirm — send to everyone
+                Send to everyone
               </button>
               <button type="button" style={ghost} onClick={() => { setConfirming(false); setTyped(''); }}>Cancel</button>
             </div>

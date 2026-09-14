@@ -21,32 +21,41 @@ export const config = {
       frontmatter_format: "yaml",
       summary: "{{subject}} · {{sendDate | date('MMM D, YYYY')}} · {{status | default('draft')}}",
       sortable_fields: [
-        { field: "sendDate", label: "Send date", default_sort: "desc" },
+        { field: "sendDate", label: "Issue date", default_sort: "desc" },
         { field: "subject", label: "Subject" },
         { field: "status", label: "Status" },
       ],
       view_filters: [
-        { label: "Drafts", field: "status", pattern: "draft" },
-        { label: "Waiting in Resend", field: "status", pattern: "in-resend" },
-        { label: "Sent", field: "status", pattern: "sent" },
+        // Matched with new RegExp(pattern), so anchored: an unanchored "sent" would also match
+        // any future status that merely contains those letters.
+        { label: "Drafts", field: "status", pattern: "^draft$" },
+        { label: "Queued to send", field: "status", pattern: "^(send-test|ready-to-send|send-now|send-now-confirmed)$" },
+        { label: "Waiting in Resend", field: "status", pattern: "^in-resend$" },
+        { label: "Sent", field: "status", pattern: "^sent$" },
       ],
       fields: [
-        { label: "The email itself", name: "section_basics", widget: "section", required: false, hint: "Subject, timing, and the note at the top." },
-        { label: "Subject Line", name: "subject", widget: "string", hint: "Shows in the recipient's inbox" },
-        { label: "Inbox Preview Text", name: "preheader", widget: "string", required: false, hint: "Short snippet shown next to subject in most inboxes" },
-        { label: "Send Date", name: "sendDate", widget: "datetime" },
-        { label: "Hero Image", name: "heroImage", widget: "image", required: false, hint: "Optional banner image at the top" },
-        { label: "Intro Message", name: "intro", widget: "markdown", required: false, hint: "A note from the team — supports formatting" },
+        // Points people at the composer, which does this with less that can go wrong. Holds no data.
+        { label: "Composer", name: "composer_link", widget: "composer-link", required: false },
+        { label: "Write it", name: "section_basics", widget: "section", required: false, hint: "Subject, preview text, issue date, banner, and the opening note." },
+        { label: "Subject", name: "subject", widget: "string", hint: "What people see in their inbox." },
+        { label: "Preview text", name: "preheader", widget: "string", required: false, hint: "The short line shown next to the subject in most inboxes." },
+        { label: "Issue date", name: "sendDate", widget: "datetime", hint: "Shown on the issue and in the archive. It doesn’t schedule anything: sending happens in the Send step." },
+        { label: "Banner image", name: "heroImage", widget: "image", required: false, hint: "Appears across the top of the email." },
+        // Markdown is edited in plain `text` widgets (a <textarea>) throughout this collection.
+        // Decap's markdown widget is built on the Slate editor in BOTH its modes (RawEditor.js
+        // imports slate-react too), and Slate is what crashed and lost a newsletter draft. The
+        // file stores the same markdown string either way, and the email renders it the same.
+        { label: "Opening note", name: "intro", widget: "text", required: false, hint: "A note from the team at the top. Markdown formatting works: **bold**, _italic_, [link](https://…)." },
 
-        { label: "What goes in it", name: "section_sections", widget: "section", required: false, hint: "Pull in events and news automatically, or add your own blocks below." },
-        { label: "Include Upcoming Events?", name: "includeEvents", widget: "boolean", default: true },
-        { label: "Events Intro", name: "eventsIntro", widget: "string", required: false, hint: 'e.g. "Mark your calendars:"' },
+        { label: "What’s in it", name: "section_sections", widget: "section", required: false, hint: "Pull in events and news automatically, or add your own blocks below." },
+        { label: "Include upcoming events", name: "includeEvents", widget: "boolean", default: true, hint: "Pulled from the Events section of the site automatically." },
+        { label: "Line above the events", name: "eventsIntro", widget: "string", required: false, hint: 'For example, "Mark your calendars:"' },
 
-        { label: "Include Latest News?", name: "includeNews", widget: "boolean", default: true },
-        { label: "News Intro", name: "newsIntro", widget: "string", required: false },
+        { label: "Include latest news", name: "includeNews", widget: "boolean", default: true, hint: "Recent posts from the News section." },
+        { label: "Line above the news", name: "newsIntro", widget: "string", required: false },
 
         {
-          label: "Custom Blocks",
+          label: "Extra blocks",
           label_singular: "Block",
           name: "customBlocks",
           widget: "list",
@@ -60,7 +69,7 @@ export const config = {
               fields: [
                 { label: "Type", name: "type", widget: "hidden", default: "callout" },
                 { label: "Title", name: "title", widget: "string" },
-                { label: "Body", name: "body", widget: "markdown" },
+                { label: "Text", name: "body", widget: "text" },
               ],
             },
             {
@@ -71,7 +80,7 @@ export const config = {
                 { label: "Type", name: "type", widget: "hidden", default: "story" },
                 { label: "Title", name: "title", widget: "string" },
                 { label: "Image", name: "image", widget: "image", required: false },
-                { label: "Body", name: "body", widget: "markdown" },
+                { label: "Text", name: "body", widget: "text" },
               ],
             },
             {
@@ -90,17 +99,17 @@ export const config = {
               fields: [
                 { label: "Type", name: "type", widget: "hidden", default: "button" },
                 { label: "Title", name: "title", widget: "string" },
-                { label: "Body", name: "body", widget: "string", required: false },
-                { label: "Button Text", name: "buttonText", widget: "string" },
-                { label: "Button URL", name: "buttonUrl", widget: "string" },
+                { label: "Text above the button", name: "body", widget: "string", required: false },
+                { label: "Button label", name: "buttonText", widget: "string" },
+                { label: "Button links to", name: "buttonUrl", widget: "string" },
               ],
             },
           ],
         },
 
-        { label: "Attachments and sign-off", name: "section_extras", widget: "section", required: false, hint: "Linked files, plus the closing line." },
+        { label: "Files and sign-off", name: "section_extras", widget: "section", required: false, hint: "Linked files, plus the closing line." },
         {
-          label: "Files & Downloads",
+          label: "Linked files",
           label_singular: "File",
           name: "attachments",
           widget: "list",
@@ -108,14 +117,14 @@ export const config = {
           summary: "{{fields.label}}",
           hint: "Files linked from the email (PDFs, flyers, etc). They are hosted on the site and linked, not attached — Resend broadcasts can't carry attachments, and links stay out of spam filters.",
           fields: [
-            { label: "Label", name: "label", widget: "string", hint: 'How it appears in the email, e.g. "March meeting minutes"' },
+            { label: "Shown in the email as", name: "label", widget: "string", hint: 'For example, "March meeting minutes"' },
             { label: "File", name: "file", widget: "file" },
           ],
         },
 
-        { label: "Closing Note", name: "closing", widget: "markdown", required: false },
+        { label: "Closing note", name: "closing", widget: "text", required: false },
 
-        { label: "Sending", name: "section_send", widget: "section", required: false, hint: "Nothing is emailed until you save, and never to the list without a test first." },
+        { label: "Send", name: "section_send", widget: "section", required: false, hint: "Nothing is emailed until you save, and never to the list without a test of this version first." },
         {
           label: "Last test sent",
           name: "lastTestSentAt",
@@ -130,6 +139,10 @@ export const config = {
           widget: "hidden",
           required: false,
         },
+        // Written by push-newsletter.mjs when a send or test fails or is refused, so the reason
+        // reaches the editor instead of staying in a GitHub Actions log. Declared so Decap keeps them.
+        { label: "Last send problem", name: "lastError", widget: "hidden", required: false },
+        { label: "Last send problem at", name: "lastErrorAt", widget: "hidden", required: false },
         {
           label: "Send a test to",
           name: "testEmail",

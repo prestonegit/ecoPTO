@@ -40,6 +40,9 @@ jobs:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
           RESEND_FROM: ${{ secrets.RESEND_FROM }}
+          # Optional. Comma-separated addresses and/or @domains allowed to receive test emails.
+          # Set under Settings → Secrets and variables → Actions → Variables.
+          NEWSLETTER_TEST_RECIPIENTS: ${{ vars.NEWSLETTER_TEST_RECIPIENTS }}
           SITE_URL: https://ecopto.org
         run: npm run newsletter:push
 

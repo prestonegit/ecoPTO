@@ -123,6 +123,11 @@ export default function Composer() {
   };
 
   const doSignOut = async () => {
+    // Backups hold unsaved issue text and test addresses. Don't leave them for whoever uses
+    // this browser next.
+    Object.keys(window.localStorage)
+      .filter((k) => k.startsWith('ecopto-composer:'))
+      .forEach((k) => window.localStorage.removeItem(k));
     await signOut(conn.backend);
     setConn((c) => ({ ...c, user: null }));
     setIssues(null);

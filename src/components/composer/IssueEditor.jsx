@@ -29,6 +29,12 @@ export const STATUS_LABEL = {
 const ARMED = new Set(['send-test', 'ready-to-send', 'send-now', 'send-now-confirmed']);
 
 const backupKey = (path) => `ecopto-composer:${path || 'new'}`;
+const PREVIOUS = ':offered';
+
+function clearBackups(path) {
+  window.localStorage.removeItem(backupKey(path));
+  window.localStorage.removeItem(`${backupKey(path)}${PREVIOUS}`);
+}
 
 // Read synchronously, before the first render. It used to be read in an effect, and the
 // effect below that mirrors edits to storage ran in the same pass: it saw a clean form (the
@@ -39,7 +45,10 @@ function readBackup(issue) {
   const key = backupKey(issue && issue.path);
   let b;
   try {
-    b = JSON.parse(window.localStorage.getItem(key) || 'null');
+    // The parked copy is the older, still-unanswered backup; offer it first so it isn't
+    // silently superseded by edits made while its offer was showing.
+    const parked = window.localStorage.getItem(`${key}${PREVIOUS}`);
+    b = JSON.parse(parked || window.localStorage.getItem(key) || 'null');
   } catch {
     return null; // unreadable; leave it rather than risk deleting something recoverable
   }
@@ -48,16 +57,27 @@ function readBackup(issue) {
   const theirs = stringifyIssue(cleanForSave(normalizeData(b.data), issue ? issue.data : {}), body);
   const saved = issue ? stringifyIssue(cleanForSave(normalizeData(issue.data), issue.data), body) : null;
   if (issue && theirs === saved) {
-    window.localStorage.removeItem(key); // identical to what's saved; nothing to offer
+    clearBackups(issue.path); // identical to what's saved; nothing to offer
     return null;
   }
   return { ...b, stale: issue ? b.baseRaw !== issue.raw : false };
 }
 
+// Reuse the in-memory value wherever the saved one is identical, so the block and file lists
+// keep their object identity across a save. Without this a save swaps in freshly parsed
+// objects, and an upload that was still running loses track of the block it belongs to.
+function keepUnchangedRefs(current, saved) {
+  const out = { ...saved };
+  for (const k of Object.keys(saved)) {
+    if (current[k] !== undefined && JSON.stringify(current[k]) === JSON.stringify(saved[k])) out[k] = current[k];
+  }
+  return out;
+}
+
 function validate(data) {
   const errors = {};
   if (!String(data.subject || '').trim()) errors.subject = 'Give the email a subject before saving.';
-  if (!data.sendDate) errors.sendDate = 'Pick a send date before saving.';
+  if (!data.sendDate) errors.sendDate = 'Pick an issue date before saving.';
   return errors;
 }
 
@@ -128,12 +148,26 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
     });
   }, []);
 
+  // Lists (blocks, files) change through an updater applied to the latest state, so a
+  // change that lands late, like an upload finishing, can't overwrite edits made meanwhile.
+  const updateList = useCallback((key, fn) => {
+    setData((d) => ({ ...d, [key]: fn(d[key] || []) }));
+    setNotice(null);
+  }, []);
+
   // ---- Crash-proof backup -------------------------------------------------------------
   // Every change is mirrored to this browser within a second. If the tab crashes, the
   // laptop dies, or someone closes the window, reopening the issue offers it back.
   useEffect(() => {
-    if (restore) return undefined; // don't clobber the backup before they've decided
     const key = backupKey(base && base.path);
+    // While a restore offer is open, the offered backup must survive, but edits made meanwhile
+    // need protecting too: they used to go unbacked-up until the offer was answered. Park the
+    // offered backup under a second key first; readBackup falls back to it.
+    if (restore && dirty && !window.localStorage.getItem(`${key}${PREVIOUS}`)) {
+      const offered = window.localStorage.getItem(key);
+      if (offered) window.localStorage.setItem(`${key}${PREVIOUS}`, offered);
+    }
+    if (restore && !dirty) return undefined;
     if (!dirty) {
       window.localStorage.removeItem(key);
       return undefined;
@@ -164,8 +198,23 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
       const v = validate(nextData);
       setErrors(v);
       if (Object.keys(v).length) {
-        setNotice({ tone: 'error', text: 'A couple of things need filling in first.' });
-        document.querySelector('.cmp-field.has-error')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const names = { subject: 'a subject', sendDate: 'an issue date' };
+        const missing = Object.keys(v).map((k) => names[k] || k);
+        setNotice({ tone: 'error', text: `Add ${missing.join(' and ')} to save.` });
+        // Move focus to the first problem, not just the scroll position: keyboard and
+        // screen-reader users otherwise stay on the Save button with no idea where to go.
+        // A timer, not requestAnimationFrame: rAF could run before React had applied the error
+        // state (so there was nothing to focus yet), and doesn't run at all in a background tab.
+        const focusFirstError = (retry) => {
+          const el = document.querySelector('.cmp-field.has-error input, .cmp-field.has-error textarea');
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            el.focus({ preventScroll: true });
+          } else if (retry) {
+            setTimeout(() => focusFirstError(false), 100);
+          }
+        };
+        setTimeout(() => focusFirstError(true), 0);
         return false;
       }
       setSaving(true);
@@ -178,6 +227,11 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
         // was left holding an unsaved 'send-now-confirmed', with no cancel button shown for
         // that state, and the next ordinary Save or Cmd+S emailed the whole list.
         let toWrite = normalizeData(sendStatus ? { ...nextData, status: sendStatus } : nextData);
+        if (sendStatus) {
+          // A fresh attempt: the previous attempt's error no longer describes this one.
+          delete toWrite.lastError;
+          delete toWrite.lastErrorAt;
+        }
         let cleanAgainst = baseline ? baseline.data : {};
         let serverStatus = baseline ? baseline.data.status : undefined;
         let mergedKeys = [];
@@ -221,13 +275,16 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
         const parsed = parseIssue(raw);
         const nextBase = { path, slug, raw, data: parsed.data, body: bodyToWrite };
 
-        window.localStorage.removeItem(backupKey(baseline && baseline.path));
-        window.localStorage.removeItem(backupKey(path));
+        clearBackups(baseline && baseline.path);
+        clearBackups(path);
+        // An unanswered restore offer is moot once they've saved: its backup is gone, and
+        // restoring it now would lay older content over what they just saved.
+        setRestore(null);
         setBase(nextBase);
         // If they kept typing while the save was in flight, keep their newer text; only
         // fold in what the save itself changed (the status it set, bot bookkeeping).
         setData((current) => {
-          if (current === snapshot) return normalizeData(parsed.data);
+          if (current === snapshot) return normalizeData(keepUnchangedRefs(current, parsed.data));
           const carried = { ...current };
           ['status', ...mergedKeys].forEach((k) => {
             if (parsed.data[k] === undefined) delete carried[k];
@@ -280,13 +337,13 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
     return persist(latest.current, { successText: text, status });
   };
 
-  const refresh = async () => {
+  const refresh = async ({ silent = false } = {}) => {
     if (!base) return;
-    setSaving(true);
+    if (!silent) setSaving(true);
     try {
       const remote = await loadIssue(backend, base.path);
       if (remote.raw === base.raw) {
-        setNotice({ tone: 'info', text: 'No news yet. Give it another minute.' });
+        if (!silent) setNotice({ tone: 'info', text: 'No news yet. Give it another minute.' });
         return;
       }
       if (!dirty) {
@@ -304,11 +361,29 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
       setData(normalizeData(m.data));
       setNotice({ tone: 'ok', text: 'Updated.' });
     } catch (e) {
-      setNotice({ tone: 'error', text: `Couldn’t check: ${e.message || e}` });
+      if (!silent) setNotice({ tone: 'error', text: `Couldn’t check: ${e.message || e}` });
     } finally {
-      setSaving(false);
+      if (!silent) setSaving(false);
     }
   };
+
+  // While something is queued, check for the result by itself instead of relying on people
+  // to keep pressing "Check again". Quiet: no "no news yet" or transient-error messages.
+  const [queuedAt, setQueuedAt] = useState(null);
+  const refreshRef = useRef(refresh);
+  refreshRef.current = refresh;
+  const currentStatus = data.status || 'draft';
+  useEffect(() => {
+    if (!ARMED.has(currentStatus)) {
+      setQueuedAt(null);
+      return undefined;
+    }
+    setQueuedAt((t) => t || Date.now());
+    const id = setInterval(() => {
+      if (!document.hidden) refreshRef.current({ silent: true });
+    }, 45000);
+    return () => clearInterval(id);
+  }, [currentStatus]);
 
   // Settle only the colliding fields; everyone's other edits stay. Choosing "theirs" loads
   // the combined result without saving, so it can be looked over first; "mine" saves.
@@ -333,6 +408,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
   // edit saved by someone else in the meantime survives the restore.
   const restoreBackup = () => {
     const saved = normalizeData(restore.data);
+    window.localStorage.removeItem(`${backupKey(base && base.path)}${PREVIOUS}`);
     setRestore(null);
     if (!restore.stale || !restore.baseRaw || !base) {
       setData(saved);
@@ -367,7 +443,13 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
   return (
     <div className="cmp-editor">
       <div className="cmp-editor-head">
-        <button type="button" className="cmp-back" onClick={onBack}>← All issues</button>
+        <div className="cmp-head-row">
+          <button type="button" className="cmp-back" onClick={onBack}>← All issues</button>
+          {/* On narrow screens the preview sits below the entire form; this is the way to it. */}
+          <a className="cmp-jump" href="#cmp-preview" onClick={(e) => { e.preventDefault(); document.getElementById('cmp-preview')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}>
+            See preview ↓
+          </a>
+        </div>
         <div className="cmp-editor-title">
           <h1>{data.subject || (base ? 'Untitled issue' : 'New issue')}</h1>
           <span className={`cmp-pill is-${status}`}>{STATUS_LABEL[status] || status}</span>
@@ -384,7 +466,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
           </div>
           <div className="cmp-row">
             <button type="button" className="cmp-btn cmp-btn-primary" onClick={restoreBackup}>Restore my changes</button>
-            <button type="button" className="cmp-btn cmp-btn-link" onClick={() => { window.localStorage.removeItem(backupKey(base && base.path)); setRestore(null); }}>Discard them</button>
+            <button type="button" className="cmp-btn cmp-btn-link" onClick={() => { window.localStorage.removeItem(`${backupKey(base && base.path)}${PREVIOUS}`); if (!dirty) window.localStorage.removeItem(backupKey(base && base.path)); setRestore(null); }}>Discard them</button>
           </div>
         </div>
       )}
@@ -413,7 +495,7 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
             <h2><span>1</span> Write it</h2>
             <TextField label="Subject" hint="What people see in their inbox." value={data.subject} error={errors.subject} onChange={(v) => update({ subject: v })} maxLength={150} />
             <TextField label="Preview text" optional hint="The short line shown next to the subject in most inboxes." value={data.preheader} onChange={(v) => update({ preheader: v })} maxLength={200} />
-            <DateTimeField label="Send date" hint="The date shown on the issue and in the archive." value={data.sendDate} error={errors.sendDate} onChange={(v) => update({ sendDate: v })} />
+            <DateTimeField label="Issue date" hint="Shown on the issue and in the archive. It doesn’t schedule anything: sending happens in step 4." value={data.sendDate} error={errors.sendDate} onChange={(v) => update({ sendDate: v })} />
             <UploadField label="Banner image" optional hint="Appears across the top of the email." value={data.heroImage} onChange={(v) => update({ heroImage: v })} onUpload={onUpload} localUrls={localUrls} />
             <MarkdownField label="Opening note" optional hint="A note from the team at the top." value={data.intro} onChange={(v) => update({ intro: v })} rows={6} />
           </section>
@@ -429,13 +511,13 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
               <TextField label="Line above the news" optional value={data.newsIntro} onChange={(v) => update({ newsIntro: v })} />
             )}
             <div className="cmp-subhead">Extra blocks</div>
-            <BlocksEditor blocks={data.customBlocks || []} onChange={(v) => update({ customBlocks: v })} onUpload={onUpload} localUrls={localUrls} />
+            <BlocksEditor blocks={data.customBlocks || []} onChange={(fn) => updateList('customBlocks', fn)} onUpload={onUpload} localUrls={localUrls} />
           </section>
 
           <section className="cmp-card">
             <h2><span>3</span> Files and sign-off</h2>
             <div className="cmp-subhead">Linked files</div>
-            <AttachmentsEditor items={data.attachments || []} onChange={(v) => update({ attachments: v })} onUpload={onUpload} localUrls={localUrls} />
+            <AttachmentsEditor items={data.attachments || []} onChange={(fn) => updateList('attachments', fn)} onUpload={onUpload} localUrls={localUrls} />
             <MarkdownField label="Closing note" optional value={data.closing} onChange={(v) => update({ closing: v })} rows={3} />
           </section>
 
@@ -444,16 +526,17 @@ export default function IssueEditor({ backend, issue, existingSlugs, onSaved, on
             <SendSteps
               data={data}
               testState={testState}
+              queuedAt={queuedAt}
               update={update}
               onSend={onSend}
-              onRefresh={refresh}
+              onRefresh={() => refresh()}
               busy={saving}
               blocked={Boolean(conflict) || locked}
             />
           </section>
         </div>
 
-        <aside className="cmp-side">
+        <aside className="cmp-side" id="cmp-preview">
           <EmailPreview data={data} localUrls={localUrls} />
         </aside>
       </div>

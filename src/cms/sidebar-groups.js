@@ -112,12 +112,24 @@ export function installSidebarGroups() {
     if (collapsed.has(label)) collapsed.delete(label);
     else collapsed.add(label);
     saveCollapsed(collapsed);
+    lastSignature = '';
     apply();
   };
+
+  // What the sidebar looked like when the headings were last built. apply() runs on every
+  // change anywhere in the page; unless the sidebar itself changed, it now does nothing,
+  // instead of tearing down and rebuilding every heading (which could also swallow a click on
+  // a heading if a rebuild landed between mousedown and mouseup).
+  let lastSignature = '';
+  const signatureOf = (list) =>
+    [...list.children]
+      .map((li) => (li.hasAttribute('data-cms-group') ? `h:${li.getAttribute('data-cms-group')}` : `${collectionOf(li)}${li.querySelector('.sidebar-active') ? '*' : ''}`))
+      .join('|') + `#${[...collapsed].sort().join(',')}`;
 
   function apply() {
     const list = document.querySelector(LIST_SELECTOR);
     if (!list) return;
+    if (list.querySelector('[data-cms-group]') && signatureOf(list) === lastSignature) return;
 
     // Pause observation: everything below mutates the very tree being watched, which
     // would otherwise re-enter apply() on every insertion.
@@ -147,6 +159,7 @@ export function installSidebarGroups() {
           li.style.display = isCollapsed && !active ? 'none' : '';
         });
       });
+      lastSignature = signatureOf(list);
     } finally {
       if (observer) observer.observe(document.body, { childList: true, subtree: true });
     }

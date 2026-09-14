@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 // Test → hand to Resend → (or) send to everyone.
 //
@@ -30,7 +30,17 @@ function Step({ n, title, state, children }) {
   );
 }
 
-export default function SendSteps({ data, testState = 'none', update, onSend, onRefresh, busy, blocked }) {
+const SLOW_AFTER_MS = 5 * 60 * 1000;
+
+export default function SendSteps({ data, testState = 'none', queuedAt, update, onSend, onRefresh, busy, blocked }) {
+  // Re-render every 30s while queued, so "taking longer than usual" appears on its own.
+  const [, tick] = useState(0);
+  useEffect(() => {
+    if (!queuedAt) return undefined;
+    const id = setInterval(() => tick((n) => n + 1), 30000);
+    return () => clearInterval(id);
+  }, [queuedAt]);
+  const slow = queuedAt && Date.now() - queuedAt > SLOW_AFTER_MS;
   const status = data.status || 'draft';
   const testEmail = (data.testEmail || '').trim();
   // Unlocked only by a test of the content as it is NOW. A test of an earlier version (or one
@@ -42,6 +52,16 @@ export default function SendSteps({ data, testState = 'none', update, onSend, on
   const [typed, setTyped] = useState('');
   const canTest = EMAIL_RE.test(testEmail);
   const disabled = busy || blocked;
+
+  // Set by the send script when a test or send failed or was refused. Status is already back
+  // at draft by then, so this is what tells the person why nothing arrived.
+  const problem = data.lastError ? (
+    <div className="cmp-callout is-danger" role="alert">
+      <h3>The last attempt didn’t go through</h3>
+      <p>{data.lastError}{data.lastErrorAt ? ` (${when(data.lastErrorAt)})` : ''}</p>
+      <p className="cmp-step-text" style={{ marginTop: 6 }}>Fix what it says, then try the step again. Nothing was sent.</p>
+    </div>
+  ) : null;
 
   if (status === 'sent') {
     return (
@@ -56,7 +76,7 @@ export default function SendSteps({ data, testState = 'none', update, onSend, on
     'send-test': {
       tone: 'info',
       title: 'Your test is on its way',
-      body: <>A copy is going to <strong>{testEmail || 'the test address'}</strong>. It usually arrives within two minutes. When it has, check again here to unlock the next step.</>,
+      body: <>A copy is going to <strong>{testEmail || 'the test address'}</strong>. It usually arrives within two minutes, and this page updates on its own when it has.</>,
     },
     'ready-to-send': {
       tone: 'info',
@@ -85,6 +105,15 @@ export default function SendSteps({ data, testState = 'none', update, onSend, on
       <div className={`cmp-callout is-${queued.tone}`}>
         <h3>{queued.title}</h3>
         <p>{queued.body}</p>
+        {slow && status !== 'in-resend' && (
+          <p className="cmp-note is-warn" style={{ marginTop: 10 }}>
+            This is taking longer than usual. The site checks automatically, but if nothing changes
+            soon, ask an admin to look at the newsletter job in GitHub Actions.
+          </p>
+        )}
+        {status !== 'in-resend' && !slow && (
+          <p className="cmp-step-text" style={{ marginTop: 8, marginBottom: 0 }}>This page checks for the result on its own.</p>
+        )}
         <div className="cmp-row">
           <button type="button" className="cmp-btn cmp-btn-quiet" onClick={onRefresh} disabled={busy}>Check again</button>
           {status === 'in-resend' && (
@@ -109,6 +138,7 @@ export default function SendSteps({ data, testState = 'none', update, onSend, on
 
   return (
     <div className="cmp-steps">
+      {problem}
       <Step n={1} title="Send yourself a test" state={tested ? 'done' : 'current'}>
         {tested && <p className="cmp-note is-ok">Last test sent {when(data.lastTestSentAt)}. Nothing has changed since.</p>}
         {outdated && (

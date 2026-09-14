@@ -8,7 +8,10 @@ import adminTheme from '../styles/decap-admin.css?raw';
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager</title>
-    <link rel="stylesheet" href="https://unpkg.com/decap-cms-app@3.16.2/dist/main.css" />
+    {/* No Decap stylesheet: Decap 3 ships no main.css (its styles come from Emotion at
+        runtime). The unpkg link that used to be here returned 404, while still pulling a
+        third-party request into the page that holds editors' sessions. */}
+    <meta name="robots" content="noindex" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />

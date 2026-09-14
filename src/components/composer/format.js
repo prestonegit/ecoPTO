@@ -29,7 +29,7 @@ export const NEWSLETTER_EXTENSION = newsletters.extension;
 // Decap orders frontmatter keys by the collection's field order. Section dividers carry no
 // data, so they're left out; anything not listed keeps its existing relative position.
 export const FIELD_ORDER = newsletters.fields
-  .filter((f) => f.widget !== 'section')
+  .filter((f) => f.widget !== 'section' && f.widget !== 'composer-link')
   .map((f) => f.name);
 
 // The closing fence must start its own line, so a value containing "---" mid-sentence

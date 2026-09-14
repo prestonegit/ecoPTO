@@ -1,6 +1,11 @@
-import React, { useId, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { toDate } from './format.js';
 import { acceptFor } from './backend.js';
+
+// The hint or error below a field is tied to its input with aria-describedby, and an error
+// sets aria-invalid, so a screen reader announces "Subject, invalid, Give the email a subject
+// before saving" instead of just "Subject". The error replaces the hint, so it's one id.
+export const describedBy = (id, hint, error) => (hint || error ? `${id}-desc` : undefined);
 
 export function Field({ label, hint, optional, error, children, htmlFor }) {
   return (
@@ -10,7 +15,11 @@ export function Field({ label, hint, optional, error, children, htmlFor }) {
         {optional && <span className="cmp-optional">optional</span>}
       </label>
       {children}
-      {error ? <p className="cmp-error">{error}</p> : hint ? <p className="cmp-hint">{hint}</p> : null}
+      {error ? (
+        <p className="cmp-error" id={`${htmlFor}-desc`}>{error}</p>
+      ) : hint ? (
+        <p className="cmp-hint" id={`${htmlFor}-desc`}>{hint}</p>
+      ) : null}
     </div>
   );
 }
@@ -26,6 +35,8 @@ export function TextField({ label, hint, optional, error, value, onChange, place
         value={value || ''}
         placeholder={placeholder}
         maxLength={maxLength}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy(id, hint, error)}
         onChange={(e) => onChange(e.target.value)}
       />
     </Field>
@@ -51,6 +62,8 @@ export function DateTimeField({ label, hint, error, value, onChange }) {
         className="cmp-input cmp-input-date"
         type="datetime-local"
         value={toLocalInput(value)}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={describedBy(id, hint, error)}
         onChange={(e) => onChange(e.target.value ? new Date(e.target.value) : null)}
       />
     </Field>
@@ -133,6 +146,8 @@ export function MarkdownField({ label, hint, optional, error, value, onChange, r
           ref={ref}
           className="cmp-textarea"
           rows={rows}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={describedBy(id, hint, error)}
           value={value || ''}
           onChange={(e) => onChange(e.target.value)}
         />
@@ -190,59 +205,123 @@ const BLOCK_TYPES = {
   button: { label: 'Button', blurb: 'A call to action that links somewhere.' },
 };
 
+// Shared by the block and file lists.
+//
+// Two bugs shaped this. An upload finishing used to write back the list as it was when the
+// upload STARTED, so anything edited, removed or reordered meanwhile was undone, or the image
+// landed on whichever block now sat at that position. So every change is an updater applied
+// to the latest list (onChange receives a function, not an array), and items are tracked by
+// identity rather than index. And Remove deleted a block with no way back, so it now offers Undo.
+function useListIdentity() {
+  const ids = useRef(new WeakMap());
+  const next = useRef(0);
+  const idOf = (item) => {
+    if (!ids.current.has(item)) ids.current.set(item, `item-${(next.current += 1)}`);
+    return ids.current.get(item);
+  };
+  // Carry an item's id over to its replacement when a field changes.
+  const replaced = (oldItem, newItem) => {
+    ids.current.set(newItem, idOf(oldItem));
+    return newItem;
+  };
+  return { idOf, replaced };
+}
+
+function useUndoableRemove(onChange, idOf) {
+  const [removed, setRemoved] = useState(null); // { item, index, label }
+  const timer = useRef(null);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  const remove = (item, label) => {
+    let index = -1;
+    onChange((list) => {
+      index = list.findIndex((x) => idOf(x) === idOf(item));
+      return index === -1 ? list : list.filter((x) => idOf(x) !== idOf(item));
+    });
+    clearTimeout(timer.current);
+    setRemoved({ item, get index() { return index; }, label });
+    timer.current = setTimeout(() => setRemoved(null), 10000);
+  };
+  const undo = () => {
+    if (!removed) return;
+    const { item, index } = removed;
+    onChange((list) => {
+      const at = Math.min(Math.max(index, 0), list.length);
+      return [...list.slice(0, at), item, ...list.slice(at)];
+    });
+    clearTimeout(timer.current);
+    setRemoved(null);
+  };
+  const banner = removed ? (
+    <div className="cmp-undo" role="status">
+      <span>{removed.label} removed.</span>
+      <button type="button" className="cmp-btn cmp-btn-link" onClick={undo}>Undo</button>
+    </div>
+  ) : null;
+  return { remove, banner };
+}
+
 export function BlocksEditor({ blocks = [], onChange, onUpload, localUrls }) {
   const [adding, setAdding] = useState(false);
-  const update = (i, patch) => onChange(blocks.map((b, j) => (j === i ? { ...b, ...patch } : b)));
-  const remove = (i) => onChange(blocks.filter((_, j) => j !== i));
-  const move = (i, dir) => {
-    const j = i + dir;
-    if (j < 0 || j >= blocks.length) return;
-    const next = [...blocks];
-    [next[i], next[j]] = [next[j], next[i]];
-    onChange(next);
-  };
+  const { idOf, replaced } = useListIdentity();
+  const updateById = (id, patch) =>
+    onChange((list) => list.map((b) => (idOf(b) === id ? replaced(b, { ...b, ...patch }) : b)));
+  const { remove, banner } = useUndoableRemove(onChange, idOf);
+  const move = (id, dir) =>
+    onChange((list) => {
+      const i = list.findIndex((b) => idOf(b) === id);
+      const j = i + dir;
+      if (i === -1 || j < 0 || j >= list.length) return list;
+      const next = [...list];
+      [next[i], next[j]] = [next[j], next[i]];
+      return next;
+    });
   const add = (type) => {
-    onChange([...blocks, { type }]);
+    onChange((list) => [...list, { type }]);
     setAdding(false);
   };
 
   return (
     <div className="cmp-blocks">
-      {blocks.length === 0 && <p className="cmp-empty">No extra blocks. Add one for a callout, story, photo, or button.</p>}
-      {blocks.map((b, i) => (
-        <div className="cmp-block" key={i}>
-          <div className="cmp-block-head">
-            <span className="cmp-block-type">{(BLOCK_TYPES[b.type] || { label: b.type }).label}</span>
-            <div className="cmp-block-tools">
-              <button type="button" onClick={() => move(i, -1)} disabled={i === 0} aria-label="Move up">↑</button>
-              <button type="button" onClick={() => move(i, 1)} disabled={i === blocks.length - 1} aria-label="Move down">↓</button>
-              <button type="button" onClick={() => remove(i)} className="danger">Remove</button>
+      {blocks.length === 0 && !banner && <p className="cmp-empty">No extra blocks. Add one for a callout, story, photo, or button.</p>}
+      {blocks.map((b, i) => {
+        const id = idOf(b);
+        const typeLabel = (BLOCK_TYPES[b.type] || { label: b.type }).label;
+        const name = `${typeLabel}${b.title ? ` “${b.title}”` : ` ${i + 1}`}`;
+        return (
+          <div className="cmp-block" key={id}>
+            <div className="cmp-block-head">
+              <span className="cmp-block-type">{typeLabel}</span>
+              <div className="cmp-block-tools">
+                <button type="button" onClick={() => move(id, -1)} disabled={i === 0} aria-label={`Move ${name} up`}>↑</button>
+                <button type="button" onClick={() => move(id, 1)} disabled={i === blocks.length - 1} aria-label={`Move ${name} down`}>↓</button>
+                <button type="button" onClick={() => remove(b, name)} className="danger" aria-label={`Remove ${name}`}>Remove</button>
+              </div>
             </div>
+            {b.type !== 'image' && <TextField label="Title" value={b.title} onChange={(v) => updateById(id, { title: v })} />}
+            {(b.type === 'story' || b.type === 'image') && (
+              <UploadField
+                label="Image"
+                optional={b.type === 'story'}
+                value={b.image}
+                onChange={(v) => updateById(id, { image: v })}
+                onUpload={onUpload}
+                localUrls={localUrls}
+              />
+            )}
+            {(b.type === 'callout' || b.type === 'story') && (
+              <MarkdownField label="Text" value={b.body} onChange={(v) => updateById(id, { body: v })} rows={3} />
+            )}
+            {b.type === 'button' && (
+              <>
+                <TextField label="Text above the button" optional value={b.body} onChange={(v) => updateById(id, { body: v })} />
+                <TextField label="Button label" value={b.buttonText} onChange={(v) => updateById(id, { buttonText: v })} placeholder="Sign up to help" />
+                <TextField label="Button links to" value={b.buttonUrl} onChange={(v) => updateById(id, { buttonUrl: v })} placeholder="https://" type="url" />
+              </>
+            )}
           </div>
-          {b.type !== 'image' && <TextField label="Title" value={b.title} onChange={(v) => update(i, { title: v })} />}
-          {(b.type === 'story' || b.type === 'image') && (
-            <UploadField
-              label="Image"
-              optional={b.type === 'story'}
-              value={b.image}
-              onChange={(v) => update(i, { image: v })}
-              onUpload={onUpload}
-              localUrls={localUrls}
-              
-            />
-          )}
-          {(b.type === 'callout' || b.type === 'story') && (
-            <MarkdownField label="Text" value={b.body} onChange={(v) => update(i, { body: v })} rows={3} />
-          )}
-          {b.type === 'button' && (
-            <>
-              <TextField label="Text above the button" optional value={b.body} onChange={(v) => update(i, { body: v })} />
-              <TextField label="Button label" value={b.buttonText} onChange={(v) => update(i, { buttonText: v })} placeholder="Sign up to help" />
-              <TextField label="Button links to" value={b.buttonUrl} onChange={(v) => update(i, { buttonUrl: v })} placeholder="https://" type="url" />
-            </>
-          )}
-        </div>
-      ))}
+        );
+      })}
+      {banner}
       {adding ? (
         <div className="cmp-add-menu">
           {Object.entries(BLOCK_TYPES).map(([type, t]) => (
@@ -261,23 +340,31 @@ export function BlocksEditor({ blocks = [], onChange, onUpload, localUrls }) {
 }
 
 export function AttachmentsEditor({ items = [], onChange, onUpload, localUrls }) {
-  const update = (i, patch) => onChange(items.map((a, j) => (j === i ? { ...a, ...patch } : a)));
+  const { idOf, replaced } = useListIdentity();
+  const updateById = (id, patch) =>
+    onChange((list) => list.map((a) => (idOf(a) === id ? replaced(a, { ...a, ...patch }) : a)));
+  const { remove, banner } = useUndoableRemove(onChange, idOf);
   return (
     <div className="cmp-blocks">
-      {items.length === 0 && <p className="cmp-empty">No files linked. PDFs and flyers are hosted on the site and linked from the email.</p>}
-      {items.map((a, i) => (
-        <div className="cmp-block" key={i}>
-          <div className="cmp-block-head">
-            <span className="cmp-block-type">File {i + 1}</span>
-            <div className="cmp-block-tools">
-              <button type="button" className="danger" onClick={() => onChange(items.filter((_, j) => j !== i))}>Remove</button>
+      {items.length === 0 && !banner && <p className="cmp-empty">No files linked. PDFs and flyers are hosted on the site and linked from the email.</p>}
+      {items.map((a, i) => {
+        const id = idOf(a);
+        const name = a.label ? `File “${a.label}”` : `File ${i + 1}`;
+        return (
+          <div className="cmp-block" key={id}>
+            <div className="cmp-block-head">
+              <span className="cmp-block-type">File {i + 1}</span>
+              <div className="cmp-block-tools">
+                <button type="button" className="danger" onClick={() => remove(a, name)} aria-label={`Remove ${name}`}>Remove</button>
+              </div>
             </div>
+            <TextField label="Shown in the email as" value={a.label} onChange={(v) => updateById(id, { label: v })} placeholder="March meeting minutes" />
+            <UploadField label="File" value={a.file} onChange={(v) => updateById(id, { file: v })} onUpload={onUpload} localUrls={localUrls} kind="file" />
           </div>
-          <TextField label="Shown in the email as" value={a.label} onChange={(v) => update(i, { label: v })} placeholder="March meeting minutes" />
-          <UploadField label="File" value={a.file} onChange={(v) => update(i, { file: v })} onUpload={onUpload} localUrls={localUrls} kind="file" />
-        </div>
-      ))}
-      <button type="button" className="cmp-btn cmp-btn-quiet" onClick={() => onChange([...items, { label: '', file: '' }])}>+ Add a file</button>
+        );
+      })}
+      {banner}
+      <button type="button" className="cmp-btn cmp-btn-quiet" onClick={() => onChange((list) => [...list, { label: '', file: '' }])}>+ Add a file</button>
     </div>
   );
 }

@@ -19,6 +19,7 @@
 // demand a fresh test of an unchanged issue.
 const IGNORED = new Set([
   'status', 'confirmSend', 'lastTestSentAt', 'lastTestHash', 'resendBroadcastId', 'testEmail',
+  'lastError', 'lastErrorAt',
 ]);
 
 const DATE_ONLY = /^\d{4}-\d{2}-\d{2}$/;

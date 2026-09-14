@@ -144,6 +144,8 @@ async function setStatus(filePath, status, extraLines = {}) {
   const setKey = (text, key, value) => {
     // Top-level keys only — a leading space means it's nested under customBlocks etc.
     const re = new RegExp(`^${key}:.*$`, 'm');
+    // null removes the key entirely (used to clear a previous error once a send succeeds).
+    if (value === null) return text.replace(new RegExp(`^${key}:.*(\\r?\\n)?`, 'm'), '');
     return re.test(text) ? text.replace(re, () => `${key}: ${value}`) : `${text}\n${key}: ${value}`;
   };
 
@@ -177,6 +179,40 @@ async function checkFiles(data) {
   return missing;
 }
 
+// An issue this script gives up on used to just be logged to the Actions run, which no
+// volunteer reads. The file stayed at "send-test" / "ready-to-send" / "send-now-confirmed",
+// so the composer said "on its way" indefinitely, and a queued send to everyone stayed
+// armed. Now every refusal or failure goes back into the issue itself: status returns to
+// draft (nothing left queued), and lastError says what happened in plain words, which the
+// composer and the Decap widget show. The run still fails, so it's visible in Actions too.
+let failures = 0;
+async function fail(filePath, message) {
+  failures++;
+  console.error(`  ${path.basename(filePath)}: ${message}`);
+  try {
+    // JSON.stringify gives a double-quoted string, which is always valid YAML — the message
+    // can contain colons, quotes, or anything else a Resend error says.
+    await setStatus(filePath, 'draft', {
+      lastError: JSON.stringify(String(message).slice(0, 500)),
+      lastErrorAt: new Date().toISOString(),
+    });
+  } catch (e) {
+    console.error(`  ${path.basename(filePath)}: also couldn't record the error in the file: ${e.message}`);
+  }
+}
+const CLEAR_ERROR = { lastError: null, lastErrorAt: null };
+
+// Optional allowlist for test recipients, set as the NEWSLETTER_TEST_RECIPIENTS repository
+// variable: comma-separated full addresses and/or @domains. Without it, a test can go to any
+// address, which lets anyone with CMS access send mail from the org's domain to strangers.
+const TEST_RECIPIENTS = (process.env.NEWSLETTER_TEST_RECIPIENTS || '')
+  .split(',').map((x) => x.trim().toLowerCase()).filter(Boolean);
+function testRecipientAllowed(address) {
+  if (TEST_RECIPIENTS.length === 0) return true;
+  const a = address.toLowerCase();
+  return TEST_RECIPIENTS.some((rule) => (rule.startsWith('@') ? a.endsWith(rule) : a === rule));
+}
+
 async function main() {
   const issues = await findIssues();
   if (issues.length === 0) {
@@ -197,7 +233,9 @@ async function main() {
 
   const resend = !dryRun ? new Resend(apiKey) : null;
 
-  let failures = 0;
+  if (TEST_RECIPIENTS.length === 0) {
+    console.warn('NEWSLETTER_TEST_RECIPIENTS is not set: test emails may go to any address.');
+  }
   for (const filePath of issues) {
    try {
     const raw = await fs.readFile(filePath, 'utf8');
@@ -237,7 +275,11 @@ async function main() {
     if (data.status === 'send-test') {
       const to = (data.testEmail || '').trim();
       if (!to) {
-        console.error(`  ${label}: status is 'send-test' but no testEmail is set. Skipping.`);
+        await fail(filePath, 'The test wasn’t sent because no test address was set.');
+        continue;
+      }
+      if (!testRecipientAllowed(to)) {
+        await fail(filePath, `The test wasn’t sent: ${to} isn’t on the list of allowed test recipients. Use your own address, or ask an admin to add it.`);
         continue;
       }
       // One-off sends don't get Resend's unsubscribe substitution, so point the link
@@ -247,13 +289,13 @@ async function main() {
       const testText = await render(React.createElement(Newsletter, testProps), { plainText: true });
       console.log(`Sending TEST of "${data.subject}" to ${to}...`);
       const res = await resend.emails.send({ from, to: [to], subject: `[TEST] ${data.subject}`, html: testHtml, text: testText });
-      if (res.error) { console.error(`  Failed: ${res.error.message}`); continue; }
+      if (res.error) { await fail(filePath, `The test didn’t send. Resend said: ${res.error.message}`); continue; }
       // Reset to draft: leaving it on 'send-test' re-fires on every later push. The timestamp
       // records a test Resend actually accepted, not merely one that was asked for; the hash
       // records WHICH content that test was of. Together they unlock the later send steps,
       // and only for as long as the issue still hashes the same.
       const lastTestHash = await contentFingerprint(slug, data);
-      await setStatus(filePath, 'draft', { lastTestSentAt: new Date().toISOString(), lastTestHash });
+      await setStatus(filePath, 'draft', { lastTestSentAt: new Date().toISOString(), lastTestHash, ...CLEAR_ERROR });
       console.log(`  Test sent, status reset to draft. Edit and re-test, or hand it to Resend / send to everyone when ready.`);
       continue;
     }
@@ -265,21 +307,18 @@ async function main() {
       // frontmatter, commit from a branch, or duplicate a tested issue in Decap (Duplicate
       // copies hidden fields too). So enforce test-first here, against the content itself.
       if (!data.lastTestSentAt || !data.lastTestHash) {
-        console.error(`  ${label}: no test has been sent for this issue. Refusing to email the whole list.`);
-        console.error(`  Send yourself a test from the newsletter composer, check your inbox, then send.`);
+        await fail(filePath, 'Not sent to the list: this issue hasn’t had a test yet. Send yourself a test, check it, then send.');
         continue;
       }
       const currentHash = await contentFingerprint(slug, data);
       if (currentHash !== data.lastTestHash) {
-        console.error(`  ${label}: the issue has changed since its last test. Refusing to email the whole list.`);
-        console.error(`  Send a fresh test of this version, check it, then send.`);
+        await fail(filePath, 'Not sent to the list: the issue changed after its last test. Send a fresh test of this version, check it, then send.');
         continue;
       }
     }
 
     if (!hasPostalAddress()) {
-      console.error(`  ${label}: ORG.postalAddress is not set in src/config/org.js.`);
-      console.error(`  CAN-SPAM requires a physical postal address in bulk email. Refusing to send.`);
+      await fail(filePath, 'Not sent: the organization’s postal address isn’t set, and the law requires one in bulk email. Ask an admin to add it (src/config/org.js).');
       continue;
     }
 
@@ -289,7 +328,7 @@ async function main() {
       console.error(`  ${label}: Resend already has a broadcast "${existing.name}" with status '${existing.status}'.`);
       console.error(`  This issue has already gone out (broadcast ${existing.id}). Refusing to send it again.`);
       // Repair whatever git state let us get here, so the next run is quiet.
-      await setStatus(filePath, 'sent', { resendBroadcastId: existing.id });
+      await setStatus(filePath, 'sent', { resendBroadcastId: existing.id, ...CLEAR_ERROR });
       continue;
     }
 
@@ -305,8 +344,7 @@ async function main() {
       // 'send-now-confirmed' carries its own confirmation: the CMS control only writes it
       // after the editor types SEND. Bare 'send-now' predates that and still needs the box.
       if (data.status === 'send-now' && data.confirmSend !== true) {
-        console.error(`  ${label}: status is 'SEND NOW' but the confirmation box is not checked. Refusing to send.`);
-        console.error(`  Check "I confirm: SEND NOW will email ALL subscribers" in the editor, then re-run.`);
+        await fail(filePath, 'Not sent to the list: the send wasn’t confirmed. Use “Send to everyone” and type SEND to confirm.');
         continue;
       }
       console.log(`SENDING "${data.subject}" to ALL subscribers in audience ${audienceId}...`);
@@ -316,20 +354,20 @@ async function main() {
         // A draft from an earlier 'ready-to-send' pass — send that one rather than
         // creating a near-duplicate second broadcast.
         const upd = await resend.broadcasts.update(existing.id, commonFields);
-        if (upd.error) { console.error(`  Update failed: ${upd.error.message}`); continue; }
+        if (upd.error) { await fail(filePath, `Not sent: couldn’t update the draft in Resend. Resend said: ${upd.error.message}`); continue; }
         const sent = await resend.broadcasts.send(existing.id);
-        if (sent.error) { console.error(`  Send failed: ${sent.error.message}`); continue; }
+        if (sent.error) { await fail(filePath, `Not sent. Resend said: ${sent.error.message}`); continue; }
         broadcastId = existing.id;
       } else {
         // Atomic create-and-send: two separate calls leave a window where the send
         // succeeded but we didn't hear about it, and the retry blasts everyone twice.
         const created = await resend.broadcasts.create({ ...commonFields, send: true }, { idempotencyKey });
-        if (created.error) { console.error(`  Send failed: ${created.error.message}`); continue; }
+        if (created.error) { await fail(filePath, `Not sent. Resend said: ${created.error.message}`); continue; }
         broadcastId = created.data.id;
       }
 
       await writeSnapshot(slug, { slug, data, broadcastId, sentAt: new Date().toISOString(), events, news });
-      await setStatus(filePath, 'sent', { resendBroadcastId: broadcastId });
+      await setStatus(filePath, 'sent', { resendBroadcastId: broadcastId, ...CLEAR_ERROR });
       console.log(`  Sent (broadcast id: ${broadcastId}) and marked ${label} as sent.`);
       continue;
     }
@@ -341,24 +379,26 @@ async function main() {
       // leaving two near-identical drafts in the dashboard for someone to send twice.
       console.log(`Updating existing Resend draft for ${slug}`);
       const upd = await resend.broadcasts.update(existing.id, commonFields);
-      if (upd.error) { console.error(`  Update failed: ${upd.error.message}`); continue; }
+      if (upd.error) { await fail(filePath, `The Resend draft wasn’t updated. Resend said: ${upd.error.message}`); continue; }
       draftId = existing.id;
     } else {
       console.log(`Creating draft in Resend: ${data.subject}`);
       const result = await resend.broadcasts.create(commonFields, { idempotencyKey });
-      if (result.error) { console.error(`  Failed: ${result.error.message}`); continue; }
+      if (result.error) { await fail(filePath, `The Resend draft wasn’t created. Resend said: ${result.error.message}`); continue; }
       draftId = result.data.id;
     }
 
     await writeSnapshot(slug, { slug, data, broadcastId: draftId, preparedAt: new Date().toISOString(), events, news });
     // 'in-resend', not 'sent': nothing has actually gone out yet, and marking it sent
     // would publish it to the public archive before a single subscriber sees it.
-    await setStatus(filePath, 'in-resend', { resendBroadcastId: draftId });
+    await setStatus(filePath, 'in-resend', { resendBroadcastId: draftId, ...CLEAR_ERROR });
     console.log(`  Draft ready (id: ${draftId}). Open Resend to preview & press Send.`);
     console.log(`  Marked ${label} as 'in-resend'. Set it to 'Sent' once you've pressed Send in Resend.`);
    } catch (err) {
-    failures++;
-    console.error(`  ${path.basename(filePath)}: ${err.message}`);
+    // Unexpected errors (Resend unreachable, a render error) also go back into the issue. If
+    // this happened after a send actually went out, the next run's Resend check sees the sent
+    // broadcast and marks the issue sent, so resetting to draft here can't cause a re-send.
+    await fail(filePath, `Something went wrong and nothing was sent: ${err.message}`);
    }
   }
 

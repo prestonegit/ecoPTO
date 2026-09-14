@@ -57,3 +57,24 @@
     X-Content-Type-Options = "nosniff"
     Content-Security-Policy = "default-src 'none'; sandbox"
     Content-Disposition = "attachment"
+
+# The admin pages hold an editor's Netlify Identity session. Don't let other sites frame them
+# (clickjacking a Save or Send button), don't leak admin URLs in the Referer header, and don't
+# let the browser guess content types. A full script CSP isn't practical here: Decap compiles
+# its config schema with new Function() and styles itself with injected <style> tags, so it
+# would need 'unsafe-eval' and 'unsafe-inline', which would protect almost nothing.
+[[headers]]
+  for = "/admin"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    Content-Security-Policy = "frame-ancestors 'none'"
+    Referrer-Policy = "same-origin"
+    X-Content-Type-Options = "nosniff"
+
+[[headers]]
+  for = "/admin/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    Content-Security-Policy = "frame-ancestors 'none'"
+    Referrer-Policy = "same-origin"
+    X-Content-Type-Options = "nosniff"

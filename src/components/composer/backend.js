@@ -5,6 +5,7 @@ import {
   NEWSLETTER_FOLDER,
   NEWSLETTER_EXTENSION,
   parseIssue,
+  toDate,
 } from './format.js';
 
 // Storage for the composer: the SAME backend classes Decap uses, not a hand-rolled GitHub
@@ -109,7 +110,9 @@ export async function listIssues(backend) {
         return { path: e.file.path, slug: slugOf(e.file.path), raw: e.data, data: {}, body: '', error: err.message };
       }
     })
-    .sort((a, b) => String(b.data.sendDate || '').localeCompare(String(a.data.sendDate || '')));
+    // Newest first, by actual time. Comparing String(sendDate) sorted by weekday name
+    // ("Wed Sep 23…" vs "Mon Oct 5…"), and date-only strings didn't compare with Dates at all.
+    .sort((a, b) => (toDate(b.data.sendDate)?.getTime() ?? 0) - (toDate(a.data.sendDate)?.getTime() ?? 0));
 }
 
 export class IssueUnavailableError extends Error {}
