@@ -89,48 +89,41 @@ import Layout from '../layouts/Layout.astro';
           </aside>
 
           <!-- Embedded Bottom HUD on Photo -->
-          <div class="absolute bottom-2.5 inset-x-2.5 sm:bottom-3.5 sm:inset-x-4 flex flex-col items-center gap-1.5 sm:gap-2 pointer-events-none z-20">
+          <div class="absolute bottom-2.5 inset-x-2 sm:bottom-3 sm:inset-x-3 flex flex-col items-center gap-1.5 pointer-events-none z-20">
             
-            <!-- Screens Down / Open Chromebook Toggle Button: Prominently Centered Directly on the Photo -->
-            <button 
-              type="button" 
-              id="stage-photo-toggle-btn"
-              onclick="toggleRealityMode()" 
-              class="pointer-events-auto bg-[#F5ECE3] hover:bg-[#EBDDCE] active:scale-[0.97] text-primary text-xs sm:text-sm font-bold py-1.5 sm:py-2 px-4 sm:px-5 rounded-full border border-[#D9C4B2] shadow-xl flex items-center justify-center gap-1.5 cursor-pointer transition-all"
-            >
-              <span id="stage-photo-toggle-label">Screens Down &darr;</span>
-            </button>
-
-            <!-- Navigation Row: Prev Checkpoint, Center Time Pill & Dots, Next Checkpoint -->
+            <!-- Controls Row: Prev Button, Center Group (Time Pill + Screens Down side-by-side), Next Button -->
             <div class="w-full flex items-center justify-between gap-1 sm:gap-2">
               <!-- Left: Prev Checkpoint -->
               <button 
                 type="button" 
                 id="stage-prev-btn"
                 onclick="goToPrevStep()" 
-                class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0"
+                class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0"
                 title="Previous Time Checkpoint"
               >
                 <span>&larr;</span>
-                <span id="stage-prev-label" class="hidden sm:inline">8:00 AM</span>
+                <span id="stage-prev-label" class="hidden md:inline">8:00 AM</span>
               </button>
 
-              <!-- Center: Active Time Pill & Dots -->
-              <div class="flex flex-col items-center gap-1">
-                <div class="pointer-events-auto bg-black/80 backdrop-blur-md border border-white/30 text-white px-3 sm:px-4 py-1 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-md flex items-center justify-center flex-shrink-0">
+              <!-- Center Group: Time Pill & Screens Down Toggle Side-by-Side! -->
+              <div class="flex items-center gap-1.5 sm:gap-2 justify-center">
+                <!-- Active Time Pill -->
+                <div class="pointer-events-auto bg-black/80 backdrop-blur-md border border-white/30 text-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-md flex items-center justify-center flex-shrink-0">
                   <span id="stage-pill-time" class="font-sans">
                     <span id="stage-pill-time-short" class="inline sm:hidden">8:00 AM</span>
                     <span id="stage-pill-time-full" class="hidden sm:inline">8:00 AM &middot; Morning Reading</span>
                   </span>
                 </div>
 
-                <!-- Carousel Dots Indicator (Auto-scroll checkpoints) -->
-                <div id="stage-dots-container" class="pointer-events-auto flex items-center gap-1.5 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/20 shadow-sm">
-                  <button type="button" onclick="selectTime(0)" class="stage-dot w-5 h-1.5 rounded-full transition-all cursor-pointer bg-white" title="8:00 AM" aria-label="Step 1: 8:00 AM"></button>
-                  <button type="button" onclick="selectTime(1)" class="stage-dot w-1.5 h-1.5 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="1:15 PM" aria-label="Step 2: 1:15 PM"></button>
-                  <button type="button" onclick="selectTime(2)" class="stage-dot w-1.5 h-1.5 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="6:00 PM" aria-label="Step 3: 6:00 PM"></button>
-                  <button type="button" onclick="selectTime(3)" class="stage-dot w-1.5 h-1.5 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="8:30 PM" aria-label="Step 4: 8:30 PM"></button>
-                </div>
+                <!-- Screens Down / Open Chromebook Toggle Button: Right NEXT to the time pill -->
+                <button 
+                  type="button" 
+                  id="stage-photo-toggle-btn"
+                  onclick="toggleRealityMode()" 
+                  class="pointer-events-auto bg-[#F5ECE3] hover:bg-[#EBDDCE] active:scale-[0.97] text-primary text-xs sm:text-sm font-bold py-1 sm:py-1.5 px-3 sm:px-3.5 rounded-full border border-[#D9C4B2] shadow-lg flex items-center justify-center gap-1 cursor-pointer transition-all flex-shrink-0"
+                >
+                  <span id="stage-photo-toggle-label">Screens Down &darr;</span>
+                </button>
               </div>
 
               <!-- Right: Next Checkpoint -->
@@ -138,12 +131,20 @@ import Layout from '../layouts/Layout.astro';
                 type="button" 
                 id="stage-next-btn"
                 onclick="goToNextStep()" 
-                class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0"
+                class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-full text-xs font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0"
                 title="Next Time Checkpoint"
               >
-                <span id="stage-next-label" class="hidden sm:inline">1:15 PM</span>
+                <span id="stage-next-label" class="hidden md:inline">1:15 PM</span>
                 <span>&rarr;</span>
               </button>
+            </div>
+
+            <!-- Carousel Dots Indicator (Auto-scroll checkpoints) -->
+            <div id="stage-dots-container" class="pointer-events-auto flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/15 shadow-sm">
+              <button type="button" onclick="selectTime(0)" class="stage-dot w-4 h-1 rounded-full transition-all cursor-pointer bg-white" title="8:00 AM" aria-label="Step 1: 8:00 AM"></button>
+              <button type="button" onclick="selectTime(1)" class="stage-dot w-1.5 h-1 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="1:15 PM" aria-label="Step 2: 1:15 PM"></button>
+              <button type="button" onclick="selectTime(2)" class="stage-dot w-1.5 h-1 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="6:00 PM" aria-label="Step 3: 6:00 PM"></button>
+              <button type="button" onclick="selectTime(3)" class="stage-dot w-1.5 h-1 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="8:30 PM" aria-label="Step 4: 8:30 PM"></button>
             </div>
           </div>
         </div>
@@ -161,36 +162,23 @@ import Layout from '../layouts/Layout.astro';
             Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.
           </p>
 
-          <!-- Problem / Milestone Callout Box -->
+          <!-- Problem / Milestone Callout Box (No Emojis) -->
           <div id="stage-pill-box" class="w-full text-xs sm:text-sm font-medium px-4 py-2.5 rounded-xl mb-4 flex items-start gap-2.5 shadow-sm bg-[#FAECEC] border border-[#D4A0A0] text-[#7A2424] transition-all">
-            <span id="stage-pill-text">⚠️ District screen time is currently unmeasured — opening browser tabs displaces deep, physical book reading.</span>
+            <span id="stage-pill-text">District screen time is currently unmeasured — opening browser tabs displaces deep, physical book reading.</span>
           </div>
 
-          <!-- Action / Mode Toggle Row -->
-          <div class="pt-4 border-t border-[#E5D6C7] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            
-            <!-- Secondary Toggle Button in Footer Row -->
-            <button 
-              type="button" 
-              id="stage-toggle-btn"
-              onclick="toggleRealityMode()" 
-              class="bg-[#F5ECE3] hover:bg-[#EBDDCE] active:scale-[0.98] text-primary text-xs sm:text-sm font-bold py-3 px-5 rounded-xl border border-[#D9C4B2] shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
-            >
-              <span id="stage-toggle-label">Screens Down &darr;</span>
-            </button>
-
-            <!-- Sign Petition on Google Forms Button -->
+          <!-- Single Action Row: Sign Petition on Google Forms -->
+          <div class="pt-4 border-t border-[#E5D6C7]">
             <a 
               id="stage-sign-btn"
               href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
               target="_blank" 
               rel="noopener noreferrer" 
-              class="btn-action bg-primary hover:bg-[#8A3E22] active:scale-[0.98] text-white text-xs sm:text-sm font-bold py-3 px-5 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all"
+              class="btn-action bg-primary hover:bg-[#8A3E22] active:scale-[0.98] text-white text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all w-full text-center"
             >
               <span>Sign the Petition on Google Forms</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </a>
-
           </div>
 
         </div>
@@ -477,7 +465,7 @@ import Layout from '../layouts/Layout.astro';
         photo: '/images/digital-morning-desk.jpg',
         title: 'Chronic Tab-Switching & Cognitive Fatigue',
         desc: 'Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.',
-        problem: '⚠️ District screen time is currently unmeasured — opening browser tabs displaces deep, physical book reading.',
+        problem: 'District screen time is currently unmeasured — opening browser tabs displaces deep, physical book reading.',
         notification: {
           source: 'Educational Games',
           time: 'now',
@@ -498,7 +486,7 @@ import Layout from '../layouts/Layout.astro';
         photo: '/images/digital-classroom-room.jpg',
         title: 'AI Shortcuts Supplanting Critical Thinking',
         desc: 'Instead of struggling through problem-solving or engaging in classroom discussion, students prompt generative tools for instant answers, eroding cognitive stamina.',
-        problem: '⚠️ No grade-level daily limits exist — hours of screen isolation replace face-to-face teaching and pen-and-paper reasoning.',
+        problem: 'No grade-level daily limits exist — hours of screen isolation replace face-to-face teaching and pen-and-paper reasoning.',
         notification: {
           source: 'AI Writing Assistant',
           time: 'just now',
@@ -519,7 +507,7 @@ import Layout from '../layouts/Layout.astro';
         photo: '/images/digital-dinner-table.jpg',
         title: 'The Educational Trojan Horse at Dinner',
         desc: 'Mandatory take-home Chromebooks enter family homes under the banner of "homework." Open-ended browsing and games invade the dining table and family living room.',
-        problem: '⚠️ Routine take-home Chromebooks act as a Trojan horse — invading family dinner tables and triggering evening screen battles.',
+        problem: 'Routine take-home Chromebooks act as a Trojan horse — invading family dinner tables and triggering evening screen battles.',
         notification: {
           source: 'District Portal',
           time: '5m ago',
@@ -540,7 +528,7 @@ import Layout from '../layouts/Layout.astro';
         photo: '/images/digital-bedtime-night.jpg',
         title: 'Late Night Notifications & Fragmented Sleep',
         desc: 'School devices in bedrooms emit blue light and chime with late assignments. Melatonin production is suppressed, leaving students exhausted the next morning.',
-        problem: '⚠️ School devices follow kids into bed — late notifications and blue light suppress melatonin and fragment vital sleep.',
+        problem: 'School devices follow kids into bed — late notifications and blue light suppress melatonin and fragment vital sleep.',
         notification: {
           source: 'Canvas Alert',
           time: 'now',
@@ -555,6 +543,14 @@ import Layout from '../layouts/Layout.astro';
       }
     }
   ];
+
+  // Preload all scenario photos in memory for instant switching without network latency
+  dayScenarios.forEach(s => {
+    const img1 = new Image();
+    img1.src = s.screen.photo;
+    const img2 = new Image();
+    img2.src = s.analog.photo;
+  });
 
   let currentStep = 0;
   let isAnalogMode = false;
@@ -586,8 +582,6 @@ import Layout from '../layouts/Layout.astro';
 
     const photoToggleBtn = document.getElementById('stage-photo-toggle-btn');
     const photoToggleLabel = document.getElementById('stage-photo-toggle-label');
-    const toggleBtn = document.getElementById('stage-toggle-btn');
-    const toggleLabel = document.getElementById('stage-toggle-label');
 
     // 1. Navigation HUD Labels & Visibility
     const isFirst = (currentStep === 0);
@@ -622,9 +616,9 @@ import Layout from '../layouts/Layout.astro';
     const dots = document.querySelectorAll('.stage-dot');
     dots.forEach((dot, idx) => {
       if (idx === currentStep) {
-        dot.className = 'stage-dot w-5 h-1.5 rounded-full transition-all cursor-pointer bg-white shadow-sm';
+        dot.className = 'stage-dot w-4 h-1 rounded-full transition-all cursor-pointer bg-white shadow-sm';
       } else {
-        dot.className = 'stage-dot w-1.5 h-1.5 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70';
+        dot.className = 'stage-dot w-1.5 h-1 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70';
       }
     });
 
@@ -655,16 +649,11 @@ import Layout from '../layouts/Layout.astro';
       }
       if (pillText) pillText.textContent = data.analog.milestone;
 
-      // Toggle Buttons in Analog Mode
+      // Toggle Button in Analog Mode
       if (photoToggleBtn) {
-        photoToggleBtn.className = 'pointer-events-auto bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.97] text-text-secondary hover:text-primary text-xs sm:text-sm font-bold py-1.5 sm:py-2 px-4 sm:px-5 rounded-full border border-[#E5D6C7] shadow-xl flex items-center justify-center gap-1.5 cursor-pointer transition-all';
+        photoToggleBtn.className = 'pointer-events-auto bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.97] text-text-secondary hover:text-primary text-xs sm:text-sm font-bold py-1 sm:py-1.5 px-3 sm:px-3.5 rounded-full border border-[#E5D6C7] shadow-lg flex items-center justify-center gap-1 cursor-pointer transition-all flex-shrink-0';
       }
       if (photoToggleLabel) photoToggleLabel.innerHTML = 'Open Chromebook &uarr;';
-
-      if (toggleBtn) {
-        toggleBtn.className = 'bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.98] text-text-secondary hover:text-primary text-xs sm:text-sm font-bold py-3 px-5 rounded-xl border border-[#E5D6C7] flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm';
-      }
-      if (toggleLabel) toggleLabel.innerHTML = 'Open Chromebook &uarr;';
 
     } else {
       // Photo
@@ -695,16 +684,11 @@ import Layout from '../layouts/Layout.astro';
       }
       if (pillText) pillText.textContent = data.screen.problem;
 
-      // Toggle Buttons in Digital Mode
+      // Toggle Button in Digital Mode
       if (photoToggleBtn) {
-        photoToggleBtn.className = 'pointer-events-auto bg-[#F5ECE3] hover:bg-[#EBDDCE] active:scale-[0.97] text-primary text-xs sm:text-sm font-bold py-1.5 sm:py-2 px-4 sm:px-5 rounded-full border border-[#D9C4B2] shadow-xl flex items-center justify-center gap-1.5 cursor-pointer transition-all';
+        photoToggleBtn.className = 'pointer-events-auto bg-[#F5ECE3] hover:bg-[#EBDDCE] active:scale-[0.97] text-primary text-xs sm:text-sm font-bold py-1 sm:py-1.5 px-3 sm:px-3.5 rounded-full border border-[#D9C4B2] shadow-lg flex items-center justify-center gap-1 cursor-pointer transition-all flex-shrink-0';
       }
       if (photoToggleLabel) photoToggleLabel.innerHTML = 'Screens Down &darr;';
-
-      if (toggleBtn) {
-        toggleBtn.className = 'bg-[#F5ECE3] hover:bg-[#EBDDCE] active:scale-[0.98] text-primary text-xs sm:text-sm font-bold py-3 px-5 rounded-xl border border-[#D9C4B2] shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all';
-      }
-      if (toggleLabel) toggleLabel.innerHTML = 'Screens Down &darr;';
     }
   }
 
