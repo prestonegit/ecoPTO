@@ -64,19 +64,135 @@ const signupContent = await getEntry('signup', 'signup');
             {signupContent.data.signup_strengths_label || "Your Strengths & How You Can Help"}
           </label>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2 text-sm">
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Gardening & Landscaping" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span class="whitespace-nowrap">Gardening & Landscaping</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Carpentry & Hands-on Building" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Carpentry & Building</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Software, Web & Technology" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Software & Technology</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Legal & Non-profit Governance" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Legal & Governance</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Finance, Bookkeeping & Budgeting" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Finance & Bookkeeping</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Fundraising & Grant Writing" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Fundraising & Grants</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Communications, Writing & PR" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Communications & PR</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Event Planning & Coordination" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Event Planning</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Education" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Education</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Politics & Policy" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Politics & Policy</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" name="strengths" value="Art, Design & Photography" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Art, Design & Photos</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" id="strengths-other-checkbox" name="strengths" value="Other" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>Other expertise</span></label></div>
-            <div class="w-full"><label class="flex items-center"><input type="checkbox" id="updates-only-checkbox" name="strengths" value="Updates only" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none"><span>{signupContent.data.signup_updates_only_label || "I only want updates"}</span></label></div>
+            <!-- 1. Gardening & Outdoor Projects -->
+            <div class="strength-item w-full flex items-center justify-between gap-1.5 py-1 px-1.5 rounded hover:bg-bg-secondary/60 transition-colors">
+              <label class="flex items-center flex-grow cursor-pointer select-none min-w-0 pr-1">
+                <input type="checkbox" name="strengths" value="Gardening & Outdoor Projects" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <span class="text-xs sm:text-[13px] md:text-sm font-medium text-text-primary">Gardening & Outdoor Projects</span>
+              </label>
+              <div class="relative inline-flex items-center flex-none info-bubble-wrapper">
+                <button type="button" class="info-bubble-trigger text-stone-400 hover:text-primary focus:text-primary focus:outline-none p-1 -m-1 rounded-full transition-colors cursor-pointer" aria-label="Details for Gardening & Outdoor Projects" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div role="tooltip" class="info-bubble-popover absolute bottom-full right-0 mb-2 w-56 sm:w-60 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800">
+                  Gardening, landscaping, building raised beds, carpentry
+                  <div class="absolute top-full right-2.5 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Education & Youth Programs -->
+            <div class="strength-item w-full flex items-center justify-between gap-1.5 py-1 px-1.5 rounded hover:bg-bg-secondary/60 transition-colors">
+              <label class="flex items-center flex-grow cursor-pointer select-none min-w-0 pr-1">
+                <input type="checkbox" name="strengths" value="Education & Youth Programs" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <span class="text-xs sm:text-[13px] md:text-sm font-medium text-text-primary">Education & Youth Programs</span>
+              </label>
+              <div class="relative inline-flex items-center flex-none info-bubble-wrapper">
+                <button type="button" class="info-bubble-trigger text-stone-400 hover:text-primary focus:text-primary focus:outline-none p-1 -m-1 rounded-full transition-colors cursor-pointer" aria-label="Details for Education & Youth Programs" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div role="tooltip" class="info-bubble-popover absolute bottom-full right-0 mb-2 w-56 sm:w-60 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800">
+                  Educators, curriculum, student workshops, green clubs
+                  <div class="absolute top-full right-2.5 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 3. Events & Community Gatherings -->
+            <div class="strength-item w-full flex items-center justify-between gap-1.5 py-1 px-1.5 rounded hover:bg-bg-secondary/60 transition-colors">
+              <label class="flex items-center flex-grow cursor-pointer select-none min-w-0 pr-1">
+                <input type="checkbox" name="strengths" value="Events & Community Gatherings" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <span class="text-xs sm:text-[13px] md:text-sm font-medium text-text-primary">Events & Community Gatherings</span>
+              </label>
+              <div class="relative inline-flex items-center flex-none info-bubble-wrapper">
+                <button type="button" class="info-bubble-trigger text-stone-400 hover:text-primary focus:text-primary focus:outline-none p-1 -m-1 rounded-full transition-colors cursor-pointer" aria-label="Details for Events & Community Gatherings" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div role="tooltip" class="info-bubble-popover absolute bottom-full right-0 mb-2 w-56 sm:w-60 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800">
+                  Event planning, logistics, hikes, cleanups, hospitality
+                  <div class="absolute top-full right-2.5 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Communications, Design & Tech -->
+            <div class="strength-item w-full flex items-center justify-between gap-1.5 py-1 px-1.5 rounded hover:bg-bg-secondary/60 transition-colors">
+              <label class="flex items-center flex-grow cursor-pointer select-none min-w-0 pr-1">
+                <input type="checkbox" name="strengths" value="Communications, Design & Tech" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <span class="text-xs sm:text-[13px] md:text-sm font-medium text-text-primary">Communications, Design & Tech</span>
+              </label>
+              <div class="relative inline-flex items-center flex-none info-bubble-wrapper">
+                <button type="button" class="info-bubble-trigger text-stone-400 hover:text-primary focus:text-primary focus:outline-none p-1 -m-1 rounded-full transition-colors cursor-pointer" aria-label="Details for Communications, Design & Tech" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div role="tooltip" class="info-bubble-popover absolute bottom-full right-0 mb-2 w-56 sm:w-60 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800">
+                  Writing/PR, newsletter, photography, website & software
+                  <div class="absolute top-full right-2.5 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 5. Policy, Advocacy & School Board -->
+            <div class="strength-item w-full flex items-center justify-between gap-1.5 py-1 px-1.5 rounded hover:bg-bg-secondary/60 transition-colors">
+              <label class="flex items-center flex-grow cursor-pointer select-none min-w-0 pr-1">
+                <input type="checkbox" name="strengths" value="Policy, Advocacy & School Board" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <span class="text-xs sm:text-[13px] md:text-sm font-medium text-text-primary">Policy, Advocacy & School Board</span>
+              </label>
+              <div class="relative inline-flex items-center flex-none info-bubble-wrapper">
+                <button type="button" class="info-bubble-trigger text-stone-400 hover:text-primary focus:text-primary focus:outline-none p-1 -m-1 rounded-full transition-colors cursor-pointer" aria-label="Details for Policy, Advocacy & School Board" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div role="tooltip" class="info-bubble-popover absolute bottom-full right-0 mb-2 w-56 sm:w-60 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800">
+                  District policy, environmental initiatives, local politics
+                  <div class="absolute top-full right-2.5 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 6. Fundraising, Finance & Legal -->
+            <div class="strength-item w-full flex items-center justify-between gap-1.5 py-1 px-1.5 rounded hover:bg-bg-secondary/60 transition-colors">
+              <label class="flex items-center flex-grow cursor-pointer select-none min-w-0 pr-1">
+                <input type="checkbox" name="strengths" value="Fundraising, Finance & Legal" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <span class="text-xs sm:text-[13px] md:text-sm font-medium text-text-primary">Fundraising, Finance & Legal</span>
+              </label>
+              <div class="relative inline-flex items-center flex-none info-bubble-wrapper">
+                <button type="button" class="info-bubble-trigger text-stone-400 hover:text-primary focus:text-primary focus:outline-none p-1 -m-1 rounded-full transition-colors cursor-pointer" aria-label="Details for Fundraising, Finance & Legal" aria-expanded="false">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="w-4 h-4" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a.75.75 0 000 1.5h.253a.25.25 0 01.244.304l-.459 2.066A1.75 1.75 0 0010.747 15H11a.75.75 0 000-1.5h-.253a.25.25 0 01-.244-.304l.459-2.066A1.75 1.75 0 009.253 9H9z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div role="tooltip" class="info-bubble-popover absolute bottom-full right-0 mb-2 w-56 sm:w-60 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800">
+                  Grant writing, fundraising, bookkeeping, non-profit law
+                  <div class="absolute top-full right-2.5 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Other expertise -->
+            <div class="strength-item w-full flex items-center justify-between gap-1.5 py-1 px-1.5 rounded hover:bg-bg-secondary/60 transition-colors">
+              <label class="flex items-center flex-grow cursor-pointer select-none min-w-0 pr-1">
+                <input type="checkbox" id="strengths-other-checkbox" name="strengths" value="Other" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <span class="text-xs sm:text-[13px] md:text-sm font-medium text-text-primary">Other expertise</span>
+              </label>
+            </div>
+
+            <!-- Updates only -->
+            <div class="strength-item w-full flex items-center justify-between gap-1.5 py-1 px-1.5 rounded hover:bg-bg-secondary/60 transition-colors">
+              <label class="flex items-center flex-grow cursor-pointer select-none min-w-0 pr-1">
+                <input type="checkbox" id="updates-only-checkbox" name="strengths" value="Updates only" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none" />
+                <span class="text-xs sm:text-[13px] md:text-sm font-medium text-text-primary">{signupContent.data.signup_updates_only_label || "I only want updates"}</span>
+              </label>
+            </div>
           </div>
           <input type="text" id="strengths-other-detail" name="strengths-other" placeholder={signupContent.data.signup_strengths_other_placeholder || "Please specify your skill or background"} class="w-full p-3 mt-2 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent hidden" />
           <p id="strengths-error" class="text-xs text-red-600 font-bold mt-2 hidden" role="alert">Please select at least one skill or choose 'I only want updates'.</p>
@@ -189,6 +305,39 @@ const signupContent = await getEntry('signup', 'signup');
   body.modal-open {
     overflow: hidden;
   }
+
+  .strength-item {
+    position: relative;
+  }
+
+  .strength-item:hover,
+  .strength-item:focus-within,
+  .strength-item:has(.is-open) {
+    z-index: 30;
+  }
+
+  .info-bubble-wrapper:hover,
+  .info-bubble-wrapper:focus-within,
+  .info-bubble-wrapper.is-open {
+    z-index: 40;
+  }
+
+  .info-bubble-popover {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.15s ease-out, transform 0.15s ease-out, visibility 0.15s;
+  }
+
+  .info-bubble-wrapper:hover .info-bubble-popover,
+  .info-bubble-wrapper:focus-within .info-bubble-popover,
+  .info-bubble-wrapper.is-open .info-bubble-popover {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
 </style>
 
 <script>
@@ -216,6 +365,7 @@ const signupContent = await getEntry('signup', 'signup');
       const strengthsOtherCheckbox = document.getElementById('strengths-other-checkbox');
       const strengthsOtherDetail = document.getElementById('strengths-other-detail');
       const strengthsError = document.getElementById('strengths-error');
+      const infoWrappers = Array.from(modal.querySelectorAll('.info-bubble-wrapper'));
       const schoolOtherCheckbox = document.getElementById('school-other-checkbox');
       const schoolOtherDetail = document.getElementById('school-other-detail');
       const staffSchoolSelect = document.getElementById('staff-school');
@@ -297,6 +447,12 @@ const signupContent = await getEntry('signup', 'signup');
         if (strengthsError instanceof HTMLElement) {
           strengthsError.classList.add('hidden');
         }
+
+        infoWrappers.forEach((w) => {
+          w.classList.remove('is-open');
+          const t = w.querySelector('.info-bubble-trigger');
+          if (t) t.setAttribute('aria-expanded', 'false');
+        });
 
         if (staffOtherSchoolInput instanceof HTMLInputElement) {
           staffOtherSchoolInput.classList.add('hidden');
@@ -473,6 +629,51 @@ const signupContent = await getEntry('signup', 'signup');
           }
         });
       }
+
+      // Info bubble interaction (handles tap on mobile/touch, keyboard interaction, and light-dismiss)
+      infoWrappers.forEach((wrapper) => {
+        const trigger = wrapper.querySelector('.info-bubble-trigger');
+        if (trigger instanceof HTMLButtonElement) {
+          trigger.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            const wasOpen = wrapper.classList.contains('is-open');
+
+            // Close all open bubbles
+            infoWrappers.forEach((w) => {
+              w.classList.remove('is-open');
+              const t = w.querySelector('.info-bubble-trigger');
+              if (t) t.setAttribute('aria-expanded', 'false');
+            });
+
+            if (!wasOpen) {
+              wrapper.classList.add('is-open');
+              trigger.setAttribute('aria-expanded', 'true');
+            }
+          });
+        }
+      });
+
+      // Close open bubbles on outside click or Escape
+      document.addEventListener('click', (e) => {
+        if (!e.target || !(e.target instanceof Element) || !e.target.closest('.info-bubble-wrapper')) {
+          infoWrappers.forEach((w) => {
+            w.classList.remove('is-open');
+            const t = w.querySelector('.info-bubble-trigger');
+            if (t) t.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          infoWrappers.forEach((w) => {
+            w.classList.remove('is-open');
+            const t = w.querySelector('.info-bubble-trigger');
+            if (t) t.setAttribute('aria-expanded', 'false');
+          });
+        }
+      });
     }
   });
 </script>
