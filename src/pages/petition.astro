@@ -3,6 +3,13 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Parent Petition: Intentional Tech | ecoPTO">
+  <!-- Prototype Switcher Banner -->
+  <div class="bg-stone-100 border-b border-[#E5D6C7] py-2 px-4 text-center text-xs sm:text-sm text-text-secondary flex items-center justify-center gap-2">
+    <span>Prefer testing the hardware simulation?</span>
+    <span class="text-[#D4C3B2]">&middot;</span>
+    <a href="/petitionprototype" class="font-semibold text-primary hover:underline">View Laptop Simulator Prototype &rarr;</a>
+  </div>
+
   <!-- ========================================== -->
   <!-- Big & Bold Hero Section                    -->
   <!-- ========================================== -->
@@ -57,485 +64,172 @@ import Layout from '../layouts/Layout.astro';
   </section>
 
   <!-- ======================================================== -->
-  <!-- ⚡ THE CHROMEBOOK SCREEN SIMULATOR & ANALOG REALITY      -->
+  <!-- ⚡ THE STUDENT REALITY EXPERIENCE: SCREEN VS ANALOG      -->
   <!-- ======================================================== -->
   <section id="chromebook-interactive" class="scroll-mt-16 pt-3 sm:pt-4 pb-12 sm:pb-16">
-    <div class="container mx-auto px-6 max-w-4xl">
+    <div class="container mx-auto px-4 sm:px-6 max-w-4xl">
 
-      <!-- Dynamic Interactive Scaler Container -->
-      <div id="interactive-scaler-container" class="w-full relative overflow-visible transition-[height] duration-150 ease-out mx-auto">
-        
-        <!-- Scaler Stage: Scales via CSS transform: scale(s) from top center -->
-        <div id="interactive-scaler-stage" class="relative mx-auto origin-top flex-shrink-0 transition-transform duration-150 ease-out">
+      <!-- Section Heading -->
+      <div id="interactive-heading" class="text-center max-w-2xl mx-auto mb-6 sm:mb-8 select-none">
+        <h2 class="font-serif font-bold text-primary tracking-tight text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-2.5">
+          A Day in the Life of an HVRSD Student
+        </h2>
+        <p class="text-sm sm:text-base md:text-lg text-text-secondary leading-relaxed">
+          See how routine school screen time saturates each part of our children&rsquo;s day &mdash; then tap <strong class="text-text-primary">Screens Down &darr;</strong> to experience the focused analog balance.
+        </p>
+      </div>
 
-          <!-- Section Heading (Scales harmoniously with the interactive experience) -->
-          <div id="interactive-heading" class="text-center max-w-2xl mx-auto mb-3.5 sm:mb-4 select-none">
-            <h2 class="font-serif font-bold text-primary tracking-tight text-2xl sm:text-3xl md:text-4xl mb-1.5 sm:mb-2">
-              A Day in the Life of an HVRSD Student
-            </h2>
-            <p class="text-sm sm:text-base md:text-lg text-text-secondary leading-relaxed">
-              See how routine school screen time saturates each part of our children&rsquo;s day &mdash; then <span class="hidden sm:inline">close the laptop</span><span class="sm:hidden">tap Screens Down</span> to experience the focused analog balance.
-            </p>
+      <!-- Unified Photographic Reality Card -->
+      <article id="reality-stage" class="w-full bg-[#FAF7F2] rounded-3xl overflow-hidden border-2 border-[#E5D6C7] shadow-xl">
+
+        <!-- Full-Bleed 16:9 Photographic Window -->
+        <div class="relative w-full aspect-[16/9] overflow-hidden bg-stone-900 select-none">
+          <img 
+            id="stage-photo" 
+            src="/images/digital-morning-desk.jpg" 
+            alt="Current school screen reality" 
+            class="w-full h-full object-cover block transition-opacity duration-300"
+            fetchpriority="high"
+            loading="eager"
+          />
+          <!-- Multi-stop gradient overlay for contrast, depth, and legibility -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/45 pointer-events-none"></div>
+
+          <!-- Top Badges / Indicators Overlay -->
+          <div class="absolute top-3 inset-x-3 sm:top-4 sm:inset-x-5 flex items-center justify-between pointer-events-none z-20">
+            <!-- Mode Badge -->
+            <div id="stage-mode-badge" class="pointer-events-auto bg-black/65 backdrop-blur-md border border-amber-500/40 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-2 shadow-md text-amber-300">
+              <span id="stage-mode-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span id="stage-mode-text">Screen Reality</span>
+            </div>
+
+            <!-- Step Counter -->
+            <div id="stage-step-counter" class="pointer-events-auto bg-black/65 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full text-xs font-mono font-semibold text-white/85 shadow-md">
+              1 of 4
+            </div>
           </div>
 
-          <!-- ============================================ -->
-          <!-- STATE 1: THE OPEN CHROMEBOOK (Hardware SVG)  -->
-          <!-- ============================================ -->
-          <div id="laptop-viewport" class="laptop-chassis w-full max-w-[860px] mx-auto hidden sm:flex flex-col items-center">
-
-            <!-- LAPTOP DISPLAY LID (Chassis Grey Frame: 88% width to seamlessly match SVG hinge) -->
-            <figure id="chromebook-lid" class="laptop-lid-3d w-[88%] bg-[#5E6573] rounded-t-2xl sm:rounded-t-3xl pt-2 sm:pt-2.5 px-2 sm:px-3 pb-0 shadow-2xl relative m-0 border border-[#484F5C] border-b-0">
-              
-              <!-- Clean Webcam Dot on Grey Bezel -->
-              <div class="flex items-center justify-center pb-2 pt-0.5 select-none">
-                <span class="w-2 h-2 rounded-full bg-[#1C2026] border border-[#3A414D]"></span>
-              </div>
-
-              <!-- CHROMEBOOK SCREEN DISPLAY (Dark Display Window) -->
-              <div class="bg-[#141820] rounded-lg overflow-hidden text-white relative shadow-inner">
-                
-                <!-- Browser Tab Strip -->
-                <div class="bg-[#1E232D] px-3 pt-2 pb-0 border-b border-[#2C3342] flex items-center justify-between gap-2 select-none overflow-x-auto">
-                  <div class="flex items-center gap-1.5 min-w-0">
-                    <!-- Active Tab -->
-                    <div class="bg-[#141820] px-3 py-1.5 text-xs font-medium text-white flex items-center gap-2 rounded-t-md border-t-2 border-slate-400 max-w-[210px] truncate flex-shrink-0">
-                      <span class="w-1.5 h-1.5 rounded-full bg-white/80 flex-shrink-0"></span>
-                      <span id="tab-active-title" class="truncate font-sans text-xs">Google Classroom · English Lit</span>
-                      <span class="text-gray-400 hover:text-white ml-1 text-xs cursor-pointer">&times;</span>
-                    </div>
-                    <!-- Background Tab 1 -->
-                    <div class="px-2.5 py-1.5 text-xs font-medium text-gray-400 hidden sm:flex items-center gap-1.5 opacity-80 max-w-[170px] truncate flex-shrink-0">
-                      <span class="w-1.5 h-1.5 rounded-full bg-gray-500 flex-shrink-0"></span>
-                      <span id="tab-bg-title-1" class="truncate font-sans text-[11px]">CoolMath Games (Run 3)</span>
-                    </div>
-                    <!-- Background Tab 2 -->
-                    <div class="px-2.5 py-1.5 text-xs font-medium text-gray-400 hidden md:flex items-center gap-1.5 opacity-70 max-w-[170px] truncate flex-shrink-0">
-                      <span class="w-1.5 h-1.5 rounded-full bg-gray-500 flex-shrink-0"></span>
-                      <span id="tab-bg-title-2" class="truncate font-sans text-[11px]">Ed Podcast · Lo-Fi Study</span>
-                    </div>
-                    <!-- Plus Tabs Count -->
-                    <div id="tab-count-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold text-gray-400 bg-[#222834] border border-[#323B4A] flex-shrink-0">
-                      + 11 tabs
-                    </div>
-                  </div>
+          <!-- ============================================== -->
+          <!-- FLOATING NOTIFICATION CHAOS LAYER (DIGITAL ONLY)-->
+          <!-- ============================================== -->
+          <div id="digital-chaos-layer" class="absolute inset-0 pointer-events-none z-10 p-3 sm:p-5 transition-opacity duration-300">
+            
+            <!-- Top Right Floating Distraction Toast -->
+            <div id="chaos-toast-top" class="absolute top-12 sm:top-14 right-3 sm:right-6 max-w-[220px] sm:max-w-xs bg-slate-950/85 backdrop-blur-md border border-amber-500/35 rounded-xl p-2.5 sm:p-3 text-white shadow-2xl transition-all duration-300">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <div class="flex items-center gap-1.5 min-w-0">
+                  <span id="chaos-dot-top" class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0"></span>
+                  <span id="chaos-source-top" class="text-[10px] sm:text-[11px] font-bold text-amber-400 uppercase tracking-wider truncate">Educational Games</span>
                 </div>
-
-                <!-- Main Screen Viewport Content (Fixed consistent height so chassis never changes shape) -->
-                <div class="p-5 sm:p-7 md:p-8 h-[435px] flex flex-col justify-between bg-gradient-to-b from-[#141820] to-[#0D1017] overflow-hidden">
-                  
-                  <!-- Top Row: Title on Left, Notification Toast on Right -->
-                  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 flex-shrink-0">
-                    <h3 id="screen-title" class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-snug max-w-xl">
-                      Chronic Tab-Switching &amp; Cognitive Fatigue
-                    </h3>
-                    <!-- Right: Distraction Toast (Amber notification callout) -->
-                    <aside id="screen-toast" class="w-full md:w-auto md:max-w-xs bg-[#1F2533]/95 border border-[#3E4A61] rounded-xl p-3 sm:p-3.5 shadow-xl select-none flex-shrink-0 min-h-[64px] flex flex-col justify-center">
-                      <div class="flex items-center justify-between gap-2 mb-1">
-                        <div class="flex items-center gap-1.5 min-w-0">
-                          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0"></span>
-                          <span id="toast-source" class="text-[11px] font-bold text-amber-400 uppercase tracking-wider truncate">Educational Games</span>
-                        </div>
-                        <span id="toast-time" class="text-[10px] text-gray-400 font-mono flex-shrink-0">now</span>
-                      </div>
-                      <p id="toast-msg" class="text-xs sm:text-sm text-gray-200 leading-snug m-0">
-                        Daily math puzzle unlocked in background tab.
-                      </p>
-                    </aside>
-                  </div>
-
-                  <!-- Middle Section: Narrative Paragraph -->
-                  <div class="my-auto py-2">
-                    <p id="screen-desc" class="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed font-normal w-full max-w-2xl">
-                      Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.
-                    </p>
-                  </div>
-                  
-                  <!-- Bottom Section: Problem Callout Box + Progression Buttons -->
-                  <div class="flex flex-col gap-4 sm:gap-5 flex-shrink-0 mt-3 sm:mt-4">
-                    <div class="w-full flex items-center text-sm sm:text-base font-medium text-rose-100 bg-[#231215]/95 border border-[#7A2424]/75 px-5 py-3 rounded-xl shadow-md">
-                      <span id="screen-problem">Screen time unmeasured; physical reading displaced.</span>
-                    </div>
-
-                    <!-- Contextual Progression Buttons Below Red Box -->
-                    <div class="flex items-center justify-between gap-3 pt-2 sm:pt-3">
-                      <button 
-                        type="button" 
-                        id="screen-nav-prev" 
-                        onclick="goToPrevStep()"
-                        class="text-xs sm:text-sm font-semibold text-gray-300 hover:text-white bg-[#1C222E]/90 hover:bg-[#2A3446] border border-white/20 hover:border-white/40 px-4 sm:px-4.5 py-2 sm:py-2.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-sm active:scale-95"
-                        aria-label="Previous checkpoint"
-                      >
-                        <span aria-hidden="true">&larr;</span>
-                        <span id="screen-nav-prev-label">Morning focus</span>
-                      </button>
-
-                      <button 
-                        type="button" 
-                        id="screen-nav-next" 
-                        onclick="goToNextStep()"
-                        class="text-xs sm:text-sm font-bold text-white bg-primary hover:bg-[#8A3E22] border border-[#FFC099]/40 px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 cursor-pointer ml-auto active:scale-95"
-                        aria-label="Next checkpoint"
-                      >
-                        <span id="screen-nav-next-label">Next class &rarr;</span>
-                      </button>
-                    </div>
-                  </div>
-
-                </div>
-
+                <span id="chaos-time-top" class="text-[9px] sm:text-[10px] text-gray-400 font-mono flex-shrink-0">now</span>
               </div>
+              <p id="chaos-msg-top" class="text-xs sm:text-sm text-gray-200 leading-snug m-0 font-sans">
+                Daily math puzzle unlocked in background tab.
+              </p>
+            </div>
 
-              <!-- Clean Bezel Bottom in Grey -->
-              <div class="h-3 sm:h-3.5 bg-[#5E6573] border-t border-[#484F5C]"></div>
-
-            </figure>
-
-            <!-- LAPTOP PHYSICAL KEYBOARD BASE & TRACKPAD (Grey Chassis) -->
-            <div id="laptop-base" class="w-full select-none -mt-[1px] relative">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 248" class="w-full h-auto block select-none filter drop-shadow-2xl" role="region" aria-label="Laptop keyboard deck">
-  <defs>
-    <linearGradient id="deckGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#757D8B"/>
-      <stop offset="20%" stop-color="#666E7C"/>
-      <stop offset="70%" stop-color="#545B67"/>
-      <stop offset="100%" stop-color="#454B55"/>
-    </linearGradient>
-    <linearGradient id="hingeGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2D323B"/>
-      <stop offset="35%" stop-color="#58606E"/>
-      <stop offset="65%" stop-color="#3E4550"/>
-      <stop offset="100%" stop-color="#252931"/>
-    </linearGradient>
-    <linearGradient id="trayGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#2D323B"/>
-      <stop offset="50%" stop-color="#363C47"/>
-      <stop offset="100%" stop-color="#3E4552"/>
-    </linearGradient>
-    <linearGradient id="keyGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#252932"/>
-      <stop offset="100%" stop-color="#181B22"/>
-    </linearGradient>
-    <linearGradient id="trackGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#8C94A2"/>
-      <stop offset="100%" stop-color="#777F8D"/>
-    </linearGradient>
-    <linearGradient id="navKeyGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#3A4354"/>
-      <stop offset="100%" stop-color="#222834"/>
-    </linearGradient>
-    <filter id="keyGlow" x="-10%" y="-15%" width="120%" height="130%">
-      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.7"/>
-    </filter>
-    <filter id="keyTextShadow">
-      <feDropShadow dx="0" dy="1.5" stdDeviation="1" flood-color="#000000" flood-opacity="0.85"/>
-    </filter>
-    <linearGradient id="oledActiveGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#1E3A8A"/>
-      <stop offset="100%" stop-color="#0F172A"/>
-    </linearGradient>
-    <filter id="oledLedGlow" x="-50%" y="-50%" width="200%" height="200%">
-      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#38BDF8" flood-opacity="0.9"/>
-    </filter>
-    <filter id="wellDepth">
-      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.6"/>
-    </filter>
-  </defs>
-
-  <!-- Hinge Segment with Chamfer -->
-  <rect x="60" y="0" width="880" height="10" rx="3" fill="url(#hingeGrad)" stroke="#4A5260" stroke-width="0.5"/>
-  <line x1="60" y1="9.5" x2="940" y2="9.5" stroke="#1F232B" stroke-width="1"/>
-
-  <!-- Main Chassis Deck: Crisp Tapered Aluminum Unibody -->
-  <path d="M 60 9 L 940 9 L 1000 220 Q 994 232 972 232 L 28 232 Q 6 232 0 220 Z" fill="url(#deckGrad)" />
-  <!-- Bottom Chamfer & Shadow Lip -->
-  <path d="M 0 220 L 28 232 L 972 232 L 1000 220 L 994 240 Q 982 248 954 248 L 46 248 Q 18 248 6 240 Z" fill="#2E333C"/>
-  <line x1="28" y1="232" x2="972" y2="232" stroke="#8A92A0" stroke-width="0.8" opacity="0.6"/>
-  <!-- Front Edge Center Thumb Scoop -->
-  <rect x="440" y="230" width="120" height="4" rx="2" fill="#3D444F" stroke="#252A32" stroke-width="0.5"/>
-
-  <!-- Recessed Keyboard Well Tray (Dark Beveled Basin - Exclusively framing the 4 custom navigation keys) -->
-  <path d="M 88 22 L 912 22 Q 918 22 920 28 L 924 122 Q 926 126 918 126 L 82 126 Q 74 126 76 122 L 80 28 Q 82 22 88 22 Z" fill="url(#trayGrad)" stroke="#22262E" stroke-width="1.2" filter="url(#wellDepth)"/>
-
-  <!-- 4 CUSTOM NAVIGATION BUTTONS (OLED Checkpoints) -->
-  <!-- Key 0: 8:00 AM -->
-  <g class="deck-svg-key" id="key-0" onclick="selectTime(0)" role="button" tabindex="0" aria-label="8:00 AM Morning Focus Checkpoint" aria-current="step">
-    <rect id="deck-face-0" x="94.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#oledActiveGrad)" stroke="#60A5FA" stroke-width="1.4"/>
-    <rect id="deck-hi-0" x="96.5" y="33.2" width="189.0" height="2.0" rx="1.0" fill="none" stroke="#93C5FD" stroke-width="1" opacity="0.95"/>
-    <circle id="deck-led-0" cx="118.5" cy="58.0" r="4.5" fill="#38BDF8" filter="url(#oledLedGlow)"/>
-    <text id="deck-time-0" x="134.5" y="62.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="800" font-size="20.5" fill="#FFFFFF" letter-spacing="0.02em" filter="url(#keyTextShadow)">8:00 AM</text>
-    <text id="deck-label-0" x="118.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#93C5FD" letter-spacing="0.04em">Morning Focus</text>
-  </g>
-
-  <!-- Key 1: 1:15 PM -->
-  <g class="deck-svg-key" id="key-1" onclick="selectTime(1)" role="button" tabindex="0" aria-label="1:15 PM Afternoon Inquiry Checkpoint">
-    <rect id="deck-face-1" x="300.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.5"/>
-    <rect id="deck-hi-1" x="302.5" y="33.2" width="189.0" height="2.0" rx="1.0" fill="none" stroke="#4A5364" stroke-width="1" opacity="0.5"/>
-    <circle id="deck-led-1" cx="324.5" cy="58.0" r="4.5" fill="#4B5563"/>
-    <text id="deck-time-1" x="340.5" y="62.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="20.5" fill="#CBD5E1" letter-spacing="0.02em" filter="url(#keyTextShadow)">1:15 PM</text>
-    <text id="deck-label-1" x="324.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#64748B" letter-spacing="0.04em">Afternoon Inquiry</text>
-  </g>
-
-  <!-- Key 2: 6:00 PM -->
-  <g class="deck-svg-key" id="key-2" onclick="selectTime(2)" role="button" tabindex="0" aria-label="6:00 PM Dinner & Homework Checkpoint">
-    <rect id="deck-face-2" x="506.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.5"/>
-    <rect id="deck-hi-2" x="508.5" y="33.2" width="189.0" height="2.0" rx="1.0" fill="none" stroke="#4A5364" stroke-width="1" opacity="0.5"/>
-    <circle id="deck-led-2" cx="530.5" cy="58.0" r="4.5" fill="#4B5563"/>
-    <text id="deck-time-2" x="546.5" y="62.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="20.5" fill="#CBD5E1" letter-spacing="0.02em" filter="url(#keyTextShadow)">6:00 PM</text>
-    <text id="deck-label-2" x="530.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#64748B" letter-spacing="0.04em">Dinner &amp; Homework</text>
-  </g>
-
-  <!-- Key 3: 8:30 PM -->
-  <g class="deck-svg-key" id="key-3" onclick="selectTime(3)" role="button" tabindex="0" aria-label="8:30 PM Bedtime & Sleep Checkpoint">
-    <rect id="deck-face-3" x="712.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.5"/>
-    <rect id="deck-hi-3" x="714.5" y="33.2" width="189.0" height="2.0" rx="1.0" fill="none" stroke="#4A5364" stroke-width="1" opacity="0.5"/>
-    <circle id="deck-led-3" cx="736.5" cy="58.0" r="4.5" fill="#4B5563"/>
-    <text id="deck-time-3" x="752.5" y="62.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="20.5" fill="#CBD5E1" letter-spacing="0.02em" filter="url(#keyTextShadow)">8:30 PM</text>
-    <text id="deck-label-3" x="736.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#64748B" letter-spacing="0.04em">Bedtime &amp; Sleep</text>
-  </g>
-
-  <!-- TRACKPAD AREA: THE 'SCREENS DOWN' PHYSICAL LID TRIGGER -->
-  <g id="trackpad-well">
-    <!-- Recessed trackpad boundary well -->
-    <path d="M 378 140 L 622 140 Q 626 140 627 144 L 632 216 Q 633 220 627 220 L 373 220 Q 367 220 368 216 L 373 144 Q 374 140 378 140 Z" fill="url(#trackGrad)" stroke="#586170" stroke-width="0.8"/>
-    
-    <!-- Interactive Trackpad Button Surface: "Screens Down" -->
-    <g id="trackpad-close-btn" onclick="triggerShutLid()" role="button" tabindex="0" aria-label="Close laptop lid and switch to analog reality mode">
-      <path d="M 380 142 L 620 142 Q 624 142 625 146 L 630 214 Q 631 218 625 218 L 375 218 Q 369 218 370 214 L 375 146 Q 376 142 380 142 Z" fill="#2A303C" stroke="#434B5A" stroke-width="0.8"/>
-      <!-- Subtle top inner highlight -->
-      <line x1="384" y1="144" x2="616" y2="144" stroke="#687385" stroke-width="0.8" opacity="0.6"/>
-      <!-- Trackpad Label: Screens Down with Down Arrow -->
-      <text x="492" y="186" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="700" font-size="16" fill="#F1F5F9" letter-spacing="0.03em">Screens Down</text>
-      <path d="M 552 180 L 557 185 L 562 180" stroke="#F1F5F9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    </g>
-  </g>
-</svg>
+            <!-- Bottom Left Floating Distraction Toast -->
+            <div id="chaos-toast-bottom" class="absolute bottom-16 sm:bottom-20 left-3 sm:left-6 max-w-[220px] sm:max-w-xs bg-slate-950/85 backdrop-blur-md border border-indigo-500/35 rounded-xl p-2.5 sm:p-3 text-white shadow-2xl transition-all duration-300 hidden sm:block">
+              <div class="flex items-center justify-between gap-2 mb-1">
+                <div class="flex items-center gap-1.5 min-w-0">
+                  <span id="chaos-dot-bottom" class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse flex-shrink-0"></span>
+                  <span id="chaos-source-bottom" class="text-[10px] sm:text-[11px] font-bold text-indigo-400 uppercase tracking-wider truncate">Discord · Web Client</span>
+                </div>
+                <span id="chaos-time-bottom" class="text-[9px] sm:text-[10px] text-gray-400 font-mono flex-shrink-0">1m ago</span>
+              </div>
+              <p id="chaos-msg-bottom" class="text-xs sm:text-sm text-gray-200 leading-snug m-0 font-sans">
+                New message in #homework-chat: "Anyone finish #4?"
+              </p>
             </div>
 
           </div>
 
-          <!-- ============================================== -->
-          <!-- STATE 2: THE SCREEN-REDUCED ANALOG ALTERNATIVE -->
-          <!-- ============================================== -->
-          <article id="analog-stage" class="analog-stage is-hidden hidden sm:block bg-[#FAF7F2] rounded-3xl overflow-hidden border-2 border-[#E5D6C7] shadow-xl w-full max-w-[780px] mx-auto">
+          <!-- Embedded Time Navigation HUD -->
+          <div class="absolute bottom-3 inset-x-3 sm:bottom-4 sm:inset-x-5 flex items-center justify-between gap-2 pointer-events-none z-20">
+            <!-- Left: Prev Checkpoint -->
+            <button 
+              type="button" 
+              id="stage-prev-btn"
+              onclick="goToPrevStep()" 
+              class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95 flex items-center gap-1 sm:gap-1.5 cursor-pointer flex-shrink-0"
+              title="Previous Time Checkpoint"
+            >
+              <span class="text-white/70 group-hover:text-white transition-transform group-hover:-translate-x-0.5">&larr;</span>
+              <span id="stage-prev-label">8:00 AM</span>
+            </button>
 
-            <!-- Full-Bleed 16:9 Photographic Window -->
-            <div class="relative w-full aspect-video sm:aspect-[16/9] overflow-hidden bg-stone-900 select-none">
-              <img 
-                id="analog-photo" 
-                src="/images/analog-morning-book.jpg" 
-                alt="Screen-free analog moment" 
-                class="w-full h-full object-cover block transition-all duration-500 hover:scale-105"
-                loading="eager"
-              />
-              <!-- Subtle gradient overlay for readability & mood -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none"></div>
-
-              <!-- Embedded Time Navigation HUD -->
-              <div class="absolute bottom-3 inset-x-2.5 sm:bottom-5 sm:inset-x-5 flex items-center justify-between gap-1.5 sm:gap-2 pointer-events-none z-10">
-                
-                <!-- Left: Previous Time Checkpoint Button -->
-                <button 
-                  type="button" 
-                  id="analog-prev-wrapper"
-                  onclick="goToPrevStep()" 
-                  class="pointer-events-auto group bg-black/65 hover:bg-black/85 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-full text-[11px] sm:text-sm font-semibold transition-all shadow-lg active:scale-95 flex items-center gap-1 sm:gap-2 cursor-pointer flex-shrink-0"
-                  title="Previous Time Checkpoint"
-                >
-                  <span class="text-white/70 group-hover:text-white transition-transform group-hover:-translate-x-0.5">&larr;</span>
-                  <span id="analog-prev-btn">8:00 AM</span>
-                </button>
-
-                <!-- Center: Active Checkpoint Pill -->
-                <div class="pointer-events-auto bg-black/70 backdrop-blur-md border border-white/30 text-white px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-lg flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                  <span id="analog-time-pill" class="hidden sm:inline">8:00 AM · Morning Reading</span>
-                  <span id="analog-time-pill-mobile" class="sm:hidden font-mono">8:00 AM</span>
-                </div>
-
-                <!-- Right: Next Time Checkpoint Button -->
-                <button 
-                  type="button" 
-                  id="analog-next-wrapper"
-                  onclick="goToNextStep()" 
-                  class="pointer-events-auto group bg-black/65 hover:bg-black/85 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-full text-[11px] sm:text-sm font-semibold transition-all shadow-lg active:scale-95 flex items-center gap-1 sm:gap-2 cursor-pointer flex-shrink-0"
-                  title="Next Time Checkpoint"
-                >
-                  <span id="analog-next-btn">1:15 PM</span>
-                  <span class="text-white/70 group-hover:text-white transition-transform group-hover:translate-x-0.5">&rarr;</span>
-                </button>
-
-              </div>
-
+            <!-- Center: Active Time Pill -->
+            <div class="pointer-events-auto bg-black/80 backdrop-blur-md border border-white/30 text-white px-2.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-lg flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+              <span id="stage-pill-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+              <span id="stage-pill-time" class="font-sans">
+                <span id="stage-pill-time-short" class="inline sm:hidden">8:00 AM</span>
+                <span id="stage-pill-time-full" class="hidden sm:inline">8:00 AM &middot; Morning Reading</span>
+              </span>
             </div>
 
-            <!-- Focused Reality Narrative Card -->
-            <div class="p-6 sm:p-9 bg-[#FAF7F2]">
-              
-              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
-                <h3 id="analog-heading" class="font-serif text-2xl sm:text-3xl font-bold text-primary min-h-[36px] sm:min-h-[40px]">
-                  Classrooms Grounded in Physical Books
-                </h3>
-              </div>
+            <!-- Right: Next Checkpoint -->
+            <button 
+              type="button" 
+              id="stage-next-btn"
+              onclick="goToNextStep()" 
+              class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-semibold transition-all shadow-lg active:scale-95 flex items-center gap-1 sm:gap-1.5 cursor-pointer flex-shrink-0"
+              title="Next Time Checkpoint"
+            >
+              <span id="stage-next-label">1:15 PM</span>
+              <span class="text-white/70 group-hover:text-white transition-transform group-hover:translate-x-0.5">&rarr;</span>
+            </button>
+          </div>
+        </div>
 
-              <!-- Paragraph with clear, readable typography (Balanced height across all checkpoints) -->
-              <p id="analog-details" class="text-base sm:text-lg text-text-primary leading-relaxed mb-6 font-normal min-h-[78px] sm:min-h-[84px]">
-                Students begin their school morning opening printed paperbacks. No browser tabs, no device notifications, and zero digital eye strain—deep reading and focus set the tone for the day.
-              </p>
+        <!-- Focused Reality Narrative Body -->
+        <div class="p-6 sm:p-9 bg-[#FAF7F2]">
 
-              <!-- Connected Action Row -->
-              <div class="pt-6 border-t border-[#E5D6C7] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
-                <a 
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  class="btn-action bg-primary hover:bg-[#8A3E22] text-white text-sm sm:text-base font-bold shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                >
-                  <span>Sign the Petition on Google Forms</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </a>
+          <!-- Heading -->
+          <h3 id="stage-heading" class="font-serif text-2xl sm:text-3xl font-bold text-text-primary mb-2.5 leading-snug">
+            Chronic Tab-Switching &amp; Cognitive Fatigue
+          </h3>
 
-                <button 
-                  type="button" 
-                  onclick="triggerReopenLid()" 
-                  class="px-5 py-3 text-text-secondary hover:text-primary font-bold text-sm transition-colors flex items-center justify-center gap-2 min-h-[48px] cursor-pointer"
-                >
-                  <span>&larr; Re-open Laptop</span>
-                </button>
-              </div>
+          <!-- Description -->
+          <p id="stage-desc" class="text-base sm:text-lg text-text-primary leading-relaxed mb-5 font-normal">
+            Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.
+          </p>
 
-            </div>
+          <!-- Problem / Milestone Callout Box -->
+          <div id="stage-pill-box" class="w-full text-xs sm:text-sm font-medium px-4 py-3 rounded-xl mb-6 flex items-start gap-2.5 shadow-sm bg-[#231215] border border-[#7A2424]/75 text-rose-100 transition-all">
+            <span id="stage-pill-text">Screen time unmeasured; physical reading displaced.</span>
+          </div>
 
-          </article>
+          <!-- Action / Mode Toggle Row -->
+          <div class="pt-5 border-t border-[#E5D6C7] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+            
+            <!-- Primary Toggle / Screens Down Button -->
+            <button 
+              type="button" 
+              id="stage-toggle-btn"
+              onclick="toggleRealityMode()" 
+              class="bg-[#1F2533] hover:bg-[#2A3446] active:scale-[0.98] text-white text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-white/20 shadow-md flex items-center justify-center gap-2.5 cursor-pointer transition-all"
+            >
+              <span id="stage-toggle-icon">&darr;</span>
+              <span id="stage-toggle-label">Screens Down (See Analog Alternative)</span>
+            </button>
 
-          <!-- ============================================== -->
-          <!-- STATE 3: MOBILE INTERACTIVE CARD EXPERIENCE    -->
-          <!-- (Uses identical photo & HUD workflow)          -->
-          <!-- ============================================== -->
-          <article id="mobile-card-stage" class="block sm:hidden w-full max-w-md mx-auto bg-[#FAF7F2] rounded-3xl overflow-hidden border-2 border-[#E5D6C7] shadow-xl">
+            <!-- Sign Petition on Google Forms Button -->
+            <a 
+              id="stage-sign-btn"
+              href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              class="btn-action bg-primary hover:bg-[#8A3E22] active:scale-[0.98] text-white text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl shadow-md flex items-center justify-center gap-2 transition-all"
+            >
+              <span>Sign the Petition on Google Forms</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </a>
 
-            <!-- Full-Bleed 16:9 Photographic Window -->
-            <div class="relative w-full aspect-[16/9] overflow-hidden bg-stone-900 select-none">
-              <img 
-                id="mobile-photo" 
-                src="/images/digital-morning-desk.jpg" 
-                alt="Current digital reality" 
-                class="w-full h-full object-cover block transition-all duration-500"
-                loading="eager"
-              />
-              <!-- Subtle gradient overlays for depth and text legibility -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 pointer-events-none"></div>
-
-              <!-- Top Badges / Indicators Overlay -->
-              <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
-                <!-- Mode Badge -->
-                <div id="mobile-mode-badge" class="pointer-events-auto bg-black/65 backdrop-blur-md border border-amber-500/40 px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wide flex items-center gap-1.5 shadow-sm text-amber-300">
-                  <span id="mobile-mode-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                  <span id="mobile-mode-text">Screen Reality</span>
-                </div>
-
-                <!-- Step Counter -->
-                <div id="mobile-step-counter" class="pointer-events-auto bg-black/65 backdrop-blur-md border border-white/20 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium text-white/80 shadow-sm">
-                  1 of 4
-                </div>
-              </div>
-
-              <!-- Embedded Time Navigation HUD (Matching analog-stage workflow) -->
-              <div class="absolute bottom-3 inset-x-2.5 flex items-center justify-between gap-1.5 pointer-events-none z-10">
-                <!-- Left: Prev Checkpoint -->
-                <button 
-                  type="button" 
-                  id="mobile-prev-btn"
-                  onclick="goToPrevStep()" 
-                  class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 px-2.5 py-1.5 rounded-full text-[11px] font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0"
-                  title="Previous Time Checkpoint"
-                >
-                  <span class="text-white/70">&larr;</span>
-                  <span id="mobile-prev-label">8:00 AM</span>
-                </button>
-
-                <!-- Center: Active Time Pill -->
-                <div class="pointer-events-auto bg-black/80 backdrop-blur-md border border-white/30 text-white px-3 py-1.5 rounded-full text-xs font-bold font-mono tracking-wide shadow-md flex items-center gap-1.5 flex-shrink-0">
-                  <span id="mobile-pill-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                  <span id="mobile-pill-time">8:00 AM</span>
-                </div>
-
-                <!-- Right: Next Checkpoint -->
-                <button 
-                  type="button" 
-                  id="mobile-next-btn"
-                  onclick="goToNextStep()" 
-                  class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 px-2.5 py-1.5 rounded-full text-[11px] font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0"
-                  title="Next Time Checkpoint"
-                >
-                  <span id="mobile-next-label">1:15 PM</span>
-                  <span class="text-white/70">&rarr;</span>
-                </button>
-              </div>
-            </div>
-
-            <!-- Focused Reality Narrative Card -->
-            <div class="p-5 bg-[#FAF7F2]">
-
-              <!-- Distraction Notification Toast (Visible in Digital mode) -->
-              <aside id="mobile-toast" class="mb-4 bg-[#1F2533] border border-[#3E4A61] rounded-xl p-3 shadow-md select-none text-white">
-                <div class="flex items-center justify-between gap-2 mb-1">
-                  <div class="flex items-center gap-1.5 min-w-0">
-                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0"></span>
-                    <span id="mobile-toast-source" class="text-[10px] font-bold text-amber-400 uppercase tracking-wider truncate">Educational Games</span>
-                  </div>
-                  <span id="mobile-toast-time" class="text-[10px] text-gray-400 font-mono flex-shrink-0">now</span>
-                </div>
-                <p id="mobile-toast-msg" class="text-xs text-gray-200 leading-snug m-0">
-                  Daily math puzzle unlocked in background tab.
-                </p>
-              </aside>
-
-              <!-- Heading & Description -->
-              <h3 id="mobile-heading" class="font-serif text-xl sm:text-2xl font-bold text-text-primary mb-2 leading-snug">
-                Chronic Tab-Switching &amp; Cognitive Fatigue
-              </h3>
-
-              <p id="mobile-desc" class="text-sm text-text-primary leading-relaxed mb-4 font-normal">
-                Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.
-              </p>
-
-              <!-- Problem or Milestone Pill -->
-              <div id="mobile-pill-box" class="w-full text-xs font-medium px-4 py-2.5 rounded-xl mb-5 flex items-start gap-2 shadow-sm bg-[#231215] border border-[#7A2424]/75 text-rose-100">
-                <span id="mobile-pill-text">Screen time unmeasured; physical reading displaced.</span>
-              </div>
-
-              <!-- Action / Toggle Rows -->
-              <div class="pt-4 border-t border-[#E5D6C7] flex flex-col gap-2.5">
-                <!-- Primary Toggle / Action Button -->
-                <button 
-                  type="button" 
-                  id="mobile-toggle-btn"
-                  onclick="toggleMobileMode()" 
-                  class="w-full bg-[#1F2533] hover:bg-[#2A3446] active:scale-[0.98] text-white text-sm font-bold py-3 px-4 rounded-xl border border-white/20 shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all"
-                >
-                  <span id="mobile-toggle-icon">&darr;</span>
-                  <span id="mobile-toggle-label">Screens Down (See Analog Alternative)</span>
-                </button>
-
-                <!-- Sign Petition Button (Prominent in Analog mode) -->
-                <a 
-                  id="mobile-sign-btn"
-                  href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  class="hidden w-full bg-primary hover:bg-[#8A3E22] active:scale-[0.98] text-white text-sm font-bold py-3 px-4 rounded-xl shadow-md text-center items-center justify-center gap-2 transition-all"
-                >
-                  <span>Sign the Petition on Google Forms</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
-                </a>
-              </div>
-
-            </div>
-
-          </article>
+          </div>
 
         </div>
-      </div>
+
+      </article>
 
     </div>
   </section>
@@ -802,79 +496,9 @@ import Layout from '../layouts/Layout.astro';
     transform: translateY(0);
   }
 
-  /* 3D Chromebook Lid Hinge Animation */
-  .chromebook-stage {
-    perspective: 1400px;
-  }
-  .laptop-lid-3d {
-    transform-origin: bottom center;
-    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
-  }
-  .laptop-lid-3d.is-shut {
-    transform: rotateX(82deg) translateY(10px) scale(0.96);
-    opacity: 0;
-    pointer-events: none;
-  }
-
-  .analog-stage {
-    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .analog-stage.is-hidden {
-    opacity: 0;
-    transform: translateY(16px) scale(0.98);
-    pointer-events: none;
-    display: none;
-  }
-
-  /* Strict separation between Desktop Laptop/Analog and Mobile Photographic Experience */
-  @media (max-width: 639px) {
-    #laptop-viewport,
-    #analog-stage {
-      display: none !important;
-    }
-    #mobile-card-stage {
-      display: block !important;
-    }
-  }
-  @media (min-width: 640px) {
-    #mobile-card-stage {
-      display: none !important;
-    }
-  }
-
-  /* SVG Physical Deck Keycaps & Trackpad */
-  .deck-svg-key {
-    cursor: pointer;
-    outline: none;
-    transition: transform 0.08s ease;
-  }
-  .deck-svg-key:hover rect[id^="deck-face-"] {
-    filter: brightness(1.22);
-  }
-  .deck-svg-key:active {
-    transform: translateY(1.5px);
-  }
-  .deck-svg-key:focus-visible rect[id^="deck-face-"] {
-    stroke: #93C5FD;
-    stroke-width: 2px;
-  }
-  #trackpad-close-btn {
-    cursor: pointer;
-    outline: none;
-    transition: filter 0.15s ease, transform 0.08s ease;
-  }
-  #trackpad-close-btn:hover path {
-    filter: brightness(1.12);
-  }
-  #trackpad-close-btn:active {
-    transform: translateY(1px);
-  }
-  /* Dynamic Scaler Transitions */
-  #interactive-scaler-container {
-    transition: height 0.15s ease-out;
-  }
-  #interactive-scaler-stage {
-    transition: transform 0.15s ease-out;
+  /* Smooth transitions for reality stage */
+  #digital-chaos-layer {
+    transition: opacity 0.3s ease;
   }
 </style>
 
@@ -883,26 +507,25 @@ import Layout from '../layouts/Layout.astro';
     {
       time: '8:00 AM',
       period: 'Morning Reading',
-      tabTitle: 'Google Classroom · English Lit',
-      tabBg1: 'CoolMath Games (Run 3)',
-      tabBg2: 'Ed Podcast · Lo-Fi Study',
-      tabCount: '+ 11 tabs',
-      url: 'classroom.google.com/c/english-lit/ch4',
       screen: {
         photo: '/images/digital-morning-desk.jpg',
         title: 'Chronic Tab-Switching & Cognitive Fatigue',
         desc: 'Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.',
         problem: 'Screen time unmeasured; physical reading displaced.',
-        notif: {
+        chaosTop: {
           source: 'Educational Games',
           time: 'now',
           msg: 'Daily math puzzle unlocked in background tab.'
+        },
+        chaosBottom: {
+          source: 'Discord · Web Client',
+          time: '1m ago',
+          msg: 'New message in #homework-chat: "Anyone finish #4?"'
         }
       },
       analog: {
         photo: '/images/analog-morning-book.jpg',
-        pill: '8:00 AM · Morning Reading',
-        heading: 'Classrooms Grounded in Physical Books',
+        title: 'Classrooms Grounded in Physical Books',
         desc: 'Students begin their school morning opening printed paperbacks. No browser tabs, no device notifications, and zero digital eye strain—deep reading and focus set the tone for the day.',
         milestone: 'Milestone 1: Analog-first learning default across all K-12 classrooms.'
       }
@@ -910,53 +533,51 @@ import Layout from '../layouts/Layout.astro';
     {
       time: '1:15 PM',
       period: 'Afternoon Inquiry',
-      tabTitle: 'AI Research Assistant · Draft',
-      tabBg1: 'Discord (Web Client)',
-      tabBg2: 'HVRSD Portal · Chemistry Lab',
-      tabCount: '+ 9 tabs',
-      url: 'ai-writer.example.org/session/prompt',
       screen: {
         photo: '/images/digital-classroom-room.jpg',
         title: 'AI Shortcuts Supplanting Critical Thinking',
         desc: 'Instead of struggling through problem-solving or engaging in classroom discussion, students prompt generative tools for instant answers, eroding cognitive stamina.',
         problem: 'Classroom relationships and independent reasoning displaced.',
-        notif: {
+        chaosTop: {
           source: 'AI Writing Assistant',
           time: 'just now',
           msg: 'Want me to draft this analysis section for you?'
+        },
+        chaosBottom: {
+          source: 'YouTube (Filtered)',
+          time: '3m ago',
+          msg: 'Suggested: "10 Study Hacks You Need to Try"'
         }
       },
       analog: {
         photo: '/images/analog-afternoon-chalkboard.jpg',
-        pill: '1:15 PM · Afternoon Inquiry',
-        heading: 'Classroom Inquiry: Eyes Up & Chalkboards',
+        title: 'Classroom Inquiry: Eyes Up & Chalkboards',
         desc: 'Students look each other in the eye, debate ideas, and solve problems collaboratively on chalkboards and paper. Technology is never used to replace teacher-led relationship and discussion.',
         milestone: "Superintendent Treece's Stated Vision: Prioritizing face-to-face interaction, meaningful relationships, and active inquiry."
       }
     },
     {
       time: '6:00 PM',
-      period: 'Dinner & Homework',
-      tabTitle: 'HVRSD Homework Portal',
-      tabBg1: 'Chess.com · Daily Blitz',
-      tabBg2: 'Khan Academy · Algebra II',
-      tabCount: '+ 7 tabs',
-      url: 'hvrsd.instructure.com/courses/homework-portal',
+      period: 'Family Dinner & Homework',
       screen: {
         photo: '/images/digital-dinner-table.jpg',
         title: 'The Educational Trojan Horse at Dinner',
         desc: 'Mandatory take-home Chromebooks enter family homes under the banner of "homework." Open-ended browsing and games invade the dining table and family living room.',
         problem: 'Displaces family conversation, outdoor play, and screen-free evenings.',
-        notif: {
+        chaosTop: {
           source: 'District Portal',
           time: '5m ago',
-          msg: 'New digital homework assignment posted, due tomorrow morning.'
+          msg: 'New digital assignment posted, due tomorrow at 8:00 AM.'
+        },
+        chaosBottom: {
+          source: 'Chess.com · Daily Blitz',
+          time: '12m ago',
+          msg: 'Your turn! 24 hours remaining against schoolmate.'
         }
       },
       analog: {
         photo: '/images/analog-evening-dinner.jpg',
-        pill: '6:00 PM · Family Dinner',
-        heading: 'Screen-Free Dinner: Devices Stay at School',
+        title: 'Screen-Free Dinner: Devices Stay at School',
         desc: 'School-issued Chromebooks remain safely in classroom charging carts overnight. Homework returns to paper worksheets, protecting family dinner conversation and screen-free evenings.',
         milestone: 'Milestone 4: Routine take-home Chromebooks eliminated; family dinnertime and living room peace protected.'
       }
@@ -964,26 +585,25 @@ import Layout from '../layouts/Layout.astro';
     {
       time: '8:30 PM',
       period: 'Bedtime & Sleep',
-      tabTitle: 'Canvas Portal · Due 11:59 PM',
-      tabBg1: 'YouTube (Filtered) · Stream',
-      tabBg2: 'Classroom Chat (Unread)',
-      tabCount: '+ 5 tabs',
-      url: 'classroom.google.com/turn-in-late-assignment',
       screen: {
         photo: '/images/digital-bedtime-night.jpg',
         title: 'Late Night Notifications & Fragmented Sleep',
         desc: 'School devices in bedrooms emit blue light and chime with late assignments. Melatonin production is suppressed, leaving students exhausted the next morning.',
         problem: 'Blue-light sleep disruption impairs deep rest and circadian rhythm.',
-        notif: {
+        chaosTop: {
           source: 'Canvas Alert',
           time: 'now',
           msg: 'Assignment deadline in 3 hours 29 minutes.'
+        },
+        chaosBottom: {
+          source: 'Classroom Chat',
+          time: '8m ago',
+          msg: 'Ben: "Did anyone figure out the last question?"'
         }
       },
       analog: {
         photo: '/images/analog-bedtime-sleep.jpg',
-        pill: '8:30 PM · Restful Sleep',
-        heading: 'Screen-Free Bedrooms: Deep Restful Sleep',
+        title: 'Screen-Free Bedrooms: Deep Restful Sleep',
         desc: "Zero school notifications or blue-light glare in children's bedrooms. Students wind down with paperback books under warm lamplight, protecting natural melatonin and waking up refreshed.",
         milestone: 'Milestones 3 & 5: 100% screen-free evenings by default; healthy circadian rhythms restored.'
       }
@@ -993,451 +613,205 @@ import Layout from '../layouts/Layout.astro';
   let currentStep = 0;
   let isAnalogMode = false;
 
+  function renderStage() {
+    const data = dayScenarios[currentStep];
+    if (!data) return;
+
+    const photoEl = document.getElementById('stage-photo');
+    const badgeEl = document.getElementById('stage-mode-badge');
+    const dotEl = document.getElementById('stage-mode-dot');
+    const modeTextEl = document.getElementById('stage-mode-text');
+    const stepCounterEl = document.getElementById('stage-step-counter');
+
+    const chaosLayer = document.getElementById('digital-chaos-layer');
+    const chaosToastTop = document.getElementById('chaos-toast-top');
+    const chaosSourceTop = document.getElementById('chaos-source-top');
+    const chaosTimeTop = document.getElementById('chaos-time-top');
+    const chaosMsgTop = document.getElementById('chaos-msg-top');
+    const chaosToastBottom = document.getElementById('chaos-toast-bottom');
+    const chaosSourceBottom = document.getElementById('chaos-source-bottom');
+    const chaosTimeBottom = document.getElementById('chaos-time-bottom');
+    const chaosMsgBottom = document.getElementById('chaos-msg-bottom');
+
+    const prevBtn = document.getElementById('stage-prev-btn');
+    const prevLabel = document.getElementById('stage-prev-label');
+    const pillDot = document.getElementById('stage-pill-dot');
+    const pillTime = document.getElementById('stage-pill-time');
+    const nextBtn = document.getElementById('stage-next-btn');
+    const nextLabel = document.getElementById('stage-next-label');
+
+    const headingEl = document.getElementById('stage-heading');
+    const descEl = document.getElementById('stage-desc');
+    const pillBox = document.getElementById('stage-pill-box');
+    const pillText = document.getElementById('stage-pill-text');
+
+    const toggleBtn = document.getElementById('stage-toggle-btn');
+    const toggleIcon = document.getElementById('stage-toggle-icon');
+    const toggleLabel = document.getElementById('stage-toggle-label');
+    const signBtn = document.getElementById('stage-sign-btn');
+
+    // 1. Step Counter
+    if (stepCounterEl) {
+      stepCounterEl.textContent = `${currentStep + 1} of ${dayScenarios.length}`;
+    }
+
+    // 2. Navigation HUD Labels & Visibility
+    const isFirst = (currentStep === 0);
+    const isLast = (currentStep === dayScenarios.length - 1);
+
+    if (prevBtn) {
+      if (isFirst) {
+        prevBtn.style.visibility = 'hidden';
+        prevBtn.setAttribute('aria-hidden', 'true');
+      } else {
+        prevBtn.style.visibility = 'visible';
+        prevBtn.removeAttribute('aria-hidden');
+        if (prevLabel) prevLabel.textContent = dayScenarios[currentStep - 1].time;
+      }
+    }
+
+    if (nextBtn) {
+      if (isLast) {
+        nextBtn.style.visibility = 'hidden';
+        nextBtn.setAttribute('aria-hidden', 'true');
+      } else {
+        nextBtn.style.visibility = 'visible';
+        nextBtn.removeAttribute('aria-hidden');
+        if (nextLabel) nextLabel.textContent = dayScenarios[currentStep + 1].time;
+      }
+    }
+
+    const pillTimeShort = document.getElementById('stage-pill-time-short');
+    const pillTimeFull = document.getElementById('stage-pill-time-full');
+    if (pillTimeShort) pillTimeShort.textContent = data.time;
+    if (pillTimeFull) pillTimeFull.textContent = `${data.time} · ${data.period}`;
+
+    // 3. Mode Switch: Analog vs Screen Reality
+    if (isAnalogMode) {
+      // Photo
+      if (photoEl) {
+        photoEl.src = data.analog.photo;
+        photoEl.alt = data.analog.title;
+      }
+
+      // Badge
+      if (badgeEl) {
+        badgeEl.className = 'pointer-events-auto bg-black/65 backdrop-blur-md border border-emerald-500/40 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-2 shadow-md text-emerald-300';
+      }
+      if (dotEl) dotEl.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      if (modeTextEl) modeTextEl.textContent = 'Analog Alternative';
+      if (pillDot) pillDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+
+      // Hide chaos toasts
+      if (chaosLayer) {
+        chaosLayer.style.opacity = '0';
+      }
+
+      // Content
+      if (headingEl) {
+        headingEl.textContent = data.analog.title;
+        headingEl.className = 'font-serif text-2xl sm:text-3xl font-bold text-primary mb-2.5 leading-snug';
+      }
+      if (descEl) descEl.textContent = data.analog.desc;
+
+      // Milestone Callout
+      if (pillBox) {
+        pillBox.className = 'w-full text-xs sm:text-sm font-medium px-4 py-3 rounded-xl mb-6 flex items-start gap-2.5 shadow-sm bg-[#EAF3EB] border border-[#A6CDB0] text-[#1E4D2B] transition-all';
+      }
+      if (pillText) pillText.textContent = data.analog.milestone;
+
+      // Toggle Button
+      if (toggleBtn) {
+        toggleBtn.className = 'bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.98] text-text-secondary hover:text-primary text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-[#E5D6C7] flex items-center justify-center gap-2.5 cursor-pointer transition-all';
+      }
+      if (toggleIcon) toggleIcon.innerHTML = '&larr;';
+      if (toggleLabel) toggleLabel.textContent = 'Compare Screen Reality';
+
+    } else {
+      // Photo
+      if (photoEl) {
+        photoEl.src = data.screen.photo;
+        photoEl.alt = data.screen.title;
+      }
+
+      // Badge
+      if (badgeEl) {
+        badgeEl.className = 'pointer-events-auto bg-black/65 backdrop-blur-md border border-amber-500/40 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-2 shadow-md text-amber-300';
+      }
+      if (dotEl) dotEl.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+      if (modeTextEl) modeTextEl.textContent = 'Screen Reality';
+      if (pillDot) pillDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+
+      // Show chaos toasts & update copy
+      if (chaosLayer) {
+        chaosLayer.style.opacity = '1';
+      }
+      if (chaosToastTop) {
+        if (chaosSourceTop) chaosSourceTop.textContent = data.screen.chaosTop.source;
+        if (chaosTimeTop) chaosTimeTop.textContent = data.screen.chaosTop.time;
+        if (chaosMsgTop) chaosMsgTop.textContent = data.screen.chaosTop.msg;
+      }
+      if (chaosToastBottom) {
+        if (chaosSourceBottom) chaosSourceBottom.textContent = data.screen.chaosBottom.source;
+        if (chaosTimeBottom) chaosTimeBottom.textContent = data.screen.chaosBottom.time;
+        if (chaosMsgBottom) chaosMsgBottom.textContent = data.screen.chaosBottom.msg;
+      }
+
+      // Content
+      if (headingEl) {
+        headingEl.textContent = data.screen.title;
+        headingEl.className = 'font-serif text-2xl sm:text-3xl font-bold text-text-primary mb-2.5 leading-snug';
+      }
+      if (descEl) descEl.textContent = data.screen.desc;
+
+      // Problem Callout
+      if (pillBox) {
+        pillBox.className = 'w-full text-xs sm:text-sm font-medium px-4 py-3 rounded-xl mb-6 flex items-start gap-2.5 shadow-sm bg-[#231215] border border-[#7A2424]/75 text-rose-100 transition-all';
+      }
+      if (pillText) pillText.textContent = data.screen.problem;
+
+      // Toggle Button
+      if (toggleBtn) {
+        toggleBtn.className = 'bg-[#1F2533] hover:bg-[#2A3446] active:scale-[0.98] text-white text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-white/20 shadow-md flex items-center justify-center gap-2.5 cursor-pointer transition-all';
+      }
+      if (toggleIcon) toggleIcon.innerHTML = '&darr;';
+      if (toggleLabel) toggleLabel.textContent = 'Screens Down \u2193 (See Analog Alternative)';
+    }
+  }
+
   function selectTime(step) {
     if (step < 0) step = 0;
     if (step >= dayScenarios.length) step = dayScenarios.length - 1;
     currentStep = step;
-    
-    const isFirst = (currentStep === 0);
-    const isLast = (currentStep === dayScenarios.length - 1);
-
-    // 1. Contextual Screen Navigation Buttons below Red Box
-    const screenPrevBtn = document.getElementById('screen-nav-prev');
-    const screenPrevLabel = document.getElementById('screen-nav-prev-label');
-    const screenNextBtn = document.getElementById('screen-nav-next');
-    const screenNextLabel = document.getElementById('screen-nav-next-label');
-
-    const navLabels = [
-      { prev: null, next: 'Next class &rarr;' },
-      { prev: 'Morning focus', next: 'Homework time &rarr;' },
-      { prev: 'Afternoon class', next: 'Time for bed &rarr;' },
-      { prev: 'Homework time', next: null }
-    ];
-
-    const currentNav = navLabels[currentStep] || navLabels[0];
-
-    if (screenPrevBtn) {
-      if (isFirst) {
-        screenPrevBtn.style.visibility = 'hidden';
-        screenPrevBtn.setAttribute('aria-hidden', 'true');
-      } else {
-        screenPrevBtn.style.visibility = 'visible';
-        screenPrevBtn.removeAttribute('aria-hidden');
-        if (screenPrevLabel && currentNav.prev) {
-          screenPrevLabel.innerHTML = currentNav.prev;
-        }
-      }
-    }
-
-    if (screenNextBtn) {
-      if (isLast) {
-        screenNextBtn.style.visibility = 'hidden';
-        screenNextBtn.setAttribute('aria-hidden', 'true');
-      } else {
-        screenNextBtn.style.visibility = 'visible';
-        screenNextBtn.removeAttribute('aria-hidden');
-        if (screenNextLabel && currentNav.next) {
-          screenNextLabel.innerHTML = currentNav.next;
-        }
-      }
-    }
-
-    // 2. Update Keyboard Chiclet Buttons & LEDs
-    for (let i = 0; i < 4; i++) {
-      const face = document.getElementById(`deck-face-${i}`);
-      const highlight = document.getElementById(`deck-hi-${i}`);
-      const led = document.getElementById(`deck-led-${i}`);
-      const time = document.getElementById(`deck-time-${i}`);
-      const label = document.getElementById(`deck-label-${i}`);
-      const keyGroup = document.getElementById(`key-${i}`);
-
-      if (i === currentStep) {
-        if (face) {
-          face.setAttribute('fill', 'url(#oledActiveGrad)');
-          face.setAttribute('stroke', '#60A5FA');
-          face.setAttribute('stroke-width', '1.4');
-        }
-        if (highlight) {
-          highlight.setAttribute('stroke', '#93C5FD');
-          highlight.setAttribute('opacity', '0.95');
-        }
-        if (led) {
-          led.setAttribute('fill', '#38BDF8');
-          led.setAttribute('filter', 'url(#oledLedGlow)');
-        }
-        if (time) time.setAttribute('fill', '#FFFFFF');
-        if (label) label.setAttribute('fill', '#93C5FD');
-        if (keyGroup) keyGroup.setAttribute('aria-current', 'step');
-      } else {
-        if (face) {
-          face.setAttribute('fill', 'url(#keyGrad)');
-          face.setAttribute('stroke', '#383F4D');
-          face.setAttribute('stroke-width', '0.5');
-        }
-        if (highlight) {
-          highlight.setAttribute('stroke', '#4A5364');
-          highlight.setAttribute('opacity', '0.5');
-        }
-        if (led) {
-          led.setAttribute('fill', '#4B5563');
-          led.removeAttribute('filter');
-        }
-        if (time) time.setAttribute('fill', '#CBD5E1');
-        if (label) label.setAttribute('fill', '#64748B');
-        if (keyGroup) keyGroup.removeAttribute('aria-current');
-      }
-    }
-
-    // 3. Analog Photo Embedded HUD: Left / Prev
-    const analogPrevWrapper = document.getElementById('analog-prev-wrapper');
-    const analogPrev = document.getElementById('analog-prev-btn');
-    if (analogPrevWrapper) {
-      if (isFirst) {
-        analogPrevWrapper.style.visibility = 'hidden';
-        analogPrevWrapper.setAttribute('aria-hidden', 'true');
-      } else {
-        analogPrevWrapper.style.visibility = 'visible';
-        analogPrevWrapper.removeAttribute('aria-hidden');
-        if (analogPrev) analogPrev.textContent = dayScenarios[currentStep - 1].time;
-      }
-    }
-
-    // 4. Analog Photo Embedded HUD: Right / Next
-    const analogNextWrapper = document.getElementById('analog-next-wrapper');
-    const analogNext = document.getElementById('analog-next-btn');
-    if (analogNextWrapper) {
-      if (isLast) {
-        analogNextWrapper.style.visibility = 'hidden';
-        analogNextWrapper.setAttribute('aria-hidden', 'true');
-      } else {
-        analogNextWrapper.style.visibility = 'visible';
-        analogNextWrapper.removeAttribute('aria-hidden');
-        if (analogNext) analogNext.textContent = dayScenarios[currentStep + 1].time;
-      }
-    }
-
-    // 5. Mobile Photo Embedded HUD
-    const mobilePrevBtn = document.getElementById('mobile-prev-btn');
-    const mobilePrevLabel = document.getElementById('mobile-prev-label');
-    const mobileNextBtn = document.getElementById('mobile-next-btn');
-    const mobileNextLabel = document.getElementById('mobile-next-label');
-    const mobilePillTime = document.getElementById('mobile-pill-time');
-    const mobileStepCounter = document.getElementById('mobile-step-counter');
-
-    if (mobileStepCounter) {
-      mobileStepCounter.textContent = `${currentStep + 1} of ${dayScenarios.length}`;
-    }
-    if (mobilePillTime) {
-      mobilePillTime.textContent = dayScenarios[currentStep].time;
-    }
-    if (mobilePrevBtn) {
-      if (isFirst) {
-        mobilePrevBtn.style.visibility = 'hidden';
-        mobilePrevBtn.setAttribute('aria-hidden', 'true');
-      } else {
-        mobilePrevBtn.style.visibility = 'visible';
-        mobilePrevBtn.removeAttribute('aria-hidden');
-        if (mobilePrevLabel) mobilePrevLabel.textContent = dayScenarios[currentStep - 1].time;
-      }
-    }
-    if (mobileNextBtn) {
-      if (isLast) {
-        mobileNextBtn.style.visibility = 'hidden';
-        mobileNextBtn.setAttribute('aria-hidden', 'true');
-      } else {
-        mobileNextBtn.style.visibility = 'visible';
-        mobileNextBtn.removeAttribute('aria-hidden');
-        if (mobileNextLabel) mobileNextLabel.textContent = dayScenarios[currentStep + 1].time;
-      }
-    }
-
-    renderScenario();
-    updateDynamicScaling();
+    renderStage();
   }
 
   function goToPrevStep() {
     if (currentStep > 0) {
       selectTime(currentStep - 1);
-    } else {
-      selectTime(0);
     }
   }
 
   function goToNextStep() {
     if (currentStep < dayScenarios.length - 1) {
       selectTime(currentStep + 1);
-    } else {
-      selectTime(0);
     }
   }
 
-  function renderScenario() {
-    const data = dayScenarios[currentStep];
-
-    // Update Screen
-    const tabActive = document.getElementById('tab-active-title');
-    const tabBg1 = document.getElementById('tab-bg-title-1');
-    const tabBg2 = document.getElementById('tab-bg-title-2');
-    const tabCount = document.getElementById('tab-count-badge');
-    const sTitle = document.getElementById('screen-title');
-    const sDesc = document.getElementById('screen-desc');
-    const sProb = document.getElementById('screen-problem');
-    const tSource = document.getElementById('toast-source');
-    const tTime = document.getElementById('toast-time');
-    const tMsg = document.getElementById('toast-msg');
-
-    if (tabActive) tabActive.textContent = data.tabTitle;
-    if (tabBg1) tabBg1.textContent = data.tabBg1;
-    if (tabBg2) tabBg2.textContent = data.tabBg2;
-    if (tabCount) tabCount.textContent = data.tabCount;
-    if (sTitle) sTitle.textContent = data.screen.title;
-    if (sDesc) sDesc.textContent = data.screen.desc;
-    if (sProb) sProb.textContent = data.screen.problem;
-    if (tSource) tSource.textContent = data.screen.notif.source;
-    if (tTime) tTime.textContent = data.screen.notif.time;
-    if (tMsg) tMsg.textContent = data.screen.notif.msg;
-
-    // Update Analog Stage
-    const aPhoto = document.getElementById('analog-photo');
-    const aPill = document.getElementById('analog-time-pill');
-    const aPillMobile = document.getElementById('analog-time-pill-mobile');
-    const aHeading = document.getElementById('analog-heading');
-    const aDetails = document.getElementById('analog-details');
-
-    if (aPhoto && data.analog.photo) aPhoto.src = data.analog.photo;
-    if (aPill) aPill.textContent = data.analog.pill;
-    if (aPillMobile) aPillMobile.textContent = data.time;
-    if (aHeading) aHeading.textContent = data.analog.heading;
-    if (aDetails) aDetails.textContent = data.analog.desc;
-
-    // Sync Mobile Card
-    renderMobileCard();
-  }
-
-  function renderMobileCard() {
-    const data = dayScenarios[currentStep];
-    if (!data) return;
-
-    const mPhoto = document.getElementById('mobile-photo');
-    const mBadge = document.getElementById('mobile-mode-badge');
-    const mBadgeDot = document.getElementById('mobile-mode-dot');
-    const mBadgeText = document.getElementById('mobile-mode-text');
-    const mPillDot = document.getElementById('mobile-pill-dot');
-    const mToast = document.getElementById('mobile-toast');
-    const mToastSource = document.getElementById('mobile-toast-source');
-    const mToastTime = document.getElementById('mobile-toast-time');
-    const mToastMsg = document.getElementById('mobile-toast-msg');
-    const mHeading = document.getElementById('mobile-heading');
-    const mDesc = document.getElementById('mobile-desc');
-    const mPillBox = document.getElementById('mobile-pill-box');
-    const mPillText = document.getElementById('mobile-pill-text');
-    const mToggleBtn = document.getElementById('mobile-toggle-btn');
-    const mToggleIcon = document.getElementById('mobile-toggle-icon');
-    const mToggleLabel = document.getElementById('mobile-toggle-label');
-    const mSignBtn = document.getElementById('mobile-sign-btn');
-
-    if (isAnalogMode) {
-      // ANALOG REALITY (SCREEN-FREE)
-      if (mPhoto && data.analog.photo) {
-        mPhoto.src = data.analog.photo;
-        mPhoto.alt = data.analog.heading;
-      }
-      if (mBadge) {
-        mBadge.className = 'pointer-events-auto bg-black/65 backdrop-blur-md border border-emerald-500/40 px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wide flex items-center gap-1.5 shadow-sm text-emerald-300';
-      }
-      if (mBadgeDot) mBadgeDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
-      if (mBadgeText) mBadgeText.textContent = 'Analog Alternative';
-      if (mPillDot) mPillDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
-
-      if (mToast) mToast.style.display = 'none';
-
-      if (mHeading) {
-        mHeading.textContent = data.analog.heading;
-        mHeading.className = 'font-serif text-xl sm:text-2xl font-bold text-primary mb-2 leading-snug';
-      }
-      if (mDesc) mDesc.textContent = data.analog.desc;
-
-      if (mPillBox) {
-        mPillBox.className = 'w-full text-xs font-medium px-4 py-2.5 rounded-xl mb-5 flex items-start gap-2 shadow-sm bg-[#EAF3EB] border border-[#A6CDB0] text-[#1E4D2B]';
-      }
-      if (mPillText) mPillText.textContent = data.analog.milestone;
-
-      if (mToggleBtn) {
-        mToggleBtn.className = 'w-full bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.98] text-text-secondary hover:text-primary text-xs font-bold py-2.5 px-4 rounded-xl border border-[#E5D6C7] flex items-center justify-center gap-1.5 cursor-pointer transition-all';
-      }
-      if (mToggleIcon) mToggleIcon.innerHTML = '&larr;';
-      if (mToggleLabel) mToggleLabel.textContent = 'Compare Screen Reality';
-
-      if (mSignBtn) {
-        mSignBtn.style.display = 'flex';
-      }
-    } else {
-      // SCREEN SATURATION (DIGITAL REALITY)
-      if (mPhoto && data.screen.photo) {
-        mPhoto.src = data.screen.photo;
-        mPhoto.alt = data.screen.title;
-      }
-      if (mBadge) {
-        mBadge.className = 'pointer-events-auto bg-black/65 backdrop-blur-md border border-amber-500/40 px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wide flex items-center gap-1.5 shadow-sm text-amber-300';
-      }
-      if (mBadgeDot) mBadgeDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
-      if (mBadgeText) mBadgeText.textContent = 'Screen Reality';
-      if (mPillDot) mPillDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
-
-      if (mToast) {
-        mToast.style.display = 'block';
-        if (mToastSource) mToastSource.textContent = data.screen.notif.source;
-        if (mToastTime) mToastTime.textContent = data.screen.notif.time;
-        if (mToastMsg) mToastMsg.textContent = data.screen.notif.msg;
-      }
-
-      if (mHeading) {
-        mHeading.textContent = data.screen.title;
-        mHeading.className = 'font-serif text-xl sm:text-2xl font-bold text-text-primary mb-2 leading-snug';
-      }
-      if (mDesc) mDesc.textContent = data.screen.desc;
-
-      if (mPillBox) {
-        mPillBox.className = 'w-full text-xs font-medium px-4 py-2.5 rounded-xl mb-5 flex items-start gap-2 shadow-sm bg-[#231215] border border-[#7A2424]/75 text-rose-100';
-      }
-      if (mPillText) mPillText.textContent = data.screen.problem;
-
-      if (mToggleBtn) {
-        mToggleBtn.className = 'w-full bg-[#1F2533] hover:bg-[#2A3446] active:scale-[0.98] text-white text-sm font-bold py-3 px-4 rounded-xl border border-white/20 shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all';
-      }
-      if (mToggleIcon) mToggleIcon.innerHTML = '&darr;';
-      if (mToggleLabel) mToggleLabel.textContent = 'Screens Down \u2193 (See Analog Alternative)';
-
-      if (mSignBtn) {
-        mSignBtn.style.display = 'none';
-      }
-    }
-  }
-
-  function toggleMobileMode() {
+  function toggleRealityMode() {
     isAnalogMode = !isAnalogMode;
-    renderMobileCard();
+    renderStage();
   }
 
-  function triggerShutLid() {
-    isAnalogMode = true;
-    const lid = document.getElementById('chromebook-lid');
-    const base = document.getElementById('laptop-base');
-    const laptopViewport = document.getElementById('laptop-viewport');
-    const analogStage = document.getElementById('analog-stage');
-
-    if (lid) lid.classList.add('is-shut');
-    
-    setTimeout(() => {
-      if (laptopViewport) laptopViewport.style.display = 'none';
-      if (lid) lid.style.display = 'none';
-      if (base) base.style.display = 'none';
-      if (analogStage) {
-        analogStage.classList.remove('is-hidden');
-        analogStage.style.display = 'block';
-      }
-      updateDynamicScaling();
-      renderMobileCard();
-
-      const section = document.getElementById('chromebook-interactive');
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 400);
-  }
-
-  function triggerReopenLid() {
-    isAnalogMode = false;
-    const lid = document.getElementById('chromebook-lid');
-    const base = document.getElementById('laptop-base');
-    const laptopViewport = document.getElementById('laptop-viewport');
-    const analogStage = document.getElementById('analog-stage');
-
-    if (analogStage) analogStage.classList.add('is-hidden');
-    setTimeout(() => {
-      if (analogStage) analogStage.style.display = 'none';
-      if (laptopViewport) laptopViewport.style.display = 'flex';
-      if (lid) lid.style.display = 'block';
-      if (base) base.style.display = 'block';
-      setTimeout(() => {
-        if (lid) lid.classList.remove('is-shut');
-      }, 50);
-      updateDynamicScaling();
-      renderMobileCard();
-
-      const section = document.getElementById('chromebook-interactive');
-      if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-    }, 300);
-  }
-
-  function updateDynamicScaling() {
-    const container = document.getElementById('interactive-scaler-container');
-    const stage = document.getElementById('interactive-scaler-stage');
-    const headingEl = document.getElementById('interactive-heading');
-    const laptopViewport = document.getElementById('laptop-viewport');
-    const analogStage = document.getElementById('analog-stage');
-    if (!container || !stage) return;
-
-    const isAnalog = analogStage && !analogStage.classList.contains('is-hidden') && analogStage.style.display !== 'none';
-    const activeEl = isAnalog ? analogStage : laptopViewport;
-    if (!activeEl) return;
-
-    const winW = window.innerWidth;
-    const winH = window.innerHeight;
-
-    // On narrow mobile devices (< 640px), let natural mobile document flow take over
-    if (winW < 640) {
-      stage.style.transform = '';
-      stage.style.width = '100%';
-      stage.style.maxWidth = '';
-      container.style.height = 'auto';
-      return;
-    }
-
-    // Base design dimensions
-    const baseWidth = isAnalog ? 780 : 860;
-    stage.style.width = baseWidth + 'px';
-    stage.style.maxWidth = 'none';
-
-    // Standardized reference unscaled layout height for rock-solid stability across checkpoints
-    const headingH = headingEl ? headingEl.offsetHeight : 0;
-    const activeH = isAnalog ? 750 : 695;
-    const naturalHeight = headingH + activeH;
-
-    // Available space calculations:
-    const parentW = container.parentElement ? container.parentElement.clientWidth : winW;
-    const availableWidth = Math.max(320, Math.min(winW - 32, parentW - 8));
-
-    // Reserving vertical space for sticky navigation (65px), section top padding (16px), and bottom safety buffer (16px)
-    const availableHeight = Math.max(420, winH - 96);
-
-    // Proportional scale factor
-    const scaleW = availableWidth / baseWidth;
-    const scaleH = availableHeight / naturalHeight;
-    let scale = Math.min(scaleW, scaleH, 1.0);
-
-    // Minimum scale safety floor
-    scale = Math.max(0.48, Math.round(scale * 1000) / 1000);
-
-    stage.style.transform = `scale(${scale})`;
-    stage.style.transformOrigin = 'top center';
-    container.style.height = Math.round(naturalHeight * scale) + 'px';
-  }
-
-  // Expose methods to window for inline onclick attributes
+  // Window exports for inline handlers
   window.selectTime = selectTime;
   window.goToPrevStep = goToPrevStep;
   window.goToNextStep = goToNextStep;
-  window.triggerShutLid = triggerShutLid;
-  window.triggerReopenLid = triggerReopenLid;
-  window.toggleMobileMode = toggleMobileMode;
-  window.updateDynamicScaling = updateDynamicScaling;
+  window.toggleRealityMode = toggleRealityMode;
 
-  function initChromebookInteractive() {
-    const container = document.getElementById('interactive-scaler-container');
-    if (!container) return;
+  function initRealityExperience() {
+    const stage = document.getElementById('reality-stage');
+    if (!stage) return;
 
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has('step')) {
@@ -1446,43 +820,16 @@ import Layout from '../layouts/Layout.astro';
         currentStep = s;
       }
     }
-    if (urlParams.get('shut') === '1') {
+    if (urlParams.get('analog') === '1' || urlParams.get('shut') === '1') {
       isAnalogMode = true;
-      const lid = document.getElementById('chromebook-lid');
-      const base = document.getElementById('laptop-base');
-      const laptopViewport = document.getElementById('laptop-viewport');
-      const analogStage = document.getElementById('analog-stage');
-      if (laptopViewport) laptopViewport.style.display = 'none';
-      if (lid) lid.style.display = 'none';
-      if (base) base.style.display = 'none';
-      if (analogStage) {
-        analogStage.classList.remove('is-hidden');
-        analogStage.style.display = 'block';
-      }
     }
-    selectTime(currentStep);
-    renderMobileCard();
-    updateDynamicScaling();
-
-    if (urlParams.has('focus')) {
-      const el = document.getElementById(urlParams.get('focus'));
-      if (el) {
-        const targetTop = Math.max(0, el.offsetTop - 70);
-        document.documentElement.scrollTop = targetTop;
-        document.body.scrollTop = targetTop;
-      }
-    }
+    renderStage();
   }
 
-  // Bind to resize and orientationchange
-  window.addEventListener('resize', updateDynamicScaling);
-  window.addEventListener('orientationchange', updateDynamicScaling);
-
-  // Astro page transitions & initial load support
-  document.addEventListener('astro:page-load', initChromebookInteractive);
+  document.addEventListener('astro:page-load', initRealityExperience);
   if (document.readyState !== 'loading') {
-    initChromebookInteractive();
+    initRealityExperience();
   } else {
-    document.addEventListener('DOMContentLoaded', initChromebookInteractive);
+    document.addEventListener('DOMContentLoaded', initRealityExperience);
   }
 </script>
