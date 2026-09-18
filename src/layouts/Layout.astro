@@ -5,6 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 const globalSettings = await getEntry('settings', 'global');
 import GetInvolvedModal from '../components/GetInvolvedModal.astro';
+import PetitionFloatingDock from '../components/PetitionFloatingDock.astro';
 import '../styles/global.css';
 import '../styles/animations.css';
 
@@ -115,6 +116,7 @@ const themeClass = globalSettings.data.theme; // Force rebuild
 	</main>
 	<Footer />
 	<GetInvolvedModal />
+	<PetitionFloatingDock />
 
 	<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 	<script is:inline>

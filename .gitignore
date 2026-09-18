@@ -36,5 +36,8 @@ logs.md
 # Local email previews (npm run newsletter:preview)
 .preview/
 
+# Local tools
+.impeccable/
+
 # macOS
 .DS_Store

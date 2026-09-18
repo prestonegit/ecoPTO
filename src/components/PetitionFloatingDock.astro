@@ -1,0 +1,192 @@
+---
+// src/components/PetitionFloatingDock.astro
+// Floating Notification Dock for ecoPTO Main Site
+---
+<aside 
+  id="petition-floating-dock" 
+  aria-label="Active parent petition announcement"
+  class="fixed z-50 pointer-events-none opacity-0 translate-y-16 bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:bottom-6 sm:max-w-md transition-all duration-300"
+>
+  <div 
+    id="dock-card-wrapper"
+    class="bg-white rounded-2xl p-4 sm:p-5 border border-[#E5D6C7] shadow-[0_14px_40px_rgba(45,45,45,0.18)] relative transition-transform duration-200 hover:-translate-y-1"
+  >
+    <!-- Dismiss Button -->
+    <button 
+      id="dismiss-petition-dock"
+      type="button"
+      class="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-8 h-8 rounded-full flex items-center justify-center text-[#4A4540] hover:text-[#B05B3B] hover:bg-[#FAF7F2] transition-colors z-10"
+      aria-label="Dismiss notification"
+    >
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+
+    <div class="pr-6 sm:pr-4">
+      <div class="text-[11px] font-bold text-[#B05B3B] uppercase tracking-wider mb-1">
+        Parent Petition
+      </div>
+      
+      <h3 class="text-sm sm:text-base font-bold text-[#2D2D2D] leading-snug mb-1 font-sans">
+        Intentional Tech: Screens Down, Pencils Up
+      </h3>
+      
+      <p class="text-xs text-[#4A4540] leading-relaxed mb-3 line-clamp-2 sm:line-clamp-none">
+        Support 5 common-sense classroom screen-time milestones across all grade levels.
+      </p>
+      
+      <div class="flex items-center gap-2 sm:gap-3 pt-0.5">
+        <a 
+          href="/petition" 
+          class="px-3.5 py-2 text-xs font-bold text-[#4A4540] hover:text-[#B05B3B] bg-[#FAF7F2] hover:bg-[#FAF7F2]/80 border border-[#E5D6C7] rounded-full transition-colors inline-flex items-center min-h-[38px]"
+        >
+          Learn More
+        </a>
+        <a 
+          href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          class="px-4 py-2 bg-[#B05B3B] hover:bg-[#8A3E22] text-white text-xs font-bold rounded-full transition-all shadow-sm hover:shadow inline-flex items-center gap-1.5 min-h-[38px]"
+        >
+          <span>Sign Now</span>
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</aside>
+
+<style is:global>
+  /* Entrance Spring animation */
+  @keyframes dock-slide-in {
+    0% {
+      opacity: 0;
+      transform: translateY(60px) scale(0.92);
+    }
+    60% {
+      opacity: 1;
+      transform: translateY(-6px) scale(1.02);
+    }
+    80% {
+      transform: translateY(2px) scale(0.99);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Attention Nudge for the dock card */
+  @keyframes dock-card-nudge {
+    0%, 100% {
+      transform: translateY(0) rotate(0deg);
+    }
+    15% {
+      transform: translateY(-8px) rotate(-1.75deg) scale(1.02);
+    }
+    35% {
+      transform: translateY(-4px) rotate(1.25deg) scale(1.01);
+    }
+    55% {
+      transform: translateY(-2px) rotate(-0.75deg);
+    }
+    75% {
+      transform: translateY(-1px) rotate(0.35deg);
+    }
+  }
+
+  .animate-dock-entrance {
+    animation: dock-slide-in 0.65s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  }
+
+  .animate-dock-card-nudge {
+    animation: dock-card-nudge 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-dock-entrance,
+    .animate-dock-card-nudge {
+      animation: none !important;
+    }
+  }
+</style>
+
+<script is:inline>
+  function initPetitionDock() {
+    const dock = document.getElementById('petition-floating-dock');
+    const cardWrapper = document.getElementById('dock-card-wrapper');
+    const dismissBtn = document.getElementById('dismiss-petition-dock');
+    if (!dock) return;
+
+    // Suppress if dismissed in this session or on petition page
+    const isPetitionPage = window.location.pathname.replace(/\/$/, '').endsWith('/petition');
+    if (sessionStorage.getItem('ecopto_dock_dismissed') === 'true' || isPetitionPage) {
+      dock.classList.add('hidden');
+      return;
+    }
+
+    let hasShown = false;
+    let periodicNudgeTimer = null;
+
+    function triggerAttentionNudge() {
+      if (!cardWrapper) return;
+      cardWrapper.classList.remove('animate-dock-card-nudge');
+      void cardWrapper.offsetWidth;
+      cardWrapper.classList.add('animate-dock-card-nudge');
+      
+      cardWrapper.addEventListener('animationend', () => {
+        cardWrapper.classList.remove('animate-dock-card-nudge');
+      }, { once: true });
+    }
+
+    function showDock() {
+      if (hasShown) return;
+      hasShown = true;
+
+      dock.classList.remove('pointer-events-none', 'opacity-0', 'translate-y-16');
+      dock.classList.add('pointer-events-auto', 'opacity-100', 'translate-y-0', 'animate-dock-entrance');
+
+      // Play the attention nudge shortly after entrance animation settles
+      setTimeout(() => {
+        triggerAttentionNudge();
+      }, 450);
+
+      // Repeat attention nudge periodically if not hovered or dismissed
+      periodicNudgeTimer = setInterval(() => {
+        if (!dock.matches(':hover')) {
+          triggerAttentionNudge();
+        }
+      }, 14000);
+    }
+
+    // Show automatically on page load after a prompt 700ms entrance delay (no scroll required!)
+    const autoShowTimer = setTimeout(showDock, 700);
+
+    // If user scrolls before the 700ms timer, show immediately
+    function handleScroll() {
+      if (!hasShown) {
+        clearTimeout(autoShowTimer);
+        showDock();
+      }
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true, once: true });
+
+    // Handle dismiss
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', () => {
+        dock.classList.add('opacity-0', 'translate-y-16', 'pointer-events-none');
+        dock.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+        sessionStorage.setItem('ecopto_dock_dismissed', 'true');
+        if (periodicNudgeTimer) clearInterval(periodicNudgeTimer);
+        clearTimeout(autoShowTimer);
+      });
+    }
+  }
+
+  document.addEventListener('astro:page-load', initPetitionDock);
+  if (document.readyState !== 'loading') {
+    initPetitionDock();
+  } else {
+    document.addEventListener('DOMContentLoaded', initPetitionDock);
+  }
+</script>

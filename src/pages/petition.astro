@@ -1,0 +1,1311 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Parent Petition: Intentional Tech | ecoPTO">
+  <!-- ========================================== -->
+  <!-- Big & Bold Hero Section                    -->
+  <!-- ========================================== -->
+  <section class="bg-[#FAF7F2] border-b border-[#E5D6C7] py-16 sm:py-24">
+    <div class="container mx-auto px-6 max-w-4xl text-center sm:text-left">
+
+      <h1 class="font-serif font-bold text-primary tracking-tight text-5xl sm:text-6xl md:text-7xl mb-6 leading-[1.08]">
+        Screens down.<br class="hidden sm:block" />Pencils up.
+      </h1>
+
+      <p class="text-xl sm:text-2xl text-text-primary font-normal leading-relaxed max-w-4xl mb-8">
+        We applaud Superintendent Treece&rsquo;s vision to curb classroom device use. Now, let&rsquo;s back that vision with five actionable, common-sense district milestones.
+      </p>
+
+      <!-- CTA Row -->
+      <div class="flex flex-col sm:flex-row items-center gap-4 pt-2">
+        <a 
+          href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="btn-action bg-primary hover:bg-[#8A3E22] text-white text-base sm:text-lg w-full sm:w-auto text-center shadow-md flex items-center justify-center gap-2"
+        >
+          <span>Sign the Petition on Google Forms</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+
+        <a 
+          href="#chromebook-interactive" 
+          class="px-6 py-3 text-text-secondary hover:text-primary font-bold text-sm sm:text-base transition-colors flex items-center gap-1.5 min-h-[48px]"
+        >
+          <span>See How Screens Impact Our Kids &darr;</span>
+        </a>
+      </div>
+
+      <!-- Trust Indicators -->
+      <div class="mt-8 pt-6 border-t border-[#E5D6C7]/70 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-text-secondary">
+        <div class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-green-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          <span>Takes under 60 seconds</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-green-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          <span>IEP &amp; 504 Accommodations Protected</span>
+        </div>
+        <div class="flex items-center gap-1.5">
+          <svg class="w-4 h-4 text-green-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          <span>Organized by HVRSD Parents</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ======================================================== -->
+  <!-- ⚡ THE CHROMEBOOK SCREEN SIMULATOR & ANALOG REALITY      -->
+  <!-- ======================================================== -->
+  <section id="chromebook-interactive" class="scroll-mt-16 pt-3 sm:pt-4 pb-12 sm:pb-16">
+    <div class="container mx-auto px-6 max-w-4xl">
+
+      <!-- Dynamic Interactive Scaler Container -->
+      <div id="interactive-scaler-container" class="w-full relative overflow-visible transition-[height] duration-150 ease-out mx-auto">
+        
+        <!-- Scaler Stage: Scales via CSS transform: scale(s) from top center -->
+        <div id="interactive-scaler-stage" class="relative mx-auto origin-top flex-shrink-0 transition-transform duration-150 ease-out">
+
+          <!-- Section Heading (Scales harmoniously with the interactive experience) -->
+          <div id="interactive-heading" class="text-center max-w-2xl mx-auto mb-3.5 sm:mb-4 select-none">
+            <h2 class="font-serif font-bold text-primary tracking-tight text-2xl sm:text-3xl md:text-4xl mb-1.5 sm:mb-2">
+              A Day in the Life of an HVRSD Student
+            </h2>
+            <p class="text-sm sm:text-base md:text-lg text-text-secondary leading-relaxed">
+              See how routine school screen time saturates each part of our children&rsquo;s day &mdash; then close the laptop to experience the focused analog balance.
+            </p>
+          </div>
+
+          <!-- ============================================ -->
+          <!-- STATE 1: THE OPEN CHROMEBOOK (Hardware SVG)  -->
+          <!-- ============================================ -->
+          <div id="laptop-viewport" class="laptop-chassis w-full max-w-[860px] mx-auto flex flex-col items-center">
+
+            <!-- LAPTOP DISPLAY LID (Chassis Grey Frame: 88% width to seamlessly match SVG hinge) -->
+            <figure id="chromebook-lid" class="laptop-lid-3d w-[88%] bg-[#5E6573] rounded-t-2xl sm:rounded-t-3xl pt-2 sm:pt-2.5 px-2 sm:px-3 pb-0 shadow-2xl relative m-0 border border-[#484F5C] border-b-0">
+              
+              <!-- Clean Webcam Dot on Grey Bezel -->
+              <div class="flex items-center justify-center pb-2 pt-0.5 select-none">
+                <span class="w-2 h-2 rounded-full bg-[#1C2026] border border-[#3A414D]"></span>
+              </div>
+
+              <!-- CHROMEBOOK SCREEN DISPLAY (Dark Display Window) -->
+              <div class="bg-[#141820] rounded-lg overflow-hidden text-white relative shadow-inner">
+                
+                <!-- Browser Tab Strip -->
+                <div class="bg-[#1E232D] px-3 pt-2 pb-0 border-b border-[#2C3342] flex items-center justify-between gap-2 select-none overflow-x-auto">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <!-- Active Tab -->
+                    <div class="bg-[#141820] px-3 py-1.5 text-xs font-medium text-white flex items-center gap-2 rounded-t-md border-t-2 border-slate-400 max-w-[210px] truncate flex-shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-white/80 flex-shrink-0"></span>
+                      <span id="tab-active-title" class="truncate font-sans text-xs">Google Classroom · English Lit</span>
+                      <span class="text-gray-400 hover:text-white ml-1 text-xs cursor-pointer">&times;</span>
+                    </div>
+                    <!-- Background Tab 1 -->
+                    <div class="px-2.5 py-1.5 text-xs font-medium text-gray-400 hidden sm:flex items-center gap-1.5 opacity-80 max-w-[170px] truncate flex-shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-gray-500 flex-shrink-0"></span>
+                      <span id="tab-bg-title-1" class="truncate font-sans text-[11px]">CoolMath Games (Run 3)</span>
+                    </div>
+                    <!-- Background Tab 2 -->
+                    <div class="px-2.5 py-1.5 text-xs font-medium text-gray-400 hidden md:flex items-center gap-1.5 opacity-70 max-w-[170px] truncate flex-shrink-0">
+                      <span class="w-1.5 h-1.5 rounded-full bg-gray-500 flex-shrink-0"></span>
+                      <span id="tab-bg-title-2" class="truncate font-sans text-[11px]">Ed Podcast · Lo-Fi Study</span>
+                    </div>
+                    <!-- Plus Tabs Count -->
+                    <div id="tab-count-badge" class="px-2 py-0.5 rounded text-[10px] font-mono font-bold text-gray-400 bg-[#222834] border border-[#323B4A] flex-shrink-0">
+                      + 11 tabs
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Main Screen Viewport Content (Fixed consistent height so chassis never changes shape) -->
+                <div class="p-5 sm:p-7 md:p-8 h-[435px] flex flex-col justify-between bg-gradient-to-b from-[#141820] to-[#0D1017] overflow-hidden">
+                  
+                  <!-- Top Row: Title on Left, Notification Toast on Right -->
+                  <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 flex-shrink-0">
+                    <h3 id="screen-title" class="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold text-white leading-snug max-w-xl">
+                      Chronic Tab-Switching &amp; Cognitive Fatigue
+                    </h3>
+                    <!-- Right: Distraction Toast (Amber notification callout) -->
+                    <aside id="screen-toast" class="w-full md:w-auto md:max-w-xs bg-[#1F2533]/95 border border-[#3E4A61] rounded-xl p-3 sm:p-3.5 shadow-xl select-none flex-shrink-0 min-h-[64px] flex flex-col justify-center">
+                      <div class="flex items-center justify-between gap-2 mb-1">
+                        <div class="flex items-center gap-1.5 min-w-0">
+                          <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0"></span>
+                          <span id="toast-source" class="text-[11px] font-bold text-amber-400 uppercase tracking-wider truncate">Educational Games</span>
+                        </div>
+                        <span id="toast-time" class="text-[10px] text-gray-400 font-mono flex-shrink-0">now</span>
+                      </div>
+                      <p id="toast-msg" class="text-xs sm:text-sm text-gray-200 leading-snug m-0">
+                        Daily math puzzle unlocked in background tab.
+                      </p>
+                    </aside>
+                  </div>
+
+                  <!-- Middle Section: Narrative Paragraph -->
+                  <div class="my-auto py-2">
+                    <p id="screen-desc" class="text-base sm:text-lg md:text-xl text-gray-200 leading-relaxed font-normal w-full max-w-2xl">
+                      Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.
+                    </p>
+                  </div>
+                  
+                  <!-- Bottom Section: Problem Callout Box + Progression Buttons -->
+                  <div class="flex flex-col gap-4 sm:gap-5 flex-shrink-0 mt-3 sm:mt-4">
+                    <div class="w-full flex items-center text-sm sm:text-base font-medium text-rose-100 bg-[#231215]/95 border border-[#7A2424]/75 px-5 py-3 rounded-xl shadow-md">
+                      <span id="screen-problem">Screen time unmeasured; physical reading displaced.</span>
+                    </div>
+
+                    <!-- Contextual Progression Buttons Below Red Box -->
+                    <div class="flex items-center justify-between gap-3 pt-2 sm:pt-3">
+                      <button 
+                        type="button" 
+                        id="screen-nav-prev" 
+                        onclick="goToPrevStep()"
+                        class="text-xs sm:text-sm font-semibold text-gray-300 hover:text-white bg-[#1C222E]/90 hover:bg-[#2A3446] border border-white/20 hover:border-white/40 px-4 sm:px-4.5 py-2 sm:py-2.5 rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-sm active:scale-95"
+                        aria-label="Previous checkpoint"
+                      >
+                        <span aria-hidden="true">&larr;</span>
+                        <span id="screen-nav-prev-label">Morning focus</span>
+                      </button>
+
+                      <button 
+                        type="button" 
+                        id="screen-nav-next" 
+                        onclick="goToNextStep()"
+                        class="text-xs sm:text-sm font-bold text-white bg-primary hover:bg-[#8A3E22] border border-[#FFC099]/40 px-5 sm:px-6 py-2 sm:py-2.5 rounded-lg transition-all shadow-md hover:shadow-lg flex items-center gap-1.5 cursor-pointer ml-auto active:scale-95"
+                        aria-label="Next checkpoint"
+                      >
+                        <span id="screen-nav-next-label">Next class &rarr;</span>
+                      </button>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <!-- Clean Bezel Bottom in Grey -->
+              <div class="h-3 sm:h-3.5 bg-[#5E6573] border-t border-[#484F5C]"></div>
+
+            </figure>
+
+            <!-- LAPTOP PHYSICAL KEYBOARD BASE & TRACKPAD (Grey Chassis) -->
+            <div id="laptop-base" class="w-full select-none -mt-[1px] relative">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 326" class="w-full h-auto block select-none filter drop-shadow-2xl" role="region" aria-label="Laptop keyboard deck">
+  <defs>
+    <linearGradient id="deckGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#757D8B"/>
+      <stop offset="20%" stop-color="#666E7C"/>
+      <stop offset="70%" stop-color="#545B67"/>
+      <stop offset="100%" stop-color="#454B55"/>
+    </linearGradient>
+    <linearGradient id="hingeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2D323B"/>
+      <stop offset="35%" stop-color="#58606E"/>
+      <stop offset="65%" stop-color="#3E4550"/>
+      <stop offset="100%" stop-color="#252931"/>
+    </linearGradient>
+    <linearGradient id="trayGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2D323B"/>
+      <stop offset="50%" stop-color="#363C47"/>
+      <stop offset="100%" stop-color="#3E4552"/>
+    </linearGradient>
+    <linearGradient id="keyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#252932"/>
+      <stop offset="100%" stop-color="#181B22"/>
+    </linearGradient>
+    <linearGradient id="trackGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#8C94A2"/>
+      <stop offset="100%" stop-color="#777F8D"/>
+    </linearGradient>
+    <linearGradient id="navKeyGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#3A4354"/>
+      <stop offset="100%" stop-color="#222834"/>
+    </linearGradient>
+    <filter id="keyGlow" x="-10%" y="-15%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+    <filter id="keyTextShadow">
+      <feDropShadow dx="0" dy="1.5" stdDeviation="1" flood-color="#000000" flood-opacity="0.85"/>
+    </filter>
+    <linearGradient id="oledActiveGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1E3A8A"/>
+      <stop offset="100%" stop-color="#0F172A"/>
+    </linearGradient>
+    <filter id="oledLedGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#38BDF8" flood-opacity="0.9"/>
+    </filter>
+    <filter id="wellDepth">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.6"/>
+    </filter>
+  </defs>
+
+  <!-- Hinge Segment with Chamfer -->
+  <rect x="60" y="0" width="880" height="10" rx="3" fill="url(#hingeGrad)" stroke="#4A5260" stroke-width="0.5"/>
+  <line x1="60" y1="9.5" x2="940" y2="9.5" stroke="#1F232B" stroke-width="1"/>
+
+  <!-- Main Chassis Deck: Crisp Tapered Aluminum Unibody -->
+  <path d="M 60 9 L 940 9 L 1000 294 Q 994 306 972 306 L 28 306 Q 6 306 0 294 Z" fill="url(#deckGrad)" />
+  <!-- Bottom Chamfer & Shadow Lip -->
+  <path d="M 0 294 L 28 306 L 972 306 L 1000 294 L 994 316 Q 982 326 954 326 L 46 326 Q 18 326 6 316 Z" fill="#2E333C"/>
+  <line x1="28" y1="306" x2="972" y2="306" stroke="#8A92A0" stroke-width="0.8" opacity="0.6"/>
+  <!-- Front Edge Center Thumb Scoop -->
+  <rect x="440" y="304" width="120" height="4" rx="2" fill="#3D444F" stroke="#252A32" stroke-width="0.5"/>
+
+  <!-- Recessed Keyboard Well Tray (Dark Beveled Basin) -->
+  <path d="M 96 22 L 904 22 Q 912 22 914 28 L 928 184 Q 930 189 922 189 L 78 189 Q 70 189 72 184 L 86 28 Q 88 22 96 22 Z" fill="url(#trayGrad)" stroke="#22262E" stroke-width="1.2" filter="url(#wellDepth)"/>
+
+  <!-- ROW 1 & 2: 4 CUSTOM NAVIGATION CHICLET KEYS (OLED Checkpoints) -->
+  <!-- Key 0: 8:00 AM -->
+  <g class="deck-svg-key" id="key-0" onclick="selectTime(0)" role="button" tabindex="0" aria-label="8:00 AM Morning Focus Checkpoint" aria-current="step">
+    <rect id="deck-face-0" x="94.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#oledActiveGrad)" stroke="#60A5FA" stroke-width="1.4"/>
+    <rect id="deck-hi-0" x="96.5" y="33.2" width="189.0" height="2.0" rx="1.0" fill="none" stroke="#93C5FD" stroke-width="1" opacity="0.95"/>
+    <circle id="deck-led-0" cx="118.5" cy="58.0" r="4.5" fill="#38BDF8" filter="url(#oledLedGlow)"/>
+    <text id="deck-time-0" x="134.5" y="62.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="800" font-size="20.5" fill="#FFFFFF" letter-spacing="0.02em" filter="url(#keyTextShadow)">8:00 AM</text>
+    <text id="deck-label-0" x="118.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#93C5FD" letter-spacing="0.04em">Morning Focus</text>
+  </g>
+
+  <!-- Key 1: 1:15 PM -->
+  <g class="deck-svg-key" id="key-1" onclick="selectTime(1)" role="button" tabindex="0" aria-label="1:15 PM Afternoon Inquiry Checkpoint">
+    <rect id="deck-face-1" x="300.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.5"/>
+    <rect id="deck-hi-1" x="302.5" y="33.2" width="189.0" height="2.0" rx="1.0" fill="none" stroke="#4A5364" stroke-width="1" opacity="0.5"/>
+    <circle id="deck-led-1" cx="324.5" cy="58.0" r="4.5" fill="#4B5563"/>
+    <text id="deck-time-1" x="340.5" y="62.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="20.5" fill="#CBD5E1" letter-spacing="0.02em" filter="url(#keyTextShadow)">1:15 PM</text>
+    <text id="deck-label-1" x="324.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#64748B" letter-spacing="0.04em">Afternoon Inquiry</text>
+  </g>
+
+  <!-- Key 2: 6:00 PM -->
+  <g class="deck-svg-key" id="key-2" onclick="selectTime(2)" role="button" tabindex="0" aria-label="6:00 PM Dinner & Homework Checkpoint">
+    <rect id="deck-face-2" x="506.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.5"/>
+    <rect id="deck-hi-2" x="508.5" y="33.2" width="189.0" height="2.0" rx="1.0" fill="none" stroke="#4A5364" stroke-width="1" opacity="0.5"/>
+    <circle id="deck-led-2" cx="530.5" cy="58.0" r="4.5" fill="#4B5563"/>
+    <text id="deck-time-2" x="546.5" y="62.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="20.5" fill="#CBD5E1" letter-spacing="0.02em" filter="url(#keyTextShadow)">6:00 PM</text>
+    <text id="deck-label-2" x="530.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#64748B" letter-spacing="0.04em">Dinner &amp; Homework</text>
+  </g>
+
+  <!-- Key 3: 8:30 PM -->
+  <g class="deck-svg-key" id="key-3" onclick="selectTime(3)" role="button" tabindex="0" aria-label="8:30 PM Bedtime & Sleep Checkpoint">
+    <rect id="deck-face-3" x="712.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.5"/>
+    <rect id="deck-hi-3" x="714.5" y="33.2" width="189.0" height="2.0" rx="1.0" fill="none" stroke="#4A5364" stroke-width="1" opacity="0.5"/>
+    <circle id="deck-led-3" cx="736.5" cy="58.0" r="4.5" fill="#4B5563"/>
+    <text id="deck-time-3" x="752.5" y="62.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="700" font-size="20.5" fill="#CBD5E1" letter-spacing="0.02em" filter="url(#keyTextShadow)">8:30 PM</text>
+    <text id="deck-label-3" x="736.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#64748B" letter-spacing="0.04em">Bedtime &amp; Sleep</text>
+  </g>
+
+  <!-- ROW 4: Z X C V B N M ROW (Tightened 14 keys, Y=126.8, H=22, Span=824px from X=88 to X=912) -->
+  <g id="row-zx-keys" opacity="0.94">
+    <!-- Left Shift -->
+    <g transform="translate(88, 126.8)">
+      <rect y="0.6" width="78.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="39" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">shift</text>
+    </g>
+    <!-- Z -->
+    <g transform="translate(172, 126.8)">
+      <rect y="0.6" width="21.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="10.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">Z</text>
+    </g>
+    <!-- X -->
+    <g transform="translate(199, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">X</text>
+    </g>
+    <!-- C -->
+    <g transform="translate(258, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">C</text>
+    </g>
+    <!-- V -->
+    <g transform="translate(317, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">V</text>
+    </g>
+    <!-- B -->
+    <g transform="translate(376, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">B</text>
+    </g>
+    <!-- N -->
+    <g transform="translate(435, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">N</text>
+    </g>
+    <!-- M -->
+    <g transform="translate(494, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">M</text>
+    </g>
+    <!-- < , -->
+    <g transform="translate(553, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">,</text>
+    </g>
+    <!-- > . -->
+    <g transform="translate(612, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">.</text>
+    </g>
+    <!-- ? / -->
+    <g transform="translate(671, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">/</text>
+    </g>
+    <!-- Right Shift -->
+    <g transform="translate(730, 126.8)">
+      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">shift</text>
+    </g>
+    <!-- Up Arrow -->
+    <g transform="translate(789, 126.8)">
+      <rect y="0.6" width="21.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="10.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">&uarr;</text>
+    </g>
+    <!-- Enter/End -->
+    <g transform="translate(816, 126.8)">
+      <rect y="0.6" width="109.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="54.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">return</text>
+    </g>
+  </g>
+
+  <!-- ROW 5: SPACEBAR & MODIFIER ROW (Tightened, Y=154.8, H=23, Span=850px from X=80 to X=930) -->
+  <g id="row-space-keys" opacity="0.94">
+    <!-- Ctrl -->
+    <g transform="translate(80, 154.8)">
+      <rect y="0.6" width="58.0" height="21.8" rx="2.1" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="29" y="15.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">ctrl</text>
+    </g>
+    <!-- Alt -->
+    <g transform="translate(144, 154.8)">
+      <rect y="0.6" width="58.0" height="21.8" rx="2.1" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="29" y="15.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">alt</text>
+    </g>
+    <!-- Spacebar (Center Anchor) -->
+    <g transform="translate(208, 154.8)">
+      <rect y="0.6" width="428.0" height="21.8" rx="2.5" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+    </g>
+    <!-- Alt Right -->
+    <g transform="translate(642, 154.8)">
+      <rect y="0.6" width="58.0" height="21.8" rx="2.1" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="29" y="15.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">alt</text>
+    </g>
+    <!-- Ctrl Right -->
+    <g transform="translate(706, 154.8)">
+      <rect y="0.6" width="58.0" height="21.8" rx="2.1" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="29" y="15.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">ctrl</text>
+    </g>
+    <!-- Left Arrow -->
+    <g transform="translate(770, 154.8)">
+      <rect y="0.6" width="40.0" height="9.8" rx="1.3" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="20" y="8.2" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">&larr;</text>
+    </g>
+    <!-- Down Arrow -->
+    <g transform="translate(816, 154.8)">
+      <rect y="0.6" width="40.0" height="9.8" rx="1.3" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="20" y="8.2" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">&darr;</text>
+    </g>
+    <!-- Right Arrow -->
+    <g transform="translate(862, 154.8)">
+      <rect y="0.6" width="40.0" height="9.8" rx="1.3" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+      <text x="20" y="8.2" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">&rarr;</text>
+    </g>
+    <!-- Corner Pad -->
+    <g transform="translate(908, 154.8)">
+      <rect y="0.6" width="40.0" height="9.8" rx="1.3" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
+    </g>
+  </g>
+
+  <!-- TRACKPAD AREA: THE 'SCREENS DOWN' PHYSICAL LID TRIGGER -->
+  <g id="trackpad-well">
+    <!-- Recessed trackpad boundary well -->
+    <path d="M 382 198 L 618 198 Q 622 198 623 202 L 629 281 Q 630 285 625 285 L 375 285 Q 370 285 371 281 L 377 202 Q 378 198 382 198 Z" fill="url(#trackGrad)" stroke="#586170" stroke-width="0.8"/>
+    
+    <!-- Interactive Trackpad Button Surface: "Screens Down" -->
+    <g id="trackpad-close-btn" onclick="triggerShutLid()" role="button" tabindex="0" aria-label="Close laptop lid and switch to analog reality mode">
+      <path d="M 384 200 L 616 200 Q 620 200 621 204 L 627 279 Q 628 283 623 283 L 377 283 Q 372 283 373 279 L 379 204 Q 380 200 384 200 Z" fill="#2A303C" stroke="#434B5A" stroke-width="0.8"/>
+      <!-- Subtle top inner highlight -->
+      <line x1="388" y1="202" x2="612" y2="202" stroke="#687385" stroke-width="0.8" opacity="0.6"/>
+      <!-- Trackpad Label: Screens Down with Down Arrow -->
+      <text x="494" y="247" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="15" fill="#F1F5F9" letter-spacing="0.03em">Screens Down</text>
+      <path d="M 552 241 L 557 246 L 562 241" stroke="#F1F5F9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </g>
+  </g>
+</svg>
+            </div>
+
+          </div>
+
+          <!-- ============================================== -->
+          <!-- STATE 2: THE SCREEN-REDUCED ANALOG ALTERNATIVE -->
+          <!-- ============================================== -->
+          <article id="analog-stage" class="analog-stage is-hidden bg-[#FAF7F2] rounded-3xl overflow-hidden border-2 border-[#E5D6C7] shadow-xl w-full max-w-[780px] mx-auto">
+
+            <!-- Full-Bleed 16:9 Photographic Window -->
+            <div class="relative w-full aspect-video sm:aspect-[16/9] overflow-hidden bg-stone-900 select-none">
+              <img 
+                id="analog-photo" 
+                src="/images/analog-morning-book.jpg" 
+                alt="Screen-free analog moment" 
+                class="w-full h-full object-cover block transition-all duration-500 hover:scale-105"
+                loading="eager"
+              />
+              <!-- Subtle gradient overlay for readability & mood -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/30 pointer-events-none"></div>
+
+              <!-- Embedded Time Navigation HUD -->
+              <div class="absolute bottom-3 inset-x-2.5 sm:bottom-5 sm:inset-x-5 flex items-center justify-between gap-1.5 sm:gap-2 pointer-events-none z-10">
+                
+                <!-- Left: Previous Time Checkpoint Button -->
+                <button 
+                  type="button" 
+                  id="analog-prev-wrapper"
+                  onclick="goToPrevStep()" 
+                  class="pointer-events-auto group bg-black/65 hover:bg-black/85 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-full text-[11px] sm:text-sm font-semibold transition-all shadow-lg active:scale-95 flex items-center gap-1 sm:gap-2 cursor-pointer flex-shrink-0"
+                  title="Previous Time Checkpoint"
+                >
+                  <span class="text-white/70 group-hover:text-white transition-transform group-hover:-translate-x-0.5">&larr;</span>
+                  <span id="analog-prev-btn">8:00 AM</span>
+                </button>
+
+                <!-- Center: Active Checkpoint Pill -->
+                <div class="pointer-events-auto bg-black/70 backdrop-blur-md border border-white/30 text-white px-3 sm:px-5 py-1.5 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-lg flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
+                  <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                  <span id="analog-time-pill" class="hidden sm:inline">8:00 AM · Morning Reading</span>
+                  <span id="analog-time-pill-mobile" class="sm:hidden font-mono">8:00 AM</span>
+                </div>
+
+                <!-- Right: Next Time Checkpoint Button -->
+                <button 
+                  type="button" 
+                  id="analog-next-wrapper"
+                  onclick="goToNextStep()" 
+                  class="pointer-events-auto group bg-black/65 hover:bg-black/85 backdrop-blur-md text-white border border-white/25 hover:border-white/50 px-2.5 sm:px-4 py-1.5 sm:py-2.5 rounded-full text-[11px] sm:text-sm font-semibold transition-all shadow-lg active:scale-95 flex items-center gap-1 sm:gap-2 cursor-pointer flex-shrink-0"
+                  title="Next Time Checkpoint"
+                >
+                  <span id="analog-next-btn">1:15 PM</span>
+                  <span class="text-white/70 group-hover:text-white transition-transform group-hover:translate-x-0.5">&rarr;</span>
+                </button>
+
+              </div>
+
+            </div>
+
+            <!-- Focused Reality Narrative Card -->
+            <div class="p-6 sm:p-9 bg-[#FAF7F2]">
+              
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-3">
+                <h3 id="analog-heading" class="font-serif text-2xl sm:text-3xl font-bold text-primary min-h-[36px] sm:min-h-[40px]">
+                  Classrooms Grounded in Physical Books
+                </h3>
+              </div>
+
+              <!-- Paragraph with clear, readable typography (Balanced height across all checkpoints) -->
+              <p id="analog-details" class="text-base sm:text-lg text-text-primary leading-relaxed mb-6 font-normal min-h-[78px] sm:min-h-[84px]">
+                Students begin their school morning opening printed paperbacks. No browser tabs, no device notifications, and zero digital eye strain—deep reading and focus set the tone for the day.
+              </p>
+
+              <!-- Connected Action Row -->
+              <div class="pt-6 border-t border-[#E5D6C7] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+                <a 
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  class="btn-action bg-primary hover:bg-[#8A3E22] text-white text-sm sm:text-base font-bold shadow-md hover:shadow-lg flex items-center justify-center gap-2"
+                >
+                  <span>Sign the Petition on Google Forms</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
+
+                <button 
+                  type="button" 
+                  onclick="triggerReopenLid()" 
+                  class="px-5 py-3 text-text-secondary hover:text-primary font-bold text-sm transition-colors flex items-center justify-center gap-2 min-h-[48px] cursor-pointer"
+                >
+                  <span>&larr; Re-open Laptop</span>
+                </button>
+              </div>
+
+            </div>
+
+          </article>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- The Catalyst Statement: Superintendent's Vision -->
+  <!-- ========================================== -->
+  <section id="superintendent-vision" class="py-16 sm:py-24 border-b border-[#E5D6C7] bg-[#FAF7F2]">
+    <div class="container mx-auto px-6 max-w-4xl">
+      
+      <div class="bg-white p-8 sm:p-14 rounded-3xl border border-[#E5D6C7] shadow-sm">
+
+        <!-- Narrative Context & Background -->
+        <div class="mb-8 space-y-3">
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-text-primary tracking-tight">
+            A Superintendent Calling for Focus. A Community Ready to Stand With Her.
+          </h2>
+          <p class="text-base sm:text-lg text-text-secondary leading-relaxed font-normal">
+            On August 27, 2026, Superintendent Dr. Rosetta Treece addressed Hopewell Valley families with a clear, forward-looking perspective: our schools must prioritize human connection, handwriting, and independent critical thinking over passive digital consumption. Parents across our six schools wholeheartedly agree. This petition is our community&rsquo;s initiative to help turn her leadership into binding, measurable school board policy.
+          </p>
+        </div>
+
+        <!-- Featured Quote Block -->
+        <div class="relative pl-6 sm:pl-8 border-l-4 border-primary/80 my-8 py-1 bg-[#FAF7F2]/40 rounded-r-2xl pr-4">
+          <blockquote class="font-serif italic text-xl sm:text-2xl lg:text-3xl text-primary leading-relaxed">
+            &ldquo;...limiting student technology use in our primary grades, prioritizing face-to-face interaction, meaningful relationships, and active engagement in learning... not to have technology do the thinking and problem-solving for [students across all grade levels].&rdquo;
+          </blockquote>
+        </div>
+
+        <!-- Speaker Attribution & Bridge to Milestones -->
+        <div class="pt-6 border-t border-[#E5D6C7]/70 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div class="font-bold text-text-primary text-base sm:text-lg">Dr. Rosetta Treece</div>
+            <div class="text-xs sm:text-sm text-text-secondary mt-0.5">Superintendent, Hopewell Valley Regional School District</div>
+            <div class="text-xs text-text-secondary/80 font-mono mt-4 pt-2 border-t border-[#E5D6C7]/60">
+              Welcome Back Address to Families &middot; August 27, 2026
+            </div>
+          </div>
+
+          <a 
+            href="#five-milestones" 
+            class="inline-flex items-center gap-1.5 text-sm font-bold text-primary hover:text-[#8A3E22] transition-colors group"
+          >
+            <span>See the 5 Action Milestones</span>
+            <span class="transition-transform group-hover:translate-x-1">&rarr;</span>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- The 5 Action Milestones (Big & Bold)       -->
+  <!-- ========================================== -->
+  <section id="five-milestones" class="py-16 sm:py-24 bg-white">
+    <div class="container mx-auto px-6 max-w-4xl">
+      
+      <div class="mb-14">
+        <h2 class="font-serif font-bold text-text-primary text-3xl sm:text-4xl mb-4">
+          Five Actionable Milestones
+        </h2>
+        <p class="text-lg text-text-secondary leading-relaxed">
+          Translating Dr. Treece&rsquo;s statement into concrete, measurable school district policy:
+        </p>
+      </div>
+
+      <div class="space-y-12">
+        
+        <!-- Milestone 1 -->
+        <article class="p-8 sm:p-10 rounded-3xl bg-[#FAF7F2] border border-[#EFE7DF] transition-all hover:border-[#E5D6C7]">
+          <div class="flex items-baseline gap-4 mb-3">
+            <span class="font-serif text-3xl sm:text-4xl font-bold text-primary">01</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-text-primary">
+              Analog-First Learning by Default
+            </h3>
+          </div>
+          <p class="text-lg text-text-primary font-medium mb-4">
+            Physical books and handwriting first. Devices only when a lesson specifically requires digital tools.
+          </p>
+          <div class="text-sm text-text-secondary leading-relaxed space-y-2 border-t border-[#E5D6C7]/60 pt-4">
+            <p>
+              Reading physical books and writing by hand significantly increases comprehension, memory retention, and mental focus.
+            </p>
+          </div>
+        </article>
+
+        <!-- Milestone 2 -->
+        <article class="p-8 sm:p-10 rounded-3xl bg-[#FAF7F2] border border-[#EFE7DF] transition-all hover:border-[#E5D6C7]">
+          <div class="flex items-baseline gap-4 mb-3">
+            <span class="font-serif text-3xl sm:text-4xl font-bold text-primary">02</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-text-primary">
+              Transparent Device Screen Time Tracking
+            </h3>
+          </div>
+          <p class="text-lg text-text-primary font-medium mb-4">
+            Measure how much time students actually spend on school screens, and share the data with parents.
+          </p>
+          <div class="text-sm text-text-secondary leading-relaxed border-t border-[#E5D6C7]/60 pt-4">
+            <p>
+              Modeled after the Los Angeles Unified School District: we currently have no data on total daily device exposure in Hopewell classrooms.
+            </p>
+          </div>
+        </article>
+
+        <!-- Milestone 3 -->
+        <article class="p-8 sm:p-10 rounded-3xl bg-[#FAF7F2] border border-[#EFE7DF] transition-all hover:border-[#E5D6C7]">
+          <div class="flex items-baseline gap-4 mb-3">
+            <span class="font-serif text-3xl sm:text-4xl font-bold text-primary">03</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-text-primary">
+              Daily Grade-Level Screen Time Limits
+            </h3>
+          </div>
+          <p class="text-lg text-text-primary font-medium mb-6">
+            Establish healthy, enforceable daily limits across each grade tier:
+          </p>
+          
+          <!-- Open Typographic Tier Matrix -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 py-4 border-t border-b border-[#E5D6C7]/60 mb-6">
+            <div class="text-left sm:text-center">
+              <div class="text-xs uppercase tracking-wider font-bold text-text-secondary mb-1">PreK &ndash; 2nd Grade</div>
+              <div class="font-serif text-2xl font-bold text-primary mb-1">0 Minutes</div>
+              <div class="text-xs text-text-secondary">Fully screen-free primary learning</div>
+            </div>
+            <div class="text-left sm:text-center sm:border-l sm:border-r sm:border-[#E5D6C7]/60 sm:px-4">
+              <div class="text-xs uppercase tracking-wider font-bold text-text-secondary mb-1">3rd &ndash; 5th Grade</div>
+              <div class="font-serif text-2xl font-bold text-primary mb-1">&le; 30 Min / Day</div>
+              <div class="text-xs text-text-secondary">Occasional instructional use only</div>
+            </div>
+            <div class="text-left sm:text-center">
+              <div class="text-xs uppercase tracking-wider font-bold text-text-secondary mb-1">6th &ndash; 12th Grade</div>
+              <div class="font-serif text-2xl font-bold text-primary mb-1">&le; 45 Min / Day*</div>
+              <div class="text-xs text-text-secondary">Balanced middle &amp; high school cap</div>
+            </div>
+          </div>
+
+          <div class="text-xs text-text-secondary leading-relaxed">
+            <strong class="text-primary">* Reasonable exemptions apply:</strong> Courses where technology is the core subject (Computer Science, Robotics, Keyboarding, Digital Art) are exempt. Case-by-case academic exceptions permitted.
+          </div>
+        </article>
+
+        <!-- Milestone 4 -->
+        <article class="p-8 sm:p-10 rounded-3xl bg-[#FAF7F2] border border-[#EFE7DF] transition-all hover:border-[#E5D6C7]">
+          <div class="flex items-baseline gap-4 mb-3">
+            <span class="font-serif text-3xl sm:text-4xl font-bold text-primary">04</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-text-primary">
+              End Routine Take-Home Chromebooks
+            </h3>
+          </div>
+          <p class="text-lg text-text-primary font-medium mb-4">
+            Homework should be analog by default. Devices stay at school unless a family requests otherwise.
+          </p>
+          <div class="text-sm text-text-secondary leading-relaxed border-t border-[#E5D6C7]/60 pt-4">
+            <blockquote class="italic text-text-primary mb-2">
+              &ldquo;Mandatory take-home devices can function as an educational Trojan horse, bringing digital distraction into our homes under the mantle of required homework&mdash;undermining bedtime, outdoor play, and family dinners.&rdquo;
+            </blockquote>
+          </div>
+        </article>
+
+        <!-- Milestone 5 -->
+        <article class="p-8 sm:p-10 rounded-3xl bg-[#FAF7F2] border border-[#EFE7DF] transition-all hover:border-[#E5D6C7]">
+          <div class="flex items-baseline gap-4 mb-3">
+            <span class="font-serif text-3xl sm:text-4xl font-bold text-primary">05</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-text-primary">
+              Form a District Working Group Within 60 Days
+            </h3>
+          </div>
+          <p class="text-lg text-text-primary font-medium mb-4">
+            Convene parents, teachers, and administrators to translate these goals into formal HVRSD district policy.
+          </p>
+          <div class="text-sm text-text-secondary leading-relaxed border-t border-[#E5D6C7]/60 pt-4">
+            <p>
+              A structured, collaborative pathway ensures timely progress, practical support for teachers, and sustained community dialogue.
+            </p>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- Accommodations Notice -->
+      <div class="mt-10 p-6 rounded-2xl bg-amber-50/80 border border-amber-200 text-sm text-text-primary leading-relaxed">
+        <strong class="font-bold">Accommodations Guarantee:</strong> These limits and milestones do not apply to any student with an IEP or Section 504 Plan whose accommodations require assistive technology or specialized screen tools.
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- Grand Call to Action                       -->
+  <!-- ========================================== -->
+  <section class="bg-primary text-white py-20 sm:py-28 relative overflow-hidden">
+    <div class="container mx-auto px-6 max-w-3xl text-center relative z-10">
+      <h2 class="font-serif text-3xl sm:text-5xl font-bold text-white mb-6 leading-tight">
+        Ready to make your voice heard?
+      </h2>
+      <p class="text-lg sm:text-xl text-white/90 leading-relaxed mb-10 max-w-2xl mx-auto font-normal">
+        Add your name to the petition. It takes less than one minute and helps demonstrate broad community consensus to our school board.
+      </p>
+
+      <!-- Main Button -->
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <a 
+          href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          class="px-10 py-4 bg-white hover:bg-[#FFC099] text-primary hover:text-[#703119] rounded-full font-bold text-lg sm:text-xl transition-all shadow-xl hover:scale-105 flex items-center justify-center gap-2 min-h-[56px] w-full sm:w-auto"
+        >
+          <span>Sign the Petition on Google Forms</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+        </a>
+      </div>
+
+      <!-- Attribution -->
+      <div class="mt-12 text-xs text-white/70 leading-relaxed max-w-xl mx-auto border-t border-white/20 pt-8">
+        Sponsored by the <strong>Beyond Screens</strong> circle of ecoPTO &middot; Authored by Hopewell parents Gabe Dominguez &amp; Sonya Cotton &middot; Questions: <a href="mailto:ecoptohvrsd@gmail.com" class="underline hover:text-white">ecoptohvrsd@gmail.com</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========================================== -->
+  <!-- Floating Mobile Action Bar                 -->
+  <!-- ========================================== -->
+  <div class="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-gray-200 px-5 py-3 flex items-center justify-between z-40 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]">
+    <div class="text-xs font-bold text-text-primary leading-tight">
+      <div>Parent Petition</div>
+      <div class="text-primary font-normal">Intentional Tech @ HVRSD</div>
+    </div>
+    <a 
+      href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
+      target="_blank" 
+      rel="noopener noreferrer"
+      class="bg-primary hover:bg-[#8A3E22] text-white px-5 py-2.5 rounded-full text-xs font-bold shadow-md min-h-[44px] flex items-center gap-1"
+    >
+      <span>Sign Now</span>
+      <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+    </a>
+  </div>
+</Layout>
+
+<style>
+  .btn-action {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 1.75rem;
+    border-radius: 9999px;
+    font-weight: 700;
+    min-height: 48px;
+    transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background-color 0.2s ease;
+  }
+  @media (min-width: 640px) {
+    .btn-action {
+      padding: 1rem 2.5rem;
+      min-height: 52px;
+    }
+  }
+  .btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(176, 91, 59, 0.3);
+  }
+  .btn-action:active {
+    transform: translateY(0);
+  }
+
+  /* 3D Chromebook Lid Hinge Animation */
+  .chromebook-stage {
+    perspective: 1400px;
+  }
+  .laptop-lid-3d {
+    transform-origin: bottom center;
+    transition: transform 0.65s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.5s ease;
+  }
+  .laptop-lid-3d.is-shut {
+    transform: rotateX(82deg) translateY(10px) scale(0.96);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .analog-stage {
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .analog-stage.is-hidden {
+    opacity: 0;
+    transform: translateY(16px) scale(0.98);
+    pointer-events: none;
+    display: none;
+  }
+
+  /* SVG Physical Deck Keycaps & Trackpad */
+  .deck-svg-key {
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.08s ease;
+  }
+  .deck-svg-key:hover rect[id^="deck-face-"] {
+    filter: brightness(1.22);
+  }
+  .deck-svg-key:active {
+    transform: translateY(1.5px);
+  }
+  .deck-svg-key:focus-visible rect[id^="deck-face-"] {
+    stroke: #93C5FD;
+    stroke-width: 2px;
+  }
+  #trackpad-close-btn {
+    cursor: pointer;
+    outline: none;
+    transition: filter 0.15s ease, transform 0.08s ease;
+  }
+  #trackpad-close-btn:hover path {
+    filter: brightness(1.12);
+  }
+  #trackpad-close-btn:active {
+    transform: translateY(1px);
+  }
+  /* Dynamic Scaler Transitions */
+  #interactive-scaler-container {
+    transition: height 0.15s ease-out;
+  }
+  #interactive-scaler-stage {
+    transition: transform 0.15s ease-out;
+  }
+</style>
+
+<script is:inline>
+  const dayScenarios = [
+    {
+      time: '8:00 AM',
+      period: 'Morning Reading',
+      tabTitle: 'Google Classroom · English Lit',
+      tabBg1: 'CoolMath Games (Run 3)',
+      tabBg2: 'Ed Podcast · Lo-Fi Study',
+      tabCount: '+ 11 tabs',
+      url: 'classroom.google.com/c/english-lit/ch4',
+      screen: {
+        title: 'Chronic Tab-Switching & Cognitive Fatigue',
+        desc: 'Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.',
+        problem: 'Screen time unmeasured; physical reading displaced.',
+        notif: {
+          source: 'Educational Games',
+          time: 'now',
+          msg: 'Daily math puzzle unlocked in background tab.'
+        }
+      },
+      analog: {
+        photo: '/images/analog-morning-book.jpg',
+        pill: '8:00 AM · Morning Reading',
+        heading: 'Classrooms Grounded in Physical Books',
+        desc: 'Students begin their school morning opening printed paperbacks. No browser tabs, no device notifications, and zero digital eye strain—deep reading and focus set the tone for the day.',
+        milestone: 'Milestone 1: Analog-first learning default across all K-12 classrooms.'
+      }
+    },
+    {
+      time: '1:15 PM',
+      period: 'Afternoon Inquiry',
+      tabTitle: 'AI Research Assistant · Draft',
+      tabBg1: 'Discord (Web Client)',
+      tabBg2: 'HVRSD Portal · Chemistry Lab',
+      tabCount: '+ 9 tabs',
+      url: 'ai-writer.example.org/session/prompt',
+      screen: {
+        title: 'AI Shortcuts Supplanting Critical Thinking',
+        desc: 'Instead of struggling through problem-solving or engaging in classroom discussion, students prompt generative tools for instant answers, eroding cognitive stamina.',
+        problem: 'Classroom relationships and independent reasoning displaced.',
+        notif: {
+          source: 'AI Writing Assistant',
+          time: 'just now',
+          msg: 'Want me to draft this analysis section for you?'
+        }
+      },
+      analog: {
+        photo: '/images/analog-afternoon-chalkboard.jpg',
+        pill: '1:15 PM · Afternoon Inquiry',
+        heading: 'Classroom Inquiry: Eyes Up & Chalkboards',
+        desc: 'Students look each other in the eye, debate ideas, and solve problems collaboratively on chalkboards and paper. Technology is never used to replace teacher-led relationship and discussion.',
+        milestone: "Superintendent Treece's Stated Vision: Prioritizing face-to-face interaction, meaningful relationships, and active inquiry."
+      }
+    },
+    {
+      time: '6:00 PM',
+      period: 'Dinner & Homework',
+      tabTitle: 'HVRSD Homework Portal',
+      tabBg1: 'Chess.com · Daily Blitz',
+      tabBg2: 'Khan Academy · Algebra II',
+      tabCount: '+ 7 tabs',
+      url: 'hvrsd.instructure.com/courses/homework-portal',
+      screen: {
+        title: 'The Educational Trojan Horse at Dinner',
+        desc: 'Mandatory take-home Chromebooks enter family homes under the banner of "homework." Open-ended browsing and games invade the dining table and family living room.',
+        problem: 'Displaces family conversation, outdoor play, and screen-free evenings.',
+        notif: {
+          source: 'District Portal',
+          time: '5m ago',
+          msg: 'New digital homework assignment posted, due tomorrow morning.'
+        }
+      },
+      analog: {
+        photo: '/images/analog-evening-dinner.jpg',
+        pill: '6:00 PM · Family Dinner',
+        heading: 'Screen-Free Dinner: Devices Stay at School',
+        desc: 'School-issued Chromebooks remain safely in classroom charging carts overnight. Homework returns to paper worksheets, protecting family dinner conversation and screen-free evenings.',
+        milestone: 'Milestone 4: Routine take-home Chromebooks eliminated; family dinnertime and living room peace protected.'
+      }
+    },
+    {
+      time: '8:30 PM',
+      period: 'Bedtime & Sleep',
+      tabTitle: 'Canvas Portal · Due 11:59 PM',
+      tabBg1: 'YouTube (Filtered) · Stream',
+      tabBg2: 'Classroom Chat (Unread)',
+      tabCount: '+ 5 tabs',
+      url: 'classroom.google.com/turn-in-late-assignment',
+      screen: {
+        title: 'Late Night Notifications & Fragmented Sleep',
+        desc: 'School devices in bedrooms emit blue light and chime with late assignments. Melatonin production is suppressed, leaving students exhausted the next morning.',
+        problem: 'Blue-light sleep disruption impairs deep rest and circadian rhythm.',
+        notif: {
+          source: 'Canvas Alert',
+          time: 'now',
+          msg: 'Assignment deadline in 3 hours 29 minutes.'
+        }
+      },
+      analog: {
+        photo: '/images/analog-bedtime-sleep.jpg',
+        pill: '8:30 PM · Restful Sleep',
+        heading: 'Screen-Free Bedrooms: Deep Restful Sleep',
+        desc: "Zero school notifications or blue-light glare in children's bedrooms. Students wind down with paperback books under warm lamplight, protecting natural melatonin and waking up refreshed.",
+        milestone: 'Milestones 3 & 5: 100% screen-free evenings by default; healthy circadian rhythms restored.'
+      }
+    }
+  ];
+
+  let currentStep = 0;
+
+  function selectTime(step) {
+    if (step < 0) step = 0;
+    if (step >= dayScenarios.length) step = dayScenarios.length - 1;
+    currentStep = step;
+    
+    const isFirst = (currentStep === 0);
+    const isLast = (currentStep === dayScenarios.length - 1);
+
+    // 1. Contextual Screen Navigation Buttons below Red Box
+    const screenPrevBtn = document.getElementById('screen-nav-prev');
+    const screenPrevLabel = document.getElementById('screen-nav-prev-label');
+    const screenNextBtn = document.getElementById('screen-nav-next');
+    const screenNextLabel = document.getElementById('screen-nav-next-label');
+
+    const navLabels = [
+      { prev: null, next: 'Next class &rarr;' },
+      { prev: 'Morning focus', next: 'Homework time &rarr;' },
+      { prev: 'Afternoon class', next: 'Time for bed &rarr;' },
+      { prev: 'Homework time', next: null }
+    ];
+
+    const currentNav = navLabels[currentStep] || navLabels[0];
+
+    if (screenPrevBtn) {
+      if (isFirst) {
+        screenPrevBtn.style.visibility = 'hidden';
+        screenPrevBtn.setAttribute('aria-hidden', 'true');
+      } else {
+        screenPrevBtn.style.visibility = 'visible';
+        screenPrevBtn.removeAttribute('aria-hidden');
+        if (screenPrevLabel && currentNav.prev) {
+          screenPrevLabel.innerHTML = currentNav.prev;
+        }
+      }
+    }
+
+    if (screenNextBtn) {
+      if (isLast) {
+        screenNextBtn.style.visibility = 'hidden';
+        screenNextBtn.setAttribute('aria-hidden', 'true');
+      } else {
+        screenNextBtn.style.visibility = 'visible';
+        screenNextBtn.removeAttribute('aria-hidden');
+        if (screenNextLabel && currentNav.next) {
+          screenNextLabel.innerHTML = currentNav.next;
+        }
+      }
+    }
+
+    // 2. Update Keyboard Chiclet Buttons & LEDs
+    for (let i = 0; i < 4; i++) {
+      const face = document.getElementById(`deck-face-${i}`);
+      const highlight = document.getElementById(`deck-hi-${i}`);
+      const led = document.getElementById(`deck-led-${i}`);
+      const time = document.getElementById(`deck-time-${i}`);
+      const label = document.getElementById(`deck-label-${i}`);
+      const keyGroup = document.getElementById(`key-${i}`);
+
+      if (i === currentStep) {
+        if (face) {
+          face.setAttribute('fill', 'url(#oledActiveGrad)');
+          face.setAttribute('stroke', '#60A5FA');
+          face.setAttribute('stroke-width', '1.4');
+        }
+        if (highlight) {
+          highlight.setAttribute('stroke', '#93C5FD');
+          highlight.setAttribute('opacity', '0.95');
+        }
+        if (led) {
+          led.setAttribute('fill', '#38BDF8');
+          led.setAttribute('filter', 'url(#oledLedGlow)');
+        }
+        if (time) time.setAttribute('fill', '#FFFFFF');
+        if (label) label.setAttribute('fill', '#93C5FD');
+        if (keyGroup) keyGroup.setAttribute('aria-current', 'step');
+      } else {
+        if (face) {
+          face.setAttribute('fill', 'url(#keyGrad)');
+          face.setAttribute('stroke', '#383F4D');
+          face.setAttribute('stroke-width', '0.5');
+        }
+        if (highlight) {
+          highlight.setAttribute('stroke', '#4A5364');
+          highlight.setAttribute('opacity', '0.5');
+        }
+        if (led) {
+          led.setAttribute('fill', '#4B5563');
+          led.removeAttribute('filter');
+        }
+        if (time) time.setAttribute('fill', '#CBD5E1');
+        if (label) label.setAttribute('fill', '#64748B');
+        if (keyGroup) keyGroup.removeAttribute('aria-current');
+      }
+    }
+
+    // 3. Analog Photo Embedded HUD: Left / Prev
+    const analogPrevWrapper = document.getElementById('analog-prev-wrapper');
+    const analogPrev = document.getElementById('analog-prev-btn');
+    if (analogPrevWrapper) {
+      if (isFirst) {
+        analogPrevWrapper.style.visibility = 'hidden';
+        analogPrevWrapper.setAttribute('aria-hidden', 'true');
+      } else {
+        analogPrevWrapper.style.visibility = 'visible';
+        analogPrevWrapper.removeAttribute('aria-hidden');
+        if (analogPrev) analogPrev.textContent = dayScenarios[currentStep - 1].time;
+      }
+    }
+
+    // 4. Analog Photo Embedded HUD: Right / Next
+    const analogNextWrapper = document.getElementById('analog-next-wrapper');
+    const analogNext = document.getElementById('analog-next-btn');
+    if (analogNextWrapper) {
+      if (isLast) {
+        analogNextWrapper.style.visibility = 'hidden';
+        analogNextWrapper.setAttribute('aria-hidden', 'true');
+      } else {
+        analogNextWrapper.style.visibility = 'visible';
+        analogNextWrapper.removeAttribute('aria-hidden');
+        if (analogNext) analogNext.textContent = dayScenarios[currentStep + 1].time;
+      }
+    }
+
+    renderScenario();
+    updateDynamicScaling();
+  }
+
+  function goToPrevStep() {
+    if (currentStep > 0) {
+      selectTime(currentStep - 1);
+    } else {
+      selectTime(0);
+    }
+  }
+
+  function goToNextStep() {
+    if (currentStep < dayScenarios.length - 1) {
+      selectTime(currentStep + 1);
+    } else {
+      selectTime(0);
+    }
+  }
+
+  function renderScenario() {
+    const data = dayScenarios[currentStep];
+
+    // Update Screen
+    const tabActive = document.getElementById('tab-active-title');
+    const tabBg1 = document.getElementById('tab-bg-title-1');
+    const tabBg2 = document.getElementById('tab-bg-title-2');
+    const tabCount = document.getElementById('tab-count-badge');
+    const sTitle = document.getElementById('screen-title');
+    const sDesc = document.getElementById('screen-desc');
+    const sProb = document.getElementById('screen-problem');
+    const tSource = document.getElementById('toast-source');
+    const tTime = document.getElementById('toast-time');
+    const tMsg = document.getElementById('toast-msg');
+
+    if (tabActive) tabActive.textContent = data.tabTitle;
+    if (tabBg1) tabBg1.textContent = data.tabBg1;
+    if (tabBg2) tabBg2.textContent = data.tabBg2;
+    if (tabCount) tabCount.textContent = data.tabCount;
+    if (sTitle) sTitle.textContent = data.screen.title;
+    if (sDesc) sDesc.textContent = data.screen.desc;
+    if (sProb) sProb.textContent = data.screen.problem;
+    if (tSource) tSource.textContent = data.screen.notif.source;
+    if (tTime) tTime.textContent = data.screen.notif.time;
+    if (tMsg) tMsg.textContent = data.screen.notif.msg;
+
+    // Update Analog Stage
+    const aPhoto = document.getElementById('analog-photo');
+    const aPill = document.getElementById('analog-time-pill');
+    const aPillMobile = document.getElementById('analog-time-pill-mobile');
+    const aHeading = document.getElementById('analog-heading');
+    const aDetails = document.getElementById('analog-details');
+
+    if (aPhoto && data.analog.photo) aPhoto.src = data.analog.photo;
+    if (aPill) aPill.textContent = data.analog.pill;
+    if (aPillMobile) aPillMobile.textContent = data.time;
+    if (aHeading) aHeading.textContent = data.analog.heading;
+    if (aDetails) aDetails.textContent = data.analog.desc;
+  }
+
+  function triggerShutLid() {
+    const lid = document.getElementById('chromebook-lid');
+    const base = document.getElementById('laptop-base');
+    const laptopViewport = document.getElementById('laptop-viewport');
+    const analogStage = document.getElementById('analog-stage');
+
+    if (lid) lid.classList.add('is-shut');
+    
+    setTimeout(() => {
+      if (laptopViewport) laptopViewport.style.display = 'none';
+      if (lid) lid.style.display = 'none';
+      if (base) base.style.display = 'none';
+      if (analogStage) {
+        analogStage.classList.remove('is-hidden');
+        analogStage.style.display = 'block';
+      }
+      updateDynamicScaling();
+
+      const section = document.getElementById('chromebook-interactive');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 400);
+  }
+
+  function triggerReopenLid() {
+    const lid = document.getElementById('chromebook-lid');
+    const base = document.getElementById('laptop-base');
+    const laptopViewport = document.getElementById('laptop-viewport');
+    const analogStage = document.getElementById('analog-stage');
+
+    if (analogStage) analogStage.classList.add('is-hidden');
+    setTimeout(() => {
+      if (analogStage) analogStage.style.display = 'none';
+      if (laptopViewport) laptopViewport.style.display = 'flex';
+      if (lid) lid.style.display = 'block';
+      if (base) base.style.display = 'block';
+      setTimeout(() => {
+        if (lid) lid.classList.remove('is-shut');
+      }, 50);
+      updateDynamicScaling();
+
+      const section = document.getElementById('chromebook-interactive');
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 300);
+  }
+
+  function updateDynamicScaling() {
+    const container = document.getElementById('interactive-scaler-container');
+    const stage = document.getElementById('interactive-scaler-stage');
+    const headingEl = document.getElementById('interactive-heading');
+    const laptopViewport = document.getElementById('laptop-viewport');
+    const analogStage = document.getElementById('analog-stage');
+    if (!container || !stage) return;
+
+    const isAnalog = analogStage && !analogStage.classList.contains('is-hidden') && analogStage.style.display !== 'none';
+    const activeEl = isAnalog ? analogStage : laptopViewport;
+    if (!activeEl) return;
+
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+
+    // On narrow mobile devices (< 640px), let natural mobile document flow take over
+    if (winW < 640) {
+      stage.style.transform = '';
+      stage.style.width = '100%';
+      stage.style.maxWidth = '';
+      container.style.height = 'auto';
+      return;
+    }
+
+    // Base design dimensions
+    const baseWidth = isAnalog ? 780 : 860;
+    stage.style.width = baseWidth + 'px';
+    stage.style.maxWidth = 'none';
+
+    // Standardized reference unscaled layout height for rock-solid stability across checkpoints
+    const headingH = headingEl ? headingEl.offsetHeight : 0;
+    const activeH = isAnalog ? 750 : 796;
+    const naturalHeight = headingH + activeH;
+
+    // Available space calculations:
+    const parentW = container.parentElement ? container.parentElement.clientWidth : winW;
+    const availableWidth = Math.max(320, Math.min(winW - 32, parentW - 8));
+
+    // Reserving vertical space for sticky navigation (65px), section top padding (16px), and bottom safety buffer (16px)
+    const availableHeight = Math.max(420, winH - 96);
+
+    // Proportional scale factor
+    const scaleW = availableWidth / baseWidth;
+    const scaleH = availableHeight / naturalHeight;
+    let scale = Math.min(scaleW, scaleH, 1.0);
+
+    // Minimum scale safety floor
+    scale = Math.max(0.48, Math.round(scale * 1000) / 1000);
+
+    stage.style.transform = `scale(${scale})`;
+    stage.style.transformOrigin = 'top center';
+    container.style.height = Math.round(naturalHeight * scale) + 'px';
+  }
+
+  // Expose methods to window for inline onclick attributes
+  window.selectTime = selectTime;
+  window.goToPrevStep = goToPrevStep;
+  window.goToNextStep = goToNextStep;
+  window.triggerShutLid = triggerShutLid;
+  window.triggerReopenLid = triggerReopenLid;
+  window.updateDynamicScaling = updateDynamicScaling;
+
+  function initChromebookInteractive() {
+    const container = document.getElementById('interactive-scaler-container');
+    if (!container) return;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('step')) {
+      const s = parseInt(urlParams.get('step'), 10);
+      if (!isNaN(s) && s >= 0 && s < dayScenarios.length) {
+        currentStep = s;
+      }
+    }
+    if (urlParams.get('shut') === '1') {
+      const lid = document.getElementById('chromebook-lid');
+      const base = document.getElementById('laptop-base');
+      const laptopViewport = document.getElementById('laptop-viewport');
+      const analogStage = document.getElementById('analog-stage');
+      if (laptopViewport) laptopViewport.style.display = 'none';
+      if (lid) lid.style.display = 'none';
+      if (base) base.style.display = 'none';
+      if (analogStage) {
+        analogStage.classList.remove('is-hidden');
+        analogStage.style.display = 'block';
+      }
+    }
+    selectTime(currentStep);
+    updateDynamicScaling();
+
+    if (urlParams.has('focus')) {
+      const el = document.getElementById(urlParams.get('focus'));
+      if (el) {
+        const targetTop = Math.max(0, el.offsetTop - 70);
+        document.documentElement.scrollTop = targetTop;
+        document.body.scrollTop = targetTop;
+      }
+    }
+  }
+
+  // Bind to resize and orientationchange
+  window.addEventListener('resize', updateDynamicScaling);
+  window.addEventListener('orientationchange', updateDynamicScaling);
+
+  // Astro page transitions & initial load support
+  document.addEventListener('astro:page-load', initChromebookInteractive);
+  if (document.readyState !== 'loading') {
+    initChromebookInteractive();
+  } else {
+    document.addEventListener('DOMContentLoaded', initChromebookInteractive);
+  }
+</script>
