@@ -57,18 +57,24 @@ import Layout from '../layouts/Layout.astro';
       <!-- Unified Photographic Reality Card -->
       <article id="reality-stage" class="w-full bg-[#FAF7F2] rounded-3xl overflow-hidden border-2 border-[#E5D6C7] shadow-xl">
 
-        <!-- Full-Bleed 16:9 Photographic Window -->
+        <!-- Full-Bleed 16:9 Photographic Window with Smooth Cinematic Crossfade -->
         <div class="relative w-full aspect-[16/9] overflow-hidden bg-stone-900 select-none">
-          <img 
-            id="stage-photo" 
-            src="/images/digital-morning-desk.jpg" 
-            alt="Current school screen reality" 
-            class="w-full h-full object-cover block transition-opacity duration-300"
-            fetchpriority="high"
-            loading="eager"
-          />
+          <div id="stage-photos-container" class="absolute inset-0">
+            <!-- Digital Scenarios (0 - 3) -->
+            <img src="/images/digital-morning-desk.jpg" alt="8:00 AM Morning Reading Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100" data-scenario="digital-0" fetchpriority="high" loading="eager" />
+            <img src="/images/digital-classroom-room.jpg" alt="1:15 PM Afternoon Inquiry Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="digital-1" loading="eager" />
+            <img src="/images/digital-dinner-table.jpg" alt="6:00 PM Dinner Table Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="digital-2" loading="eager" />
+            <img src="/images/digital-bedtime-night.jpg" alt="8:30 PM Bedtime Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="digital-3" loading="eager" />
+
+            <!-- Analog Scenarios (0 - 3) -->
+            <img src="/images/analog-morning-book.jpg" alt="8:00 AM Morning Reading Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-0" loading="eager" />
+            <img src="/images/analog-afternoon-chalkboard.jpg" alt="1:15 PM Afternoon Inquiry Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-1" loading="eager" />
+            <img src="/images/analog-evening-dinner.jpg" alt="6:00 PM Dinner Table Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-2" loading="eager" />
+            <img src="/images/analog-bedtime-sleep.jpg" alt="8:30 PM Bedtime Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-3" loading="eager" />
+          </div>
+
           <!-- Multi-stop gradient overlay for contrast, depth, and legibility -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-transparent to-black/30 pointer-events-none z-10"></div>
 
           <!-- Notification in Top Right Corner of Photo (Digital Mode Only) -->
           <aside 
@@ -554,14 +560,14 @@ import Layout from '../layouts/Layout.astro';
 
   let currentStep = 0;
   let isAnalogMode = false;
+  let userInteracted = false;
   let autoScrollTimer = null;
-  const AUTO_SCROLL_DELAY = 6500;
+  const AUTO_SCROLL_DELAY = 7500;
 
   function renderStage() {
     const data = dayScenarios[currentStep];
     if (!data) return;
 
-    const photoEl = document.getElementById('stage-photo');
     const notifEl = document.getElementById('stage-notification');
     const notifSource = document.getElementById('notif-source');
     const notifTime = document.getElementById('notif-time');
@@ -583,7 +589,20 @@ import Layout from '../layouts/Layout.astro';
     const photoToggleBtn = document.getElementById('stage-photo-toggle-btn');
     const photoToggleLabel = document.getElementById('stage-photo-toggle-label');
 
-    // 1. Navigation HUD Labels & Visibility
+    // 1. Smooth Photo Crossfade (Zero network delay, zero flicker)
+    const targetKey = (isAnalogMode ? 'analog-' : 'digital-') + currentStep;
+    const slides = document.querySelectorAll('.stage-slide');
+    slides.forEach(slide => {
+      if (slide.getAttribute('data-scenario') === targetKey) {
+        slide.classList.remove('opacity-0', 'pointer-events-none');
+        slide.classList.add('opacity-100');
+      } else {
+        slide.classList.remove('opacity-100');
+        slide.classList.add('opacity-0', 'pointer-events-none');
+      }
+    });
+
+    // 2. Navigation HUD Labels & Visibility
     const isFirst = (currentStep === 0);
     const isLast = (currentStep === dayScenarios.length - 1);
 
@@ -612,7 +631,7 @@ import Layout from '../layouts/Layout.astro';
     if (pillTimeShort) pillTimeShort.textContent = data.time;
     if (pillTimeFull) pillTimeFull.textContent = `${data.time} · ${data.period}`;
 
-    // 2. Dots Update
+    // 3. Dots Update
     const dots = document.querySelectorAll('.stage-dot');
     dots.forEach((dot, idx) => {
       if (idx === currentStep) {
@@ -622,14 +641,8 @@ import Layout from '../layouts/Layout.astro';
       }
     });
 
-    // 3. Mode Switch: Analog vs Screen Reality
+    // 4. Mode Switch: Analog vs Screen Reality
     if (isAnalogMode) {
-      // Photo
-      if (photoEl) {
-        photoEl.src = data.analog.photo;
-        photoEl.alt = data.analog.title;
-      }
-
       // Hide notification toast in analog mode
       if (notifEl) {
         notifEl.style.opacity = '0';
@@ -656,12 +669,6 @@ import Layout from '../layouts/Layout.astro';
       if (photoToggleLabel) photoToggleLabel.innerHTML = 'Open Chromebook &uarr;';
 
     } else {
-      // Photo
-      if (photoEl) {
-        photoEl.src = data.screen.photo;
-        photoEl.alt = data.screen.title;
-      }
-
       // Show top-right notification toast in digital mode & update copy
       if (notifEl) {
         notifEl.style.opacity = '1';
@@ -694,8 +701,8 @@ import Layout from '../layouts/Layout.astro';
 
   function startAutoScroll() {
     stopAutoScroll();
+    if (userInteracted) return;
     autoScrollTimer = setInterval(() => {
-      // Loop through scenarios continuously
       currentStep = (currentStep + 1) % dayScenarios.length;
       renderStage();
     }, AUTO_SCROLL_DELAY);
@@ -708,35 +715,39 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
-  function resetAutoScroll() {
+  function handleInteraction() {
+    userInteracted = true;
     stopAutoScroll();
-    startAutoScroll();
   }
 
   function selectTime(step) {
+    handleInteraction();
     if (step < 0) step = 0;
     if (step >= dayScenarios.length) step = dayScenarios.length - 1;
     currentStep = step;
     renderStage();
-    resetAutoScroll();
   }
 
   function goToPrevStep() {
+    handleInteraction();
     if (currentStep > 0) {
-      selectTime(currentStep - 1);
+      currentStep = currentStep - 1;
     } else {
-      selectTime(dayScenarios.length - 1);
+      currentStep = dayScenarios.length - 1;
     }
+    renderStage();
   }
 
   function goToNextStep() {
-    selectTime((currentStep + 1) % dayScenarios.length);
+    handleInteraction();
+    currentStep = (currentStep + 1) % dayScenarios.length;
+    renderStage();
   }
 
   function toggleRealityMode() {
+    handleInteraction();
     isAnalogMode = !isAnalogMode;
     renderStage();
-    resetAutoScroll();
   }
 
   // Window exports for inline handlers
@@ -763,10 +774,12 @@ import Layout from '../layouts/Layout.astro';
     renderStage();
     startAutoScroll();
 
-    // Pause on hover or touch so user can read uninterrupted
+    // Respect user reading: pause on hover and disable auto-scroll on direct touch
     stage.addEventListener('mouseenter', stopAutoScroll);
-    stage.addEventListener('mouseleave', startAutoScroll);
-    stage.addEventListener('touchstart', stopAutoScroll, { passive: true });
+    stage.addEventListener('mouseleave', () => {
+      if (!userInteracted) startAutoScroll();
+    });
+    stage.addEventListener('touchstart', handleInteraction, { passive: true });
   }
 
   document.addEventListener('astro:page-load', initRealityExperience);
