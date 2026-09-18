@@ -3,12 +3,6 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="Parent Petition: Intentional Tech | ecoPTO">
-  <!-- Prototype Switcher Banner -->
-  <div class="bg-stone-100 border-b border-[#E5D6C7] py-2 px-4 text-center text-xs sm:text-sm text-text-secondary flex items-center justify-center gap-2">
-    <span>Prefer testing the hardware simulation?</span>
-    <span class="text-[#D4C3B2]">&middot;</span>
-    <a href="/petitionprototype" class="font-semibold text-primary hover:underline">View Laptop Simulator Prototype &rarr;</a>
-  </div>
 
   <!-- ========================================== -->
   <!-- Big & Bold Hero Section                    -->
@@ -44,22 +38,6 @@ import Layout from '../layouts/Layout.astro';
         </a>
       </div>
 
-      <!-- Trust Indicators -->
-      <div class="mt-8 pt-6 border-t border-[#E5D6C7]/70 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-text-secondary">
-        <div class="flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-green-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          <span>Takes under 60 seconds</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-green-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          <span>IEP &amp; 504 Accommodations Protected</span>
-        </div>
-        <div class="flex items-center gap-1.5">
-          <svg class="w-4 h-4 text-green-700" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
-          <span>Organized by HVRSD Parents</span>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -74,9 +52,6 @@ import Layout from '../layouts/Layout.astro';
         <h2 class="font-serif font-bold text-primary tracking-tight text-2xl sm:text-3xl md:text-4xl mb-2 sm:mb-2.5">
           A Day in the Life of an HVRSD Student
         </h2>
-        <p class="text-sm sm:text-base md:text-lg text-text-secondary leading-relaxed">
-          See how routine school screen time saturates each part of our children&rsquo;s day &mdash; then tap <strong class="text-text-primary">Screens Down &darr;</strong> to experience the focused analog balance.
-        </p>
       </div>
 
       <!-- Unified Photographic Reality Card -->
@@ -163,8 +138,8 @@ import Layout from '../layouts/Layout.astro';
           </p>
 
           <!-- Problem / Milestone Callout Box -->
-          <div id="stage-pill-box" class="w-full text-xs sm:text-sm font-medium px-4 py-3 rounded-xl mb-6 flex items-start gap-2.5 shadow-sm bg-[#231215] border border-[#7A2424]/75 text-rose-100 transition-all">
-            <span id="stage-pill-text">Screen time unmeasured; physical reading displaced.</span>
+          <div id="stage-pill-box" class="w-full text-xs sm:text-sm font-medium px-4 py-3 rounded-xl mb-6 flex items-start gap-2.5 shadow-sm bg-[#FAECEC] border border-[#D4A0A0] text-[#7A2424] transition-all">
+            <span id="stage-pill-text">Screen time not measured; physical reading displaced.</span>
           </div>
 
           <!-- Action / Mode Toggle Row -->
@@ -478,7 +453,7 @@ import Layout from '../layouts/Layout.astro';
         photo: '/images/digital-morning-desk.jpg',
         title: 'Chronic Tab-Switching & Cognitive Fatigue',
         desc: 'Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.',
-        problem: 'Screen time unmeasured; physical reading displaced.',
+        problem: 'Screen time not measured; physical reading displaced.',
         notification: {
           source: 'Educational Games',
           time: 'now',
@@ -646,7 +621,7 @@ import Layout from '../layouts/Layout.astro';
       if (toggleBtn) {
         toggleBtn.className = 'bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.98] text-text-secondary hover:text-primary text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-[#E5D6C7] flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm';
       }
-      if (toggleLabel) toggleLabel.innerHTML = 'Compare Screen Reality';
+      if (toggleLabel) toggleLabel.innerHTML = 'Open Chromebook &uarr;';
 
     } else {
       // Photo
@@ -673,7 +648,7 @@ import Layout from '../layouts/Layout.astro';
 
       // Problem Callout
       if (pillBox) {
-        pillBox.className = 'w-full text-xs sm:text-sm font-medium px-4 py-3 rounded-xl mb-6 flex items-start gap-2.5 shadow-sm bg-[#231215] border border-[#7A2424]/75 text-rose-100 transition-all';
+        pillBox.className = 'w-full text-xs sm:text-sm font-medium px-4 py-3 rounded-xl mb-6 flex items-start gap-2.5 shadow-sm bg-[#FAECEC] border border-[#D4A0A0] text-[#7A2424] transition-all';
       }
       if (pillText) pillText.textContent = data.screen.problem;
 
