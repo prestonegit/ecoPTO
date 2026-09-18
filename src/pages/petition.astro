@@ -74,14 +74,14 @@ import Layout from '../layouts/Layout.astro';
               A Day in the Life of an HVRSD Student
             </h2>
             <p class="text-sm sm:text-base md:text-lg text-text-secondary leading-relaxed">
-              See how routine school screen time saturates each part of our children&rsquo;s day &mdash; then close the laptop to experience the focused analog balance.
+              See how routine school screen time saturates each part of our children&rsquo;s day &mdash; then <span class="hidden sm:inline">close the laptop</span><span class="sm:hidden">tap Screens Down</span> to experience the focused analog balance.
             </p>
           </div>
 
           <!-- ============================================ -->
           <!-- STATE 1: THE OPEN CHROMEBOOK (Hardware SVG)  -->
           <!-- ============================================ -->
-          <div id="laptop-viewport" class="laptop-chassis w-full max-w-[860px] mx-auto flex flex-col items-center">
+          <div id="laptop-viewport" class="laptop-chassis w-full max-w-[860px] mx-auto hidden sm:flex flex-col items-center">
 
             <!-- LAPTOP DISPLAY LID (Chassis Grey Frame: 88% width to seamlessly match SVG hinge) -->
             <figure id="chromebook-lid" class="laptop-lid-3d w-[88%] bg-[#5E6573] rounded-t-2xl sm:rounded-t-3xl pt-2 sm:pt-2.5 px-2 sm:px-3 pb-0 shadow-2xl relative m-0 border border-[#484F5C] border-b-0">
@@ -192,7 +192,7 @@ import Layout from '../layouts/Layout.astro';
 
             <!-- LAPTOP PHYSICAL KEYBOARD BASE & TRACKPAD (Grey Chassis) -->
             <div id="laptop-base" class="w-full select-none -mt-[1px] relative">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 326" class="w-full h-auto block select-none filter drop-shadow-2xl" role="region" aria-label="Laptop keyboard deck">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 248" class="w-full h-auto block select-none filter drop-shadow-2xl" role="region" aria-label="Laptop keyboard deck">
   <defs>
     <linearGradient id="deckGrad" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0%" stop-color="#757D8B"/>
@@ -246,17 +246,17 @@ import Layout from '../layouts/Layout.astro';
   <line x1="60" y1="9.5" x2="940" y2="9.5" stroke="#1F232B" stroke-width="1"/>
 
   <!-- Main Chassis Deck: Crisp Tapered Aluminum Unibody -->
-  <path d="M 60 9 L 940 9 L 1000 294 Q 994 306 972 306 L 28 306 Q 6 306 0 294 Z" fill="url(#deckGrad)" />
+  <path d="M 60 9 L 940 9 L 1000 220 Q 994 232 972 232 L 28 232 Q 6 232 0 220 Z" fill="url(#deckGrad)" />
   <!-- Bottom Chamfer & Shadow Lip -->
-  <path d="M 0 294 L 28 306 L 972 306 L 1000 294 L 994 316 Q 982 326 954 326 L 46 326 Q 18 326 6 316 Z" fill="#2E333C"/>
-  <line x1="28" y1="306" x2="972" y2="306" stroke="#8A92A0" stroke-width="0.8" opacity="0.6"/>
+  <path d="M 0 220 L 28 232 L 972 232 L 1000 220 L 994 240 Q 982 248 954 248 L 46 248 Q 18 248 6 240 Z" fill="#2E333C"/>
+  <line x1="28" y1="232" x2="972" y2="232" stroke="#8A92A0" stroke-width="0.8" opacity="0.6"/>
   <!-- Front Edge Center Thumb Scoop -->
-  <rect x="440" y="304" width="120" height="4" rx="2" fill="#3D444F" stroke="#252A32" stroke-width="0.5"/>
+  <rect x="440" y="230" width="120" height="4" rx="2" fill="#3D444F" stroke="#252A32" stroke-width="0.5"/>
 
-  <!-- Recessed Keyboard Well Tray (Dark Beveled Basin) -->
-  <path d="M 96 22 L 904 22 Q 912 22 914 28 L 928 184 Q 930 189 922 189 L 78 189 Q 70 189 72 184 L 86 28 Q 88 22 96 22 Z" fill="url(#trayGrad)" stroke="#22262E" stroke-width="1.2" filter="url(#wellDepth)"/>
+  <!-- Recessed Keyboard Well Tray (Dark Beveled Basin - Exclusively framing the 4 custom navigation keys) -->
+  <path d="M 88 22 L 912 22 Q 918 22 920 28 L 924 122 Q 926 126 918 126 L 82 126 Q 74 126 76 122 L 80 28 Q 82 22 88 22 Z" fill="url(#trayGrad)" stroke="#22262E" stroke-width="1.2" filter="url(#wellDepth)"/>
 
-  <!-- ROW 1 & 2: 4 CUSTOM NAVIGATION CHICLET KEYS (OLED Checkpoints) -->
+  <!-- 4 CUSTOM NAVIGATION BUTTONS (OLED Checkpoints) -->
   <!-- Key 0: 8:00 AM -->
   <g class="deck-svg-key" id="key-0" onclick="selectTime(0)" role="button" tabindex="0" aria-label="8:00 AM Morning Focus Checkpoint" aria-current="step">
     <rect id="deck-face-0" x="94.5" y="31.2" width="193.0" height="83.5" rx="5.0" fill="url(#oledActiveGrad)" stroke="#60A5FA" stroke-width="1.4"/>
@@ -293,140 +293,19 @@ import Layout from '../layouts/Layout.astro';
     <text id="deck-label-3" x="736.5" y="93.5" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="600" font-size="12.0" fill="#64748B" letter-spacing="0.04em">Bedtime &amp; Sleep</text>
   </g>
 
-  <!-- ROW 4: Z X C V B N M ROW (Tightened 14 keys, Y=126.8, H=22, Span=824px from X=88 to X=912) -->
-  <g id="row-zx-keys" opacity="0.94">
-    <!-- Left Shift -->
-    <g transform="translate(88, 126.8)">
-      <rect y="0.6" width="78.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="39" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">shift</text>
-    </g>
-    <!-- Z -->
-    <g transform="translate(172, 126.8)">
-      <rect y="0.6" width="21.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="10.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">Z</text>
-    </g>
-    <!-- X -->
-    <g transform="translate(199, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">X</text>
-    </g>
-    <!-- C -->
-    <g transform="translate(258, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">C</text>
-    </g>
-    <!-- V -->
-    <g transform="translate(317, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">V</text>
-    </g>
-    <!-- B -->
-    <g transform="translate(376, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">B</text>
-    </g>
-    <!-- N -->
-    <g transform="translate(435, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">N</text>
-    </g>
-    <!-- M -->
-    <g transform="translate(494, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">M</text>
-    </g>
-    <!-- < , -->
-    <g transform="translate(553, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">,</text>
-    </g>
-    <!-- > . -->
-    <g transform="translate(612, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">.</text>
-    </g>
-    <!-- ? / -->
-    <g transform="translate(671, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">/</text>
-    </g>
-    <!-- Right Shift -->
-    <g transform="translate(730, 126.8)">
-      <rect y="0.6" width="53.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="26.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">shift</text>
-    </g>
-    <!-- Up Arrow -->
-    <g transform="translate(789, 126.8)">
-      <rect y="0.6" width="21.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="10.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="600" fill="#94A3B8">&uarr;</text>
-    </g>
-    <!-- Enter/End -->
-    <g transform="translate(816, 126.8)">
-      <rect y="0.6" width="109.0" height="20.8" rx="2.0" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="54.5" y="14.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">return</text>
-    </g>
-  </g>
-
-  <!-- ROW 5: SPACEBAR & MODIFIER ROW (Tightened, Y=154.8, H=23, Span=850px from X=80 to X=930) -->
-  <g id="row-space-keys" opacity="0.94">
-    <!-- Ctrl -->
-    <g transform="translate(80, 154.8)">
-      <rect y="0.6" width="58.0" height="21.8" rx="2.1" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="29" y="15.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">ctrl</text>
-    </g>
-    <!-- Alt -->
-    <g transform="translate(144, 154.8)">
-      <rect y="0.6" width="58.0" height="21.8" rx="2.1" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="29" y="15.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">alt</text>
-    </g>
-    <!-- Spacebar (Center Anchor) -->
-    <g transform="translate(208, 154.8)">
-      <rect y="0.6" width="428.0" height="21.8" rx="2.5" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-    </g>
-    <!-- Alt Right -->
-    <g transform="translate(642, 154.8)">
-      <rect y="0.6" width="58.0" height="21.8" rx="2.1" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="29" y="15.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">alt</text>
-    </g>
-    <!-- Ctrl Right -->
-    <g transform="translate(706, 154.8)">
-      <rect y="0.6" width="58.0" height="21.8" rx="2.1" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="29" y="15.8" text-anchor="middle" font-family="system-ui, sans-serif" font-size="9" font-weight="500" fill="#64748B">ctrl</text>
-    </g>
-    <!-- Left Arrow -->
-    <g transform="translate(770, 154.8)">
-      <rect y="0.6" width="40.0" height="9.8" rx="1.3" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="20" y="8.2" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">&larr;</text>
-    </g>
-    <!-- Down Arrow -->
-    <g transform="translate(816, 154.8)">
-      <rect y="0.6" width="40.0" height="9.8" rx="1.3" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="20" y="8.2" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">&darr;</text>
-    </g>
-    <!-- Right Arrow -->
-    <g transform="translate(862, 154.8)">
-      <rect y="0.6" width="40.0" height="9.8" rx="1.3" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-      <text x="20" y="8.2" text-anchor="middle" font-family="system-ui, sans-serif" font-size="8" font-weight="600" fill="#94A3B8">&rarr;</text>
-    </g>
-    <!-- Corner Pad -->
-    <g transform="translate(908, 154.8)">
-      <rect y="0.6" width="40.0" height="9.8" rx="1.3" fill="url(#keyGrad)" stroke="#383F4D" stroke-width="0.4"/>
-    </g>
-  </g>
-
   <!-- TRACKPAD AREA: THE 'SCREENS DOWN' PHYSICAL LID TRIGGER -->
   <g id="trackpad-well">
     <!-- Recessed trackpad boundary well -->
-    <path d="M 382 198 L 618 198 Q 622 198 623 202 L 629 281 Q 630 285 625 285 L 375 285 Q 370 285 371 281 L 377 202 Q 378 198 382 198 Z" fill="url(#trackGrad)" stroke="#586170" stroke-width="0.8"/>
+    <path d="M 378 140 L 622 140 Q 626 140 627 144 L 632 216 Q 633 220 627 220 L 373 220 Q 367 220 368 216 L 373 144 Q 374 140 378 140 Z" fill="url(#trackGrad)" stroke="#586170" stroke-width="0.8"/>
     
     <!-- Interactive Trackpad Button Surface: "Screens Down" -->
     <g id="trackpad-close-btn" onclick="triggerShutLid()" role="button" tabindex="0" aria-label="Close laptop lid and switch to analog reality mode">
-      <path d="M 384 200 L 616 200 Q 620 200 621 204 L 627 279 Q 628 283 623 283 L 377 283 Q 372 283 373 279 L 379 204 Q 380 200 384 200 Z" fill="#2A303C" stroke="#434B5A" stroke-width="0.8"/>
+      <path d="M 380 142 L 620 142 Q 624 142 625 146 L 630 214 Q 631 218 625 218 L 375 218 Q 369 218 370 214 L 375 146 Q 376 142 380 142 Z" fill="#2A303C" stroke="#434B5A" stroke-width="0.8"/>
       <!-- Subtle top inner highlight -->
-      <line x1="388" y1="202" x2="612" y2="202" stroke="#687385" stroke-width="0.8" opacity="0.6"/>
+      <line x1="384" y1="144" x2="616" y2="144" stroke="#687385" stroke-width="0.8" opacity="0.6"/>
       <!-- Trackpad Label: Screens Down with Down Arrow -->
-      <text x="494" y="247" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="15" fill="#F1F5F9" letter-spacing="0.03em">Screens Down</text>
-      <path d="M 552 241 L 557 246 L 562 241" stroke="#F1F5F9" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <text x="492" y="186" text-anchor="middle" font-family="'Plus Jakarta Sans', system-ui, -apple-system, sans-serif" font-weight="700" font-size="16" fill="#F1F5F9" letter-spacing="0.03em">Screens Down</text>
+      <path d="M 552 180 L 557 185 L 562 180" stroke="#F1F5F9" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
     </g>
   </g>
 </svg>
@@ -437,7 +316,7 @@ import Layout from '../layouts/Layout.astro';
           <!-- ============================================== -->
           <!-- STATE 2: THE SCREEN-REDUCED ANALOG ALTERNATIVE -->
           <!-- ============================================== -->
-          <article id="analog-stage" class="analog-stage is-hidden bg-[#FAF7F2] rounded-3xl overflow-hidden border-2 border-[#E5D6C7] shadow-xl w-full max-w-[780px] mx-auto">
+          <article id="analog-stage" class="analog-stage is-hidden hidden sm:block bg-[#FAF7F2] rounded-3xl overflow-hidden border-2 border-[#E5D6C7] shadow-xl w-full max-w-[780px] mx-auto">
 
             <!-- Full-Bleed 16:9 Photographic Window -->
             <div class="relative w-full aspect-video sm:aspect-[16/9] overflow-hidden bg-stone-900 select-none">
@@ -522,6 +401,133 @@ import Layout from '../layouts/Layout.astro';
                 >
                   <span>&larr; Re-open Laptop</span>
                 </button>
+              </div>
+
+            </div>
+
+          </article>
+
+          <!-- ============================================== -->
+          <!-- STATE 3: MOBILE INTERACTIVE CARD EXPERIENCE    -->
+          <!-- (Uses identical photo & HUD workflow)          -->
+          <!-- ============================================== -->
+          <article id="mobile-card-stage" class="block sm:hidden w-full max-w-md mx-auto bg-[#FAF7F2] rounded-3xl overflow-hidden border-2 border-[#E5D6C7] shadow-xl">
+
+            <!-- Full-Bleed 16:9 Photographic Window -->
+            <div class="relative w-full aspect-[16/9] overflow-hidden bg-stone-900 select-none">
+              <img 
+                id="mobile-photo" 
+                src="/images/digital-morning-desk.jpg" 
+                alt="Current digital reality" 
+                class="w-full h-full object-cover block transition-all duration-500"
+                loading="eager"
+              />
+              <!-- Subtle gradient overlays for depth and text legibility -->
+              <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/40 pointer-events-none"></div>
+
+              <!-- Top Badges / Indicators Overlay -->
+              <div class="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
+                <!-- Mode Badge -->
+                <div id="mobile-mode-badge" class="pointer-events-auto bg-black/65 backdrop-blur-md border border-amber-500/40 px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wide flex items-center gap-1.5 shadow-sm text-amber-300">
+                  <span id="mobile-mode-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                  <span id="mobile-mode-text">Screen Reality</span>
+                </div>
+
+                <!-- Step Counter -->
+                <div id="mobile-step-counter" class="pointer-events-auto bg-black/65 backdrop-blur-md border border-white/20 px-2.5 py-1 rounded-full text-[11px] font-mono font-medium text-white/80 shadow-sm">
+                  1 of 4
+                </div>
+              </div>
+
+              <!-- Embedded Time Navigation HUD (Matching analog-stage workflow) -->
+              <div class="absolute bottom-3 inset-x-2.5 flex items-center justify-between gap-1.5 pointer-events-none z-10">
+                <!-- Left: Prev Checkpoint -->
+                <button 
+                  type="button" 
+                  id="mobile-prev-btn"
+                  onclick="goToPrevStep()" 
+                  class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 px-2.5 py-1.5 rounded-full text-[11px] font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0"
+                  title="Previous Time Checkpoint"
+                >
+                  <span class="text-white/70">&larr;</span>
+                  <span id="mobile-prev-label">8:00 AM</span>
+                </button>
+
+                <!-- Center: Active Time Pill -->
+                <div class="pointer-events-auto bg-black/80 backdrop-blur-md border border-white/30 text-white px-3 py-1.5 rounded-full text-xs font-bold font-mono tracking-wide shadow-md flex items-center gap-1.5 flex-shrink-0">
+                  <span id="mobile-pill-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                  <span id="mobile-pill-time">8:00 AM</span>
+                </div>
+
+                <!-- Right: Next Checkpoint -->
+                <button 
+                  type="button" 
+                  id="mobile-next-btn"
+                  onclick="goToNextStep()" 
+                  class="pointer-events-auto group bg-black/75 hover:bg-black/90 backdrop-blur-md text-white border border-white/25 px-2.5 py-1.5 rounded-full text-[11px] font-semibold transition-all shadow-md active:scale-95 flex items-center gap-1 cursor-pointer flex-shrink-0"
+                  title="Next Time Checkpoint"
+                >
+                  <span id="mobile-next-label">1:15 PM</span>
+                  <span class="text-white/70">&rarr;</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Focused Reality Narrative Card -->
+            <div class="p-5 bg-[#FAF7F2]">
+
+              <!-- Distraction Notification Toast (Visible in Digital mode) -->
+              <aside id="mobile-toast" class="mb-4 bg-[#1F2533] border border-[#3E4A61] rounded-xl p-3 shadow-md select-none text-white">
+                <div class="flex items-center justify-between gap-2 mb-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0"></span>
+                    <span id="mobile-toast-source" class="text-[10px] font-bold text-amber-400 uppercase tracking-wider truncate">Educational Games</span>
+                  </div>
+                  <span id="mobile-toast-time" class="text-[10px] text-gray-400 font-mono flex-shrink-0">now</span>
+                </div>
+                <p id="mobile-toast-msg" class="text-xs text-gray-200 leading-snug m-0">
+                  Daily math puzzle unlocked in background tab.
+                </p>
+              </aside>
+
+              <!-- Heading & Description -->
+              <h3 id="mobile-heading" class="font-serif text-xl sm:text-2xl font-bold text-text-primary mb-2 leading-snug">
+                Chronic Tab-Switching &amp; Cognitive Fatigue
+              </h3>
+
+              <p id="mobile-desc" class="text-sm text-text-primary leading-relaxed mb-4 font-normal">
+                Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.
+              </p>
+
+              <!-- Problem or Milestone Pill -->
+              <div id="mobile-pill-box" class="w-full text-xs font-medium px-4 py-2.5 rounded-xl mb-5 flex items-start gap-2 shadow-sm bg-[#231215] border border-[#7A2424]/75 text-rose-100">
+                <span id="mobile-pill-text">Screen time unmeasured; physical reading displaced.</span>
+              </div>
+
+              <!-- Action / Toggle Rows -->
+              <div class="pt-4 border-t border-[#E5D6C7] flex flex-col gap-2.5">
+                <!-- Primary Toggle / Action Button -->
+                <button 
+                  type="button" 
+                  id="mobile-toggle-btn"
+                  onclick="toggleMobileMode()" 
+                  class="w-full bg-[#1F2533] hover:bg-[#2A3446] active:scale-[0.98] text-white text-sm font-bold py-3 px-4 rounded-xl border border-white/20 shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all"
+                >
+                  <span id="mobile-toggle-icon">&darr;</span>
+                  <span id="mobile-toggle-label">Screens Down (See Analog Alternative)</span>
+                </button>
+
+                <!-- Sign Petition Button (Prominent in Analog mode) -->
+                <a 
+                  id="mobile-sign-btn"
+                  href="https://docs.google.com/forms/d/e/1FAIpQLSesXReJQFHeyrAkUoZwhCmavNcOXENg-jN5mx21ZaFbsf_O2A/viewform" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  class="hidden w-full bg-primary hover:bg-[#8A3E22] active:scale-[0.98] text-white text-sm font-bold py-3 px-4 rounded-xl shadow-md text-center items-center justify-center gap-2 transition-all"
+                >
+                  <span>Sign the Petition on Google Forms</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                </a>
               </div>
 
             </div>
@@ -820,6 +826,22 @@ import Layout from '../layouts/Layout.astro';
     display: none;
   }
 
+  /* Strict separation between Desktop Laptop/Analog and Mobile Photographic Experience */
+  @media (max-width: 639px) {
+    #laptop-viewport,
+    #analog-stage {
+      display: none !important;
+    }
+    #mobile-card-stage {
+      display: block !important;
+    }
+  }
+  @media (min-width: 640px) {
+    #mobile-card-stage {
+      display: none !important;
+    }
+  }
+
   /* SVG Physical Deck Keycaps & Trackpad */
   .deck-svg-key {
     cursor: pointer;
@@ -867,6 +889,7 @@ import Layout from '../layouts/Layout.astro';
       tabCount: '+ 11 tabs',
       url: 'classroom.google.com/c/english-lit/ch4',
       screen: {
+        photo: '/images/digital-morning-desk.jpg',
         title: 'Chronic Tab-Switching & Cognitive Fatigue',
         desc: 'Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.',
         problem: 'Screen time unmeasured; physical reading displaced.',
@@ -893,6 +916,7 @@ import Layout from '../layouts/Layout.astro';
       tabCount: '+ 9 tabs',
       url: 'ai-writer.example.org/session/prompt',
       screen: {
+        photo: '/images/digital-classroom-room.jpg',
         title: 'AI Shortcuts Supplanting Critical Thinking',
         desc: 'Instead of struggling through problem-solving or engaging in classroom discussion, students prompt generative tools for instant answers, eroding cognitive stamina.',
         problem: 'Classroom relationships and independent reasoning displaced.',
@@ -919,6 +943,7 @@ import Layout from '../layouts/Layout.astro';
       tabCount: '+ 7 tabs',
       url: 'hvrsd.instructure.com/courses/homework-portal',
       screen: {
+        photo: '/images/digital-dinner-table.jpg',
         title: 'The Educational Trojan Horse at Dinner',
         desc: 'Mandatory take-home Chromebooks enter family homes under the banner of "homework." Open-ended browsing and games invade the dining table and family living room.',
         problem: 'Displaces family conversation, outdoor play, and screen-free evenings.',
@@ -945,6 +970,7 @@ import Layout from '../layouts/Layout.astro';
       tabCount: '+ 5 tabs',
       url: 'classroom.google.com/turn-in-late-assignment',
       screen: {
+        photo: '/images/digital-bedtime-night.jpg',
         title: 'Late Night Notifications & Fragmented Sleep',
         desc: 'School devices in bedrooms emit blue light and chime with late assignments. Melatonin production is suppressed, leaving students exhausted the next morning.',
         problem: 'Blue-light sleep disruption impairs deep rest and circadian rhythm.',
@@ -965,6 +991,7 @@ import Layout from '../layouts/Layout.astro';
   ];
 
   let currentStep = 0;
+  let isAnalogMode = false;
 
   function selectTime(step) {
     if (step < 0) step = 0;
@@ -1089,6 +1116,41 @@ import Layout from '../layouts/Layout.astro';
       }
     }
 
+    // 5. Mobile Photo Embedded HUD
+    const mobilePrevBtn = document.getElementById('mobile-prev-btn');
+    const mobilePrevLabel = document.getElementById('mobile-prev-label');
+    const mobileNextBtn = document.getElementById('mobile-next-btn');
+    const mobileNextLabel = document.getElementById('mobile-next-label');
+    const mobilePillTime = document.getElementById('mobile-pill-time');
+    const mobileStepCounter = document.getElementById('mobile-step-counter');
+
+    if (mobileStepCounter) {
+      mobileStepCounter.textContent = `${currentStep + 1} of ${dayScenarios.length}`;
+    }
+    if (mobilePillTime) {
+      mobilePillTime.textContent = dayScenarios[currentStep].time;
+    }
+    if (mobilePrevBtn) {
+      if (isFirst) {
+        mobilePrevBtn.style.visibility = 'hidden';
+        mobilePrevBtn.setAttribute('aria-hidden', 'true');
+      } else {
+        mobilePrevBtn.style.visibility = 'visible';
+        mobilePrevBtn.removeAttribute('aria-hidden');
+        if (mobilePrevLabel) mobilePrevLabel.textContent = dayScenarios[currentStep - 1].time;
+      }
+    }
+    if (mobileNextBtn) {
+      if (isLast) {
+        mobileNextBtn.style.visibility = 'hidden';
+        mobileNextBtn.setAttribute('aria-hidden', 'true');
+      } else {
+        mobileNextBtn.style.visibility = 'visible';
+        mobileNextBtn.removeAttribute('aria-hidden');
+        if (mobileNextLabel) mobileNextLabel.textContent = dayScenarios[currentStep + 1].time;
+      }
+    }
+
     renderScenario();
     updateDynamicScaling();
   }
@@ -1147,9 +1209,118 @@ import Layout from '../layouts/Layout.astro';
     if (aPillMobile) aPillMobile.textContent = data.time;
     if (aHeading) aHeading.textContent = data.analog.heading;
     if (aDetails) aDetails.textContent = data.analog.desc;
+
+    // Sync Mobile Card
+    renderMobileCard();
+  }
+
+  function renderMobileCard() {
+    const data = dayScenarios[currentStep];
+    if (!data) return;
+
+    const mPhoto = document.getElementById('mobile-photo');
+    const mBadge = document.getElementById('mobile-mode-badge');
+    const mBadgeDot = document.getElementById('mobile-mode-dot');
+    const mBadgeText = document.getElementById('mobile-mode-text');
+    const mPillDot = document.getElementById('mobile-pill-dot');
+    const mToast = document.getElementById('mobile-toast');
+    const mToastSource = document.getElementById('mobile-toast-source');
+    const mToastTime = document.getElementById('mobile-toast-time');
+    const mToastMsg = document.getElementById('mobile-toast-msg');
+    const mHeading = document.getElementById('mobile-heading');
+    const mDesc = document.getElementById('mobile-desc');
+    const mPillBox = document.getElementById('mobile-pill-box');
+    const mPillText = document.getElementById('mobile-pill-text');
+    const mToggleBtn = document.getElementById('mobile-toggle-btn');
+    const mToggleIcon = document.getElementById('mobile-toggle-icon');
+    const mToggleLabel = document.getElementById('mobile-toggle-label');
+    const mSignBtn = document.getElementById('mobile-sign-btn');
+
+    if (isAnalogMode) {
+      // ANALOG REALITY (SCREEN-FREE)
+      if (mPhoto && data.analog.photo) {
+        mPhoto.src = data.analog.photo;
+        mPhoto.alt = data.analog.heading;
+      }
+      if (mBadge) {
+        mBadge.className = 'pointer-events-auto bg-black/65 backdrop-blur-md border border-emerald-500/40 px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wide flex items-center gap-1.5 shadow-sm text-emerald-300';
+      }
+      if (mBadgeDot) mBadgeDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+      if (mBadgeText) mBadgeText.textContent = 'Analog Alternative';
+      if (mPillDot) mPillDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
+
+      if (mToast) mToast.style.display = 'none';
+
+      if (mHeading) {
+        mHeading.textContent = data.analog.heading;
+        mHeading.className = 'font-serif text-xl sm:text-2xl font-bold text-primary mb-2 leading-snug';
+      }
+      if (mDesc) mDesc.textContent = data.analog.desc;
+
+      if (mPillBox) {
+        mPillBox.className = 'w-full text-xs font-medium px-4 py-2.5 rounded-xl mb-5 flex items-start gap-2 shadow-sm bg-[#EAF3EB] border border-[#A6CDB0] text-[#1E4D2B]';
+      }
+      if (mPillText) mPillText.textContent = data.analog.milestone;
+
+      if (mToggleBtn) {
+        mToggleBtn.className = 'w-full bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.98] text-text-secondary hover:text-primary text-xs font-bold py-2.5 px-4 rounded-xl border border-[#E5D6C7] flex items-center justify-center gap-1.5 cursor-pointer transition-all';
+      }
+      if (mToggleIcon) mToggleIcon.innerHTML = '&larr;';
+      if (mToggleLabel) mToggleLabel.textContent = 'Compare Screen Reality';
+
+      if (mSignBtn) {
+        mSignBtn.style.display = 'flex';
+      }
+    } else {
+      // SCREEN SATURATION (DIGITAL REALITY)
+      if (mPhoto && data.screen.photo) {
+        mPhoto.src = data.screen.photo;
+        mPhoto.alt = data.screen.title;
+      }
+      if (mBadge) {
+        mBadge.className = 'pointer-events-auto bg-black/65 backdrop-blur-md border border-amber-500/40 px-2.5 py-1 rounded-full text-[11px] font-bold tracking-wide flex items-center gap-1.5 shadow-sm text-amber-300';
+      }
+      if (mBadgeDot) mBadgeDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+      if (mBadgeText) mBadgeText.textContent = 'Screen Reality';
+      if (mPillDot) mPillDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
+
+      if (mToast) {
+        mToast.style.display = 'block';
+        if (mToastSource) mToastSource.textContent = data.screen.notif.source;
+        if (mToastTime) mToastTime.textContent = data.screen.notif.time;
+        if (mToastMsg) mToastMsg.textContent = data.screen.notif.msg;
+      }
+
+      if (mHeading) {
+        mHeading.textContent = data.screen.title;
+        mHeading.className = 'font-serif text-xl sm:text-2xl font-bold text-text-primary mb-2 leading-snug';
+      }
+      if (mDesc) mDesc.textContent = data.screen.desc;
+
+      if (mPillBox) {
+        mPillBox.className = 'w-full text-xs font-medium px-4 py-2.5 rounded-xl mb-5 flex items-start gap-2 shadow-sm bg-[#231215] border border-[#7A2424]/75 text-rose-100';
+      }
+      if (mPillText) mPillText.textContent = data.screen.problem;
+
+      if (mToggleBtn) {
+        mToggleBtn.className = 'w-full bg-[#1F2533] hover:bg-[#2A3446] active:scale-[0.98] text-white text-sm font-bold py-3 px-4 rounded-xl border border-white/20 shadow-md flex items-center justify-center gap-2 cursor-pointer transition-all';
+      }
+      if (mToggleIcon) mToggleIcon.innerHTML = '&darr;';
+      if (mToggleLabel) mToggleLabel.textContent = 'Screens Down \u2193 (See Analog Alternative)';
+
+      if (mSignBtn) {
+        mSignBtn.style.display = 'none';
+      }
+    }
+  }
+
+  function toggleMobileMode() {
+    isAnalogMode = !isAnalogMode;
+    renderMobileCard();
   }
 
   function triggerShutLid() {
+    isAnalogMode = true;
     const lid = document.getElementById('chromebook-lid');
     const base = document.getElementById('laptop-base');
     const laptopViewport = document.getElementById('laptop-viewport');
@@ -1166,6 +1337,7 @@ import Layout from '../layouts/Layout.astro';
         analogStage.style.display = 'block';
       }
       updateDynamicScaling();
+      renderMobileCard();
 
       const section = document.getElementById('chromebook-interactive');
       if (section) {
@@ -1175,6 +1347,7 @@ import Layout from '../layouts/Layout.astro';
   }
 
   function triggerReopenLid() {
+    isAnalogMode = false;
     const lid = document.getElementById('chromebook-lid');
     const base = document.getElementById('laptop-base');
     const laptopViewport = document.getElementById('laptop-viewport');
@@ -1190,6 +1363,7 @@ import Layout from '../layouts/Layout.astro';
         if (lid) lid.classList.remove('is-shut');
       }, 50);
       updateDynamicScaling();
+      renderMobileCard();
 
       const section = document.getElementById('chromebook-interactive');
       if (section) {
@@ -1229,7 +1403,7 @@ import Layout from '../layouts/Layout.astro';
 
     // Standardized reference unscaled layout height for rock-solid stability across checkpoints
     const headingH = headingEl ? headingEl.offsetHeight : 0;
-    const activeH = isAnalog ? 750 : 796;
+    const activeH = isAnalog ? 750 : 695;
     const naturalHeight = headingH + activeH;
 
     // Available space calculations:
@@ -1258,6 +1432,7 @@ import Layout from '../layouts/Layout.astro';
   window.goToNextStep = goToNextStep;
   window.triggerShutLid = triggerShutLid;
   window.triggerReopenLid = triggerReopenLid;
+  window.toggleMobileMode = toggleMobileMode;
   window.updateDynamicScaling = updateDynamicScaling;
 
   function initChromebookInteractive() {
@@ -1272,6 +1447,7 @@ import Layout from '../layouts/Layout.astro';
       }
     }
     if (urlParams.get('shut') === '1') {
+      isAnalogMode = true;
       const lid = document.getElementById('chromebook-lid');
       const base = document.getElementById('laptop-base');
       const laptopViewport = document.getElementById('laptop-viewport');
@@ -1285,6 +1461,7 @@ import Layout from '../layouts/Layout.astro';
       }
     }
     selectTime(currentStep);
+    renderMobileCard();
     updateDynamicScaling();
 
     if (urlParams.has('focus')) {
