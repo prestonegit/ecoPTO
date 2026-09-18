@@ -93,56 +93,25 @@ import Layout from '../layouts/Layout.astro';
             loading="eager"
           />
           <!-- Multi-stop gradient overlay for contrast, depth, and legibility -->
-          <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-black/45 pointer-events-none"></div>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30 pointer-events-none"></div>
 
-          <!-- Top Badges / Indicators Overlay -->
-          <div class="absolute top-3 inset-x-3 sm:top-4 sm:inset-x-5 flex items-center justify-between pointer-events-none z-20">
-            <!-- Mode Badge -->
-            <div id="stage-mode-badge" class="pointer-events-auto bg-black/65 backdrop-blur-md border border-amber-500/40 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-2 shadow-md text-amber-300">
-              <span id="stage-mode-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-              <span id="stage-mode-text">Screen Reality</span>
+          <!-- Notification in Top Right Corner of Photo (Digital Mode Only) -->
+          <aside 
+            id="stage-notification" 
+            class="absolute top-3 right-3 sm:top-4 sm:right-4 max-w-[210px] sm:max-w-xs bg-black/80 backdrop-blur-md border border-white/20 rounded-xl p-2.5 sm:p-3 text-white shadow-xl pointer-events-auto transition-opacity duration-300 z-20"
+          >
+            <div class="flex items-center justify-between gap-2 mb-1">
+              <span id="notif-source" class="text-[10px] sm:text-[11px] font-bold text-amber-300 uppercase tracking-wider truncate">
+                Educational Games
+              </span>
+              <span id="notif-time" class="text-[9px] sm:text-[10px] text-white/60 font-mono flex-shrink-0">
+                now
+              </span>
             </div>
-
-            <!-- Step Counter -->
-            <div id="stage-step-counter" class="pointer-events-auto bg-black/65 backdrop-blur-md border border-white/20 px-3 py-1.5 rounded-full text-xs font-mono font-semibold text-white/85 shadow-md">
-              1 of 4
-            </div>
-          </div>
-
-          <!-- ============================================== -->
-          <!-- FLOATING NOTIFICATION CHAOS LAYER (DIGITAL ONLY)-->
-          <!-- ============================================== -->
-          <div id="digital-chaos-layer" class="absolute inset-0 pointer-events-none z-10 p-3 sm:p-5 transition-opacity duration-300">
-            
-            <!-- Top Right Floating Distraction Toast -->
-            <div id="chaos-toast-top" class="absolute top-12 sm:top-14 right-3 sm:right-6 max-w-[220px] sm:max-w-xs bg-slate-950/85 backdrop-blur-md border border-amber-500/35 rounded-xl p-2.5 sm:p-3 text-white shadow-2xl transition-all duration-300">
-              <div class="flex items-center justify-between gap-2 mb-1">
-                <div class="flex items-center gap-1.5 min-w-0">
-                  <span id="chaos-dot-top" class="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse flex-shrink-0"></span>
-                  <span id="chaos-source-top" class="text-[10px] sm:text-[11px] font-bold text-amber-400 uppercase tracking-wider truncate">Educational Games</span>
-                </div>
-                <span id="chaos-time-top" class="text-[9px] sm:text-[10px] text-gray-400 font-mono flex-shrink-0">now</span>
-              </div>
-              <p id="chaos-msg-top" class="text-xs sm:text-sm text-gray-200 leading-snug m-0 font-sans">
-                Daily math puzzle unlocked in background tab.
-              </p>
-            </div>
-
-            <!-- Bottom Left Floating Distraction Toast -->
-            <div id="chaos-toast-bottom" class="absolute bottom-16 sm:bottom-20 left-3 sm:left-6 max-w-[220px] sm:max-w-xs bg-slate-950/85 backdrop-blur-md border border-indigo-500/35 rounded-xl p-2.5 sm:p-3 text-white shadow-2xl transition-all duration-300 hidden sm:block">
-              <div class="flex items-center justify-between gap-2 mb-1">
-                <div class="flex items-center gap-1.5 min-w-0">
-                  <span id="chaos-dot-bottom" class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse flex-shrink-0"></span>
-                  <span id="chaos-source-bottom" class="text-[10px] sm:text-[11px] font-bold text-indigo-400 uppercase tracking-wider truncate">Discord · Web Client</span>
-                </div>
-                <span id="chaos-time-bottom" class="text-[9px] sm:text-[10px] text-gray-400 font-mono flex-shrink-0">1m ago</span>
-              </div>
-              <p id="chaos-msg-bottom" class="text-xs sm:text-sm text-gray-200 leading-snug m-0 font-sans">
-                New message in #homework-chat: "Anyone finish #4?"
-              </p>
-            </div>
-
-          </div>
+            <p id="notif-msg" class="text-xs sm:text-sm text-white/95 leading-snug m-0 font-sans">
+              Daily math puzzle unlocked in background tab.
+            </p>
+          </aside>
 
           <!-- Embedded Time Navigation HUD -->
           <div class="absolute bottom-3 inset-x-3 sm:bottom-4 sm:inset-x-5 flex items-center justify-between gap-2 pointer-events-none z-20">
@@ -158,9 +127,8 @@ import Layout from '../layouts/Layout.astro';
               <span id="stage-prev-label">8:00 AM</span>
             </button>
 
-            <!-- Center: Active Time Pill -->
-            <div class="pointer-events-auto bg-black/80 backdrop-blur-md border border-white/30 text-white px-2.5 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-lg flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
-              <span id="stage-pill-dot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+            <!-- Center: Active Time Pill (Clean, No Blinking Dot) -->
+            <div class="pointer-events-auto bg-black/80 backdrop-blur-md border border-white/30 text-white px-3 sm:px-5 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-lg flex items-center justify-center flex-shrink-0">
               <span id="stage-pill-time" class="font-sans">
                 <span id="stage-pill-time-short" class="inline sm:hidden">8:00 AM</span>
                 <span id="stage-pill-time-full" class="hidden sm:inline">8:00 AM &middot; Morning Reading</span>
@@ -202,15 +170,14 @@ import Layout from '../layouts/Layout.astro';
           <!-- Action / Mode Toggle Row -->
           <div class="pt-5 border-t border-[#E5D6C7] flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
             
-            <!-- Primary Toggle / Screens Down Button -->
+            <!-- Primary Toggle / Screens Down Button: Way less dark, one down arrow, no "see analog alternative" -->
             <button 
               type="button" 
               id="stage-toggle-btn"
               onclick="toggleRealityMode()" 
-              class="bg-[#1F2533] hover:bg-[#2A3446] active:scale-[0.98] text-white text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-white/20 shadow-md flex items-center justify-center gap-2.5 cursor-pointer transition-all"
+              class="bg-[#F5ECE3] hover:bg-[#EBDDCE] active:scale-[0.98] text-primary text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-[#D9C4B2] shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all"
             >
-              <span id="stage-toggle-icon">&darr;</span>
-              <span id="stage-toggle-label">Screens Down (See Analog Alternative)</span>
+              <span id="stage-toggle-label">Screens Down &darr;</span>
             </button>
 
             <!-- Sign Petition on Google Forms Button -->
@@ -512,15 +479,10 @@ import Layout from '../layouts/Layout.astro';
         title: 'Chronic Tab-Switching & Cognitive Fatigue',
         desc: 'Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.',
         problem: 'Screen time unmeasured; physical reading displaced.',
-        chaosTop: {
+        notification: {
           source: 'Educational Games',
           time: 'now',
           msg: 'Daily math puzzle unlocked in background tab.'
-        },
-        chaosBottom: {
-          source: 'Discord · Web Client',
-          time: '1m ago',
-          msg: 'New message in #homework-chat: "Anyone finish #4?"'
         }
       },
       analog: {
@@ -538,15 +500,10 @@ import Layout from '../layouts/Layout.astro';
         title: 'AI Shortcuts Supplanting Critical Thinking',
         desc: 'Instead of struggling through problem-solving or engaging in classroom discussion, students prompt generative tools for instant answers, eroding cognitive stamina.',
         problem: 'Classroom relationships and independent reasoning displaced.',
-        chaosTop: {
+        notification: {
           source: 'AI Writing Assistant',
           time: 'just now',
           msg: 'Want me to draft this analysis section for you?'
-        },
-        chaosBottom: {
-          source: 'YouTube (Filtered)',
-          time: '3m ago',
-          msg: 'Suggested: "10 Study Hacks You Need to Try"'
         }
       },
       analog: {
@@ -564,15 +521,10 @@ import Layout from '../layouts/Layout.astro';
         title: 'The Educational Trojan Horse at Dinner',
         desc: 'Mandatory take-home Chromebooks enter family homes under the banner of "homework." Open-ended browsing and games invade the dining table and family living room.',
         problem: 'Displaces family conversation, outdoor play, and screen-free evenings.',
-        chaosTop: {
+        notification: {
           source: 'District Portal',
           time: '5m ago',
           msg: 'New digital assignment posted, due tomorrow at 8:00 AM.'
-        },
-        chaosBottom: {
-          source: 'Chess.com · Daily Blitz',
-          time: '12m ago',
-          msg: 'Your turn! 24 hours remaining against schoolmate.'
         }
       },
       analog: {
@@ -590,15 +542,10 @@ import Layout from '../layouts/Layout.astro';
         title: 'Late Night Notifications & Fragmented Sleep',
         desc: 'School devices in bedrooms emit blue light and chime with late assignments. Melatonin production is suppressed, leaving students exhausted the next morning.',
         problem: 'Blue-light sleep disruption impairs deep rest and circadian rhythm.',
-        chaosTop: {
+        notification: {
           source: 'Canvas Alert',
           time: 'now',
           msg: 'Assignment deadline in 3 hours 29 minutes.'
-        },
-        chaosBottom: {
-          source: 'Classroom Chat',
-          time: '8m ago',
-          msg: 'Ben: "Did anyone figure out the last question?"'
         }
       },
       analog: {
@@ -618,27 +565,18 @@ import Layout from '../layouts/Layout.astro';
     if (!data) return;
 
     const photoEl = document.getElementById('stage-photo');
-    const badgeEl = document.getElementById('stage-mode-badge');
-    const dotEl = document.getElementById('stage-mode-dot');
-    const modeTextEl = document.getElementById('stage-mode-text');
-    const stepCounterEl = document.getElementById('stage-step-counter');
-
-    const chaosLayer = document.getElementById('digital-chaos-layer');
-    const chaosToastTop = document.getElementById('chaos-toast-top');
-    const chaosSourceTop = document.getElementById('chaos-source-top');
-    const chaosTimeTop = document.getElementById('chaos-time-top');
-    const chaosMsgTop = document.getElementById('chaos-msg-top');
-    const chaosToastBottom = document.getElementById('chaos-toast-bottom');
-    const chaosSourceBottom = document.getElementById('chaos-source-bottom');
-    const chaosTimeBottom = document.getElementById('chaos-time-bottom');
-    const chaosMsgBottom = document.getElementById('chaos-msg-bottom');
+    const notifEl = document.getElementById('stage-notification');
+    const notifSource = document.getElementById('notif-source');
+    const notifTime = document.getElementById('notif-time');
+    const notifMsg = document.getElementById('notif-msg');
 
     const prevBtn = document.getElementById('stage-prev-btn');
     const prevLabel = document.getElementById('stage-prev-label');
-    const pillDot = document.getElementById('stage-pill-dot');
-    const pillTime = document.getElementById('stage-pill-time');
     const nextBtn = document.getElementById('stage-next-btn');
     const nextLabel = document.getElementById('stage-next-label');
+
+    const pillTimeShort = document.getElementById('stage-pill-time-short');
+    const pillTimeFull = document.getElementById('stage-pill-time-full');
 
     const headingEl = document.getElementById('stage-heading');
     const descEl = document.getElementById('stage-desc');
@@ -646,16 +584,9 @@ import Layout from '../layouts/Layout.astro';
     const pillText = document.getElementById('stage-pill-text');
 
     const toggleBtn = document.getElementById('stage-toggle-btn');
-    const toggleIcon = document.getElementById('stage-toggle-icon');
     const toggleLabel = document.getElementById('stage-toggle-label');
-    const signBtn = document.getElementById('stage-sign-btn');
 
-    // 1. Step Counter
-    if (stepCounterEl) {
-      stepCounterEl.textContent = `${currentStep + 1} of ${dayScenarios.length}`;
-    }
-
-    // 2. Navigation HUD Labels & Visibility
+    // 1. Navigation HUD Labels & Visibility
     const isFirst = (currentStep === 0);
     const isLast = (currentStep === dayScenarios.length - 1);
 
@@ -681,12 +612,10 @@ import Layout from '../layouts/Layout.astro';
       }
     }
 
-    const pillTimeShort = document.getElementById('stage-pill-time-short');
-    const pillTimeFull = document.getElementById('stage-pill-time-full');
     if (pillTimeShort) pillTimeShort.textContent = data.time;
     if (pillTimeFull) pillTimeFull.textContent = `${data.time} · ${data.period}`;
 
-    // 3. Mode Switch: Analog vs Screen Reality
+    // 2. Mode Switch: Analog vs Screen Reality
     if (isAnalogMode) {
       // Photo
       if (photoEl) {
@@ -694,17 +623,10 @@ import Layout from '../layouts/Layout.astro';
         photoEl.alt = data.analog.title;
       }
 
-      // Badge
-      if (badgeEl) {
-        badgeEl.className = 'pointer-events-auto bg-black/65 backdrop-blur-md border border-emerald-500/40 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-2 shadow-md text-emerald-300';
-      }
-      if (dotEl) dotEl.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
-      if (modeTextEl) modeTextEl.textContent = 'Analog Alternative';
-      if (pillDot) pillDot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-pulse';
-
-      // Hide chaos toasts
-      if (chaosLayer) {
-        chaosLayer.style.opacity = '0';
+      // Hide notification toast in analog mode
+      if (notifEl) {
+        notifEl.style.opacity = '0';
+        notifEl.style.pointerEvents = 'none';
       }
 
       // Content
@@ -720,12 +642,11 @@ import Layout from '../layouts/Layout.astro';
       }
       if (pillText) pillText.textContent = data.analog.milestone;
 
-      // Toggle Button
+      // Toggle Button in Analog Mode
       if (toggleBtn) {
-        toggleBtn.className = 'bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.98] text-text-secondary hover:text-primary text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-[#E5D6C7] flex items-center justify-center gap-2.5 cursor-pointer transition-all';
+        toggleBtn.className = 'bg-[#FAF7F2] hover:bg-[#F2ECE4] active:scale-[0.98] text-text-secondary hover:text-primary text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-[#E5D6C7] flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm';
       }
-      if (toggleIcon) toggleIcon.innerHTML = '&larr;';
-      if (toggleLabel) toggleLabel.textContent = 'Compare Screen Reality';
+      if (toggleLabel) toggleLabel.innerHTML = 'Compare Screen Reality';
 
     } else {
       // Photo
@@ -734,27 +655,13 @@ import Layout from '../layouts/Layout.astro';
         photoEl.alt = data.screen.title;
       }
 
-      // Badge
-      if (badgeEl) {
-        badgeEl.className = 'pointer-events-auto bg-black/65 backdrop-blur-md border border-amber-500/40 px-3 py-1.5 rounded-full text-xs font-bold tracking-wide flex items-center gap-2 shadow-md text-amber-300';
-      }
-      if (dotEl) dotEl.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
-      if (modeTextEl) modeTextEl.textContent = 'Screen Reality';
-      if (pillDot) pillDot.className = 'w-2 h-2 rounded-full bg-amber-400 animate-pulse';
-
-      // Show chaos toasts & update copy
-      if (chaosLayer) {
-        chaosLayer.style.opacity = '1';
-      }
-      if (chaosToastTop) {
-        if (chaosSourceTop) chaosSourceTop.textContent = data.screen.chaosTop.source;
-        if (chaosTimeTop) chaosTimeTop.textContent = data.screen.chaosTop.time;
-        if (chaosMsgTop) chaosMsgTop.textContent = data.screen.chaosTop.msg;
-      }
-      if (chaosToastBottom) {
-        if (chaosSourceBottom) chaosSourceBottom.textContent = data.screen.chaosBottom.source;
-        if (chaosTimeBottom) chaosTimeBottom.textContent = data.screen.chaosBottom.time;
-        if (chaosMsgBottom) chaosMsgBottom.textContent = data.screen.chaosBottom.msg;
+      // Show top-right notification toast in digital mode & update copy
+      if (notifEl) {
+        notifEl.style.opacity = '1';
+        notifEl.style.pointerEvents = 'auto';
+        if (notifSource) notifSource.textContent = data.screen.notification.source;
+        if (notifTime) notifTime.textContent = data.screen.notification.time;
+        if (notifMsg) notifMsg.textContent = data.screen.notification.msg;
       }
 
       // Content
@@ -770,12 +677,11 @@ import Layout from '../layouts/Layout.astro';
       }
       if (pillText) pillText.textContent = data.screen.problem;
 
-      // Toggle Button
+      // Toggle Button in Digital Mode: Way less dark, one down arrow only, no extra text
       if (toggleBtn) {
-        toggleBtn.className = 'bg-[#1F2533] hover:bg-[#2A3446] active:scale-[0.98] text-white text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-white/20 shadow-md flex items-center justify-center gap-2.5 cursor-pointer transition-all';
+        toggleBtn.className = 'bg-[#F5ECE3] hover:bg-[#EBDDCE] active:scale-[0.98] text-primary text-sm sm:text-base font-bold py-3.5 px-6 rounded-xl border border-[#D9C4B2] shadow-sm flex items-center justify-center gap-2 cursor-pointer transition-all';
       }
-      if (toggleIcon) toggleIcon.innerHTML = '&darr;';
-      if (toggleLabel) toggleLabel.textContent = 'Screens Down \u2193 (See Analog Alternative)';
+      if (toggleLabel) toggleLabel.innerHTML = 'Screens Down &darr;';
     }
   }
 
