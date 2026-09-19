@@ -11,7 +11,7 @@ import Layout from '../layouts/Layout.astro';
     <div class="container mx-auto px-6 max-w-4xl text-center sm:text-left">
 
       <h1 class="font-serif font-bold text-primary tracking-tight text-4xl sm:text-5xl md:text-6xl mb-4 leading-[1.08]">
-        Screens down.<br class="hidden sm:block" />Pencils up.
+        Screens down.<br />Pencils up.
       </h1>
 
       <p class="text-lg sm:text-xl text-text-primary font-normal leading-relaxed max-w-3xl mb-6">
@@ -50,8 +50,11 @@ import Layout from '../layouts/Layout.astro';
       <!-- Section Heading -->
       <div id="interactive-heading" class="text-center max-w-2xl mx-auto mb-3 sm:mb-4 select-none">
         <h2 class="font-serif font-bold text-primary tracking-tight text-2xl sm:text-3xl mb-1.5">
-          A Day in the Life of an HVRSD Student
+          A Day in the Life of a Digital Student
         </h2>
+        <p class="text-sm sm:text-base text-text-secondary leading-relaxed">
+          An illustrative look at how school-issued devices can shape a student&rsquo;s day.
+        </p>
       </div>
 
       <!-- Unified Photographic Reality Card -->
@@ -61,14 +64,14 @@ import Layout from '../layouts/Layout.astro';
         <div class="relative w-full aspect-[16/9] overflow-hidden bg-stone-900 select-none">
           <div id="stage-photos-container" class="absolute inset-0">
             <!-- Digital Scenarios (0 - 3) -->
-            <img src="/images/digital-morning-desk.jpg" alt="8:00 AM Morning Reading Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100" data-scenario="digital-0" fetchpriority="high" loading="eager" />
+            <img src="/images/digital-morning-desk.jpg" alt="8:00 AM Morning Class Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-100" data-scenario="digital-0" fetchpriority="high" loading="eager" />
             <img src="/images/digital-classroom-room.jpg" alt="1:15 PM Afternoon Inquiry Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="digital-1" loading="eager" />
             <img src="/images/digital-dinner-table.jpg" alt="6:00 PM Dinner Table Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="digital-2" loading="eager" />
             <img src="/images/digital-bedtime-night.jpg" alt="8:30 PM Bedtime Digital" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="digital-3" loading="eager" />
 
             <!-- Analog Scenarios (0 - 3) -->
-            <img src="/images/analog-morning-book.jpg" alt="8:00 AM Morning Reading Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-0" loading="eager" />
-            <img src="/images/analog-afternoon-chalkboard.jpg" alt="1:15 PM Afternoon Inquiry Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-1" loading="eager" />
+            <img src="/images/analog-morning-book.jpg" alt="8:00 AM Morning Class Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-0" loading="eager" />
+            <img src="/images/analog-afternoon-postits-hands.webp" alt="1:15 PM students collaborating with Post-it notes and paper" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-1" loading="eager" />
             <img src="/images/analog-evening-dinner.jpg" alt="6:00 PM Dinner Table Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-2" loading="eager" />
             <img src="/images/analog-bedtime-sleep.jpg" alt="8:30 PM Bedtime Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-3" loading="eager" />
           </div>
@@ -117,7 +120,7 @@ import Layout from '../layouts/Layout.astro';
                 <div class="pointer-events-auto bg-black/80 backdrop-blur-md border border-white/30 text-white px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full text-xs sm:text-sm font-bold tracking-wide shadow-md flex items-center justify-center flex-shrink-0">
                   <span id="stage-pill-time" class="font-sans">
                     <span id="stage-pill-time-short" class="inline sm:hidden">8:00 AM</span>
-                    <span id="stage-pill-time-full" class="hidden sm:inline">8:00 AM &middot; Morning Reading</span>
+                    <span id="stage-pill-time-full" class="hidden sm:inline">8:00 AM &middot; Morning Class</span>
                   </span>
                 </div>
 
@@ -291,7 +294,7 @@ import Layout from '../layouts/Layout.astro';
           </p>
           <div class="text-sm text-text-secondary leading-relaxed border-t border-[#E5D6C7]/60 pt-4">
             <p>
-              Modeled after the Los Angeles Unified School District: we currently have no data on total daily device exposure in Hopewell classrooms.
+              Modeled after the Los Angeles Unified School District: we currently have no data on students&rsquo; total daily exposure to school-issued devices&mdash;online or offline, in class or at home.
             </p>
           </div>
         </article>
@@ -345,7 +348,7 @@ import Layout from '../layouts/Layout.astro';
           </p>
           <div class="text-sm text-text-secondary leading-relaxed border-t border-[#E5D6C7]/60 pt-4">
             <blockquote class="italic text-text-primary mb-2">
-              &ldquo;Mandatory take-home devices can function as an educational Trojan horse, bringing digital distraction into our homes under the mantle of required homework&mdash;undermining bedtime, outdoor play, and family dinners.&rdquo;
+              &ldquo;Routine take-home devices can extend schoolwork into family time, bringing digital distractions into our homes through required homework and interrupting bedtime, outdoor play, and family dinners.&rdquo;
             </blockquote>
           </div>
         </article>
@@ -466,7 +469,7 @@ import Layout from '../layouts/Layout.astro';
   const dayScenarios = [
     {
       time: '8:00 AM',
-      period: 'Morning Reading',
+      period: 'Morning Class',
       screen: {
         photo: '/images/digital-morning-desk.jpg',
         title: 'Chronic Tab-Switching & Cognitive Fatigue',
@@ -481,7 +484,7 @@ import Layout from '../layouts/Layout.astro';
       analog: {
         photo: '/images/analog-morning-book.jpg',
         title: 'Classrooms Grounded in Physical Books',
-        desc: 'Students begin their school morning opening printed paperbacks. No browser tabs, no device notifications, and zero digital eye strain—deep reading and focus set the tone for the day.',
+        desc: 'Students begin their morning with physical books. No browser tabs or device notifications compete for their attention, and less digital eye strain helps deep reading and focus set the tone for the day.',
         milestone: 'Milestone 1: Analog-first learning default across all K–12 classrooms.'
       }
     },
@@ -500,9 +503,9 @@ import Layout from '../layouts/Layout.astro';
         }
       },
       analog: {
-        photo: '/images/analog-afternoon-chalkboard.jpg',
-        title: 'Classroom Inquiry: Eyes Up & Chalkboards',
-        desc: 'Students look each other in the eye, debate ideas, and solve problems collaboratively on chalkboards and paper. Technology is never used to replace teacher-led relationship and discussion.',
+        photo: '/images/analog-afternoon-postits-hands.webp',
+        title: 'Classroom Inquiry: Eyes Up & Eye Contact',
+        desc: 'Students make eye contact, debate ideas, and solve problems collaboratively using Post-it notes and paper. Technology supports learning without replacing teacher-led relationships and discussion.',
         milestone: "Superintendent Treece's Stated Vision: Prioritizing face-to-face interaction, meaningful relationships, and active inquiry."
       }
     },
@@ -511,13 +514,13 @@ import Layout from '../layouts/Layout.astro';
       period: 'Family Dinner & Homework',
       screen: {
         photo: '/images/digital-dinner-table.jpg',
-        title: 'The Educational Trojan Horse at Dinner',
-        desc: 'Mandatory take-home Chromebooks enter family homes under the banner of "homework." Open-ended browsing and games invade the dining table and family living room.',
-        problem: 'Routine take-home Chromebooks act as a Trojan horse — invading family dinner tables and triggering evening screen battles.',
+        title: 'Schoolwork Extending Into Family Time',
+        desc: 'Routine take-home Chromebooks bring digital homework into family spaces. Open-ended browsing and games can distract from dinner and shared evening time.',
+        problem: 'Routine take-home Chromebooks can interrupt family dinners, screen-free time, and evening routines.',
         notification: {
           source: 'District Portal',
           time: '5m ago',
-          msg: 'New digital assignment posted, due tomorrow at 8:00 AM.'
+          msg: 'Reminder: Today’s digital homework assignment is due tomorrow at 8:00 AM.'
         }
       },
       analog: {
@@ -533,10 +536,10 @@ import Layout from '../layouts/Layout.astro';
       screen: {
         photo: '/images/digital-bedtime-night.jpg',
         title: 'Late Night Notifications & Fragmented Sleep',
-        desc: 'School devices in bedrooms emit blue light and chime with late assignments. Melatonin production is suppressed, leaving students exhausted the next morning.',
-        problem: 'School devices follow kids into bed — late notifications and blue light suppress melatonin and fragment vital sleep.',
+        desc: 'School devices in bedrooms extend the school day through homework reminders, deadline alerts, and blue-light exposure, making it harder to wind down for sleep.',
+        problem: 'School devices can keep kids connected to schoolwork at bedtime—notifications and blue light can make it harder to wind down.',
         notification: {
-          source: 'Canvas Alert',
+          source: 'OnCourse Alert',
           time: 'now',
           msg: 'Assignment deadline in 3 hours 29 minutes.'
         }
@@ -544,8 +547,8 @@ import Layout from '../layouts/Layout.astro';
       analog: {
         photo: '/images/analog-bedtime-sleep.jpg',
         title: 'Screen-Free Bedrooms: Deep Restful Sleep',
-        desc: "Zero school notifications or blue-light glare in children's bedrooms. Students wind down with paperback books under warm lamplight, protecting natural melatonin and waking up refreshed.",
-        milestone: 'Milestones 3 & 5: 100% screen-free evenings by default; healthy circadian rhythms restored.'
+        desc: "No school notifications or blue-light glare compete for attention in children's bedrooms. Students wind down with books they can hold in their hands under warm lamplight, supporting a calmer transition to sleep.",
+        milestone: 'Milestones 3 & 5: Screen-free evenings by default; healthier evening routines and sleep supported.'
       }
     }
   ];
