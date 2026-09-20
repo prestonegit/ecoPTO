@@ -9,16 +9,16 @@
 >
   <div 
     id="dock-card-wrapper"
-    class="bg-white rounded-2xl p-4 sm:p-5 border border-[#E5D6C7] shadow-[0_14px_40px_rgba(45,45,45,0.18)] relative transition-transform duration-200 hover:-translate-y-1"
+    class="bg-white rounded-2xl p-4 sm:p-5 border border-[#E5D6C7] shadow-[0_14px_40px_rgba(45,45,45,0.18)] relative transition-transform duration-200 sm:hover:-translate-y-1"
   >
     <!-- Dismiss Button -->
     <button 
       id="dismiss-petition-dock"
       type="button"
-      class="absolute top-2.5 right-2.5 sm:top-3 sm:right-3 w-8 h-8 rounded-full flex items-center justify-center text-[#4A4540] hover:text-[#B05B3B] hover:bg-[#FAF7F2] transition-colors z-10"
-      aria-label="Dismiss notification"
+      class="absolute top-2 right-2 sm:top-2.5 sm:right-2.5 w-11 h-11 sm:w-9 sm:h-9 rounded-full flex items-center justify-center text-[#4A4540] hover:text-[#B05B3B] hover:bg-[#FAF7F2] active:bg-[#FAF7F2] transition-colors z-20 touch-manipulation cursor-pointer"
+      aria-label="Dismiss petition announcement"
     >
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      <svg class="w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
     </button>
 
     <div class="pr-6 sm:pr-4">
@@ -118,9 +118,20 @@
     const dismissBtn = document.getElementById('dismiss-petition-dock');
     if (!dock) return;
 
+    // Prevent duplicate initializations on the same DOM element instance
+    if (dock.dataset.dockInitialized === 'true') return;
+    dock.dataset.dockInitialized = 'true';
+
     // Suppress if dismissed in this session or on petition page
+    let isDismissed = false;
+    try {
+      isDismissed = sessionStorage.getItem('ecopto_dock_dismissed') === 'true';
+    } catch (e) {
+      // Safe fallback if sessionStorage is blocked
+    }
+
     const isPetitionPage = window.location.pathname.replace(/\/$/, '').endsWith('/petition');
-    if (sessionStorage.getItem('ecopto_dock_dismissed') === 'true' || isPetitionPage) {
+    if (isDismissed || isPetitionPage) {
       dock.classList.add('hidden');
       return;
     }
@@ -171,16 +182,52 @@
     }
     window.addEventListener('scroll', handleScroll, { passive: true, once: true });
 
-    // Handle dismiss
-    if (dismissBtn) {
-      dismissBtn.addEventListener('click', () => {
-        dock.classList.add('opacity-0', 'translate-y-16', 'pointer-events-none');
-        dock.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+    function dismissDock() {
+      clearTimeout(autoShowTimer);
+      if (periodicNudgeTimer) {
+        clearInterval(periodicNudgeTimer);
+        periodicNudgeTimer = null;
+      }
+
+      // Remove CSS keyframe animation so it does not override opacity-0 / translate-y-16 via animation-fill-mode: forwards
+      dock.classList.remove('animate-dock-entrance');
+      if (cardWrapper) {
+        cardWrapper.classList.remove('animate-dock-card-nudge');
+      }
+
+      // Smoothly transition out
+      dock.classList.remove('opacity-100', 'translate-y-0', 'pointer-events-auto');
+      dock.classList.add('opacity-0', 'translate-y-16', 'pointer-events-none');
+
+      try {
         sessionStorage.setItem('ecopto_dock_dismissed', 'true');
-        if (periodicNudgeTimer) clearInterval(periodicNudgeTimer);
-        clearTimeout(autoShowTimer);
+      } catch (e) {
+        // Safe failover for private browsing
+      }
+
+      // Remove from layout and accessibility tree once exit transition completes
+      setTimeout(() => {
+        dock.classList.add('hidden');
+      }, 350);
+    }
+
+    // Handle dismiss button click
+    if (dismissBtn) {
+      dismissBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        dismissDock();
       });
     }
+
+    // Support keyboard Escape to dismiss
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        dismissDock();
+        document.removeEventListener('keydown', handleKeyDown);
+      }
+    };
+    document.addEventListener('keydown', handleKeyDown);
   }
 
   document.addEventListener('astro:page-load', initPetitionDock);
