@@ -36,13 +36,19 @@ const calendarUrl = buildGoogleCalendarUrl({
     <div class="container mx-auto px-6 max-w-6xl">
       <div class="flex flex-col lg:flex-row gap-12 items-start">
         {event.data.image && (
-          <div class="w-full lg:w-1/2 rounded-lg overflow-hidden shadow-lg shrink-0">
+          <a
+            href={event.data.image}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Open the full-size image for ${event.data.title}`}
+            class="block w-full lg:w-1/2 rounded-lg overflow-hidden shadow-lg shrink-0 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-primary/30"
+          >
             <img
               src={event.data.image}
               alt={event.data.title}
-              class="w-full h-auto object-cover max-h-[600px]"
+              class="block w-full h-auto"
             />
-          </div>
+          </a>
         )}
         <div class={`w-full ${event.data.image ? 'lg:w-1/2' : ''} text-left`}>
           <h1 class="text-4xl sm:text-5xl font-extrabold text-primary mb-6">{event.data.title}</h1>
