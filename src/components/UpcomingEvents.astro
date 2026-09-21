@@ -44,12 +44,12 @@ const initialVisibleSlugs = new Set(initialVisibleEvents.map((event) => event.sl
                 </div>
               </div>
               {event.data.image && (
-                <div class="md:w-1/2 overflow-hidden aspect-[4/3] md:aspect-auto md:min-h-[250px]">
+                <div class="md:w-1/2 overflow-hidden md:min-h-[250px]">
                   <img
                     src={event.data.image}
                     alt={event.data.title}
                     loading="lazy"
-                    class="w-full h-full object-cover transition-transform duration-700 ease-out hover:scale-105"
+                    class="block w-full h-auto md:h-full md:object-cover transition-transform duration-700 ease-out hover:scale-105"
                   />
                 </div>
               )}
