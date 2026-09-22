@@ -86,6 +86,12 @@ BCC'd email, the site footer, or anywhere public. It answers identically whether
 the address is on the list, so it can't be used to test who subscribed, and rate-limits
 per IP and per address so it can't be used to mail-bomb someone.
 
+**Every unsubscribe emails the team.** Resend already skips the contact on broadcasts,
+but while the YEWsletter is also going out by hand from a separate Gmail list, an
+unsubscribe nobody sees means the person keeps receiving it. The alert names the address
+and says to remove it from any hand-maintained list. It's best-effort — if the
+notification fails to send, the unsubscribe still succeeds.
+
 Newsletter **broadcasts** don't use this endpoint — Resend substitutes its own
 `{{{RESEND_UNSUBSCRIBE_URL}}}` token there, wired into its suppression list.
 
@@ -128,6 +134,7 @@ Netlify function logs (Site → Logs → Functions).
 | `NOTIFY_SIGNUP` | no | Overrides `NOTIFY_EMAIL` for signups |
 | `NOTIFY_STAFF` | no | Overrides `NOTIFY_EMAIL` for staff support requests |
 | `NOTIFY_CONTACT` | no | Overrides `NOTIFY_EMAIL` for contact messages |
+| `NOTIFY_UNSUBSCRIBE` | no | Overrides `NOTIFY_EMAIL` for unsubscribe alerts |
 | `SITE_URL` | no | Base URL for images and links in the emails. Defaults to `siteUrl` in `src/config/org.js` |
 | `FORM_SECRET` | no | Key used to sign submission nonces. Defaults to a hash of `RESEND_API_KEY`; set it explicitly if you ever rotate that key mid-session |
 
