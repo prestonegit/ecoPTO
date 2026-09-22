@@ -15,6 +15,8 @@ export const brandedPage = ({ title, body, action = '', status = 200, siteUrl = 
     `<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="color-scheme" content="light dark">
+<!-- Reached from a link in an email, not from the site. Never index these. -->
+<meta name="robots" content="noindex, nofollow">
 <title>${esc(title)} · ${esc(ORG.shortName)}</title>
 <style>
   /* Tokens, so the dark block only has to restate colours rather than whole rules. */
