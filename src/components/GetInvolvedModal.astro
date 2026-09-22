@@ -5,7 +5,7 @@ const signupContent = await getEntry('signup', 'signup');
 ---
 <dialog id="get-involved-modal" class="modal">
   <div class="modal-box bg-white text-text-primary p-8 rounded-lg shadow-lg max-w-xl w-full relative">
-    <button class="btn-close-modal absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold" aria-label="Close modal">&times;</button>
+    <button class="btn-close-modal absolute top-3 right-3 w-11 h-11 min-w-[44px] min-h-[44px] flex items-center justify-center text-gray-500 hover:text-gray-800 text-2xl font-bold rounded-full hover:bg-gray-100 transition-colors cursor-pointer" aria-label="Close modal">&times;</button>
     
     <!-- Tabs -->
     <div id="modal-tabs" class="flex border-b border-gray-200 mb-6">
@@ -45,8 +45,8 @@ const signupContent = await getEntry('signup', 'signup');
           <label for="email" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_email_label}</label>
           <input type="email" id="email" name="email" placeholder={signupContent.data.signupFormPlaceholder} class="w-full p-3 mt-1 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent" required />
         </div>
-        <div>
-          <label class="text-sm font-bold text-text-secondary">{signupContent.data.signup_school_affiliation_label}</label>
+        <fieldset class="border-0 p-0 m-0">
+          <legend class="text-sm font-bold text-text-secondary mb-2">{signupContent.data.signup_school_affiliation_label}</legend>
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 mt-2">
             <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Central High" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Central High</label></div>
             <div class="w-full"><label class="flex items-start"><input type="checkbox" name="school" value="Timberlane Middle" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Timberlane Middle</label></div>
@@ -57,88 +57,86 @@ const signupContent = await getEntry('signup', 'signup');
             <div class="w-full"><label class="flex items-start"><input type="checkbox" id="school-other-checkbox" name="school" value="Other" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 flex-none">Other</label></div>
           </div>
           <input type="text" id="school-other-detail" name="school-other" placeholder={signupContent.data.signup_other_school_placeholder || "Please specify your affiliation"} class="w-full p-3 mt-2 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent hidden" />
-        </div>
+        </fieldset>
         <!-- Strengths / Expertise Section -->
-        <div id="strengths-section">
-          <label class="text-sm font-bold text-text-secondary block">
+        <fieldset id="strengths-section" class="border-0 p-0 m-0">
+          <legend class="text-sm font-bold text-text-secondary mb-2">
             {signupContent.data.signup_strengths_label || "Your Strengths & How You Can Help"}
-          </label>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2.5 mt-2 text-sm">
+          </legend>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-3 mt-2 text-sm">
             <!-- 1. Gardening & Outdoor Projects -->
             <div class="strength-item relative flex items-start text-xs sm:text-[13px] md:text-sm text-text-primary leading-snug py-0.5">
-              <input type="checkbox" id="strength-gardening" name="strengths" value="Gardening & Outdoor Projects" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 mt-0.5 flex-none cursor-pointer" />
-              <label for="strength-gardening" class="cursor-pointer select-none font-medium flex-1">Gardening & Outdoor Projects</label>
-              <div role="tooltip" class="strength-tooltip absolute bottom-full mb-1.5 w-52 sm:w-56 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800 left-0 sm:left-0 pointer-events-none">
-                Gardening, landscaping, building raised beds, carpentry
-                <div class="absolute top-full left-4 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+              <input type="checkbox" id="strength-gardening" name="strengths" value="Gardening & Outdoor Projects" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2.5 mt-0.5 flex-none cursor-pointer" />
+              <div class="flex-1">
+                <label for="strength-gardening" class="cursor-pointer select-none font-medium block">Gardening &amp; Outdoor Projects</label>
+                <span class="block text-xs text-text-secondary mt-0.5 leading-tight">Gardening, landscaping, building raised beds, carpentry</span>
               </div>
             </div>
 
             <!-- 2. Education & Youth Programs -->
             <div class="strength-item relative flex items-start text-xs sm:text-[13px] md:text-sm text-text-primary leading-snug py-0.5">
-              <input type="checkbox" id="strength-education" name="strengths" value="Education & Youth Programs" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 mt-0.5 flex-none cursor-pointer" />
-              <label for="strength-education" class="cursor-pointer select-none font-medium flex-1">Education & Youth Programs</label>
-              <div role="tooltip" class="strength-tooltip absolute bottom-full mb-1.5 w-52 sm:w-56 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800 left-0 sm:left-auto sm:right-0 pointer-events-none">
-                Educators, curriculum, student workshops, green clubs
-                <div class="absolute top-full left-4 sm:left-auto sm:right-6 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+              <input type="checkbox" id="strength-education" name="strengths" value="Education & Youth Programs" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2.5 mt-0.5 flex-none cursor-pointer" />
+              <div class="flex-1">
+                <label for="strength-education" class="cursor-pointer select-none font-medium block">Education &amp; Youth Programs</label>
+                <span class="block text-xs text-text-secondary mt-0.5 leading-tight">Educators, curriculum, student workshops, green clubs</span>
               </div>
             </div>
 
             <!-- 3. Events & Community Gatherings -->
             <div class="strength-item relative flex items-start text-xs sm:text-[13px] md:text-sm text-text-primary leading-snug py-0.5">
-              <input type="checkbox" id="strength-events" name="strengths" value="Events & Community Gatherings" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 mt-0.5 flex-none cursor-pointer" />
-              <label for="strength-events" class="cursor-pointer select-none font-medium flex-1">Events & Community Gatherings</label>
-              <div role="tooltip" class="strength-tooltip absolute bottom-full mb-1.5 w-52 sm:w-56 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800 left-0 sm:left-0 pointer-events-none">
-                Event planning, logistics, hikes, cleanups, hospitality
-                <div class="absolute top-full left-4 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+              <input type="checkbox" id="strength-events" name="strengths" value="Events & Community Gatherings" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2.5 mt-0.5 flex-none cursor-pointer" />
+              <div class="flex-1">
+                <label for="strength-events" class="cursor-pointer select-none font-medium block">Events &amp; Community Gatherings</label>
+                <span class="block text-xs text-text-secondary mt-0.5 leading-tight">Event planning, logistics, hikes, cleanups, hospitality</span>
               </div>
             </div>
 
             <!-- 4. Communications, Design & Tech -->
             <div class="strength-item relative flex items-start text-xs sm:text-[13px] md:text-sm text-text-primary leading-snug py-0.5">
-              <input type="checkbox" id="strength-communications" name="strengths" value="Communications, Design & Tech" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 mt-0.5 flex-none cursor-pointer" />
-              <label for="strength-communications" class="cursor-pointer select-none font-medium flex-1">Communications, Design & Tech</label>
-              <div role="tooltip" class="strength-tooltip absolute bottom-full mb-1.5 w-52 sm:w-56 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800 left-0 sm:left-auto sm:right-0 pointer-events-none">
-                Writing/PR, newsletter, photography, website & software
-                <div class="absolute top-full left-4 sm:left-auto sm:right-6 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+              <input type="checkbox" id="strength-communications" name="strengths" value="Communications, Design & Tech" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2.5 mt-0.5 flex-none cursor-pointer" />
+              <div class="flex-1">
+                <label for="strength-communications" class="cursor-pointer select-none font-medium block">Communications, Design &amp; Tech</label>
+                <span class="block text-xs text-text-secondary mt-0.5 leading-tight">Writing/PR, newsletter, photography, website &amp; software</span>
               </div>
             </div>
 
             <!-- 5. Policy, Advocacy & School Board -->
             <div class="strength-item relative flex items-start text-xs sm:text-[13px] md:text-sm text-text-primary leading-snug py-0.5">
-              <input type="checkbox" id="strength-policy" name="strengths" value="Policy, Advocacy & School Board" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 mt-0.5 flex-none cursor-pointer" />
-              <label for="strength-policy" class="cursor-pointer select-none font-medium flex-1">Policy, Advocacy & School Board</label>
-              <div role="tooltip" class="strength-tooltip absolute bottom-full mb-1.5 w-52 sm:w-56 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800 left-0 sm:left-0 pointer-events-none">
-                District policy, environmental initiatives, local politics
-                <div class="absolute top-full left-4 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+              <input type="checkbox" id="strength-policy" name="strengths" value="Policy, Advocacy & School Board" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2.5 mt-0.5 flex-none cursor-pointer" />
+              <div class="flex-1">
+                <label for="strength-policy" class="cursor-pointer select-none font-medium block">Policy, Advocacy &amp; School Board</label>
+                <span class="block text-xs text-text-secondary mt-0.5 leading-tight">District policy, environmental initiatives, local politics</span>
               </div>
             </div>
 
             <!-- 6. Fundraising, Finance & Legal -->
             <div class="strength-item relative flex items-start text-xs sm:text-[13px] md:text-sm text-text-primary leading-snug py-0.5">
-              <input type="checkbox" id="strength-fundraising" name="strengths" value="Fundraising, Finance & Legal" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 mt-0.5 flex-none cursor-pointer" />
-              <label for="strength-fundraising" class="cursor-pointer select-none font-medium flex-1">Fundraising, Finance & Legal</label>
-              <div role="tooltip" class="strength-tooltip absolute bottom-full mb-1.5 w-52 sm:w-56 p-2.5 bg-stone-900 text-stone-100 text-xs rounded-lg shadow-xl z-50 leading-relaxed border border-stone-800 left-0 sm:left-auto sm:right-0 pointer-events-none">
-                Grant writing, fundraising, bookkeeping, non-profit law
-                <div class="absolute top-full left-4 sm:left-auto sm:right-6 -mt-1 border-4 border-transparent border-t-stone-900" aria-hidden="true"></div>
+              <input type="checkbox" id="strength-fundraising" name="strengths" value="Fundraising, Finance & Legal" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2.5 mt-0.5 flex-none cursor-pointer" />
+              <div class="flex-1">
+                <label for="strength-fundraising" class="cursor-pointer select-none font-medium block">Fundraising, Finance &amp; Legal</label>
+                <span class="block text-xs text-text-secondary mt-0.5 leading-tight">Grant writing, fundraising, bookkeeping, non-profit law</span>
               </div>
             </div>
 
             <!-- Other expertise -->
             <div class="strength-item flex items-start text-xs sm:text-[13px] md:text-sm text-text-primary leading-snug py-0.5">
-              <input type="checkbox" id="strengths-other-checkbox" name="strengths" value="Other" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 mt-0.5 flex-none" />
-              <label for="strengths-other-checkbox" class="cursor-pointer select-none font-medium leading-snug">Other expertise</label>
+              <input type="checkbox" id="strengths-other-checkbox" name="strengths" value="Other" class="strength-checkbox h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2.5 mt-0.5 flex-none cursor-pointer" />
+              <div class="flex-1">
+                <label for="strengths-other-checkbox" class="cursor-pointer select-none font-medium leading-snug block">Other expertise</label>
+              </div>
             </div>
 
             <!-- Updates only -->
             <div class="strength-item flex items-start text-xs sm:text-[13px] md:text-sm text-text-primary leading-snug py-0.5">
-              <input type="checkbox" id="updates-only-checkbox" name="strengths" value="Updates only" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2 mt-0.5 flex-none" />
-              <label for="updates-only-checkbox" class="cursor-pointer select-none font-medium leading-snug">{signupContent.data.signup_updates_only_label || "I only want updates"}</label>
+              <input type="checkbox" id="updates-only-checkbox" name="strengths" value="Updates only" class="h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary checked:bg-primary checked:border-primary mr-2.5 mt-0.5 flex-none cursor-pointer" />
+              <div class="flex-1">
+                <label for="updates-only-checkbox" class="cursor-pointer select-none font-medium leading-snug block">{signupContent.data.signup_updates_only_label || "I only want updates"}</label>
+              </div>
             </div>
           </div>
           <input type="text" id="strengths-other-detail" name="strengths-other" placeholder={signupContent.data.signup_strengths_other_placeholder || "Please specify your skill or background"} class="w-full p-3 mt-2 rounded-md bg-bg-secondary border border-secondary focus:outline-none focus:ring-2 focus:ring-accent hidden" />
           <p id="strengths-error" class="text-xs text-red-600 font-bold mt-2 hidden" role="alert">Please select at least one skill or choose 'I only want updates'.</p>
-        </div>
+        </fieldset>
 
         <div>
           <label for="impact-focus" class="text-sm font-bold text-text-secondary">{signupContent.data.signup_impact_focus_label}</label>
@@ -215,19 +213,23 @@ const signupContent = await getEntry('signup', 'signup');
 </dialog>
 
 <style>
-  .modal {
-    display: none; /* Hide by default */
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    min-height: 100vh;
-    overflow-y: auto;
-    background-color: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: flex-start;
-    padding: 5vh 1rem 8vh;
+  dialog.modal {
+    border: none;
+    padding: 0;
+    background: transparent;
+    max-width: 36rem;
+    width: calc(100% - 2rem);
+    margin: auto;
+    overflow: visible;
+  }
+
+  dialog.modal::backdrop {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+  }
+
+  dialog.modal:not([open]) {
+    display: none;
   }
 
   .modal-box {
@@ -240,38 +242,8 @@ const signupContent = await getEntry('signup', 'signup');
     overscroll-behavior-y: contain; /* Added for scroll chaining */
   }
 
-  .modal.modal-open {
-    display: flex;
-  }
-
-  body.modal-open {
-    overflow: hidden;
-  }
-
   .strength-item {
     position: relative;
-  }
-
-  .strength-tooltip {
-    opacity: 0;
-    visibility: hidden;
-    pointer-events: none;
-    transform: translateY(4px);
-    transition: opacity 0.15s ease-out, transform 0.15s ease-out, visibility 0.15s;
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .strength-item:hover,
-    .strength-item:focus-within {
-      z-index: 30;
-    }
-
-    .strength-item:hover .strength-tooltip,
-    .strength-item:focus-within .strength-tooltip {
-      opacity: 1;
-      visibility: visible;
-      transform: translateY(0);
-    }
   }
 </style>
 
@@ -281,9 +253,9 @@ const signupContent = await getEntry('signup', 'signup');
   document.addEventListener('astro:page-load', () => {
     wireForms();
     const modal = document.getElementById('get-involved-modal');
-    const body = document.body;
 
-    if (modal) {
+    if (modal instanceof HTMLDialogElement) {
+      let lastFocusedElement = null;
       const closeButton = modal.querySelector('.btn-close-modal');
       const triggerBtns = document.querySelectorAll('.get-involved-trigger');
       
@@ -406,31 +378,51 @@ const signupContent = await getEntry('signup', 'signup');
 
       // Open Modal Triggers
       triggerBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
+        btn.addEventListener('click', (e) => {
+          lastFocusedElement = e.currentTarget;
           const targetTab = btn.dataset.targetTab || 'form-join';
           resetModalState(targetTab);
-          modal.classList.add('modal-open');
-          body.classList.add('modal-open');
+          if (!modal.open) {
+            modal.showModal();
+          }
         });
       });
 
       // Close Modal Function
       const closeModal = () => {
-        modal.classList.remove('modal-open');
-        body.classList.remove('modal-open');
-        resetModalState();
+        if (modal.open) {
+          modal.close();
+        }
       };
 
-      closeButton.addEventListener('click', closeModal);
+      // Native dialog close event (handles Escape key and programmatic close)
+      modal.addEventListener('close', () => {
+        resetModalState();
+        if (lastFocusedElement instanceof HTMLElement) {
+          lastFocusedElement.focus();
+        }
+      });
+
+      closeButton?.addEventListener('click', closeModal);
       
       const altCloseButton = modal.querySelector('.btn-close-modal-alt');
       if (altCloseButton) {
         altCloseButton.addEventListener('click', closeModal);
       }
 
+      // Close on backdrop click
       modal.addEventListener('click', (event) => {
         if (event.target === modal) {
-          closeModal();
+          const rect = modal.getBoundingClientRect();
+          const isInDialog = (
+            rect.top <= event.clientY &&
+            event.clientY <= rect.top + rect.height &&
+            rect.left <= event.clientX &&
+            event.clientX <= rect.left + rect.width
+          );
+          if (!isInDialog) {
+            closeModal();
+          }
         }
       });
       

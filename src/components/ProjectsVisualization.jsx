@@ -330,11 +330,48 @@ const ProjectsVisualization = ({ projects }) => {
 
   }, [searchQuery]);
 
+  const matchingProjectsCount = React.useMemo(() => {
+    const trimmed = searchQuery.trim();
+    if (!trimmed) return projects.length;
+    const lowerQuery = trimmed.toLowerCase();
+    return projects.filter(p => {
+      const titleMatch = p.data?.title?.toLowerCase().includes(lowerQuery);
+      const descMatch = p.data?.description && p.data.description.toLowerCase().includes(lowerQuery);
+      const kwMatch = p.data?.keywords && p.data.keywords.some(k => k.toLowerCase().includes(lowerQuery));
+      const personMatch = p.data?.participants && p.data.participants.some(pt => pt.name.toLowerCase().includes(lowerQuery));
+      return titleMatch || descMatch || kwMatch || personMatch;
+    }).length;
+  }, [projects, searchQuery]);
+
+  const handleClearSearch = () => {
+    setSearchQuery('');
+    const searchInput = document.getElementById('search');
+    if (searchInput) {
+      searchInput.value = '';
+      searchInput.dispatchEvent(new Event('input', { bubbles: true }));
+      searchInput.focus();
+    }
+  };
 
   return (
     <div className="w-full aspect-square md:aspect-video relative bg-slate-50 rounded-xl overflow-hidden shadow-inner border border-slate-200">
-      <svg ref={ref} className="w-full h-full touch-none"></svg>
+      <svg ref={ref} className="w-full h-full"></svg>
       <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+
+      {searchQuery.trim() && matchingProjectsCount === 0 && (
+        <div className="absolute inset-0 bg-white/95 backdrop-blur-sm flex flex-col items-center justify-center p-6 text-center z-10">
+          <p className="text-lg text-text-primary mb-4">
+            No projects found matching &apos;{searchQuery}&apos;
+          </p>
+          <button
+            type="button"
+            onClick={handleClearSearch}
+            className="btn-standard btn-bg-primary-color px-6 py-2 rounded-full text-sm font-semibold hover-spring cursor-pointer"
+          >
+            Clear search
+          </button>
+        </div>
+      )}
 
       <div className="absolute top-4 left-4 text-xs font-sans text-slate-400 pointer-events-none select-none">
         Scroll to Zoom • Drag to Pan

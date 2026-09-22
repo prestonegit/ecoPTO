@@ -12,7 +12,8 @@ if (!impactPage) {
   return Astro.redirect("/404"); // Or render a fallback message
 }
 
-const { data, Content } = impactPage;
+const { data } = impactPage;
+const { Content } = await impactPage.render();
 const { title, subtitle, achievements_title, achievements } = data;
 ---
 <Layout title={title}>
@@ -28,12 +29,14 @@ const { title, subtitle, achievements_title, achievements } = data;
     <div class="container mx-auto px-6">
       
       <!-- Timeline Container -->
-      <div class="relative wrap overflow-hidden p-10 h-full">
-        <div class="border-l-4 border-primary absolute h-full left-1/2 transform -translate-x-1/2"></div>
+      <div class="relative wrap overflow-hidden py-10 md:p-10 h-full">
+        <div class="border-l-4 border-primary absolute h-full left-4 md:left-1/2 md:-translate-x-1/2"></div>
         
-        {achievements?.map((achievement, index) => (
-          <TimelineItem achievement={achievement} index={index} />
-        ))}
+        <div class="pl-10 md:pl-0">
+          {achievements?.map((achievement, index) => (
+            <TimelineItem achievement={achievement} index={index} />
+          ))}
+        </div>
       </div>
     </div>
   </section>

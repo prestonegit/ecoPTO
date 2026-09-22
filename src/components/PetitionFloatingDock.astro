@@ -122,12 +122,21 @@
     if (dock.dataset.dockInitialized === 'true') return;
     dock.dataset.dockInitialized = 'true';
 
-    // Suppress if dismissed in this session or on petition page
+    // Suppress if dismissed in localStorage (with 7-day expiration check) or on petition page
     let isDismissed = false;
+    const DISMISSAL_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days
     try {
-      isDismissed = sessionStorage.getItem('ecopto_dock_dismissed') === 'true';
+      const dismissedTimestamp = localStorage.getItem('ecopto_dock_dismissed_at');
+      if (dismissedTimestamp) {
+        const timeDiff = Date.now() - parseInt(dismissedTimestamp, 10);
+        if (timeDiff < DISMISSAL_DURATION_MS) {
+          isDismissed = true;
+        }
+      } else if (localStorage.getItem('ecopto_dock_dismissed') === 'true') {
+        isDismissed = true;
+      }
     } catch (e) {
-      // Safe fallback if sessionStorage is blocked
+      // Safe fallback if localStorage is blocked
     }
 
     const isPetitionPage = window.location.pathname.replace(/\/$/, '').endsWith('/petition');
@@ -137,7 +146,6 @@
     }
 
     let hasShown = false;
-    let periodicNudgeTimer = null;
 
     function triggerAttentionNudge() {
       if (!cardWrapper) return;
@@ -161,13 +169,6 @@
       setTimeout(() => {
         triggerAttentionNudge();
       }, 450);
-
-      // Repeat attention nudge periodically if not hovered or dismissed
-      periodicNudgeTimer = setInterval(() => {
-        if (!dock.matches(':hover')) {
-          triggerAttentionNudge();
-        }
-      }, 14000);
     }
 
     // Show automatically on page load after a prompt 700ms entrance delay (no scroll required!)
@@ -184,10 +185,6 @@
 
     function dismissDock() {
       clearTimeout(autoShowTimer);
-      if (periodicNudgeTimer) {
-        clearInterval(periodicNudgeTimer);
-        periodicNudgeTimer = null;
-      }
 
       // Remove CSS keyframe animation so it does not override opacity-0 / translate-y-16 via animation-fill-mode: forwards
       dock.classList.remove('animate-dock-entrance');
@@ -200,7 +197,8 @@
       dock.classList.add('opacity-0', 'translate-y-16', 'pointer-events-none');
 
       try {
-        sessionStorage.setItem('ecopto_dock_dismissed', 'true');
+        localStorage.setItem('ecopto_dock_dismissed_at', Date.now().toString());
+        localStorage.setItem('ecopto_dock_dismissed', 'true');
       } catch (e) {
         // Safe failover for private browsing
       }

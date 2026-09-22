@@ -83,14 +83,36 @@ const themeClass = globalSettings.data.theme; // Force rebuild
             --bg-secondary: #F5F5F5; /* Default from theme-district-maroon */
         }
 
+        /* High-contrast text rules: ensure secondary text never renders as low-contrast peach (#FFC099) on light backgrounds */
+        .theme-ecopto .text-secondary {
+            color: #8C3B1A;
+        }
+
+        .theme-ecopto a.text-secondary:hover,
+        .theme-ecopto .hover\:text-secondary:hover {
+            color: #6E2B0F;
+        }
+
+        .theme-ecopto .bg-primary .text-secondary,
+        .theme-ecopto [class*="bg-primary"] .text-secondary {
+            color: #FFFFFF;
+        }
+
         body {
             background-color: var(--bg-primary);
             color: var(--text-primary);
             font-family: var(--font-sans);
         }
 
-        h1, h2, h3, h4, h5, h6 {
+        h1, h2, blockquote {
             font-family: var(--font-serif);
+        }
+
+        h3, h4, h5, h6 {
+            font-family: var(--font-sans);
+        }
+
+        h1, h2, h3, h4, h5, h6 {
             color: var(--primary);
         }
 
@@ -109,9 +131,12 @@ const themeClass = globalSettings.data.theme; // Force rebuild
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
+	<a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-white focus:rounded-md focus:shadow-lg focus:ring-2 focus:ring-primary">
+		Skip to main content
+	</a>
 	<div data-netlify-identity-menu hidden></div>
 	<Header />
-	<main class="flex-grow">
+	<main id="main-content" tabindex="-1" class="flex-grow">
 		<slot />
 	</main>
 	<Footer />

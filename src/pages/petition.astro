@@ -148,18 +148,45 @@ import Layout from '../layouts/Layout.astro';
               </button>
             </div>
 
-            <!-- Carousel Dots Indicator (Auto-scroll checkpoints) -->
-            <div id="stage-dots-container" class="pointer-events-auto flex items-center gap-1.5 bg-black/50 backdrop-blur-md px-2 py-0.5 rounded-full border border-white/15 shadow-sm">
-              <button type="button" onclick="selectTime(0)" class="stage-dot w-4 h-1 rounded-full transition-all cursor-pointer bg-white" title="8:00 AM" aria-label="Step 1: 8:00 AM"></button>
-              <button type="button" onclick="selectTime(1)" class="stage-dot w-1.5 h-1 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="1:15 PM" aria-label="Step 2: 1:15 PM"></button>
-              <button type="button" onclick="selectTime(2)" class="stage-dot w-1.5 h-1 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="6:00 PM" aria-label="Step 3: 6:00 PM"></button>
-              <button type="button" onclick="selectTime(3)" class="stage-dot w-1.5 h-1 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70" title="8:30 PM" aria-label="Step 4: 8:30 PM"></button>
+            <!-- Carousel Dots & Play/Pause Controls -->
+            <div id="stage-dots-container" class="pointer-events-auto flex items-center bg-black/50 backdrop-blur-md px-1.5 py-0.5 rounded-full border border-white/15 shadow-sm">
+              <button 
+                type="button" 
+                id="stage-play-pause-btn"
+                onclick="toggleAutoScroll()" 
+                class="min-w-[44px] min-h-[44px] flex items-center justify-center text-white/80 hover:text-white transition-colors cursor-pointer mr-0.5" 
+                aria-label="Pause slideshow"
+                title="Pause slideshow"
+              >
+                <!-- Pause Icon (shown when playing) -->
+                <svg id="stage-pause-icon" class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z"/>
+                </svg>
+                <!-- Play Icon (shown when paused) -->
+                <svg id="stage-play-icon" class="w-3.5 h-3.5 fill-current hidden" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+
+              <button type="button" onclick="selectTime(0)" class="stage-dot-btn min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer" title="8:00 AM" aria-label="Step 1: 8:00 AM" aria-current="true">
+                <span class="stage-dot w-4 h-1 rounded-full transition-all bg-white shadow-sm"></span>
+              </button>
+              <button type="button" onclick="selectTime(1)" class="stage-dot-btn min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer" title="1:15 PM" aria-label="Step 2: 1:15 PM">
+                <span class="stage-dot w-1.5 h-1 rounded-full transition-all bg-white/40 hover:bg-white/70"></span>
+              </button>
+              <button type="button" onclick="selectTime(2)" class="stage-dot-btn min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer" title="6:00 PM" aria-label="Step 3: 6:00 PM">
+                <span class="stage-dot w-1.5 h-1 rounded-full transition-all bg-white/40 hover:bg-white/70"></span>
+              </button>
+              <button type="button" onclick="selectTime(3)" class="stage-dot-btn min-w-[44px] min-h-[44px] flex items-center justify-center cursor-pointer" title="8:30 PM" aria-label="Step 4: 8:30 PM">
+                <span class="stage-dot w-1.5 h-1 rounded-full transition-all bg-white/40 hover:bg-white/70"></span>
+              </button>
             </div>
           </div>
         </div>
 
         <!-- Focused Reality Narrative Body -->
-        <div class="p-5 sm:p-7 bg-[#FAF7F2]">
+        <div class="p-5 sm:p-7 bg-[#FAF7F2]" aria-live="polite">
+          <div id="stage-live-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
           <!-- Heading -->
           <h3 id="stage-heading" class="font-serif text-xl sm:text-2xl font-bold text-text-primary mb-2 leading-snug">
@@ -638,13 +665,30 @@ import Layout from '../layouts/Layout.astro';
     const dots = document.querySelectorAll('.stage-dot');
     dots.forEach((dot, idx) => {
       if (idx === currentStep) {
-        dot.className = 'stage-dot w-4 h-1 rounded-full transition-all cursor-pointer bg-white shadow-sm';
+        dot.className = 'stage-dot w-4 h-1 rounded-full transition-all bg-white shadow-sm';
       } else {
-        dot.className = 'stage-dot w-1.5 h-1 rounded-full transition-all cursor-pointer bg-white/40 hover:bg-white/70';
+        dot.className = 'stage-dot w-1.5 h-1 rounded-full transition-all bg-white/40 hover:bg-white/70';
       }
     });
 
-    // 4. Mode Switch: Analog vs Screen Reality
+    const dotBtns = document.querySelectorAll('.stage-dot-btn');
+    dotBtns.forEach((btn, idx) => {
+      if (idx === currentStep) {
+        btn.setAttribute('aria-current', 'true');
+      } else {
+        btn.removeAttribute('aria-current');
+      }
+    });
+
+    // 4. Announce slide update for screen readers
+    const liveAnnouncer = document.getElementById('stage-live-announcer');
+    if (liveAnnouncer) {
+      const modeText = isAnalogMode ? 'Analog mode' : 'Digital mode';
+      const activeTitle = isAnalogMode ? data.analog.title : data.screen.title;
+      liveAnnouncer.textContent = `Slide ${currentStep + 1} of ${dayScenarios.length}: ${data.time}, ${activeTitle}. ${modeText}.`;
+    }
+
+    // 5. Mode Switch: Analog vs Screen Reality
     if (isAnalogMode) {
       // Hide notification toast in analog mode
       if (notifEl) {
@@ -702,9 +746,32 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
+  function updatePlayPauseUI(isPlaying) {
+    const playPauseBtn = document.getElementById('stage-play-pause-btn');
+    const pauseIcon = document.getElementById('stage-pause-icon');
+    const playIcon = document.getElementById('stage-play-icon');
+    if (!playPauseBtn) return;
+
+    if (isPlaying) {
+      playPauseBtn.setAttribute('aria-label', 'Pause slideshow');
+      playPauseBtn.setAttribute('title', 'Pause slideshow');
+      pauseIcon?.classList.remove('hidden');
+      playIcon?.classList.add('hidden');
+    } else {
+      playPauseBtn.setAttribute('aria-label', 'Play slideshow');
+      playPauseBtn.setAttribute('title', 'Play slideshow');
+      pauseIcon?.classList.add('hidden');
+      playIcon?.classList.remove('hidden');
+    }
+  }
+
   function startAutoScroll() {
     stopAutoScroll();
-    if (userInteracted) return;
+    if (userInteracted) {
+      updatePlayPauseUI(false);
+      return;
+    }
+    updatePlayPauseUI(true);
     autoScrollTimer = setInterval(() => {
       currentStep = (currentStep + 1) % dayScenarios.length;
       renderStage();
@@ -718,9 +785,24 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
+  function toggleAutoScroll() {
+    if (autoScrollTimer) {
+      // User paused
+      userInteracted = true;
+      stopAutoScroll();
+      updatePlayPauseUI(false);
+    } else {
+      // User played
+      userInteracted = false;
+      startAutoScroll();
+      updatePlayPauseUI(true);
+    }
+  }
+
   function handleInteraction() {
     userInteracted = true;
     stopAutoScroll();
+    updatePlayPauseUI(false);
   }
 
   function selectTime(step) {
@@ -758,6 +840,7 @@ import Layout from '../layouts/Layout.astro';
   window.goToPrevStep = goToPrevStep;
   window.goToNextStep = goToNextStep;
   window.toggleRealityMode = toggleRealityMode;
+  window.toggleAutoScroll = toggleAutoScroll;
 
   function initRealityExperience() {
     const stage = document.getElementById('reality-stage');

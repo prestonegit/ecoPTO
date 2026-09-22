@@ -11,7 +11,7 @@ const issues = (await getCollection('newsletters'))
     <div class="container mx-auto px-6 max-w-3xl">
       <h1 class="text-5xl font-medium text-primary mb-4 font-serif">Newsletter Archive</h1>
       <p class="text-xl text-text-secondary mb-12">
-        Catch up on what's been happening at ecoPTO. Want these in your inbox? <a href="/#contact" class="text-primary underline">Subscribe here</a>.
+        Catch up on what's been happening at ecoPTO. Want these in your inbox? <button class="get-involved-trigger text-primary underline font-medium hover:text-green-700" data-target-tab="form-join">Subscribe here</button>.
       </p>
 
       {issues.length === 0 && (

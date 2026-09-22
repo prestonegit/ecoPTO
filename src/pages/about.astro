@@ -48,8 +48,8 @@ const historyHtml = aboutContent?.data.history_content ? marked.parse(aboutConte
   <section class="py-24 bg-primary relative">
     <div class="container mx-auto px-6 max-w-4xl">
       <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 md:p-14 shadow-xl border border-white/20">
-        <h2 class="text-4xl md:text-5xl font-bold mb-8 text-secondary">{aboutContent?.data.history_title}</h2>
-        <div class="prose prose-lg prose-invert max-w-none text-secondary" set:html={historyHtml}></div>
+        <h2 class="text-4xl md:text-5xl font-bold mb-8 text-white">{aboutContent?.data.history_title}</h2>
+        <div class="prose prose-lg prose-invert max-w-none text-white" set:html={historyHtml}></div>
       </div>
     </div>
   </section>

@@ -35,7 +35,7 @@ function statusEl(form) {
     el.setAttribute('data-form-status', '');
     el.setAttribute('role', 'status');
     el.setAttribute('aria-live', 'polite');
-    el.className = 'text-sm font-bold mt-3';
+    el.className = 'text-sm font-bold mt-3 hidden';
     el.tabIndex = -1;
     // Place it just above the submit button so it isn't below the fold on long forms.
     // Walk up to whichever direct child of the form contains the button.
@@ -89,7 +89,7 @@ function wire(form) {
 
     if (button) { button.disabled = true; button.textContent = 'Sending…'; }
     status.textContent = '';
-    status.className = 'text-sm font-bold mt-3';
+    status.className = 'text-sm font-bold mt-3 hidden';
 
     try {
       const res = await fetch(ENDPOINT, {
@@ -109,17 +109,17 @@ function wire(form) {
         // form.reset() restores values but not visibility — re-run the modal's own
         // conditional-section logic so "Other" / volunteer-role panels collapse again.
         form.querySelectorAll('input[type="checkbox"]').forEach((cb) => cb.dispatchEvent(new Event('change', { bubbles: true })));
-        status.className = 'text-sm font-bold mt-3 text-green-700';
+        status.className = 'text-sm font-bold mt-4 p-4 rounded-xl bg-white text-green-900 border-2 border-green-600 shadow-md block';
         status.textContent = form.dataset.successMessage
           || 'Thanks! We got it — check your inbox for a confirmation.';
         form.dispatchEvent(new CustomEvent('resend-form:success', { bubbles: true }));
       } else {
-        status.className = 'text-sm font-bold mt-3 text-red-600';
+        status.className = 'text-sm font-bold mt-4 p-4 rounded-xl bg-white text-red-900 border-2 border-red-600 shadow-md block';
         status.textContent = data.error || 'Something went wrong. Please try again, or email us directly.';
         status.focus();
       }
     } catch {
-      status.className = 'text-sm font-bold mt-3 text-red-600';
+      status.className = 'text-sm font-bold mt-4 p-4 rounded-xl bg-white text-red-900 border-2 border-red-600 shadow-md block';
       status.textContent = 'Could not reach the server. Please check your connection and try again.';
       status.focus();
     } finally {
