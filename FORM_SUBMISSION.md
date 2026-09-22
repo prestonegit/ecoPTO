@@ -78,6 +78,14 @@ The welcome email carries a real unsubscribe link to `/api/unsubscribe`, handled
   and `List-Unsubscribe-Post` headers we set make Gmail's and Apple Mail's own
   Unsubscribe button work.
 
+There is also a shareable page at **`/unsubscribe`** (`unsubscribe-request.mjs`). The
+signed links above are per-address, so pasting one into a mass email would unsubscribe
+whoever's address is baked into it regardless of who clicked. This page asks for an
+address and emails *that address* its own signed link, so the URL is safe to put in a
+BCC'd email, the site footer, or anywhere public. It answers identically whether or not
+the address is on the list, so it can't be used to test who subscribed, and rate-limits
+per IP and per address so it can't be used to mail-bomb someone.
+
 Newsletter **broadcasts** don't use this endpoint — Resend substitutes its own
 `{{{RESEND_UNSUBSCRIBE_URL}}}` token there, wired into its suppression list.
 

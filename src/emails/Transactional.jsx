@@ -120,6 +120,29 @@ export const FormReceipt = ({ firstName, kind, siteUrl = ORG.siteUrl }) => (
   </Shell>
 );
 
+/** Confirmation link for someone who asked to unsubscribe at /unsubscribe. */
+export const UnsubscribeRequest = ({ url, siteUrl = ORG.siteUrl }) => (
+  <Shell preview={`Confirm your ${ORG.newsletterName} unsubscribe`} siteUrl={siteUrl}>
+    <Section style={{ padding: '8px 32px 8px' }}>
+      <H1>Confirm your unsubscribe</H1>
+      <P>
+        Someone asked to stop {ORG.newsletterName} emails to this address. Click below to
+        confirm and you'll be removed straight away.
+      </P>
+    </Section>
+    <Section style={{ padding: '0 32px 24px', textAlign: 'center' }}>
+      <Button href={url} style={{ background: BRAND.primary, color: '#fff', padding: '12px 28px', borderRadius: 999, fontWeight: 700, textDecoration: 'none' }}>
+        Confirm unsubscribe
+      </Button>
+    </Section>
+    <Section style={{ padding: '0 32px 28px', textAlign: 'center' }}>
+      <Text style={{ fontSize: 12, color: BRAND.textMuted, margin: 0, lineHeight: 1.5 }}>
+        Didn't ask for this? Ignore this email — nothing changes unless you click the button.
+      </Text>
+    </Section>
+  </Shell>
+);
+
 /**
  * Sent to the ecoPTO team on every submission. This *is* the submission archive now
  * that Netlify Forms is out of the picture — so it prints every field verbatim.
