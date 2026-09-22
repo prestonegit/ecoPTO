@@ -13,7 +13,7 @@ export const ORG = {
 
   // Shown in the footer of every newsletter, as CAN-SPAM (15 U.S.C. §7704(a)(5))
   // requires. `npm run newsletter:push` refuses to send to the audience without it.
-  postalAddress: '425 S Main St., Pennington, NJ 08534',
+  postalAddress: '425 S. Main Street, Pennington, NJ 08534',
 };
 
 export const BRAND = {
