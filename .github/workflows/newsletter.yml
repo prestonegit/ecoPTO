@@ -55,7 +55,10 @@ jobs:
           if [[ -n "$(git status --porcelain src/content/newsletters src/data/sent-newsletters)" ]]; then
             git config user.name "ecoPTO bot"
             git config user.email "actions@github.com"
-            git add src/content/newsletters src/data/sent-newsletters
+            # sent-newsletters/ only exists after the first real send; `git add` on a
+            # missing path is fatal, which crashed this step and hid the actual error.
+            git add src/content/newsletters
+            if [[ -d src/data/sent-newsletters ]]; then git add src/data/sent-newsletters; fi
             git commit -m "Update newsletter send status"
             # Another content edit may have landed while we were pushing to Resend.
             git pull --rebase --autostash origin main
