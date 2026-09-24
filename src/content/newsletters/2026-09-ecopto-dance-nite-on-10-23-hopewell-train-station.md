@@ -16,5 +16,8 @@ attachments:
   - label: Dance Nite Flyer
     file: /assets/images/ecoptodance10-23-mufosot5.jpg
 testEmail: monica.lynn.carlson@gmail.com
-status: send-test
+status: draft
+confirmSend: false
+lastTestSentAt: 2026-09-24T15:48:54.782Z
+lastTestHash: sha256-a00628842f91db5cc84ea7771d412697cd8344f661a47a2f059d45d7f33153a0
 ---
