@@ -1,7 +1,7 @@
 ---
 subject: ecoPTO Dance Nite on 10/23, Hopewell Train Station!
 sendDate: 2026-09-24T23:00:00.000Z
-heroImage: ""
+heroImage: /assets/images/ecoptodance10-23-rszd-mufpz47u.jpg
 intro: >-
   Hello ecoPTO!
 
@@ -14,11 +14,11 @@ includeEvents: false
 includeNews: false
 customBlocks:
   - type: image
-    image: /assets/images/ecoptodance10-23-rszd-mufpv7d4.jpg
+    image: ""
 attachments: []
 lastTestSentAt: 2026-09-24T15:59:20.466Z
 lastTestHash: sha256-55dea80970e822b83f0bb24869bf301b0f0cb21e43cc90f6a6fd514dadfc435c
 testEmail: monica.lynn.carlson@gmail.com
-status: draft
+status: send-test
 confirmSend: false
 ---
