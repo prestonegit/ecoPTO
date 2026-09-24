@@ -19,6 +19,6 @@ attachments: []
 lastTestSentAt: 2026-09-24T16:02:53.903Z
 lastTestHash: sha256-84f1d726314ce056a321e89bfb2a575c796dbd0da7ea0ea24e2fd2d4306510ba
 testEmail: monica.lynn.carlson@gmail.com
-status: draft
+status: send-now-confirmed
 confirmSend: false
 ---
