@@ -1,0 +1,76 @@
+{
+  "slug": "2026-09-ecopto-dance-nite-on-10-23-hopewell-train-station",
+  "data": {
+    "subject": "ecoPTO Dance Nite on 10/23, Hopewell Train Station!",
+    "sendDate": "2026-09-24T23:00:00.000Z",
+    "heroImage": "/assets/images/ecoptodance10-23-rszd-mufpz47u.jpg",
+    "intro": "Hello ecoPTO!\n\nSave the date, book a babysitter, and join us for a grown-ups only Dance Nite on 10/23, 7pm-10pm, at the Hopewell Train Station! Details here:\n\n[https://ecopto.org/events/2026-09-21-dance-nite/](https://ecopto.org/events/2026-09-21-dance-nite/)",
+    "includeEvents": false,
+    "includeNews": false,
+    "customBlocks": [
+      {
+        "type": "image",
+        "image": ""
+      }
+    ],
+    "attachments": [],
+    "lastTestSentAt": "2026-09-24T16:02:53.903Z",
+    "lastTestHash": "sha256-84f1d726314ce056a321e89bfb2a575c796dbd0da7ea0ea24e2fd2d4306510ba",
+    "testEmail": "monica.lynn.carlson@gmail.com",
+    "status": "send-now-confirmed",
+    "confirmSend": false
+  },
+  "broadcastId": "8e46de21-1afa-4710-8818-5c5010cb80b6",
+  "sentAt": "2026-09-24T16:07:17.510Z",
+  "events": [
+    {
+      "slug": "2026-09-18-family-hike-at-herrontown-woods",
+      "title": "Family Hike at Herrontown Woods",
+      "eventDate": "2026-09-27T13:30:00.000Z",
+      "dateOverride": null,
+      "location": "Herrontown Woods - meet at Botanical Art Garden (located next the the parking lot)",
+      "cardDescription": "Let’s explore Herrontown Woods for the seventh hike in our monthly Family Hikes series.  ",
+      "image": "/assets/images/herrontown-woods-family-hike.jpg",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-09-09-ecopto-monthly-meeting",
+      "title": "ecoPTO monthly meeting",
+      "eventDate": "2026-09-29T22:00:00.000Z",
+      "dateOverride": "",
+      "location": "TMS outdoors or media center (weather depending). Feel free to bring your own chair.",
+      "cardDescription": "This month's meeting will be held at Timberlane Middle School at 6 pm on Tuesday, September 29. Join us!",
+      "image": "/assets/images/sociology.gif",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-09-11-clean-up-hopewell-and-raise-funds",
+      "title": "Clean Up Hopewell and Raise Funds!",
+      "eventDate": "2026-10-03T13:30:00.000Z",
+      "dateOverride": null,
+      "location": "OLD PENNYTOWN SITE  (on Pennington-Hopewell Rd/County Route 654  opposite Kooltronic, Inc. )",
+      "cardDescription": "",
+      "image": "/assets/images/clean-up-fall-2026-flyer-4-.jpg",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-09-21-dance-nite",
+      "title": "Dance Nite!",
+      "eventDate": "2026-10-23T23:00:00.000Z",
+      "dateOverride": null,
+      "location": "Hopewell Train Station",
+      "cardDescription": "It's FALL. School is BACK. \nLet's DANCE.\nand/or CHAT and CHILL in the puzzle lounge.\nDRANK$ and SNACKS available.\nit's 21+ this time, Friends.",
+      "image": "/assets/images/ecoptodance10.23.jpg",
+      "externalUrl": ""
+    }
+  ],
+  "news": [
+    {
+      "slug": "2025-08-07-welcome-from-the-ecoPTO-president",
+      "title": "Welcome from the ecoPTO President",
+      "author": "ecoPTO President",
+      "pubDate": "2025-08-07T00:00:00.000Z",
+      "description": "A warm welcome to all our new and returning families from the ecoPTO President."
+    }
+  ]
+}
