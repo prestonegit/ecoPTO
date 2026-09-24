@@ -14,11 +14,11 @@ includeEvents: false
 includeNews: false
 customBlocks:
   - type: image
-    image: /assets/images/ecoptodance10-23-mufpogoy.jpg
+    image: /assets/images/ecoptodance10-23-rszd-mufpv7d4.jpg
 attachments: []
 lastTestSentAt: 2026-09-24T15:54:04.700Z
 lastTestHash: sha256-b772b9eb8f4a8d0eed96ee509cf9e158d1e8086a320c81802f3e96a5d2ecde46
 testEmail: monica.lynn.carlson@gmail.com
-status: draft
+status: send-test
 confirmSend: false
 ---
