@@ -1,0 +1,16 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//ecoPTO//Dance Nite//EN
+CALSCALE:GREGORIAN
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:dance-nite-2026-10-23@ecopto.org
+DTSTAMP:20260929T000000Z
+DTSTART:20261023T230000Z
+DTEND:20261024T020000Z
+SUMMARY:ecoPTO Dance Nite
+LOCATION:Hopewell Train Station\, Hopewell\, NJ
+DESCRIPTION:Doors 7pm\, DJ Gabe 8pm. Adults 21+. Tickets: https://www.zeffy.com/en-US/ticketing/autumn-dance-party
+URL:https://ecopto.org/dance
+END:VEVENT
+END:VCALENDAR
