@@ -30,6 +30,15 @@ const SUB_CIRCLES = {
   ],
 };
 
+// A colour per team that suits what it does (the CMS could carry this later).
+const COLORS = {
+  'garden-club': '#5F9A70',
+  'green-team': '#7D8B45',
+  'events-team': '#D4962F',
+  'fundraising-committee': '#B05B3B',
+  'communications-team': '#5A8DB8',
+};
+
 // Extra memberships, so some people sit in more than one circle: in sociocracy these are the
 // double links that carry information between circles. Names match the real project entries.
 const EXTRA_MEMBERSHIPS = {
@@ -66,6 +75,7 @@ export function buildWorld(projects) {
     goalHtml: fields.goalHtml ?? (fields.goal ? `<p>${fields.goal}</p>` : ''),
     descriptionHtml: fields.descriptionHtml ?? '',
     keywords: fields.keywords ?? [],
+    color: COLORS[id],
     people: [...(members.get(id) ?? [])],
     children,
   });

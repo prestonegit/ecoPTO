@@ -1,20 +1,25 @@
-// The circles world: a zoomable, living map of ecoPTO's sociocratic circles.
+// The circles world: ecoPTO as a small, friendly star system.
 //
-// d3-hierarchy's circle pack decides *where* every circle sits (nested, sized by what's inside).
-// GSAP owns everything that *moves*: the camera, the intro, breathing, hover, and the people who
-// travel between circles. Nothing is re-laid-out after mount; motion is all layered transforms.
+//   sun     = the general circle (ecoPTO)
+//   planets = teams, sharing orbits around the sun
+//   moons   = sub-circles, orbiting their team
+//   dots    = people. Most circle their own team; people in more than one circle travel
+//             between them (sociocracy's "double links").
+//
+// Positions are computed each frame from a single orbit clock. GSAP drives that clock and every
+// other number that changes over time (camera, hover, intro, travellers); a ticker callback turns
+// the state into SVG transforms.
 
 import { gsap } from 'gsap';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
 import { DrawSVGPlugin } from 'gsap/DrawSVGPlugin';
 import { SplitText } from 'gsap/SplitText';
-import { hierarchy, pack, interpolateZoom } from 'd3';
 
-gsap.registerPlugin(MotionPathPlugin, DrawSVGPlugin, SplitText);
+gsap.registerPlugin(DrawSVGPlugin, SplitText);
 
 const NS = 'http://www.w3.org/2000/svg';
-const SIZE = 1000; // world units; the pack is centred on 0,0
-const PALETTE = ['#8cc084', '#4fc1b6', '#f2b55a', '#e8866a', '#86aee0', '#c49be0', '#e3d26f'];
+const TAU = Math.PI * 2;
+const PALETTE = ['#B05B3B', '#5F9A70', '#D4962F', '#5A8DB8', '#9B6597', '#C9704F', '#7D8B45'];
+const PERSON = '#F4AE85';
 
 const svgEl = (tag, attrs = {}, parent) => {
   const el = document.createElementNS(NS, tag);
@@ -23,8 +28,7 @@ const svgEl = (tag, attrs = {}, parent) => {
   return el;
 };
 
-// Greedy wrap into lines of at most `max` characters.
-const wrap = (text, max = 12) => {
+const wrap = (text, max = 11) => {
   const lines = [];
   for (const word of text.split(/\s+/)) {
     const last = lines[lines.length - 1];
@@ -34,6 +38,23 @@ const wrap = (text, max = 12) => {
   return lines;
 };
 
+// Mix a hex colour toward white.
+const tint = (hex, amt) => {
+  const n = parseInt(hex.slice(1), 16);
+  const c = [n >> 16, (n >> 8) & 255, n & 255].map((v) => Math.round(v + (255 - v) * amt));
+  return `rgb(${c.join(',')})`;
+};
+
+const addLabel = (parent, text, { size, max, y = 0, cls }) => {
+  const lines = wrap(text, max);
+  const el = svgEl('text', { class: cls, 'font-size': size, 'text-anchor': 'middle' }, parent);
+  lines.forEach((l, i) => {
+    const t = svgEl('tspan', { x: 0, y: y + (i - (lines.length - 1) / 2) * size * 1.12 + size * 0.35 }, el);
+    t.textContent = l;
+  });
+  return el;
+};
+
 export function mountWorld(stage, data) {
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const abort = new AbortController();
@@ -41,241 +62,294 @@ export function mountWorld(stage, data) {
 
   const svg = stage.querySelector('.cw-svg');
   const camera = svg.querySelector('.cw-camera');
-  const threadLayer = svg.querySelector('.cw-threads');
-  const nodeLayer = svg.querySelector('.cw-nodes');
-  const peopleLayer = svg.querySelector('.cw-people');
-  const defs = svg.querySelector('defs');
+  const L = Object.fromEntries(
+    ['rings', 'threads', 'planets', 'moons', 'people'].map((k) => [k, svgEl('g', { class: `cw-${k}` }, camera)]),
+  );
   const crumbs = stage.querySelector('.cw-crumbs');
   const panel = stage.querySelector('.cw-panel');
   const tip = stage.querySelector('.cw-tip');
   const search = stage.querySelector('.cw-search input');
   const results = stage.querySelector('.cw-results');
   const hero = stage.querySelector('.cw-hero');
-  const motes = stage.querySelector('.cw-motes');
 
-  // ---------------------------------------------------------------- layout
-  const root = hierarchy(data.root)
-    .sum((d) => (d.children.length ? 0 : 1 + d.people.length * 0.3))
-    .sort((a, b) => b.value - a.value);
-  pack().size([SIZE, SIZE]).padding((n) => (n.depth === 0 ? 30 : 14))(root);
-  const nodes = root.descendants();
-  const byId = new Map();
-  nodes.forEach((n) => {
-    n.x -= SIZE / 2;
-    n.y -= SIZE / 2;
-    byId.set(n.data.id, n);
-  });
-  root.children?.forEach((c, i) => c.each((d) => (d.color = PALETTE[i % PALETTE.length])));
-  root.color = '#dfeee4';
-
-  // One glassy "cell" gradient per colour: soft centre, brighter membrane at the rim.
-  const gradFor = new Map();
-  const gradient = (color, solid) => {
-    const key = color + solid;
-    if (gradFor.has(key)) return gradFor.get(key);
-    const id = `cw-g${gradFor.size}`;
-    const g = svgEl('radialGradient', { id, cx: '42%', cy: '38%', r: '62%' }, defs);
-    const stops = solid
-      ? [[0, 0.95], [0.75, 0.78], [1, 0.9]]
-      : [[0, 0.1], [0.82, 0.16], [0.97, 0.42], [1, 0.6]];
-    for (const [o, a] of stops) svgEl('stop', { offset: o, 'stop-color': color, 'stop-opacity': a }, g);
-    gradFor.set(key, `url(#${id})`);
-    return gradFor.get(key);
-  };
-
-  // ---------------------------------------------------------------- build circles
-  // Each circle is four nested groups so independent motions never fight over one transform:
-  //   pos (intro: grows out of its parent) > nudge (hover: pushed by neighbours)
-  //   > breathe (idle loop) > body + kids
-  const build = (n, parentEl) => {
-    const pos = svgEl('g', { class: 'cw-node' }, parentEl);
-    const nudge = svgEl('g', {}, pos);
-    const breathe = svgEl('g', {}, nudge);
-    const body = svgEl('g', { class: 'cw-body', 'data-id': n.data.id }, breathe);
-    const leaf = !n.children;
-    n.el = { pos, nudge, breathe, body };
-    n.el.shape = svgEl('circle', {
-      class: 'cw-shape',
-      r: n.r,
-      fill: n.depth === 0 ? gradient(root.color, false) : gradient(n.color, leaf),
-    }, body);
-    n.el.ring = svgEl('circle', { class: 'cw-ring', r: n.r + Math.max(2, n.r * 0.06) }, body);
-    if (n.depth > 0) {
-      body.setAttribute('role', 'button');
-      body.setAttribute('aria-label', `${n.data.title} circle`);
-      body.setAttribute('tabindex', '-1');
-    }
-
-    // Label, sized to its circle.
-    const lines = wrap(n.data.title);
-    const longest = Math.max(...lines.map((l) => l.length));
-    const fs = Math.min(n.r * (lines.length > 1 ? 0.26 : 0.32), (1.6 * n.r) / (longest * 0.58));
-    const text = svgEl('text', { class: 'cw-label', 'font-size': fs, 'text-anchor': 'middle' });
-    lines.forEach((l, i) => {
-      const t = svgEl('tspan', { x: 0, y: (i - (lines.length - 1) / 2) * fs * 1.08 + fs * 0.35 }, text);
-      t.textContent = l;
+  // ---------------------------------------------------------------- model
+  const base = (d, extra) => ({ data: d, x: 0, y: 0, hover: 1, bump: 0, appear: 1, children: [], ...extra });
+  const sun = base(data.root, { kind: 'sun', depth: 0, parent: null, r: 64, color: '#EE7A2E' });
+  const planets = data.root.children.map((d, i) =>
+    base(d, {
+      kind: 'planet',
+      depth: 1,
+      parent: sun,
+      color: d.color ?? PALETTE[i % PALETTE.length],
+      r: 46 + Math.min(12, d.people.length * 1.6 + d.children.length * 1.5),
+    }),
+  );
+  sun.children = planets;
+  const moons = [];
+  for (const p of planets) {
+    p.children = p.data.children.map((d, j, all) => {
+      const m = base(d, {
+        kind: 'moon',
+        depth: 2,
+        parent: p,
+        color: tint(p.color, 0.3),
+        r: 13 + Math.min(6, d.people.length * 1.8),
+        a0: (j / all.length) * TAU + 0.4,
+      });
+      moons.push(m);
+      return m;
     });
-    if (!leaf) text.setAttribute('y', 0);
-    n.el.label = text;
+    const maxMoon = Math.max(0, ...p.children.map((m) => m.r));
+    p.residentOrbit = p.r + 11;
+    p.moonOrbit = p.r + 34;
+    p.extent = p.moonOrbit + maxMoon + 8;
+  }
+  const nodes = [sun, ...planets, ...moons];
+  const byId = new Map(nodes.map((n) => [n.data.id, n]));
 
-    // Residents: people who belong only to this circle drift round inside it.
-    n.el.residents = svgEl('g', { class: 'cw-residents' }, breathe);
-
-    const kids = svgEl('g', {}, breathe);
-    n.children?.forEach((c) => build(c, kids));
-    // Above the child circles, so a team's name reads over its sub-circles. The wrapper lets
-    // search dim the label without fighting the focus fade on the text itself.
-    n.el.dimLabel = svgEl('g', {}, breathe);
-    n.el.dimLabel.appendChild(text);
-    gsap.set(pos, { x: n.x - (n.parent?.x ?? 0), y: n.y - (n.parent?.y ?? 0) });
-  };
-  build(root, nodeLayer);
+  // Fill orbits outward, as many planets per orbit as fit without their moons ever touching.
+  // Everything on one orbit turns together, so neighbours can never collide.
+  const maxExtent = Math.max(...planets.map((p) => p.extent));
+  const orbits = [];
+  let radius = sun.r + maxExtent + 70;
+  for (let i = 0; i < planets.length; ) {
+    const fits = Math.max(1, Math.floor((TAU * radius) / (2 * maxExtent + 40)));
+    const group = planets.slice(i, i + fits);
+    const period = 150 * (radius / 250) ** 1.5; // seconds per lap, slower further out
+    group.forEach((p, j) => Object.assign(p, { R: radius, a0: (j / group.length) * TAU - Math.PI / 2 + orbits.length * 0.6, period }));
+    orbits.push(radius);
+    i += group.length;
+    radius += 2 * maxExtent + 40;
+  }
+  sun.extent = orbits[orbits.length - 1] + maxExtent;
 
   // ---------------------------------------------------------------- people
-  const people = data.people.map((p, i) => ({
-    ...p,
-    index: i,
-    nodes: p.circles.map((id) => byId.get(id)).filter(Boolean),
-  }));
-  const linkers = people.filter((p) => p.nodes.length > 1);
+  const people = data.people.map((p, i) => ({ ...p, index: i, nodes: p.circles.map((id) => byId.get(id)).filter(Boolean) }));
   const residents = people.filter((p) => p.nodes.length === 1);
+  const travellers = people.filter((p) => p.nodes.length > 1);
+  for (const n of nodes) n.residents = residents.filter((p) => p.nodes[0] === n);
+  for (const n of nodes) n.residents.forEach((p, j, all) => Object.assign(p, { host: n, a0: (j / all.length) * TAU }));
 
-  // Double-linked people get a thread (one curved segment per hop) and a travelling spark.
-  for (const p of linkers) {
-    const stops = p.nodes;
-    const hops = stops.length === 2 ? [[0, 1]] : stops.map((_, i) => [i, (i + 1) % stops.length]);
-    p.segments = hops.map(([a, b], h) => {
-      const A = stops[a], B = stops[b];
-      const dx = B.x - A.x, dy = B.y - A.y;
-      const bend = (p.index % 2 ? 1 : -1) * (0.18 + (h % 3) * 0.07);
-      const cx = (A.x + B.x) / 2 - dy * bend, cy = (A.y + B.y) / 2 + dx * bend;
-      return svgEl('path', {
-        class: 'cw-thread',
-        d: `M${A.x},${A.y} Q${cx},${cy} ${B.x},${B.y}`,
-        stroke: A.color || '#fff',
-      }, threadLayer);
-    });
-    p.spark = svgEl('g', { class: 'cw-spark', tabindex: '-1' }, peopleLayer);
-    p.halo = svgEl('circle', { class: 'cw-spark-halo', r: 1 }, p.spark);
-    p.core = svgEl('circle', { class: 'cw-spark-core', r: 1 }, p.spark);
-    p.spark.dataset.person = p.name;
-    gsap.set(p.spark, { x: stops[0].x, y: stops[0].y });
+  // ---------------------------------------------------------------- build svg
+  const defs = svg.querySelector('defs');
+  for (const r of orbits) svgEl('circle', { class: 'cw-orbit', r }, L.rings);
+
+  const sunG = svgEl('g', { class: 'cw-sun' }, L.planets);
+  sun.el = { g: sunG };
+  sun.el.glow = [0, 1, 2].map(() => svgEl('circle', { class: 'cw-sun-glow', r: sun.r }, sunG));
+  sun.el.body = svgEl('g', { class: 'cw-body', 'data-id': sun.data.id }, sunG);
+  sun.el.shape = svgEl('circle', { class: 'cw-shape', r: sun.r, fill: 'url(#cw-sun-fill)' }, sun.el.body);
+  sun.el.label = addLabel(sun.el.body, sun.data.title, { size: 20, max: 12, cls: 'cw-label' });
+
+  for (const n of [...planets, ...moons]) {
+    const g = svgEl('g', { class: `cw-${n.kind}` }, n.kind === 'planet' ? L.planets : L.moons);
+    n.el = { g };
+    if (n.kind === 'planet' && n.children.length) {
+      n.el.moonOrbit = svgEl('circle', { class: 'cw-moon-orbit', r: n.moonOrbit }, g);
+    }
+    const body = svgEl('g', {
+      class: 'cw-body',
+      'data-id': n.data.id,
+      role: 'button',
+      tabindex: '-1',
+      'aria-label': `${n.data.title}${n.kind === 'moon' ? `, part of ${n.parent.data.title}` : ''}`,
+    }, g);
+    n.el.body = body;
+    n.el.ring = svgEl('circle', { class: 'cw-ring', r: n.r + 5 }, body);
+    n.el.shape = svgEl('circle', { class: 'cw-shape', r: n.r, fill: n.color }, body);
+    if (n.kind === 'planet') {
+      const longest = Math.max(...wrap(n.data.title).map((l) => l.length));
+      n.el.label = addLabel(body, n.data.title, { size: Math.min(15, (1.65 * n.r) / (longest * 0.56)), max: 11, cls: 'cw-label' });
+    } else {
+      n.el.label = addLabel(g, n.data.title, { size: 6, max: 16, y: n.r + 8, cls: 'cw-moon-label' });
+    }
   }
 
   for (const p of residents) {
-    const n = p.nodes[0];
-    const orbit = svgEl('g', {}, n.el.residents);
-    const radius = n.r * (n.children ? 0.9 : 0.62);
-    const angle = (p.index * 137.5) % 360;
-    const dot = svgEl('circle', { class: 'cw-resident', cx: radius, cy: 0, r: Math.max(2.2, n.r * 0.05) }, orbit);
-    dot.dataset.person = p.name;
-    p.dot = dot;
-    p.orbit = orbit;
-    gsap.set(orbit, { rotation: angle, svgOrigin: '0 0' });
+    p.el = svgEl('g', { class: 'cw-person', 'data-person': p.name }, L.people);
+    svgEl('circle', { r: p.host.kind === 'moon' ? 2.8 : 3.6, fill: PERSON }, p.el);
+    p.label = svgEl('text', { class: 'cw-name', 'font-size': 4.6, 'text-anchor': 'middle', y: 9 }, p.el);
+    p.label.textContent = p.name;
   }
+  for (const p of travellers) {
+    p.threads = p.nodes.map(() => svgEl('path', { class: 'cw-thread' }, L.threads));
+    p.el = svgEl('g', { class: 'cw-person is-traveller', 'data-person': p.name }, L.people);
+    svgEl('circle', { class: 'cw-traveller-halo', r: 7 }, p.el);
+    svgEl('circle', { r: 4, fill: PERSON }, p.el);
+    p.label = svgEl('text', { class: 'cw-name', 'font-size': 4.6, 'text-anchor': 'middle', y: 12 }, p.el);
+    p.label.textContent = p.name;
+    p.leg = 0;
+    p.u = 0;
+  }
+
+  // ---------------------------------------------------------------- simulation
+  const clock = { t: 0 };
+  const orbitTween = gsap.to(clock, { t: 36000, duration: 36000, ease: 'none', repeat: -1 });
+  let orbitSpeed = 1;
+  const setOrbitSpeed = (v, d = 0.8) => gsap.to(orbitTween, { timeScale: reduce ? 0 : v, duration: d, overwrite: true });
+
+  const legOf = (p, i) => {
+    // Two circles: shuttle back and forth. More: go round the loop.
+    const n = p.nodes.length;
+    return n === 2 ? [p.nodes[i % 2], p.nodes[(i + 1) % 2]] : [p.nodes[i % n], p.nodes[(i + 1) % n]];
+  };
+  const curve = (A, B, bend) => {
+    const dx = B.x - A.x, dy = B.y - A.y, d = Math.hypot(dx, dy) || 1;
+    const ux = dx / d, uy = dy / d;
+    const a = { x: A.x + ux * (A.r * A.hover + 6), y: A.y + uy * (A.r * A.hover + 6) };
+    const b = { x: B.x - ux * (B.r * B.hover + 6), y: B.y - uy * (B.r * B.hover + 6) };
+    const c = { x: (a.x + b.x) / 2 - uy * d * bend, y: (a.y + b.y) / 2 + ux * d * bend };
+    return { a, b, c };
+  };
+  const onCurve = ({ a, b, c }, u) => ({
+    x: (1 - u) ** 2 * a.x + 2 * (1 - u) * u * c.x + u * u * b.x,
+    y: (1 - u) ** 2 * a.y + 2 * (1 - u) * u * c.y + u * u * b.y,
+  });
+
+  const place = () => {
+    const t = clock.t;
+    for (const p of planets) {
+      const a = p.a0 + (TAU * t) / p.period - (1 - p.appear) * 1.4;
+      p.x = Math.cos(a) * p.R;
+      p.y = Math.sin(a) * p.R;
+    }
+    for (const m of moons) {
+      const a = m.a0 + (TAU * t) / 55 - (1 - m.appear) * 2;
+      m.x = m.parent.x + Math.cos(a) * m.parent.moonOrbit;
+      m.y = m.parent.y + Math.sin(a) * m.parent.moonOrbit;
+    }
+    for (const p of residents) {
+      const h = p.host;
+      const r = h.kind === 'moon' ? h.r + 7 : h.residentOrbit;
+      const a = p.a0 - (TAU * t) / 30;
+      p.x = h.x + Math.cos(a) * r * h.hover;
+      p.y = h.y + Math.sin(a) * r * h.hover;
+    }
+    for (const p of travellers) {
+      const [A, B] = legOf(p, p.leg);
+      const pt = onCurve(curve(A, B, p.index % 2 ? 0.22 : -0.22), p.u);
+      p.x = pt.x;
+      p.y = pt.y;
+    }
+  };
 
   // ---------------------------------------------------------------- camera
   const cam = { x: 0, y: 0, k: 1 };
-  let unitPx = 1; // screen px per world unit at k = 1
+  const fly = { u: 1, from: { ...cam } };
+  let unitPx = 1;
   const measure = () => {
     const r = svg.getBoundingClientRect();
-    unitPx = Math.min(r.width, r.height) / SIZE;
+    unitPx = Math.min(r.width, r.height) / 1000;
     return r;
   };
   measure();
 
-  const renderCamera = () => {
-    camera.setAttribute('transform', `translate(${-cam.x * cam.k},${-cam.y * cam.k}) scale(${cam.k})`);
-    // Sparks and threads keep a constant on-screen size however far in we are.
-    const px = 1 / (cam.k * unitPx);
-    for (const p of linkers) {
-      p.core.setAttribute('r', 3.6 * px);
-      p.halo.setAttribute('r', 11 * px);
-    }
-    threadLayer.style.setProperty('--sw', 1.4 * px);
-  };
-
-  // Where the camera should sit to frame node n, leaving room for the panel when it's open.
-  const frame = (n, withPanel) => {
+  let panelOpen = false;
+  const target = (n) => {
     const r = measure();
     let availW = r.width, availH = r.height, offX = 0, offY = 0;
-    if (withPanel) {
+    if (panelOpen) {
       const pr = panel.getBoundingClientRect();
-      if (r.width >= 900) { availW -= pr.width; offX = -pr.width / 2; }
-      else { availH -= Math.min(pr.height, r.height * 0.55); offY = -Math.min(pr.height, r.height * 0.55) / 2; }
+      if (r.width >= 900) { availW -= pr.width + 24; offX = -(pr.width + 24) / 2; }
+      else { const h = Math.min(pr.height, r.height * 0.55); availH -= h; offY = -h / 2; }
     }
-    // A single circle with nothing inside is framed looser, so you still see the team around it.
-    const k = Math.min(availW, availH) / ((n.children ? 2.3 : 4.2) * n.r * unitPx);
+    // Leave room round the edge for moon labels and people's names.
+    const extent = n.kind === 'moon' ? n.r * 8 : n.extent + (n.kind === 'planet' ? 22 : 0);
+    const k = Math.min(availW, availH) / (2.2 * extent * unitPx);
     return { x: n.x - offX / (unitPx * k), y: n.y - offY / (unitPx * k), k };
   };
 
-  let camTween;
-  const flyTo = (target, { instant = false } = {}) => {
-    camTween?.kill();
-    if (instant || reduce) {
-      Object.assign(cam, target);
-      renderCamera();
-      return;
+  let focus = sun;
+  const flyTo = (instant) => {
+    fly.from = { ...cam };
+    gsap.killTweensOf(fly);
+    if (instant || reduce) fly.u = 1;
+    else {
+      fly.u = 0;
+      gsap.to(fly, { u: 1, duration: 1.3, ease: 'power3.inOut' });
     }
-    const zoom = interpolateZoom([cam.x, cam.y, SIZE / cam.k], [target.x, target.y, SIZE / target.k]);
-    const t = { v: 0 };
-    camTween = gsap.to(t, {
-      v: 1,
-      duration: gsap.utils.clamp(0.8, 1.8, zoom.duration / 1100),
-      ease: 'power2.inOut',
-      onUpdate: () => {
-        const [x, y, w] = zoom(t.v);
-        Object.assign(cam, { x, y, k: SIZE / w });
-        renderCamera();
-      },
-    });
+  };
+
+  // ---------------------------------------------------------------- render
+  let zoomIntro = null; // camera multiplier during the intro
+  const render = () => {
+    place();
+    // The camera follows its target even while it drifts along its orbit.
+    const T = target(focus);
+    if (zoomIntro) T.k *= zoomIntro.m;
+    const e = fly.u;
+    cam.x = fly.from.x + (T.x - fly.from.x) * e;
+    cam.y = fly.from.y + (T.y - fly.from.y) * e;
+    cam.k = fly.from.k * (T.k / fly.from.k) ** e;
+    if (e >= 1) Object.assign(cam, T);
+    camera.setAttribute('transform', `translate(${-cam.x * cam.k},${-cam.y * cam.k}) scale(${cam.k})`);
+
+    sun.el.body.setAttribute('transform', `scale(${sun.appear * sun.hover * (1 + sun.bump)})`);
+    for (const n of [...planets, ...moons]) {
+      n.el.g.setAttribute('transform', `translate(${n.x},${n.y})`);
+      n.el.body.setAttribute('transform', `scale(${n.appear * n.hover * (1 + n.bump)})`);
+      n.el.moonOrbit?.setAttribute('opacity', n.appear);
+    }
+    for (const p of residents) p.el.setAttribute('transform', `translate(${p.x},${p.y})`);
+    for (const p of travellers) {
+      p.el.setAttribute('transform', `translate(${p.x},${p.y})`);
+      p.nodes.forEach((_, i) => {
+        const { a, b, c } = curve(...legOf(p, i), p.index % 2 ? 0.22 : -0.22);
+        p.threads[i].setAttribute('d', `M${a.x},${a.y} Q${c.x},${c.y} ${b.x},${b.y}`);
+      });
+    }
   };
 
   // ---------------------------------------------------------------- focus
-  let focus = root;
-  const inside = (n, f) => n.ancestors().includes(f);
+  const family = (n) => new Set([n, ...n.children, ...(n.parent ? [n.parent] : []), ...(n.kind === 'moon' ? n.parent.children : [])]);
 
   const setFocus = (n, { instant = false } = {}) => {
     focus = n;
-    const withPanel = n !== root;
-    if (withPanel) openPanel(n);
-    else closePanel();
-    flyTo(frame(n, withPanel), { instant });
+    if (n === sun) closePanel();
+    else openPanel(n);
+    flyTo(instant);
+    setOrbitSpeed(n === sun ? 1 : 0.3);
+    orbitSpeed = n === sun ? 1 : 0.3;
 
+    const fam = family(n);
     for (const m of nodes) {
-      const labelOn = m.parent === n;
-      if (m.depth > 0) gsap.to(m.el.ring, { opacity: m === n && !m.children ? 0.8 : 0, duration: 0.5, overwrite: 'auto' });
-      gsap.to(m.el.label, { opacity: labelOn ? 1 : 0, duration: 0.5, delay: labelOn ? 0.35 : 0, overwrite: true });
-      const dimmed = n !== root && !inside(m, n) && !n.ancestors().includes(m);
-      gsap.to(m.el.shape, { opacity: dimmed ? 0.25 : 1, duration: 0.6, overwrite: 'auto' });
-      if (m.depth > 0) m.el.body.setAttribute('tabindex', m.parent === n ? '0' : '-1');
+      const dim = n !== sun && !fam.has(m) && m !== sun;
+      gsap.to(m.el.g, { opacity: dim ? 0.28 : 1, duration: 0.6, overwrite: 'auto' });
+      if (m.kind === 'moon') {
+        const show = m.parent === n || (n.kind === 'moon' && m.parent === n.parent);
+        gsap.to(m.el.label, { opacity: show ? 1 : 0, duration: 0.5, delay: show ? 0.4 : 0, overwrite: true });
+      }
+      if (m !== sun) m.el.body.setAttribute('tabindex', m.parent === n || (n.kind === 'moon' && m.parent === n.parent) ? '0' : '-1');
     }
-    hero && gsap.to(hero, { autoAlpha: n === root ? 1 : 0, y: n === root ? 0 : -12, duration: 0.5 });
+    for (const p of people) {
+      const show = p.nodes.includes(n);
+      gsap.to(p.label, { opacity: show ? 1 : 0, duration: 0.5, delay: show ? 0.5 : 0, overwrite: true });
+      gsap.to(p.el, { opacity: n === sun || p.nodes.some((q) => fam.has(q)) ? 1 : 0.3, duration: 0.6, overwrite: 'auto' });
+    }
+    if (hero) gsap.to(hero, { autoAlpha: n === sun ? 1 : 0, y: n === sun ? 0 : -10, duration: 0.5 });
     renderCrumbs();
   };
 
   const renderCrumbs = () => {
+    const chain = [];
+    for (let a = focus; a; a = a.parent) chain.unshift(a);
     crumbs.replaceChildren();
-    focus.ancestors().reverse().forEach((a, i, all) => {
+    chain.forEach((a, i) => {
       if (i) crumbs.append(Object.assign(document.createElement('span'), { className: 'cw-sep', textContent: '›' }));
-      const b = document.createElement('button');
-      b.type = 'button';
-      b.textContent = a.data.title;
-      if (i === all.length - 1) b.setAttribute('aria-current', 'true');
+      const b = Object.assign(document.createElement('button'), { type: 'button', textContent: a.data.title });
+      if (i === chain.length - 1) b.setAttribute('aria-current', 'true');
       on(b, 'click', () => setFocus(a));
       crumbs.append(b);
     });
+    crumbs.hidden = chain.length === 1;
   };
 
   // ---------------------------------------------------------------- panel
-  let panelOpen = false;
   let split;
   const chip = (label, n, extra = '') => {
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.className = 'cw-chip ' + extra;
-    b.style.setProperty('--c', n.color);
-    b.textContent = label;
+    const b = Object.assign(document.createElement('button'), { type: 'button', className: `cw-chip ${extra}`, textContent: label });
+    // Moons are pale tints, too light behind white text, so their chips use the team colour.
+    b.style.setProperty('--c', n.kind === 'moon' ? n.parent.color : n.color);
     on(b, 'click', () => setFocus(n));
     return b;
   };
@@ -283,7 +357,7 @@ export function mountWorld(stage, data) {
   const openPanel = (n) => {
     const d = n.data;
     panel.style.setProperty('--c', n.color);
-    panel.querySelector('.cw-kicker').textContent = n.parent ? `Inside ${n.parent.data.title}` : '';
+    panel.querySelector('.cw-kicker').textContent = n.kind === 'moon' ? `Part of ${n.parent.data.title}` : 'Team';
     const title = panel.querySelector('.cw-title');
     split?.revert();
     title.textContent = d.title;
@@ -291,21 +365,19 @@ export function mountWorld(stage, data) {
     panel.querySelector('.cw-desc').innerHTML = d.descriptionHtml;
 
     const kids = panel.querySelector('.cw-kids');
-    kids.replaceChildren(...(n.children ?? []).map((c) => chip(c.data.title, c)));
-    kids.parentElement.hidden = !n.children;
+    kids.replaceChildren(...n.children.map((c) => chip(c.data.title, c)));
+    kids.parentElement.hidden = !n.children.length;
 
     const list = panel.querySelector('.cw-people-list');
     list.replaceChildren(
       ...d.people.map((name) => {
         const p = people.find((q) => q.name === name);
         const li = document.createElement('li');
-        const nm = Object.assign(document.createElement('span'), { className: 'cw-person', textContent: name });
-        li.append(nm);
+        li.append(Object.assign(document.createElement('span'), { className: 'cw-person-name', textContent: name }));
         const elsewhere = p.nodes.filter((m) => m !== n);
         if (elsewhere.length) {
-          nm.classList.add('is-link');
-          const also = Object.assign(document.createElement('span'), { className: 'cw-also', textContent: 'also in' });
-          li.append(also, ...elsewhere.map((m) => chip(m.data.title, m, 'is-small')));
+          li.append(Object.assign(document.createElement('span'), { className: 'cw-also', textContent: 'also in' }));
+          li.append(...elsewhere.map((m) => chip(m.data.title, m, 'is-small')));
         }
         return li;
       }),
@@ -318,12 +390,12 @@ export function mountWorld(stage, data) {
 
     panel.scrollTop = 0;
     panel.setAttribute('aria-hidden', 'false');
-    if (!panelOpen) gsap.fromTo(panel, { autoAlpha: 0, xPercent: 8 }, { autoAlpha: 1, xPercent: 0, duration: reduce ? 0 : 0.6, ease: 'power3.out' });
+    if (!panelOpen) gsap.fromTo(panel, { autoAlpha: 0, y: 16 }, { autoAlpha: 1, y: 0, duration: reduce ? 0 : 0.5, ease: 'power3.out' });
     panelOpen = true;
     if (!reduce) {
-      split = SplitText.create(title, { type: 'chars,words' });
-      gsap.from(split.chars, { yPercent: 70, opacity: 0, rotate: 8, stagger: 0.018, duration: 0.5, ease: 'back.out(2)', delay: 0.15 });
-      gsap.from(panel.querySelectorAll('.cw-section'), { y: 14, opacity: 0, stagger: 0.07, duration: 0.5, delay: 0.3, ease: 'power2.out' });
+      split = SplitText.create(title, { type: 'words,chars' });
+      gsap.from(split.chars, { yPercent: 60, opacity: 0, stagger: 0.015, duration: 0.45, ease: 'back.out(2)', delay: 0.1 });
+      gsap.from(panel.querySelectorAll('.cw-section:not([hidden])'), { y: 10, opacity: 0, stagger: 0.06, duration: 0.45, delay: 0.25, ease: 'power2.out' });
     }
   };
 
@@ -331,108 +403,88 @@ export function mountWorld(stage, data) {
     if (!panelOpen) return;
     panelOpen = false;
     panel.setAttribute('aria-hidden', 'true');
-    gsap.to(panel, { autoAlpha: 0, xPercent: 8, duration: reduce ? 0 : 0.35, ease: 'power2.in' });
+    gsap.to(panel, { autoAlpha: 0, y: 16, duration: reduce ? 0 : 0.3, ease: 'power2.in' });
   };
   gsap.set([panel, tip], { autoAlpha: 0 });
-  on(panel.querySelector('.cw-close'), 'click', () => setFocus(focus.parent ?? root));
+  on(panel.querySelector('.cw-close'), 'click', () => setFocus(focus.parent ?? sun));
 
   // ---------------------------------------------------------------- hover
-  const tipX = gsap.quickTo(tip, 'x', { duration: 0.25, ease: 'power3' });
-  const tipY = gsap.quickTo(tip, 'y', { duration: 0.25, ease: 'power3' });
-  const showTip = (text, e) => {
-    tip.textContent = text;
+  const tipX = gsap.quickTo(tip, 'x', { duration: 0.2, ease: 'power3' });
+  const tipY = gsap.quickTo(tip, 'y', { duration: 0.2, ease: 'power3' });
+  const moveTip = (e) => {
     const r = stage.getBoundingClientRect();
     tipX(e.clientX - r.left + 14);
     tipY(e.clientY - r.top + 14);
-    gsap.to(tip, { autoAlpha: 1, duration: 0.2 });
   };
-  const hideTip = () => gsap.to(tip, { autoAlpha: 0, duration: 0.2 });
+  const showTip = (text, e) => {
+    tip.textContent = text;
+    moveTip(e);
+    gsap.to(tip, { autoAlpha: 1, duration: 0.15 });
+  };
+  const hideTip = () => gsap.to(tip, { autoAlpha: 0, duration: 0.15 });
 
-  const highlightPeople = (names, onOff) => {
-    for (const p of linkers) {
-      const hit = onOff && names.includes(p.name);
-      p.spark.classList.toggle('is-hot', hit);
-      p.segments.forEach((s) => s.classList.toggle('is-hot', hit));
+  const highlight = (names) => {
+    for (const p of people) {
+      const hot = names.includes(p.name);
+      p.el.classList.toggle('is-hot', hot);
+      p.threads?.forEach((t) => t.classList.toggle('is-hot', hot));
     }
-    for (const p of residents) p.dot.classList.toggle('is-hot', onOff && names.includes(p.name));
   };
 
+  let hovered = null;
   const hoverIn = (n, e) => {
-    if (n.depth === 0 || n === focus) return;
-    gsap.to(n.el.nudge, { scale: 1.07, duration: 0.5, ease: 'back.out(3)', svgOrigin: '0 0', overwrite: 'auto' });
-    // Neighbours shy away from the circle you're looking at.
-    for (const s of n.parent.children) {
-      if (s === n) continue;
-      const dx = s.x - n.x, dy = s.y - n.y, dist = Math.hypot(dx, dy) || 1;
-      const push = Math.min(n.r * 0.2, (n.r * n.r * 0.25) / dist);
-      gsap.to(s.el.nudge, { x: (dx / dist) * push, y: (dy / dist) * push, duration: 0.6, ease: 'power3.out', overwrite: 'auto' });
-    }
-    highlightPeople(n.data.people, true);
-    if (n.parent !== focus) showTip(n.data.title, e);
+    hovered = n;
+    // Everything holds still while you're pointing at it, so moving targets are easy to click.
+    setOrbitSpeed(0, 0.5);
+    gsap.to(n, { hover: n.kind === 'sun' ? 1.05 : 1.14, duration: 0.45, ease: 'back.out(3)', overwrite: 'auto' });
+    highlight(n.data.people);
+    const labelVisible = n.kind === 'planet' || n.kind === 'sun' || +getComputedStyle(n.el.label).opacity > 0.5;
+    if (!labelVisible) showTip(n.data.title, e);
   };
   const hoverOut = (n) => {
-    if (n.depth === 0) return;
-    gsap.to(n.el.nudge, { scale: 1, duration: 0.6, ease: 'elastic.out(1, 0.5)', svgOrigin: '0 0', overwrite: 'auto' });
-    for (const s of n.parent.children) {
-      if (s !== n) gsap.to(s.el.nudge, { x: 0, y: 0, duration: 1, ease: 'elastic.out(1, 0.45)', overwrite: 'auto' });
-    }
-    highlightPeople([], false);
+    hovered = null;
+    setOrbitSpeed(orbitSpeed, 1.2);
+    gsap.to(n, { hover: 1, duration: 0.7, ease: 'elastic.out(1, 0.5)', overwrite: 'auto' });
+    highlight([]);
     hideTip();
   };
 
-  const nodeFrom = (target) => byId.get(target.closest?.('.cw-body')?.dataset.id);
-  let hovered = null;
+  const nodeFrom = (el) => byId.get(el.closest?.('.cw-body')?.dataset.id);
+  const personFrom = (el) => people.find((p) => p.name === el.closest?.('[data-person]')?.dataset.person);
+
   on(svg, 'pointerover', (e) => {
-    const person = e.target.closest?.('[data-person]');
-    if (person) {
-      const p = people.find((q) => q.name === person.dataset.person);
-      highlightPeople([p.name], true);
-      showTip(`${p.name} · ${p.nodes.map((m) => m.data.title).join(' · ')}`, e);
+    const p = personFrom(e.target);
+    if (p) {
+      setOrbitSpeed(0, 0.5);
+      highlight([p.name]);
+      showTip(`${p.name} · ${p.nodes.map((m) => m.data.title).join(', ')}`, e);
       return;
     }
     const n = nodeFrom(e.target);
     if (n === hovered) return;
     if (hovered) hoverOut(hovered);
-    hovered = n;
     if (n) hoverIn(n, e);
   });
-  on(svg, 'pointermove', (e) => {
-    if (tip.style.visibility !== 'hidden') {
-      const r = stage.getBoundingClientRect();
-      tipX(e.clientX - r.left + 14);
-      tipY(e.clientY - r.top + 14);
-    }
-  });
-  on(svg, 'pointerleave', () => {
-    if (hovered) hoverOut(hovered);
-    hovered = null;
-    hideTip();
-  });
   on(svg, 'pointerout', (e) => {
-    if (e.target.closest?.('[data-person]')) {
-      highlightPeople([], false);
+    if (personFrom(e.target) && !personFrom(e.relatedTarget ?? document.body)) {
+      setOrbitSpeed(orbitSpeed, 1.2);
+      highlight([]);
       hideTip();
     }
+    if (hovered && !nodeFrom(e.relatedTarget ?? document.body)) hoverOut(hovered);
   });
+  on(svg, 'pointermove', moveTip);
 
   // ---------------------------------------------------------------- click / keys
   const activate = (n) => {
-    if (!n) return setFocus(focus.parent ?? root);
-    if (n === focus) return setFocus(n.parent ?? root);
-    // A circle that isn't a direct child of what you're looking at: walk to it anyway.
-    if (!reduce) {
-      const pulse = svgEl('circle', { class: 'cw-pulse', r: n.r }, n.el.body);
-      gsap.fromTo(pulse, { opacity: 0.9 }, { attr: { r: n.r * 1.3 }, opacity: 0, duration: 0.8, ease: 'power2.out', onComplete: () => pulse.remove() });
-    }
+    hideTip();
+    if (!n || n === focus) return setFocus(focus.parent ?? sun);
+    if (!reduce) gsap.fromTo(n, { bump: 0.12 }, { bump: 0, duration: 0.8, ease: 'elastic.out(1, 0.4)' });
     setFocus(n);
   };
   on(svg, 'click', (e) => {
-    hideTip();
-    const person = e.target.closest?.('[data-person]');
-    if (person) {
-      const p = people.find((q) => q.name === person.dataset.person);
-      return activate(p.nodes.find((m) => m !== focus) ?? p.nodes[0]);
-    }
+    const p = personFrom(e.target);
+    if (p) return activate(p.nodes.find((m) => m !== focus) ?? p.nodes[0]);
     activate(nodeFrom(e.target));
   });
   on(svg, 'keydown', (e) => {
@@ -444,27 +496,25 @@ export function mountWorld(stage, data) {
     }
   });
   on(document, 'keydown', (e) => {
-    if (e.key === 'Escape' && focus !== root && !e.target.closest?.('.cw-search')) setFocus(focus.parent);
+    if (e.key === 'Escape' && focus !== sun && !e.target.closest?.('.cw-search')) setFocus(focus.parent);
   });
 
   // ---------------------------------------------------------------- search
-  const matches = (n, q) =>
-    [n.data.title, n.data.goalHtml, ...n.data.keywords, ...n.data.people].some((s) => s.toLowerCase().includes(q));
-
+  const matches = (n, q) => [n.data.title, n.data.goalHtml, ...n.data.keywords, ...n.data.people].some((s) => s.toLowerCase().includes(q));
   on(search, 'input', () => {
     const q = search.value.trim().toLowerCase();
-    const found = q ? nodes.filter((n) => n.depth > 0 && matches(n, q)) : [];
-    for (const n of nodes) {
-      if (n.depth === 0) continue;
+    const found = q ? [...planets, ...moons].filter((n) => matches(n, q)) : [];
+    for (const n of [...planets, ...moons]) {
       const hit = found.includes(n);
-      gsap.to([n.el.body, n.el.dimLabel], { opacity: !q || hit || found.some((f) => inside(f, n)) ? 1 : 0.18, duration: 0.4 });
-      gsap.to(n.el.ring, { opacity: hit ? 1 : 0, duration: 0.4, overwrite: 'auto' });
+      gsap.to(n.el.body, { opacity: !q || hit || found.some((f) => f.parent === n) ? 1 : 0.25, duration: 0.35 });
+      gsap.to(n.el.ring, { opacity: hit ? 1 : 0, duration: 0.35 });
+      if (n.kind === 'moon') gsap.to(n.el.label, { opacity: hit || n.parent === focus ? 1 : 0, duration: 0.35, overwrite: true });
     }
-    const hitPeople = q ? people.filter((p) => p.name.toLowerCase().includes(q)).map((p) => p.name) : [];
-    highlightPeople(hitPeople, hitPeople.length > 0);
+    const who = q ? people.filter((p) => p.name.toLowerCase().includes(q)).map((p) => p.name) : [];
+    highlight(who);
     results.replaceChildren(...found.slice(0, 8).map((n) => chip(n.data.title, n)));
     if (q && !found.length) results.textContent = 'No circles match that yet.';
-    if (!reduce && found.length) gsap.from(results.children, { y: 8, opacity: 0, stagger: 0.04, duration: 0.3 });
+    if (!reduce && found.length) gsap.from(results.children, { y: 6, opacity: 0, stagger: 0.04, duration: 0.3 });
   });
   on(search, 'keydown', (e) => {
     if (e.key === 'Enter') results.querySelector('button')?.click();
@@ -474,127 +524,70 @@ export function mountWorld(stage, data) {
     }
   });
 
-  // ---------------------------------------------------------------- resize
-  const ro = new ResizeObserver(() => {
-    const t = frame(focus, focus !== root);
-    Object.assign(cam, t);
-    camTween?.kill();
-    renderCamera();
-  });
-
   // ---------------------------------------------------------------- life
   const ctx = gsap.context(() => {
-    Object.assign(cam, frame(root, false));
-    renderCamera();
-    ro.observe(svg);
+    gsap.ticker.add(render);
+    setFocus(sun, { instant: true });
 
     if (reduce) {
-      setFocus(root, { instant: true });
-      gsap.set(threadLayer.children, { opacity: 0.5 });
-      linkers.forEach((p) => {
-        const mid = p.segments[0].getPointAtLength(p.segments[0].getTotalLength() / 2);
-        gsap.set(p.spark, { x: mid.x, y: mid.y });
-      });
+      // Still picture: nothing orbits, travellers wait halfway along their first thread.
+      setOrbitSpeed(0, 0);
+      travellers.forEach((p) => (p.u = 0.5));
       return;
     }
 
-    // Idle life: every circle breathes on its own rhythm, and cells wobble a little out of round.
-    for (const n of nodes) {
-      if (n.depth === 0) continue;
-      gsap.to(n.el.breathe, {
-        scale: 1 + (n.children ? 0.012 : 0.03),
-        svgOrigin: '0 0',
-        duration: gsap.utils.random(2.4, 4.6),
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut',
-        delay: gsap.utils.random(0, 2),
+    // The sun's gentle pulse: soft rings breathing out from the centre.
+    sun.el.glow.forEach((g, i) => {
+      gsap.fromTo(g, { attr: { r: sun.r }, opacity: 0.35 }, {
+        attr: { r: sun.r * 1.9 }, opacity: 0, duration: 4.5, repeat: -1, delay: i * 1.5, ease: 'sine.out',
       });
-      if (!n.children) {
-        gsap.to(n.el.shape, { scaleX: 1.035, svgOrigin: '0 0', duration: gsap.utils.random(1.8, 2.6), repeat: -1, yoyo: true, ease: 'sine.inOut' });
-        gsap.to(n.el.shape, { scaleY: 1.035, svgOrigin: '0 0', duration: gsap.utils.random(2.2, 3.2), repeat: -1, yoyo: true, ease: 'sine.inOut', delay: 0.7 });
-      }
-    }
-    for (const p of residents) {
-      gsap.to(p.orbit, { rotation: '+=360', svgOrigin: '0 0', duration: gsap.utils.random(30, 60), repeat: -1, ease: 'none' });
-    }
-
-    // Double links: each spark travels its thread, pausing in every circle it belongs to and
-    // leaving a ripple there, like carrying news from one meeting to the next.
-    const ripple = (n) => {
-      const px = 1 / (cam.k * unitPx);
-      const c = svgEl('circle', { class: 'cw-ripple', cx: n.x, cy: n.y, r: n.r * 0.2, stroke: n.color }, peopleLayer);
-      gsap.fromTo(c, { attr: { r: 6 * px }, opacity: 0.9 }, { attr: { r: 40 * px }, opacity: 0, duration: 1.4, ease: 'power2.out', onComplete: () => c.remove() });
-    };
-    for (const p of linkers) {
-      const tl = gsap.timeline({ repeat: -1, delay: gsap.utils.random(0, 3) });
-      const legs = p.segments.length === 1
-        ? [[p.segments[0], 0, 1, p.nodes[1]], [p.segments[0], 1, 0, p.nodes[0]]]
-        : p.segments.map((s, i) => [s, 0, 1, p.nodes[(i + 1) % p.nodes.length]]);
-      for (const [path, start, end, arrive] of legs) {
-        tl.to(p.spark, {
-          motionPath: { path, start, end },
-          duration: gsap.utils.random(3, 5),
-          ease: 'power1.inOut',
-          onComplete: () => ripple(arrive),
-        }).to({}, { duration: gsap.utils.random(1, 2.5) });
-      }
-    }
-
-    // Ambient motes drifting in the water.
-    for (let i = 0; i < 26; i++) {
-      const m = document.createElement('span');
-      motes.append(m);
-      gsap.set(m, { left: `${gsap.utils.random(0, 100)}%`, top: `${gsap.utils.random(0, 100)}%`, scale: gsap.utils.random(0.4, 1.3), opacity: gsap.utils.random(0.15, 0.5) });
-      gsap.to(m, { x: 'random(-60, 60)', y: 'random(-80, 40)', duration: 'random(8, 16)', repeat: -1, yoyo: true, ease: 'sine.inOut' });
-    }
-
-    // ------------------------------------------------------------ intro: one cell becomes a world
-    const intro = gsap.timeline({ defaults: { ease: 'back.out(1.5)' } });
-    const levels = [];
-    nodes.forEach((n) => (levels[n.depth] ??= []).push(n));
-    gsap.set(nodes.map((n) => n.el.pos), { scale: 0, svgOrigin: '0 0' });
-    levels.slice(1).flat().forEach((n) => gsap.set(n.el.pos, { x: 0, y: 0 }));
-    gsap.set(peopleLayer, { opacity: 0 });
-    gsap.set(threadLayer.children, { drawSVG: '0%' });
-    setFocus(root, { instant: true });
-    const start = frame(root, false);
-    Object.assign(cam, { ...start, k: start.k * 1.8 });
-    renderCamera();
-
-    intro.to(root.el.pos, { scale: 1, duration: 1.1, ease: 'elastic.out(1, 0.6)' });
-    flyToIntro(intro, start);
-    levels.slice(1).forEach((level, i) => {
-      intro.to(level.map((n) => n.el.pos), {
-        scale: 1,
-        x: (_, el) => { const n = level.find((m) => m.el.pos === el); return n.x - n.parent.x; },
-        y: (_, el) => { const n = level.find((m) => m.el.pos === el); return n.y - n.parent.y; },
-        duration: 0.9,
-        stagger: { each: 0.06, from: 'random' },
-      }, i === 0 ? 0.55 : '-=0.5');
     });
-    intro.to(threadLayer.children, { drawSVG: '100%', duration: 1.2, stagger: 0.05, ease: 'power2.inOut' }, '-=0.3');
-    intro.to(peopleLayer, { opacity: 1, duration: 0.6 }, '<0.4');
+
+    // Travellers: fly a leg, stop at the rim of the circle they reach (which gives a little
+    // welcoming bounce), wait there a while, then set off again.
+    for (const p of travellers) {
+      const tl = gsap.timeline({ repeat: -1, delay: gsap.utils.random(0.5, 4) });
+      const legs = p.nodes.length === 2 ? 2 : p.nodes.length;
+      for (let i = 0; i < legs; i++) {
+        tl.set(p, { leg: i, u: 0 })
+          .to(p, { u: 1, duration: gsap.utils.random(3.5, 5.5), ease: 'power1.inOut' })
+          .add(() => {
+            const B = legOf(p, i)[1];
+            gsap.fromTo(B, { bump: 0.07 }, { bump: 0, duration: 0.9, ease: 'elastic.out(1, 0.35)' });
+          })
+          .to({}, { duration: gsap.utils.random(2, 4) });
+      }
+    }
+
+    // ------------------------------------------------------------ intro: the system forms
+    const intro = gsap.timeline();
+    gsap.set([...planets, ...moons, sun], { appear: 0 });
+    gsap.set(L.people, { opacity: 0 });
+    gsap.set(L.threads, { opacity: 0 });
+    gsap.set(L.rings.children, { drawSVG: '0%' });
+    zoomIntro = { m: 1.7 };
+    intro
+      .to(zoomIntro, { m: 1, duration: 2.6, ease: 'power3.inOut', onComplete: () => (zoomIntro = null) }, 0)
+      .to(sun, { appear: 1, duration: 1.1, ease: 'elastic.out(1, 0.55)' }, 0)
+      .to(L.rings.children, { drawSVG: '100%', duration: 1.4, ease: 'power2.inOut' }, 0.3)
+      .to(planets, { appear: 1, duration: 1.2, ease: 'back.out(1.6)', stagger: 0.12 }, 0.6)
+      .to(moons, { appear: 1, duration: 0.9, ease: 'back.out(2)', stagger: 0.04 }, 1.2)
+      .to(L.people, { opacity: 1, duration: 0.8 }, 1.9)
+      .to(L.threads, { opacity: 1, duration: 0.8 }, 2.1);
     if (hero) {
       const h = SplitText.create(hero.querySelector('h1'), { type: 'chars' });
-      intro.from(h.chars, { y: 30, opacity: 0, stagger: 0.03, duration: 0.6, ease: 'power3.out' }, 0.3);
-      intro.from(hero.querySelector('p'), { y: 12, opacity: 0, duration: 0.6 }, 0.9);
+      intro.from(h.chars, { y: 24, opacity: 0, stagger: 0.03, duration: 0.6, ease: 'power3.out' }, 0.4);
+      intro.from(hero.querySelector('p'), { y: 10, opacity: 0, duration: 0.6 }, 0.9);
     }
-    const skip = () => intro.progress(1);
-    on(stage, 'pointerdown', skip, { once: true });
+    on(stage, 'pointerdown', () => intro.progress(1), { once: true });
   }, stage);
-
-  // The intro pulls the camera back from close up while the world grows.
-  function flyToIntro(tl, target) {
-    tl.to(cam, { ...target, duration: 2.4, ease: 'power3.inOut', onUpdate: renderCamera }, 0);
-  }
 
   return () => {
     abort.abort();
-    ro.disconnect();
-    camTween?.kill();
+    gsap.ticker.remove(render);
     split?.revert();
     ctx.revert();
-    motes.replaceChildren();
+    orbitTween.kill();
+    for (const layer of Object.values(L)) layer.remove();
   };
 }
