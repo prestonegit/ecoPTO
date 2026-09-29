@@ -862,9 +862,12 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
       });
 
       // letters wiggle when touched
+      // (only once the intro is done — overwriting mid-intro would freeze a letter half-drawn)
+      let introDone = false;
+      intro.add(() => { introDone = true; });
       split.chars.forEach((c) => {
-        const wiggle = () => gsap.fromTo(c, { y: -30, rotate: gsap.utils.random(-25, 25), color: gsap.utils.random(COLORS.slice(0, 6)) },
-          { y: 0, rotate: 0, color: '#111', duration: 1, ease: 'elastic.out(1, 0.35)', overwrite: true });
+        const wiggle = () => introDone && gsap.fromTo(c, { y: -30, rotate: gsap.utils.random(-25, 25), color: gsap.utils.random(COLORS.slice(0, 6)) },
+          { y: 0, rotate: 0, color: '#111', duration: 1, ease: 'elastic.out(1, 0.35)', overwrite: 'auto' });
         c.addEventListener('pointerenter', wiggle);
         c.addEventListener('pointerdown', wiggle);
       });
