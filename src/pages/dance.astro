@@ -605,140 +605,177 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
     }
   };
 
-  // ── the beat: a tiny drum machine synthesized with WebAudio (no audio files) ──
+  // ── the beat: an 8-bar loop synthesized with WebAudio (no audio files) ──
+  // It's rendered once into a buffer, then played by a tiny "deck" worklet whose speed can be anything,
+  // including backwards — so grabbing the record scrubs the actual music, like vinyl.
   const beat = (() => {
-    let ctx: AudioContext | null = null;
-    let out: GainNode, filter: BiquadFilterNode, noise: AudioBuffer;
-    let bpm = 120, next = 0, step = 0, timer = 0, chill = false;
-    // record speed: 1 = normal, 0 = held still (silent), negative = backwards. Tempo and pitch follow it like vinyl.
-    let rate = 1, lastScratch = 0;
-    const pitch = () => gsap.utils.clamp(0.5, 2, Math.abs(rate));
-    const listeners: ((step: number) => void)[] = [];
-    // 8-bar loop (~16s): Am F C G | Am F C E. Bars 1-4 groove, bars 5-8 add chord stabs + a fill.
-    const ROOTS = [55, 43.65, 65.41, 49, 55, 43.65, 65.41, 41.2];
+    const STEP = 60 / 120 / 4; // 16th note at 120 BPM
+    const LOOP = 16 * 8; // steps
+    const LOOP_SEC = LOOP * STEP;
+    const TAIL = 1.5; // seconds of ring-out folded back onto the start so the loop is seamless
+    const ROOTS = [55, 43.65, 65.41, 49, 55, 43.65, 65.41, 41.2]; // Am F C G | Am F C E
     const CHORDS = [
       [220, 261.63, 329.63], [174.61, 220, 261.63], [196, 261.63, 329.63], [196, 246.94, 293.66],
       [220, 261.63, 329.63], [174.61, 220, 261.63], [196, 261.63, 329.63], [164.81, 207.65, 246.94],
     ];
     const GROOVE = [1, 0, 0, 2, 0, 0, 1, 0, 1, 0, 0, 1.5, 0, 0, 2, 0]; // bass: multiples of the bar's root
     const WALK = [1, 0, 1, 0, 2, 0, 1, 0, 1.5, 0, 1.5, 0, 2, 0, 2, 1.5]; // busier bass going into bars 4 and 8
-    const LOOP = 16 * 8;
+
+    // bars 1-4 groove, bars 5-8 add chord stabs + 16th hats, bar 8 ends in a snare roll
+    const render = async (sampleRate: number) => {
+      const c = new OfflineAudioContext(1, Math.ceil((LOOP_SEC + TAIL) * sampleRate), sampleRate);
+      const bus = c.createGain();
+      bus.gain.value = 0.9;
+      bus.connect(c.destination);
+      const noise = c.createBuffer(1, sampleRate, sampleRate);
+      const nd = noise.getChannelData(0);
+      for (let i = 0; i < nd.length; i++) nd[i] = Math.random() * 2 - 1;
+      const env = (t: number, peak: number, decay: number) => {
+        const g = c.createGain();
+        g.gain.setValueAtTime(peak, t);
+        g.gain.exponentialRampToValueAtTime(0.001, t + decay);
+        g.connect(bus);
+        return g;
+      };
+      const kick = (t: number) => {
+        const o = c.createOscillator();
+        o.frequency.setValueAtTime(150, t);
+        o.frequency.exponentialRampToValueAtTime(42, t + 0.12);
+        o.connect(env(t, 1, 0.35));
+        o.start(t); o.stop(t + 0.4);
+      };
+      const hiss = (t: number, type: BiquadFilterType, freq: number, peak: number, decay: number) => {
+        const src = c.createBufferSource();
+        src.buffer = noise;
+        const f = c.createBiquadFilter();
+        f.type = type; f.frequency.value = freq;
+        src.connect(f).connect(env(t, peak, decay));
+        src.start(t, Math.random() * 0.5); src.stop(t + decay + 0.05);
+      };
+      const bass = (t: number, hz: number) => {
+        const o = c.createOscillator();
+        o.type = 'sawtooth';
+        o.frequency.value = hz;
+        const f = c.createBiquadFilter();
+        f.type = 'lowpass'; f.frequency.value = 500;
+        o.connect(f).connect(env(t, 0.28, 0.22));
+        o.start(t); o.stop(t + 0.25);
+      };
+      const stab = (t: number, notes: number[]) => {
+        const f = c.createBiquadFilter();
+        f.type = 'lowpass'; f.frequency.value = 2200;
+        f.connect(env(t, 0.09, 0.2));
+        notes.forEach((hz) => {
+          const o = c.createOscillator();
+          o.type = 'square';
+          o.frequency.value = hz;
+          o.connect(f);
+          o.start(t); o.stop(t + 0.22);
+        });
+      };
+      for (let n = 0; n < LOOP; n++) {
+        const t = n * STEP;
+        const bar = Math.floor(n / 16), s = n % 16, b = bar % 4, second = bar >= 4;
+        const fill = bar === 7 && s >= 8;
+        if (s % 4 === 0 && !(fill && s >= 12)) kick(t);
+        if (n === 0) hiss(t, 'highpass', 5000, 0.3, 1.4); // crash on the downbeat
+        if (fill) hiss(t, 'bandpass', 1500 + (s - 8) * 150, 0.2 + (s - 8) * 0.06, 0.1);
+        else if (s % 8 === 4 || (b === 3 && s >= 14)) hiss(t, 'bandpass', 1500, 0.55, 0.14);
+        if (s % 2 === 1) hiss(t, 'highpass', 7000, s % 4 === 3 ? 0.14 : 0.08, s % 4 === 3 ? 0.12 : 0.04);
+        if (second && s % 2 === 0 && s % 4 !== 0) hiss(t, 'highpass', 8000, 0.05, 0.03);
+        if (second && s % 4 === 2) stab(t, CHORDS[bar]);
+        const m = (b === 3 ? WALK : GROOVE)[s];
+        if (m) bass(t, ROOTS[bar] * m);
+      }
+      const raw = (await c.startRendering()).getChannelData(0);
+      const len = Math.round(LOOP_SEC * sampleRate);
+      const loop = raw.slice(0, len);
+      for (let i = len; i < raw.length; i++) loop[i - len] += raw[i];
+      return loop;
+    };
+
+    // plays the loop at any speed (negative = backwards), with linear interpolation and per-sample smoothing
+    const DECK = `class Deck extends AudioWorkletProcessor {
+      constructor() {
+        super(); this.buf = null; this.pos = 0; this.rate = 0; this.target = 0; this.n = 0;
+        this.port.onmessage = (e) => { const d = e.data;
+          if (d.buf) this.buf = d.buf; if ('rate' in d) this.target = d.rate; if ('seek' in d) this.pos = d.seek; };
+      }
+      process(_, outputs) {
+        const out = outputs[0][0], b = this.buf;
+        if (!b) return true;
+        const L = b.length;
+        for (let i = 0; i < out.length; i++) {
+          this.rate += (this.target - this.rate) * 0.002;
+          this.pos += this.rate;
+          if (this.pos >= L) this.pos -= L; else if (this.pos < 0) this.pos += L;
+          const i0 = this.pos | 0, f = this.pos - i0, a = b[i0], c = b[(i0 + 1) % L];
+          out[i] = a + (c - a) * f;
+        }
+        if ((this.n += out.length) >= 1024) { this.n = 0; this.port.postMessage(this.pos); }
+        return true;
+      }
+    }
+    registerProcessor('deck', Deck);`;
+
+    let ctx: AudioContext | null = null;
+    let deck: AudioWorkletNode, filter: BiquadFilterNode, ready: Promise<void> | null = null;
+    let base = 1, hand = 1, motor = { v: 0 }, lastStep = -1, stopTimer = 0;
+    const listeners: ((step: number) => void)[] = [];
+    const send = () => deck?.port.postMessage({ rate: motor.v * hand * base });
 
     const init = () => {
       ctx = new AudioContext();
-      filter = ctx.createBiquadFilter();
+      const c = ctx;
+      filter = c.createBiquadFilter();
       filter.type = 'lowpass';
       filter.frequency.value = 18000;
-      out = ctx.createGain();
-      out.gain.value = 0.45;
-      filter.connect(out).connect(ctx.destination);
-      noise = ctx.createBuffer(1, ctx.sampleRate, ctx.sampleRate);
-      const d = noise.getChannelData(0);
-      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1;
+      const out = c.createGain();
+      out.gain.value = 0.5;
+      filter.connect(out).connect(c.destination);
+      ready = (async () => {
+        const url = URL.createObjectURL(new Blob([DECK], { type: 'text/javascript' }));
+        const [loop] = await Promise.all([render(c.sampleRate), c.audioWorklet.addModule(url)]);
+        deck = new AudioWorkletNode(c, 'deck', { outputChannelCount: [1] });
+        deck.connect(filter);
+        deck.port.postMessage({ buf: loop, seek: 0 });
+        const perStep = STEP * c.sampleRate;
+        deck.port.onmessage = (e) => {
+          const s = Math.floor((e.data as number) / perStep) % LOOP;
+          if (s === lastStep || !api.playing) return;
+          lastStep = s;
+          listeners.forEach((fn) => fn(s % 16));
+        };
+      })();
     };
-    const env = (t: number, peak: number, decay: number) => {
-      const g = ctx!.createGain();
-      g.gain.setValueAtTime(peak, t);
-      g.gain.exponentialRampToValueAtTime(0.001, t + decay);
-      g.connect(filter);
-      return g;
-    };
-    const kick = (t: number) => {
-      const o = ctx!.createOscillator();
-      o.frequency.setValueAtTime(150 * pitch(), t);
-      o.frequency.exponentialRampToValueAtTime(42 * pitch(), t + 0.12);
-      o.connect(env(t, 1, 0.35));
-      o.start(t); o.stop(t + 0.4);
-    };
-    const hiss = (t: number, type: BiquadFilterType, freq: number, peak: number, decay: number) => {
-      const src = ctx!.createBufferSource();
-      src.buffer = noise;
-      const f = ctx!.createBiquadFilter();
-      f.type = type; f.frequency.value = Math.min(freq * pitch(), 16000);
-      src.connect(f).connect(env(t, peak, decay));
-      src.start(t); src.stop(t + decay + 0.05);
-    };
-    const bass = (t: number, hz: number) => {
-      const o = ctx!.createOscillator();
-      o.type = 'sawtooth';
-      o.frequency.value = hz * pitch();
-      const f = ctx!.createBiquadFilter();
-      f.type = 'lowpass'; f.frequency.value = 500;
-      o.connect(f).connect(env(t, 0.28, 0.22));
-      o.start(t); o.stop(t + 0.25);
-    };
-    const stab = (t: number, notes: number[]) => {
-      const f = ctx!.createBiquadFilter();
-      f.type = 'lowpass'; f.frequency.value = chill ? 900 : 2200;
-      f.connect(env(t, chill ? 0.05 : 0.09, 0.2));
-      notes.forEach((hz) => {
-        const o = ctx!.createOscillator();
-        o.type = 'square';
-        o.frequency.value = hz * pitch();
-        o.connect(f);
-        o.start(t); o.stop(t + 0.22);
-      });
-    };
-    const play = (n: number, t: number) => {
-      const bar = Math.floor(n / 16), s = n % 16, b = bar % 4, second = bar >= 4;
-      const fill = bar === 7 && s >= 8; // snare roll into the loop
-      if (s % 4 === 0 && !(fill && s >= 12)) kick(t);
-      if (n === 0 && !chill) hiss(t, 'highpass', 5000, 0.3, 1.4); // crash on the downbeat
-      if (!chill) {
-        if (fill) hiss(t, 'bandpass', 1500 + (s - 8) * 150, 0.2 + (s - 8) * 0.06, 0.1);
-        else if (s % 8 === 4 || (b === 3 && s >= 14)) hiss(t, 'bandpass', 1500, 0.55, 0.14);
-      }
-      if (s % 2 === 1) hiss(t, 'highpass', 7000, s % 4 === 3 ? 0.14 : 0.08, s % 4 === 3 ? 0.12 : 0.04);
-      if (second && s % 2 === 0 && s % 4 !== 0) hiss(t, 'highpass', 8000, 0.05, 0.03); // 16th hats
-      if (second && s % 4 === 2) stab(t, CHORDS[bar]);
-      const m = (b === 3 ? WALK : GROOVE)[s];
-      if (m) bass(t, ROOTS[bar] * m);
-    };
-    const tick = () => {
-      while (next < ctx!.currentTime + 0.12) {
-        if (Math.abs(rate) < 0.12) { next += 60 / bpm / 4; continue; } // record held still: silence
-        play(step, next);
-        const s = step % 16, wait = Math.max(0, (next - ctx!.currentTime) * 1000);
-        setTimeout(() => listeners.forEach((fn) => fn(s)), wait);
-        next += 60 / (bpm * gsap.utils.clamp(0.35, 2.2, Math.abs(rate))) / 4;
-        step = (step + 1) % LOOP;
-      }
-      timer = window.setTimeout(tick, 25);
-    };
-    return {
+
+    const api = {
       playing: false,
       onStep(fn: (step: number) => void) { listeners.push(fn); },
-      start() {
+      async start() {
         if (!ctx) init();
-        ctx!.resume();
-        next = ctx!.currentTime + 0.06; step = 0;
+        clearTimeout(stopTimer);
         this.playing = true;
-        tick();
+        await ctx!.resume();
+        await ready;
+        // motor spins the platter up to speed
+        gsap.to(motor, { v: 1, duration: 0.35, ease: 'power2.out', overwrite: true, onUpdate: send });
       },
-      stop() { this.playing = false; clearTimeout(timer); },
-      setRate(r: number) { rate = r; },
-      // a "wicka" of filtered noise whose pitch follows how hard the record is moved
-      scratch(speed: number) {
-        if (!ctx || !this.playing) return;
-        const now = performance.now();
-        if (now - lastScratch < 45) return;
-        lastScratch = now;
-        const a = Math.min(Math.abs(speed), 3), t = ctx.currentTime;
-        const src = ctx.createBufferSource();
-        src.buffer = noise;
-        const f = ctx.createBiquadFilter();
-        f.type = 'bandpass'; f.Q.value = 5;
-        f.frequency.setValueAtTime(300 + a * 900, t);
-        f.frequency.exponentialRampToValueAtTime(speed > 0 ? 400 + a * 1600 : 200 + a * 400, t + 0.08);
-        src.connect(f).connect(env(t, 0.18 + a * 0.12, 0.09));
-        src.start(t); src.stop(t + 0.12);
+      stop() {
+        this.playing = false;
+        // ...and winds it down, pitch sinking like a turntable losing power
+        gsap.to(motor, { v: 0, duration: 0.9, ease: 'power2.in', overwrite: true, onUpdate: send });
+        stopTimer = window.setTimeout(() => { if (!api.playing) ctx?.suspend(); }, 1100);
       },
+      // hand on the record: 1 = normal, 0 = held still, negative = pulled backwards
+      setRate(r: number) { hand = r; send(); },
       setChill(on: boolean) {
-        chill = on;
-        bpm = on ? 86 : 120;
+        base = on ? 0.72 : 1; // slowed-down, pitched-down lo-fi version of the same record
+        send();
         if (ctx) filter.frequency.setTargetAtTime(on ? 900 : 18000, ctx.currentTime, 0.3);
       },
     };
+    return api;
   })();
 
   const beatBtn = $('.beat-toggle');
@@ -963,19 +1000,21 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
       const bars = $$('.eq span');
       const eqIdle = gsap.to(bars, { scaleY: () => gsap.utils.random(0.1, 0.5), duration: BEAT / 2, ease: 'power1.inOut', repeat: -1, repeatRefresh: true, stagger: { each: 0.04, from: 'center' } });
 
-      // grab the record to scratch it, fling it to warp the beat (tempo + pitch follow the platter, like vinyl)
+      // grab the record to scratch it, fling it to warp the beat: the deck plays at exactly the platter's speed
       const NORMAL_DPS = 360 / 1.8; // degrees/sec at normal speed
       const warp = { v: 1 };
       let lastRot = 0, lastT = 0, rate = 1, hinted = false;
       const follow = (d: Draggable) => {
         const now = performance.now(), dt = Math.max(now - lastT, 8);
         const inst = ((d.rotation - lastRot) / dt) * 1000 / NORMAL_DPS;
-        rate += (inst - rate) * 0.35;
+        rate += (inst - rate) * 0.5;
         lastRot = d.rotation; lastT = now;
         beat.setRate(rate);
-        if (d.isPressed && Math.abs(inst) > 0.3) beat.scratch(inst);
       };
+      // a hand resting on the record without moving it stops the sound, like real vinyl
+      const holdCheck = () => { if (performance.now() - lastT > 50 && rate !== 0) { rate = 0; beat.setRate(0); } };
       const settle = () => {
+        gsap.ticker.remove(holdCheck);
         scratching = false;
         makeSpin();
         warp.v = rate;
@@ -986,11 +1025,12 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
         onPress() {
           scratching = true; spin.pause(); gsap.killTweensOf(warp);
           lastRot = this.rotation; lastT = performance.now(); rate = 0; beat.setRate(0);
+          gsap.ticker.add(holdCheck);
           if (!beat.playing && !hinted) { hinted = true; say('drop the beat first, then scratch!'); }
         },
         onDrag() { follow(this); },
         onThrowUpdate() { follow(this); },
-        onRelease() { if (!this.isThrowing) settle(); },
+        onRelease() { gsap.ticker.remove(holdCheck); if (!this.isThrowing) settle(); },
         onThrowComplete: settle,
       });
 
