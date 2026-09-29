@@ -175,11 +175,10 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
           <p class="kicker">on the decks</p>
           <h2 class="dj-name">DJ<br/>GABE</h2>
           <p class="script dj-script">HV's very own.</p>
-          <p class="small">spinning from 8pm. grab the record to scratch it, fling it to warp the beat.</p>
+          <p class="small">spinning from 8pm.</p>
           <button class="btn btn-big beat-toggle" type="button" aria-pressed="false">
             <span class="bt-icon" aria-hidden="true">▶</span><span class="bt-label">drop the beat</span>
           </button>
-          <p class="fine">plays a little beat made right in your browser. sound on!</p>
         </div>
 
         <div class="deck" aria-hidden="true">
@@ -216,8 +215,8 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
     <section class="trashion" aria-label="Trashion">
       <div class="tr-inner">
         <div class="tr-copy">
-          <p class="kicker">award alert</p>
-          <h2 class="tr-title">“TRASH-<span>ION”</span></h2>
+          <p class="kicker">award alert: trash + fashion =</p>
+          <h2 class="tr-title">“TRASHION”</h2>
           <p class="tr-line">yesterday's trash <span class="arrow">→</span> tonight's look.</p>
           <p class="small">awards for the best upcycled outfits &amp; accessories. start saving yer bottle caps.</p>
         </div>
@@ -501,15 +500,15 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
   @media (max-width: 760px) { .dj-inner { grid-template-columns: 1fr; text-align: center; } .dj .small { margin-inline: auto; } }
 
   /* ── trashion ── */
-  .trashion { position: relative; background: var(--teal); min-height: 100svh; overflow: hidden; display: grid; place-items: center; padding: 60px 16px; box-sizing: border-box; transition: background-color .8s; }
+  .trashion { position: relative; background: var(--teal); min-height: 100svh; overflow: hidden; display: grid; place-items: center; padding: 60px 16px 16svh; box-sizing: border-box; transition: background-color .8s; }
   .tr-inner { position: relative; z-index: 1; width: min(100%, 1100px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 60px); align-items: center; }
-  .tr-title { font-family: var(--display); font-weight: 400; font-size: clamp(48px, 7.5vw, 116px); line-height: .88; margin: .1em 0; rotate: -4deg; }
-  .tr-title span { display: block; color: var(--pink); -webkit-text-stroke: 3px var(--ink); }
+  .tr-copy { container-type: inline-size; }
+  .tr-title { font-family: var(--display); font-weight: 400; font-size: 11.5cqi; white-space: nowrap; line-height: .9; margin: .15em 0 .2em; rotate: -4deg; color: var(--pink); -webkit-text-stroke: 3px var(--ink); text-shadow: 6px 6px 0 var(--ink); }
   .tr-line { font-family: var(--hand); font-size: clamp(24px, 3.4vw, 44px); margin: .2em 0; rotate: -2deg; }
   .tr-line .arrow { display: inline-block; }
   .model { width: 100%; height: min(74svh, 720px); overflow: visible; }
-  .runway { position: absolute; left: -10%; right: -10%; bottom: 0; height: 18%; background: repeating-linear-gradient(90deg, var(--ink) 0 60px, var(--pale) 60px 120px); rotate: -3deg; transform-origin: left bottom; }
-  @media (max-width: 760px) { .trashion { padding: 32px 16px 70px; } .tr-inner { grid-template-columns: 1fr; text-align: center; gap: 8px; } .model { height: 46svh; } }
+  .runway { position: absolute; left: -10%; right: -10%; bottom: -2svh; height: 13svh; background: repeating-linear-gradient(90deg, var(--ink) 0 60px, var(--pale) 60px 120px); rotate: -3deg; transform-origin: left bottom; }
+  @media (max-width: 760px) { .trashion { padding: 32px 16px 12svh; } .tr-inner { grid-template-columns: 1fr; text-align: center; gap: 8px; } .model { height: 46svh; } }
 
   /* ── lounge ── */
   .lounge { background: var(--pale); padding: clamp(80px, 12vh, 140px) 16px; text-align: center; position: relative; overflow: hidden; transition: background-color .8s; }
@@ -957,9 +956,11 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
       // ── 2. horizontal when/where ──
       const track = $('.h-track');
       const dist = () => track.scrollWidth - window.innerWidth;
+      const HOLD = () => innerHeight * 0.9; // extra scroll parked on the last panel so the 21+ stamp gets its moment
+      ScrollTrigger.create({ trigger: '.when', pin: true, start: 'top top', end: () => '+=' + (dist() + HOLD()), invalidateOnRefresh: true, anticipatePin: 1 });
       const h = gsap.to(track, {
         x: () => -dist(), ease: 'none',
-        scrollTrigger: { trigger: '.when', pin: true, scrub: 0.8, end: () => '+=' + dist(), invalidateOnRefresh: true, anticipatePin: 1 },
+        scrollTrigger: { trigger: '.when', start: 'top top', scrub: 0.8, end: () => '+=' + dist(), invalidateOnRefresh: true },
       });
 
       // 10/23 draws itself
@@ -987,11 +988,11 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
 
       // 21+ stamp slams down
       gsap.from('.stamp', { scale: 3, rotate: 25, opacity: 0, ease: 'power4.in', duration: 0.5,
-        scrollTrigger: { trigger: '.p-yellow', containerAnimation: h, start: 'left 30%', toggleActions: 'play none none reverse',
+        scrollTrigger: { trigger: '.p-yellow', containerAnimation: h, start: 'left 45%', toggleActions: 'play none none reverse',
           onEnter: () => gsap.fromTo('.p-yellow', { x: -12 }, { x: 0, duration: 0.5, ease: 'elastic.out(1.2, 0.2)', delay: 0.5 }) } });
 
       gsap.from('.p-yellow .small, .p-yellow .btn-row', { y: 30, opacity: 0, stagger: 0.1, duration: 0.5, ease: 'back.out(2)', delay: 0.45,
-        scrollTrigger: { trigger: '.p-yellow', containerAnimation: h, start: 'left 30%', toggleActions: 'play none none reverse' } });
+        scrollTrigger: { trigger: '.p-yellow', containerAnimation: h, start: 'left 45%', toggleActions: 'play none none reverse' } });
 
       // ── 3. DJ ──
       gsap.from('.dj-name', { xPercent: -60, rotate: -25, opacity: 0, duration: 1, ease: 'back.out(1.8)', scrollTrigger: { trigger: '.dj', start: 'top 70%' } });
