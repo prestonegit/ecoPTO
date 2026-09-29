@@ -1,0 +1,237 @@
+---
+// PROTOTYPE: a GSAP-driven "world of circles". Not linked from the nav, excluded from the
+// sitemap, and marked noindex. Nesting and shared members come from prototypeWorld.js until
+// the projects schema can express them.
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import { marked } from 'marked';
+import { buildWorld } from '../components/circles/prototypeWorld.js';
+
+const projects = (await getCollection('projects')).map((p) => ({
+  ...p,
+  data: {
+    ...p.data,
+    goalHtml: p.data.goal ? marked.parse(p.data.goal) : '',
+    descriptionHtml: p.data.description ? marked.parse(p.data.description) : '',
+  },
+}));
+const world = buildWorld(projects);
+---
+
+<Layout title="Our Circles">
+  <meta name="robots" content="noindex" slot="head" />
+  <section class="cw-stage" data-circles-world data-world={JSON.stringify(world)}>
+    <div class="cw-motes" aria-hidden="true"></div>
+
+    <svg class="cw-svg" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Map of ecoPTO circles">
+      <defs>
+        <radialGradient id="cw-spark-glow">
+          <stop offset="0" stop-color="#fff8dc" stop-opacity="0.9" />
+          <stop offset="1" stop-color="#fff8dc" stop-opacity="0" />
+        </radialGradient>
+      </defs>
+      <g class="cw-camera">
+        <g class="cw-nodes"></g>
+        <g class="cw-threads"></g>
+        <g class="cw-people"></g>
+      </g>
+    </svg>
+
+    <div class="cw-hero">
+      <h1>Our Circles</h1>
+      <p>Every team is a circle. The sparks are people who belong to more than one, carrying ideas between them.</p>
+    </div>
+
+    <div class="cw-hud">
+      <nav class="cw-crumbs" aria-label="Where you are"></nav>
+      <div class="cw-search">
+        <label for="cw-search" class="sr-only">Search circles and people</label>
+        <input id="cw-search" type="search" placeholder="Find a circle or a person…" autocomplete="off" />
+        <div class="cw-results" aria-live="polite"></div>
+      </div>
+    </div>
+
+    <p class="cw-hint">Click a circle to step inside · click outside it or press Esc to step back</p>
+
+    <aside class="cw-panel" aria-hidden="true" aria-label="Circle details">
+      <button type="button" class="cw-close" aria-label="Step back out">×</button>
+      <p class="cw-kicker"></p>
+      <h2 class="cw-title"></h2>
+      <div class="cw-section cw-goal"></div>
+      <div class="cw-section cw-desc"></div>
+      <div class="cw-section"><h3>Circles inside</h3><div class="cw-kids"></div></div>
+      <div class="cw-section"><h3>People</h3><ul class="cw-people-list"></ul></div>
+      <div class="cw-section cw-keywords"></div>
+    </aside>
+
+    <div class="cw-tip" aria-hidden="true"></div>
+  </section>
+
+  <!-- The same map as plain nested lists, for screen readers and anyone without JS. -->
+  <nav class="sr-only" aria-label="All circles">
+    <ul>
+      {world.root.children.map((c) => (
+        <li>
+          {c.title}: {c.people.join(', ')}
+          {c.children.length > 0 && (
+            <ul>{c.children.map((s) => <li>{s.title}: {s.people.join(', ')}</li>)}</ul>
+          )}
+        </li>
+      ))}
+    </ul>
+  </nav>
+</Layout>
+
+<script>
+  import { mountWorld } from '../components/circles/world.js';
+
+  let destroy: (() => void) | null = null;
+  document.addEventListener('astro:page-load', () => {
+    const el = document.querySelector<HTMLElement>('[data-circles-world]');
+    if (el) destroy = mountWorld(el, JSON.parse(el.dataset.world!));
+  });
+  document.addEventListener('astro:before-swap', () => {
+    destroy?.();
+    destroy = null;
+  });
+</script>
+
+<style is:global>
+  .cw-stage {
+    --ink: #eaf4ee;
+    --ink-soft: #a9c3b6;
+    --deep: #0b221d;
+    position: relative;
+    height: calc(100svh - 4.5rem);
+    min-height: 560px;
+    overflow: hidden;
+    color: var(--ink);
+    background:
+      radial-gradient(ellipse at 50% 42%, #1c4a3e 0%, #12332b 38%, var(--deep) 75%),
+      var(--deep);
+    font-family: var(--font-sans);
+    isolation: isolate;
+  }
+  .cw-svg { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: manipulation; }
+
+  .cw-motes { position: absolute; inset: 0; pointer-events: none; z-index: -1; }
+  .cw-motes span { position: absolute; width: 5px; height: 5px; border-radius: 50%; background: #cfe8d8; filter: blur(1px); }
+
+  /* circles */
+  .cw-body { cursor: pointer; outline: none; }
+  .cw-shape { stroke: rgba(255, 255, 255, 0.08); stroke-width: 1; vector-effect: non-scaling-stroke; }
+  .cw-ring { fill: none; stroke: #fff6c8; stroke-width: 2; vector-effect: non-scaling-stroke; opacity: 0; pointer-events: none; }
+  .cw-pulse { fill: none; stroke: #fff6c8; stroke-width: 2; vector-effect: non-scaling-stroke; pointer-events: none; }
+  .cw-body:focus-visible .cw-ring { opacity: 1 !important; }
+  .cw-label {
+    fill: #fff;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    pointer-events: none;
+    paint-order: stroke;
+    stroke: rgba(8, 28, 23, 0.55);
+    stroke-width: 3px;
+    vector-effect: non-scaling-stroke;
+    stroke-linejoin: round;
+    user-select: none;
+  }
+  .cw-resident { fill: rgba(255, 255, 255, 0.55); pointer-events: auto; cursor: help; transition: fill 0.3s; }
+  .cw-resident.is-hot { fill: #fff6c8; }
+
+  /* double links */
+  .cw-threads { pointer-events: none; }
+  .cw-thread { fill: none; stroke-width: calc(var(--sw, 1) * 1px); stroke-linecap: round; opacity: 0.28; transition: opacity 0.35s; }
+  .cw-thread.is-hot { opacity: 0.95; }
+  .cw-spark { cursor: pointer; }
+  .cw-spark-halo { fill: url(#cw-spark-glow); opacity: 0.55; transition: opacity 0.3s; }
+  .cw-spark-core { fill: #fff8dc; }
+  .cw-spark.is-hot .cw-spark-halo { opacity: 1; }
+  .cw-ripple { fill: none; stroke-width: 1.5; vector-effect: non-scaling-stroke; pointer-events: none; }
+
+  /* chrome */
+  .cw-hero {
+    position: absolute; left: 2rem; bottom: 3rem; width: min(19rem, calc(100% - 2rem));
+    pointer-events: none;
+  }
+  .cw-hero h1 { color: var(--ink); font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.05; }
+  .cw-hero p { margin-top: 0.5rem; color: var(--ink-soft); font-size: 0.98rem; }
+
+  .cw-hud {
+    position: absolute; top: 1rem; left: 1rem; right: 1rem;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;
+    pointer-events: none;
+  }
+  .cw-hud > * { pointer-events: auto; }
+  .cw-crumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 0.35rem; font-size: 0.9rem; }
+  .cw-crumbs button {
+    color: var(--ink-soft); padding: 0.3rem 0.65rem; border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06); transition: background 0.2s, color 0.2s;
+  }
+  .cw-crumbs button:hover { background: rgba(255, 255, 255, 0.14); color: var(--ink); }
+  .cw-crumbs button[aria-current] { color: var(--ink); background: rgba(255, 255, 255, 0.16); font-weight: 700; }
+  .cw-sep { color: var(--ink-soft); opacity: 0.6; }
+
+  .cw-search { width: min(20rem, 100%); }
+  .cw-search input {
+    width: 100%; padding: 0.6rem 1rem; border-radius: 999px; font-size: 0.92rem;
+    color: var(--ink); background: rgba(8, 28, 23, 0.55); border: 1px solid rgba(255, 255, 255, 0.16);
+    backdrop-filter: blur(8px);
+  }
+  .cw-search input::placeholder { color: var(--ink-soft); }
+  .cw-search input:focus { outline: 2px solid #fff6c8; outline-offset: 2px; }
+  .cw-results { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; font-size: 0.85rem; color: var(--ink-soft); }
+
+  .cw-chip {
+    --c: #fff;
+    padding: 0.28rem 0.7rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600;
+    color: var(--ink); background: color-mix(in srgb, var(--c) 22%, transparent);
+    border: 1px solid color-mix(in srgb, var(--c) 55%, transparent);
+    transition: background 0.2s;
+  }
+  .cw-chip:hover { background: color-mix(in srgb, var(--c) 42%, transparent); }
+  .cw-chip.is-small { font-size: 0.74rem; padding: 0.15rem 0.55rem; }
+
+  .cw-hint {
+    position: absolute; left: 0; right: 0; bottom: 0.9rem; text-align: center;
+    font-size: 0.78rem; color: var(--ink-soft); opacity: 0.75; pointer-events: none;
+  }
+
+  .cw-panel {
+    --c: #fff;
+    position: absolute; top: 4.25rem; right: 1rem; max-height: calc(100% - 5.25rem); width: min(26rem, calc(100% - 2rem));
+    overflow-y: auto; padding: 1.6rem 1.5rem;
+    background: rgba(9, 27, 23, 0.82); backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.1); border-top: 3px solid var(--c);
+    border-radius: 1.1rem; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  }
+  .cw-close {
+    position: absolute; top: 0.75rem; right: 0.9rem; width: 2rem; height: 2rem; border-radius: 50%;
+    font-size: 1.4rem; line-height: 1; color: var(--ink-soft); background: rgba(255, 255, 255, 0.06);
+  }
+  .cw-close:hover { color: var(--ink); background: rgba(255, 255, 255, 0.14); }
+  .cw-kicker { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--c); font-weight: 700; }
+  .cw-stage h1, .cw-stage h2, .cw-stage h3 { color: inherit; }
+  .cw-title { color: var(--ink) !important; font-family: var(--font-serif); font-size: 2rem; line-height: 1.1; margin: 0.3rem 2rem 0.9rem 0; }
+  .cw-section { margin-top: 1rem; font-size: 0.93rem; line-height: 1.6; color: #d3e3da; }
+  .cw-goal { font-size: 1.02rem; color: var(--ink); }
+  .cw-section h3 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-soft); margin-bottom: 0.5rem; font-weight: 700; }
+  .cw-kids { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .cw-people-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; padding: 0.3rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.06); }
+  .cw-person.is-link::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #fff8dc; box-shadow: 0 0 8px #fff8dc; margin-right: 0.45rem; vertical-align: middle; }
+  .cw-also { font-size: 0.74rem; color: var(--ink-soft); margin-left: 0.2rem; }
+  .cw-keywords { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .cw-keywords span { font-size: 0.75rem; padding: 0.15rem 0.6rem; border-radius: 999px; background: rgba(255, 255, 255, 0.07); color: var(--ink-soft); }
+
+  .cw-tip {
+    position: absolute; left: 0; top: 0; pointer-events: none; z-index: 5;
+    padding: 0.3rem 0.65rem; border-radius: 0.5rem; font-size: 0.8rem; font-weight: 600; white-space: nowrap;
+    background: rgba(8, 28, 23, 0.9); border: 1px solid rgba(255, 255, 255, 0.15);
+  }
+
+  @media (max-width: 899px) {
+    .cw-panel { top: auto; left: 0.75rem; right: 0.75rem; bottom: 0.75rem; width: auto; max-height: 52%; }
+    .cw-hero { left: 1rem; right: 1rem; bottom: 1.25rem; width: auto; text-align: center; }
+    .cw-hero p { font-size: 0.85rem; }
+    .cw-hint { display: none; }
+  }
+</style>

@@ -23,12 +23,12 @@ export default defineConfig({
     mdx(),
     react(),
     sitemap({
-      // Exclude the CMS, the email-linked endpoints, and events whose page is only a
+      // Exclude the CMS, the email-linked endpoints, the unlaunched /circles prototype, and events whose page is only a
       // redirect stub to an external host (Punchbowl, Eventbrite). Astro already marks
       // those noindex; listing a redirect in a sitemap is just noise for crawlers.
       filter: (page) => {
         const { pathname } = new URL(page);
-        if (/\/(admin|unsubscribe)(\/|$)/.test(pathname)) return false;
+        if (/\/(admin|unsubscribe|circles)(\/|$)/.test(pathname)) return false;
         const slug = pathname.replace(/^\/events\/|\/$/g, '');
         return !(pathname.startsWith('/events/') && EXTERNAL_EVENTS.has(slug));
       },
