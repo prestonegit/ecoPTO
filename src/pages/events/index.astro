@@ -15,6 +15,8 @@ const initialUpcomingEvents = eventsAscending.filter((event) => isUpcomingEventD
 const initialPastEvents = eventsDescending.filter((event) => !isUpcomingEventDate(event.data.eventDate));
 const initialUpcomingSlugs = new Set(initialUpcomingEvents.map((event) => event.slug));
 const initialPastSlugs = new Set(initialPastEvents.map((event) => event.slug));
+// Our own pages (e.g. a custom event site like /dance) open in the same tab; other hosts open a new one.
+const isOffsite = (url?: string) => !!url && !url.startsWith('https://ecopto.org');
 ---
 
 <Layout title="Events">
@@ -41,8 +43,8 @@ const initialPastSlugs = new Set(initialPastEvents.map((event) => event.slug));
             {eventsAscending.map(event => (
               <a
                 href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
-                target={event.data.externalUrl ? '_blank' : '_self'}
-                rel={event.data.externalUrl ? 'noopener noreferrer' : undefined}
+                target={isOffsite(event.data.externalUrl) ? '_blank' : '_self'}
+                rel={isOffsite(event.data.externalUrl) ? 'noopener noreferrer' : undefined}
                 data-upcoming-event-card
                 data-event-date={event.data.eventDate.toISOString()}
                 class:list={[
@@ -95,8 +97,8 @@ const initialPastSlugs = new Set(initialPastEvents.map((event) => event.slug));
             {eventsDescending.map(event => (
               <a
                 href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
-                target={event.data.externalUrl ? '_blank' : '_self'}
-                rel={event.data.externalUrl ? 'noopener noreferrer' : undefined}
+                target={isOffsite(event.data.externalUrl) ? '_blank' : '_self'}
+                rel={isOffsite(event.data.externalUrl) ? 'noopener noreferrer' : undefined}
                 data-past-event-card
                 data-event-date={event.data.eventDate.toISOString()}
                 class:list={[

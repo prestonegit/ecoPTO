@@ -11,6 +11,8 @@ const initialVisibleEvents = sortedEvents
   .filter((event) => isUpcomingEventDate(event.data.eventDate))
   .slice(0, 4);
 const initialVisibleSlugs = new Set(initialVisibleEvents.map((event) => event.slug));
+// Our own pages (e.g. a custom event site like /dance) open in the same tab; other hosts open a new one.
+const isOffsite = (url?: string) => !!url && !url.startsWith('https://ecopto.org');
 ---
 <section id="events" data-upcoming-events-root class="py-24 bg-secondary overflow-hidden">
   <div class="container mx-auto px-6">
@@ -25,8 +27,8 @@ const initialVisibleSlugs = new Set(initialVisibleEvents.map((event) => event.sl
         {sortedEvents.map(event => (
           <a
             href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
-            target={event.data.externalUrl ? '_blank' : '_self'}
-            rel={event.data.externalUrl ? 'noopener noreferrer' : undefined}
+            target={isOffsite(event.data.externalUrl) ? '_blank' : '_self'}
+            rel={isOffsite(event.data.externalUrl) ? 'noopener noreferrer' : undefined}
             data-event-card
             data-event-date={event.data.eventDate.toISOString()}
             class:list={[
