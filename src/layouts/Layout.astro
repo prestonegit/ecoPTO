@@ -9,17 +9,34 @@ import PetitionFloatingDock from '../components/PetitionFloatingDock.astro';
 import '../styles/global.css';
 import '../styles/animations.css';
 
-const { title } = Astro.props;
+const { title, description, image } = Astro.props;
+const siteName = globalSettings.data.site_name;
+const fullTitle = `${title} | ${siteName}`;
+const metaDescription = description || 'Hopewell Valley ecoPTO: parents and neighbors taking action for our schools and environment.';
+const toAbsolute = (u) => new URL(u, Astro.site ?? Astro.url).href;
+const ogImage = toAbsolute(image || '/assets/images/ecopto-og.jpg');
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url).href;
 const themeClass = globalSettings.data.theme; // Force rebuild
 ---
 <!doctype html>
 <html lang="en" class={themeClass}>
 <head>
 	<meta charset="UTF-8" />
-	<meta name="description" content="Hopewell Valley PTO Website" />
+	<meta name="description" content={metaDescription} />
+	<link rel="canonical" href={canonical} />
+	<meta property="og:type" content="website" />
+	<meta property="og:site_name" content={siteName} />
+	<meta property="og:url" content={canonical} />
+	<meta property="og:title" content={fullTitle} />
+	<meta property="og:description" content={metaDescription} />
+	<meta property="og:image" content={ogImage} />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content={fullTitle} />
+	<meta name="twitter:description" content={metaDescription} />
+	<meta name="twitter:image" content={ogImage} />
 	<meta name="viewport" content="width=device-width" />
 	<link rel="icon" type="image/svg+xml" href="/logo-icon.svg" />
-	<title>{title} | {globalSettings.data.site_name}</title>
+	<title>{fullTitle}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">

@@ -458,7 +458,7 @@ export const config = {
           label: "Global Site Settings",
           name: "settings",
           fields: [
-            { label: "Site Name", name: "site_name", widget: "string", default: "Hopewell Valley PTO" },
+            { label: "Site Name", name: "site_name", widget: "string", default: "Hopewell ecoPTO" },
             { label: "Favicon", name: "favicon", widget: "image", media_library: { config: { multiple: false, accept: "image/x-icon" } } },
             { label: "Global SVG Icon", name: "global_svg_icon", widget: "image", media_library: { config: { multiple: false, accept: "image/svg+xml" } } },
             {

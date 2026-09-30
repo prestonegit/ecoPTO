@@ -31,7 +31,7 @@ const calendarUrl = buildGoogleCalendarUrl({
 });
 ---
 
-<Layout title={event.data.title}>
+<Layout title={event.data.title} description={(event.data.cardDescription || event.data.description || '').replace(/[*_#>`\[\]]/g, '').slice(0, 200) || undefined} image={event.data.image || undefined}>
   <section class="py-16 sm:py-24 bg-bg-secondary">
     <div class="container mx-auto px-6 max-w-6xl">
       <div class="flex flex-col lg:flex-row gap-12 items-start">
