@@ -1,7 +1,7 @@
 ---
-// PROTOTYPE: a GSAP-driven "world of circles". Not linked from the nav, excluded from the
-// sitemap, and marked noindex. Nesting and shared members come from prototypeWorld.js until
-// the projects schema can express them.
+// PROTOTYPE: the ecoPTO sky, a GSAP voyage through our circles (see components/circles/voyage.js).
+// Not linked from the nav, excluded from the sitemap, and marked noindex. Projects and shared
+// members come from prototypeWorld.js until the projects schema can express them.
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import { marked } from 'marked';
@@ -20,46 +20,42 @@ const world = buildWorld(projects);
 
 <Layout title="Our Circles">
   <meta name="robots" content="noindex" slot="head" />
-  <section class="cw-stage" data-circles-world data-world={JSON.stringify(world)}>
-    <svg class="cw-svg" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Map of ecoPTO circles">
-      <defs>
-        <radialGradient id="cw-sun-fill" cx="40%" cy="35%" r="70%">
-          <stop offset="0" stop-color="#FDBA74" />
-          <stop offset="0.55" stop-color="#F97316" />
-          <stop offset="1" stop-color="#EA580C" />
-        </radialGradient>
-      </defs>
-      <g class="cw-camera"></g>
+  <section class="vy-stage" data-voyage data-world={JSON.stringify(world)}>
+    <svg class="vy-svg" viewBox="-500 -500 1000 1000" preserveAspectRatio="xMidYMid meet" role="group" aria-label="The ecoPTO sky: every team is a star">
+      <defs></defs>
     </svg>
+    <div class="vy-flash" aria-hidden="true"></div>
 
-    <div class="cw-hero">
+    <div class="vy-hero">
+      <p class="vy-eyebrow">The ecoPTO sky</p>
       <h1>Our Circles</h1>
-      <p>ecoPTO is a little solar system. Every team is a planet, its projects are moons, and the people who belong to more than one circle travel between them.</p>
+      <p>Every team is a star circling ecoPTO. Gold threads join teams that share people. Pick a star to travel there.</p>
     </div>
 
-    <div class="cw-hud">
-      <nav class="cw-crumbs" aria-label="Where you are" hidden></nav>
-      <div class="cw-search">
-        <label for="cw-search" class="sr-only">Search circles and people</label>
-        <input id="cw-search" type="search" placeholder="Find a team or a person…" autocomplete="off" />
-        <div class="cw-results" aria-live="polite"></div>
+    <div class="vy-hud">
+      <nav class="vy-crumbs" aria-label="Where you are" hidden></nav>
+      <div class="vy-search">
+        <label for="vy-search" class="sr-only">Search teams, projects and people</label>
+        <input id="vy-search" type="search" placeholder="Find a team, project or person…" autocomplete="off" />
+        <div class="vy-results" aria-live="polite"></div>
       </div>
     </div>
 
-    <p class="cw-hint">Click a planet to visit · Esc or click empty space to head back</p>
+    <p class="vy-hint">Click a star to travel · planets to land · Esc to head back out</p>
 
-    <aside class="cw-panel" aria-hidden="true" aria-label="Circle details">
-      <button type="button" class="cw-close" aria-label="Head back out">×</button>
-      <p class="cw-kicker"></p>
-      <h2 class="cw-title"></h2>
-      <div class="cw-section cw-goal"></div>
-      <div class="cw-section cw-desc"></div>
-      <div class="cw-section"><h3>Projects</h3><div class="cw-kids"></div></div>
-      <div class="cw-section"><h3>People</h3><ul class="cw-people-list"></ul></div>
-      <div class="cw-section cw-keywords"></div>
+    <aside class="vy-panel" aria-hidden="true" aria-label="About this place">
+      <button type="button" class="vy-close" aria-label="Head back out">×</button>
+      <p class="vy-kicker"></p>
+      <h2 class="vy-title"></h2>
+      <p class="vy-count"></p>
+      <div class="vy-goal"></div>
+      <div class="vy-desc"></div>
+      <div class="vy-section"><h3>Planets in this system</h3><div class="vy-kids"></div></div>
+      <div class="vy-section"><h3>People</h3><ul class="vy-people-list"></ul></div>
+      <div class="vy-keywords"></div>
     </aside>
 
-    <div class="cw-tip" aria-hidden="true"></div>
+    <div class="vy-tip" aria-hidden="true"></div>
   </section>
 
   <!-- The same map as plain nested lists, for screen readers and anyone without JS. -->
@@ -78,12 +74,12 @@ const world = buildWorld(projects);
 </Layout>
 
 <script>
-  import { mountWorld } from '../components/circles/world.js';
+  import { mountVoyage } from '../components/circles/voyage.js';
 
   let destroy: (() => void) | null = null;
   document.addEventListener('astro:page-load', () => {
-    const el = document.querySelector<HTMLElement>('[data-circles-world]');
-    if (el) destroy = mountWorld(el, JSON.parse(el.dataset.world!));
+    const el = document.querySelector<HTMLElement>('[data-voyage]');
+    if (el) destroy = mountVoyage(el, JSON.parse(el.dataset.world!));
   });
   document.addEventListener('astro:before-swap', () => {
     destroy?.();
@@ -92,97 +88,140 @@ const world = buildWorld(projects);
 </script>
 
 <style is:global>
-  .cw-stage {
-    --ink: #3a2a22;
-    --ink-soft: #7b6a60;
-    --line: rgba(176, 91, 59, 0.22);
+  .vy-stage {
+    --gold: #FFD27F;
+    --cream: #EDE3D2;
+    --muted: #9A85B8;
+    --sand: #C9B89A;
     position: relative;
     height: calc(100svh - 4.5rem);
     min-height: 560px;
     overflow: hidden;
-    color: var(--ink);
-    background:
-      radial-gradient(circle at 50% 50%, #fff4e8 0%, #fbf6f0 45%, #f6efe7 100%);
+    color: var(--cream);
     font-family: var(--font-sans);
+    background:
+      radial-gradient(40% 30% at 50% 50%, rgba(196, 106, 66, 0.30) 0%, transparent 70%),
+      radial-gradient(30% 34% at 6% 98%, rgba(124, 86, 170, 0.30) 0%, transparent 72%),
+      radial-gradient(24% 22% at 92% 72%, rgba(92, 142, 172, 0.18) 0%, transparent 72%),
+      radial-gradient(130% 95% at 50% 4%, #2E2452 0%, #241B3E 45%, #140E1E 100%);
   }
-  .cw-svg { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: manipulation; }
+  .vy-svg { position: absolute; inset: 0; width: 100%; height: 100%; touch-action: manipulation; }
+  .vy-flash {
+    --flash: #fff;
+    position: absolute; inset: 0; pointer-events: none; opacity: 0;
+    background: radial-gradient(circle at 50% 50%, var(--flash) 0%, color-mix(in srgb, var(--flash) 40%, transparent) 35%, transparent 75%);
+  }
 
-  /* orbits */
-  .cw-orbit, .cw-moon-orbit { fill: none; stroke: var(--line); stroke-width: 1.2; stroke-dasharray: 2 5; vector-effect: non-scaling-stroke; }
-  .cw-moon-orbit { stroke: rgba(176, 91, 59, 0.16); }
+  /* the sky */
+  .vy-orbit { fill: none; stroke: rgba(255, 226, 184, 0.10); stroke-width: 1; stroke-dasharray: 2 7; vector-effect: non-scaling-stroke; }
+  .vy-spoke { stroke: rgba(255, 226, 184, 0.14); stroke-width: 1; vector-effect: non-scaling-stroke; transition: stroke 0.3s; }
+  .vy-spoke.is-hot { stroke: var(--gold); }
+  .vy-link { fill: none; stroke: var(--gold); stroke-width: 1.2; stroke-dasharray: 1 5; stroke-linecap: round; opacity: 0.35; vector-effect: non-scaling-stroke; transition: opacity 0.3s; }
+  .vy-link.is-hot { opacity: 0.95; }
+  .vy-team { cursor: pointer; outline: none; }
+  .vy-team:focus-visible .vy-hit { stroke: var(--gold); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+  .vy-moonlet { fill: #FFE3B0; opacity: 0.8; }
+  .vy-star-label, .vy-sun-label, .vy-eco-label, .vy-planet-label, .vy-beacon-label {
+    font-family: var(--font-serif); fill: #EFE2CC; pointer-events: none; user-select: none;
+    paint-order: stroke; stroke: rgba(20, 14, 30, 0.7); stroke-width: 3px; stroke-linejoin: round;
+  }
+  .vy-star-label { font-size: 14px; font-weight: 600; }
+  .vy-eco-label { font-size: 22px; font-weight: 700; fill: #FFE6BE; }
+  .vy-greek { fill: var(--gold); font-style: italic; }
 
-  /* bodies */
-  .cw-body { cursor: pointer; outline: none; }
-  .cw-planet .cw-shape, .cw-moon .cw-shape { filter: drop-shadow(0 3px 5px rgba(90, 50, 30, 0.18)); }
-  .cw-sun-glow { fill: #FDBA74; pointer-events: none; }
-  .cw-ring { fill: none; stroke: var(--primary, #B05B3B); stroke-width: 2.5; vector-effect: non-scaling-stroke; opacity: 0; pointer-events: none; }
-  .cw-body:focus-visible .cw-ring { opacity: 1 !important; }
-  .cw-label { fill: #fff; font-weight: 700; pointer-events: none; user-select: none; letter-spacing: -0.01em; }
-  .cw-moon-label { fill: var(--ink); font-weight: 600; pointer-events: none; user-select: none; opacity: 0; }
-
-  /* people */
-  .cw-person { cursor: pointer; }
-  .cw-person circle { stroke: #fff; stroke-width: 1; vector-effect: non-scaling-stroke; transition: fill 0.3s; }
-  .cw-person.is-hot circle { fill: var(--primary, #B05B3B); }
-  .cw-traveller-halo { fill: rgba(244, 174, 133, 0.28); stroke: none !important; }
-  .cw-name { fill: var(--ink-soft); font-weight: 600; pointer-events: none; user-select: none; opacity: 0; }
-  .cw-thread { fill: none; stroke: #F4AE85; stroke-width: 1.3; stroke-dasharray: 3 4; vector-effect: non-scaling-stroke; opacity: 0.2; transition: opacity 0.3s, stroke 0.3s; pointer-events: none; }
-  .cw-thread.is-hot { opacity: 1; stroke: var(--primary, #B05B3B); }
+  /* a system */
+  .vy-sys-orbit { fill: none; stroke: rgba(255, 226, 184, 0.16); stroke-width: 1; stroke-dasharray: 2 6; vector-effect: non-scaling-stroke; }
+  .vy-sun { cursor: pointer; outline: none; }
+  .vy-sun-label { font-size: 24px; font-weight: 700; fill: #FFE6BE; }
+  .vy-planet { cursor: pointer; outline: none; }
+  .vy-planet:focus-visible circle:first-child { stroke-opacity: 1; }
+  .vy-planet-label { font-size: 13px; font-weight: 600; }
+  .vy-planet.is-focus .vy-planet-label { opacity: 0; }
+  .vy-moon-label, .vy-person-label {
+    font-size: 7px; fill: var(--sand); font-family: var(--font-sans); font-weight: 600; pointer-events: none;
+    paint-order: stroke; stroke: rgba(20, 14, 30, 0.7); stroke-width: 2px;
+  }
+  .vy-moon-label { font-size: 4.5px; stroke-width: 1.5px; opacity: 0; transition: opacity 0.4s; }
+  .vy-planet.is-focus .vy-moon-label { opacity: 1; }
+  .vy-person-label { font-size: 8.5px; }
+  .vy-comet, .vy-moon.is-linked { cursor: pointer; }
+  .vy-atmo { stroke-width: 1.5; opacity: 0.35; vector-effect: non-scaling-stroke; }
+  .vy-comet-tail { stroke: #FFF1D6; stroke-linecap: round; }
+  .vy-beacon { cursor: pointer; outline: none; }
+  .vy-beacon:hover .vy-beacon-label, .vy-beacon:focus-visible .vy-beacon-label { fill: var(--gold); }
+  .vy-beacon-label { font-size: 11px; fill: var(--sand); }
+  .vy-streak { stroke-width: 1.4; stroke-linecap: round; }
 
   /* chrome */
-  .cw-stage h1, .cw-stage h2, .cw-stage h3 { color: inherit; }
-  .cw-hero { position: absolute; left: 2rem; bottom: 2.5rem; width: min(21rem, calc(100% - 2rem)); pointer-events: none; }
-  .cw-hero h1 { color: var(--primary, #B05B3B); font-family: var(--font-serif); font-size: clamp(2rem, 4.5vw, 3rem); font-weight: 700; line-height: 1.05; }
-  .cw-hero p { margin-top: 0.6rem; color: var(--ink-soft); font-size: 0.95rem; line-height: 1.55; }
+  .vy-stage h1, .vy-stage h2, .vy-stage h3 { color: inherit; }
+  .vy-hero { position: absolute; left: 2rem; bottom: 2.5rem; width: min(22rem, calc(100% - 2rem)); pointer-events: none; }
+  .vy-eyebrow { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.22em; color: #B79BE0; }
+  .vy-hero h1 { margin-top: 0.3rem; font-family: var(--font-serif); font-size: clamp(2rem, 4.5vw, 3rem); line-height: 1.05; color: #FFE6BE !important; }
+  .vy-hero p:last-child { margin-top: 0.6rem; color: var(--sand); font-size: 0.95rem; line-height: 1.55; }
 
-  .cw-hud { position: absolute; top: 1rem; left: 1rem; right: 1rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; pointer-events: none; }
-  .cw-hud > * { pointer-events: auto; }
-  .cw-crumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 0.35rem; font-size: 0.9rem; }
-  .cw-crumbs[hidden] { display: none; }
-  .cw-crumbs button { color: var(--ink-soft); padding: 0.35rem 0.8rem; border-radius: 999px; background: #fff; box-shadow: 0 1px 3px rgba(90, 50, 30, 0.12); transition: color 0.2s; }
-  .cw-crumbs button:hover { color: var(--primary, #B05B3B); }
-  .cw-crumbs button[aria-current] { color: var(--ink); font-weight: 700; }
-  .cw-sep { color: var(--ink-soft); }
-
-  .cw-search { width: min(19rem, 100%); margin-left: auto; }
-  .cw-search input { width: 100%; padding: 0.65rem 1.1rem; border-radius: 999px; font-size: 0.92rem; background: #fff; border: 1px solid #eadfd6; box-shadow: 0 1px 4px rgba(90, 50, 30, 0.08); }
-  .cw-search input:focus { outline: 2px solid var(--primary, #B05B3B); outline-offset: 1px; }
-  .cw-results { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; font-size: 0.85rem; color: var(--ink-soft); }
-
-  .cw-chip { --c: #B05B3B; padding: 0.3rem 0.75rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600; color: #fff; background: var(--c); transition: transform 0.15s, filter 0.15s; }
-  .cw-chip:hover { transform: translateY(-1px); filter: brightness(1.08); }
-  .cw-chip.is-small { font-size: 0.74rem; padding: 0.15rem 0.6rem; }
-
-  .cw-hint { position: absolute; left: 0; right: 0; bottom: 0.9rem; text-align: center; font-size: 0.78rem; color: var(--ink-soft); pointer-events: none; }
-
-  .cw-panel {
-    --c: #B05B3B;
-    position: absolute; top: 4.5rem; right: 1rem; max-height: calc(100% - 5.5rem); width: min(25rem, calc(100% - 2rem));
-    overflow-y: auto; padding: 1.5rem 1.5rem 1.6rem;
-    background: #fff; border-radius: 1.1rem; box-shadow: 0 12px 40px rgba(90, 50, 30, 0.14);
-    border-top: 5px solid var(--c);
+  .vy-hud { position: absolute; top: 1rem; left: 1rem; right: 1rem; display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap; pointer-events: none; }
+  .vy-hud > * { pointer-events: auto; }
+  .vy-crumbs { display: flex; align-items: center; flex-wrap: wrap; gap: 0.35rem; font-size: 0.88rem; }
+  .vy-crumbs[hidden] { display: none; }
+  .vy-crumbs button { color: var(--muted); padding: 0.35rem 0.85rem; border-radius: 999px; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.1); }
+  .vy-crumbs button:hover { color: var(--gold); }
+  .vy-crumbs button[aria-current] { color: var(--gold); border-color: rgba(255, 210, 127, 0.35); }
+  .vy-sep { color: var(--muted); }
+  .vy-search { width: min(19rem, 100%); margin-left: auto; }
+  .vy-search input {
+    width: 100%; padding: 0.65rem 1.1rem; border-radius: 999px; font-size: 0.9rem; color: var(--cream);
+    background: rgba(255, 255, 255, 0.07); border: 1px solid rgba(255, 255, 255, 0.16);
   }
-  .cw-close { position: absolute; top: 0.8rem; right: 0.9rem; width: 2rem; height: 2rem; border-radius: 50%; font-size: 1.35rem; line-height: 1; color: var(--ink-soft); background: #f6efe9; }
-  .cw-close:hover { color: var(--ink); }
-  .cw-kicker { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--c); font-weight: 700; }
-  .cw-title { font-family: var(--font-serif); font-size: 1.9rem; line-height: 1.15; margin: 0.25rem 2rem 0.8rem 0; }
-  .cw-section { margin-top: 0.9rem; font-size: 0.93rem; line-height: 1.6; color: #5a4a41; }
-  .cw-section[hidden] { display: none; }
-  .cw-goal { font-size: 1.02rem; color: var(--ink); font-weight: 500; }
-  .cw-section h3 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-soft); margin-bottom: 0.5rem; font-weight: 700; }
-  .cw-kids { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-  .cw-people-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; padding: 0.35rem 0; border-bottom: 1px solid #f1e8e1; }
-  .cw-person-name::before { content: ''; display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: #F4AE85; margin-right: 0.5rem; vertical-align: middle; }
-  .cw-also { font-size: 0.74rem; color: var(--ink-soft); margin-left: 0.2rem; }
-  .cw-keywords { display: flex; flex-wrap: wrap; gap: 0.35rem; }
-  .cw-keywords span { font-size: 0.75rem; padding: 0.15rem 0.6rem; border-radius: 999px; background: #f6efe9; color: var(--ink-soft); }
+  .vy-search input::placeholder { color: var(--muted); }
+  .vy-search input:focus { outline: 2px solid rgba(255, 210, 127, 0.6); outline-offset: 1px; }
+  .vy-results { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.5rem; font-size: 0.85rem; color: var(--muted); }
 
-  .cw-tip { position: absolute; left: 0; top: 0; pointer-events: none; z-index: 5; padding: 0.3rem 0.7rem; border-radius: 0.5rem; font-size: 0.8rem; font-weight: 600; white-space: nowrap; background: #fff; color: var(--ink); box-shadow: 0 4px 14px rgba(90, 50, 30, 0.16); }
+  .vy-chip {
+    padding: 0.28rem 0.8rem; border-radius: 999px; font-size: 0.8rem; font-weight: 600; color: #FFD9A8;
+    background: rgba(255, 210, 127, 0.1); border: 1px solid rgba(255, 210, 127, 0.3); transition: background 0.2s;
+  }
+  .vy-chip:hover { background: rgba(255, 210, 127, 0.22); }
+  .vy-chip.is-small { font-size: 0.72rem; padding: 0.12rem 0.6rem; }
+
+  .vy-hint { position: absolute; left: 0; right: 0; bottom: 0.9rem; text-align: center; font-size: 0.75rem; letter-spacing: 0.08em; color: var(--muted); pointer-events: none; }
+
+  .vy-panel {
+    position: absolute; top: 4.5rem; right: 1rem; max-height: calc(100% - 5.5rem); width: min(24rem, calc(100% - 2rem));
+    overflow-y: auto; padding: 1.6rem 1.6rem 1.7rem; border-radius: 1.5rem;
+    background: rgba(30, 24, 56, 0.9); backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 210, 127, 0.2); box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.7);
+  }
+  .vy-close { position: absolute; top: 0.9rem; right: 0.9rem; width: 2.1rem; height: 2.1rem; border-radius: 50%; font-size: 1.3rem; line-height: 1; color: #FFD9A8; background: rgba(255, 255, 255, 0.1); }
+  .vy-close:hover { background: rgba(255, 255, 255, 0.2); }
+  .vy-kicker { font-size: 0.7rem; letter-spacing: 0.18em; color: #B79BE0; font-weight: 700; }
+  .vy-title { font-family: var(--font-serif); font-size: 2rem; line-height: 1.1; color: var(--gold) !important; margin: 0.3rem 2rem 0.2rem 0; }
+  .vy-count { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.18em; color: #B79B79; font-weight: 600; }
+  .vy-goal { margin-top: 0.9rem; padding-left: 0.9rem; border-left: 2px solid rgba(255, 210, 127, 0.5); font-family: var(--font-serif); font-style: italic; font-size: 1.1rem; line-height: 1.4; color: #E7CFA9; }
+  .vy-desc { margin-top: 0.9rem; font-size: 0.92rem; line-height: 1.6; color: #D9CDB8; }
+  .vy-section { margin-top: 1.2rem; }
+  .vy-section[hidden], .vy-goal[hidden], .vy-desc[hidden], .vy-keywords[hidden] { display: none; }
+  .vy-section h3 { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.18em; color: #B79B79; margin-bottom: 0.55rem; font-weight: 700; }
+  .vy-kids { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .vy-people-list li { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; padding: 0.3rem 0; font-size: 0.92rem; color: #D9CDB8; }
+  .vy-person::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: #FFE3B0; box-shadow: 0 0 6px 2px rgba(255, 210, 127, 0.6); margin-right: 0.6rem; vertical-align: middle; }
+  .vy-also { font-size: 0.72rem; color: var(--muted); margin-left: 0.2rem; }
+  .vy-keywords { margin-top: 1.2rem; display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .vy-keywords span { font-size: 0.72rem; padding: 0.2rem 0.7rem; border-radius: 999px; color: #FFD9A8; background: rgba(255, 210, 127, 0.08); border: 1px solid rgba(255, 210, 127, 0.2); }
+
+  .vy-tip {
+    position: absolute; left: 0; top: 0; z-index: 5; pointer-events: none; display: flex; flex-direction: column; gap: 0.1rem;
+    padding: 0.5rem 0.75rem; border-radius: 0.7rem; font-size: 0.78rem; color: var(--sand);
+    background: rgba(30, 24, 56, 0.94); border: 1px solid rgba(255, 210, 127, 0.25); max-width: 16rem;
+  }
+  .vy-tip strong { font-family: var(--font-serif); font-size: 0.98rem; color: var(--gold); }
+  .vy-tip em { font-style: normal; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-top: 0.2rem; }
+  .vy-tip-links { color: #E7CFA9; }
 
   @media (max-width: 899px) {
-    .cw-panel { top: auto; left: 0.75rem; right: 0.75rem; bottom: 0.75rem; width: auto; max-height: 52%; }
-    .cw-hero { left: 1rem; right: 1rem; bottom: 1rem; width: auto; text-align: center; }
-    .cw-hero p { font-size: 0.85rem; }
-    .cw-hint { display: none; }
+    .vy-panel { top: auto; left: 0.75rem; right: 0.75rem; bottom: 0.75rem; width: auto; max-height: 50%; }
+    .vy-hero { left: 1rem; right: 1rem; bottom: 1rem; width: auto; text-align: center; }
+    .vy-hero p:last-child { font-size: 0.85rem; }
+    .vy-hint { display: none; }
+    .vy-stage[data-scene='system'] .vy-search { display: none; }
   }
 </style>
