@@ -1,0 +1,62 @@
+{
+  "slug": "2026-09-yewsletter-9-16-26",
+  "data": {
+    "subject": "YEWsletter 10/1/26",
+    "preheader": "Nature Deficit Disorder",
+    "sendDate": "2026-09-30T20:30:00.000Z",
+    "intro": "\"How are you?\" is often just a polite reflex—a routine greeting or an easy way to fill a silence. At ecoPTO, we ask it with intention: How are our **Y**outh? How is our **E**arth? How is our community’s **W**ellbeing?\n\nAt the center of our YEWniverse is a shared purpose: energizing our educational community to (re)connect with the natural world. While the mission is simple, modern life pulls hard in the opposite direction. As Richard Louv highlighted with the term \"Nature-Deficit Disorder,\" our days are increasingly shaped by screens, indoor routines, and very packed schedules.This is neither a personal shortcoming nor an institutional critique; it is simply modern life.\n\nThis month, we invite you to help us shift the modern life pattern. Because integrating Nature back into the rhythm of daily life (both at home and in the classroom!) creates meaningful ripples:\n\n- **Sparks curiosity and learning:** Outdoor exploration naturally fuels focus, creativity, and problem-solving.\n- **Restores mental and physical health:** Green time offers students, educators, and families an essential antidote to daily stress.\n- **Strengthens community:** Shared care for our local environment brings us closer together.\n\nWe’re deeply grateful to partner with our families and educators as we find simple, intentional ways to step outside of our boxes, and (re)connect with what sustains us all.\n\nWriting on behalf of the bugs, books, and brain health,\n\nKristin, ecoPTO Co-President\\\nKaren, ecoPTO communications",
+    "includeEvents": true,
+    "includeNews": false,
+    "newsIntro": "",
+    "attachments": [],
+    "closing": "",
+    "lastTestSentAt": "2026-10-01T22:14:27.513Z",
+    "lastTestHash": "sha256-fad22ab77b0eb1296ef01f78ad90a3994922f22e60442ca074334721a47b0e09",
+    "testEmail": "krisscass@gmail.com",
+    "status": "send-now-confirmed",
+    "confirmSend": false
+  },
+  "broadcastId": "57927e4c-eebc-421b-a5f6-862ebd48ccb1",
+  "sentAt": "2026-10-01T22:16:25.954Z",
+  "events": [
+    {
+      "slug": "2026-09-11-clean-up-hopewell-and-raise-funds",
+      "title": "Clean Up Hopewell and Raise Funds!",
+      "eventDate": "2026-10-03T13:30:00.000Z",
+      "dateOverride": null,
+      "location": "OLD PENNYTOWN SITE  (on Pennington-Hopewell Rd/County Route 654  opposite Kooltronic, Inc. )",
+      "cardDescription": "",
+      "image": "/assets/images/clean-up-fall-2026-flyer-4-.jpg",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-09-25-family-hike-at-baldpate",
+      "title": "Family Hike at Baldpate",
+      "eventDate": "2026-10-18T13:30:00.000Z",
+      "dateOverride": null,
+      "location": "Baldpate Mountain - in Google maps, enter \"**Parking Lot, Fiddlers Creek Rd Access\" to get the correct parking location.  ",
+      "cardDescription": "Let’s explore Baldpate Mountain for the eighth hike in our monthly Family Hikes series.  ",
+      "image": "/assets/images/family-hike-baldpate.jpg",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-09-21-dance-nite",
+      "title": "Dance Nite!",
+      "eventDate": "2026-10-23T23:00:00.000Z",
+      "dateOverride": null,
+      "location": "Hopewell Train Station",
+      "cardDescription": "It's FALL. School is BACK. \nLet's DANCE.\nand/or CHAT and CHILL in the puzzle lounge.\nDRANK$ and SNACKS available.\nit's 21+ this time, Friends.",
+      "image": "/assets/images/ecoptodance10.23.jpg",
+      "externalUrl": "https://ecopto.org/dance"
+    }
+  ],
+  "news": [
+    {
+      "slug": "2025-08-07-welcome-from-the-ecoPTO-president",
+      "title": "Welcome from the ecoPTO President",
+      "author": "ecoPTO President",
+      "pubDate": "2025-08-07T00:00:00.000Z",
+      "description": "A warm welcome to all our new and returning families from the ecoPTO President."
+    }
+  ]
+}
