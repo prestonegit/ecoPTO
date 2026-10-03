@@ -81,6 +81,7 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
           <li class="chip c-pale">doors 7 · DJ 8</li>
           <li class="chip c-yellow">adults 21+</li>
         </ul>
+        <a class="btn btn-big hero-buy" href={TICKETS} target="_blank" rel="noopener">get tickets · $20</a>
       </div>
 
       <a class="scroll-cue" href="#when">scroll it <span>↓</span></a>
@@ -331,6 +332,9 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
     </footer>
   </main>
 
+  <!-- always-there ticket button once you're past the hero -->
+  <a class="buy-float" href={TICKETS} target="_blank" rel="noopener" aria-hidden="true" tabindex="-1">tickets · $20 <span aria-hidden="true">↗</span></a>
+
   <div class="toast" role="status" aria-live="polite"></div>
 </body>
 </html>
@@ -475,6 +479,12 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
   .foot { display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; padding: 22px 16px; background: var(--ink); color: var(--pale); font-family: var(--heavy); text-transform: uppercase; font-size: 14px; }
   .foot a { text-decoration: none; color: var(--lime); }
 
+  .hero-buy { margin-top: 22px; font-size: clamp(18px, 2.4vw, 28px); padding: .65em 1.3em; rotate: -2deg; }
+  .buy-float { position: fixed; right: 20px; bottom: 20px; z-index: 90; display: inline-flex; align-items: center; gap: .4em; font-family: var(--heavy); text-transform: uppercase; font-size: 17px; text-decoration: none; color: var(--ink); background: var(--lime); border: 4px solid var(--ink); border-radius: 999px; padding: .75em 1.2em; box-shadow: 6px 6px 0 var(--ink); rotate: -3deg; translate: 0 160%; opacity: 0; transition: translate .45s cubic-bezier(.2,1.4,.4,1), opacity .3s, box-shadow .15s; }
+  .buy-float.show { translate: 0 0; opacity: 1; }
+  .buy-float:hover { box-shadow: 9px 9px 0 var(--pink); }
+  .buy-float:focus-visible { outline: 4px solid var(--pale); outline-offset: 4px; }
+  @media (max-width: 600px) { .buy-float { right: 14px; bottom: 14px; font-size: 15px; } }
   .toast { position: fixed; left: 50%; bottom: 24px; translate: -50% 140%; background: var(--ink); color: var(--lime); font-family: var(--heavy); text-transform: uppercase; padding: .8em 1.2em; border-radius: 999px; z-index: 101; transition: translate .35s cubic-bezier(.2,1.4,.4,1); }
   .toast.show { translate: -50% 0; }
 
@@ -586,6 +596,18 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
       catch { say(data.url); }
     }
   });
+
+  // floating ticket button: shows once the hero's ticket button is gone, hides again at the tickets section
+  const buyFloat = $('.buy-float');
+  const seen = new Map<Element, boolean>();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => seen.set(e.target, e.isIntersecting));
+    const show = ![...seen.values()].some(Boolean);
+    buyFloat.classList.toggle('show', show);
+    buyFloat.setAttribute('aria-hidden', String(!show));
+    buyFloat.tabIndex = show ? 0 : -1;
+  });
+  [$('.hero-buy'), $('.tix .btn-big')].forEach((el) => { seen.set(el, true); io.observe(el); });
 
   const starBurst = (x: number, y: number, n = 9, spread = 150) => {
     if (!motionOK()) return;
@@ -902,6 +924,7 @@ const star = 'M50 0C54 36 64 46 100 50C64 54 54 64 50 100C46 64 36 54 0 50C36 46
         }, 0.5)
         .fromTo('.hero .script', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.9, ease: 'power2.inOut' }, 1.3)
         .from('.chip', { y: 60, scale: 0.3, opacity: 0, stagger: 0.08, duration: 0.6, ease: 'back.out(2.5)' }, 1.6)
+        .from('.hero-buy', { y: 50, opacity: 0, duration: 0.6, ease: 'back.out(2.5)' }, 1.85)
         .from('.spark', { scale: 0, rotate: -180, stagger: 0.1, duration: 0.8, ease: 'back.out(2)' }, 1.2)
         .from('.trash .bit', { scale: 0, rotate: () => gsap.utils.random(-180, 180), stagger: 0.05, duration: 0.6, ease: 'back.out(2)' }, 1.4)
         .from('.scroll-cue', { y: 80, duration: 0.6 }, 2);
