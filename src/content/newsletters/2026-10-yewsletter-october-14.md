@@ -16,9 +16,9 @@ closing: |-
   With autumn leaves (and dance tunes) in the air,
 
   Karen Le Morvan, ecoPTO communications
-lastTestSentAt: 2026-10-14T12:43:44.122Z
-lastTestHash: sha256-800c885a40a1c7fb94ac9378aae843da96ddfd5190af7cb128115e1cb2b122c4
+lastTestSentAt: 2026-10-14T12:49:18.201Z
+lastTestHash: sha256-1e2ddf062e1162d7ba747cab6f0530b6a2ff94ce2eadcd6844b7bdae0b8103db
 testEmail: karen.lemorvan@gmail.com
-status: send-test
+status: draft
 confirmSend: false
 ---
