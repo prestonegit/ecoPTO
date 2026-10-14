@@ -1,6 +1,6 @@
 ---
 subject: YEWsletter - October  14
-preheader: Upcoming events/ ticket info, and ways to help this fall
+preheader: Upcoming events/ticket info, and ways to help this fall
 sendDate: 2026-10-14T13:00:00.000Z
 intro: >-
   Hey YEW, 
@@ -19,6 +19,6 @@ closing: |-
 lastTestSentAt: 2026-10-14T12:49:18.201Z
 lastTestHash: sha256-1e2ddf062e1162d7ba747cab6f0530b6a2ff94ce2eadcd6844b7bdae0b8103db
 testEmail: karen.lemorvan@gmail.com
-status: draft
+status: send-test
 confirmSend: false
 ---
