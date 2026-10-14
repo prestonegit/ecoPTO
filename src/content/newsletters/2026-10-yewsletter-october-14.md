@@ -11,11 +11,11 @@ intro: >-
 
   Read on for more events and ways to help this month, and celebrate with us as our [petition for intentional tech](https://sites.google.com/view/intentional-tech-hvrsd/parent-petition-for-intentional-tech) approaches it's 200th signature this week! If you haven't already, add your name and pass it on as we gather support for our district's commitment to face-to-face learning and advocate for  5 common-sense classroom screen-time milestones across all grade levels.
 includeEvents: true
-includeNews: true
+includeNews: false
 closing: |-
   With autumn leaves (and dance tunes) in the air,
 
   Karen Le Morvan, ecoPTO communications
 testEmail: karen.lemorvan@gmail.com
-status: draft
+status: send-test
 ---
