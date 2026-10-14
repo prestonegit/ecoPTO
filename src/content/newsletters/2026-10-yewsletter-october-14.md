@@ -17,5 +17,8 @@ closing: |-
 
   Karen Le Morvan, ecoPTO communications
 testEmail: karen.lemorvan@gmail.com
-status: send-test
+status: draft
+confirmSend: false
+lastTestSentAt: 2026-10-14T12:43:44.122Z
+lastTestHash: sha256-800c885a40a1c7fb94ac9378aae843da96ddfd5190af7cb128115e1cb2b122c4
 ---
