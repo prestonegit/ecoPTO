@@ -31,6 +31,7 @@ import React from 'react';
 import { Resend } from 'resend';
 import Newsletter from '../src/emails/Newsletter.jsx';
 import { ORG, hasPostalAddress } from '../src/config/org.js';
+import { selectNewsletterEvents } from '../src/lib/newsletter-events.js';
 import { contentFingerprint } from '../src/utils/newsletter-fingerprint.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -65,10 +66,7 @@ async function readCollection(dir) {
 async function loadEvents() {
   const all = await readCollection(EVENTS_DIR);
   const now = Date.now();
-  return all
-    .filter((e) => new Date(e.data.eventDate).getTime() >= now)
-    .sort((a, b) => new Date(a.data.eventDate) - new Date(b.data.eventDate))
-    .slice(0, 4)
+  return selectNewsletterEvents(all, (e) => e.data.eventDate, now)
     .map((e) => ({
       slug: e.slug,
       title: e.data.title,

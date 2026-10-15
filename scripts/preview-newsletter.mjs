@@ -13,6 +13,7 @@ import { render } from '@react-email/render';
 import React from 'react';
 import Newsletter from '../src/emails/Newsletter.jsx';
 import { ORG } from '../src/config/org.js';
+import { selectNewsletterEvents } from '../src/lib/newsletter-events.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -38,15 +39,13 @@ const main = async () => {
         .map((f) => path.join(NEWSLETTERS_DIR, f));
 
   const now = Date.now();
-  const events = (await readAll(path.join(REPO_ROOT, 'src/content/events'), (e) => ({
+  const allEvents = (await readAll(path.join(REPO_ROOT, 'src/content/events'), (e) => ({
     slug: e.slug, title: e.data.title, eventDate: e.data.eventDate,
     dateOverride: e.data.dateOverride ?? null, location: e.data.location ?? null,
     cardDescription: e.data.cardDescription ?? e.data.description ?? '',
     externalUrl: e.data.externalUrl ?? null,
-  })))
-    .filter((e) => new Date(e.eventDate).getTime() >= now)
-    .sort((a, b) => new Date(a.eventDate) - new Date(b.eventDate))
-    .slice(0, 4);
+  })));
+  const events = selectNewsletterEvents(allEvents, (e) => e.eventDate, now);
 
   const news = (await readAll(path.join(REPO_ROOT, 'src/content/news'), (n) => ({
     slug: n.slug, title: n.data.title, author: n.data.author,

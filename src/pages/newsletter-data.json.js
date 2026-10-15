@@ -1,14 +1,12 @@
 import { getCollection } from 'astro:content';
+import { selectNewsletterEvents } from '../lib/newsletter-events.js';
 
 export async function GET() {
   const events = await getCollection('events');
   const news = await getCollection('news');
   const now = Date.now();
 
-  const upcomingEvents = events
-    .filter(e => new Date(e.data.eventDate).getTime() >= now)
-    .sort((a, b) => new Date(a.data.eventDate) - new Date(b.data.eventDate))
-    .slice(0, 4)
+  const upcomingEvents = selectNewsletterEvents(events, (e) => e.data.eventDate, now)
     .map(e => ({
       slug: e.slug,
       title: e.data.title,

@@ -1,6 +1,7 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
+import { selectNewsletterEvents } from '../../lib/newsletter-events.js';
 import { render } from '@react-email/render';
 import sanitizeHtml from 'sanitize-html';
 import React from 'react';
@@ -29,10 +30,7 @@ const sentDateIsExact = Boolean(snapshot?.sentAt);
 const fallbackEvents = async () => {
   if (!d.includeEvents) return [];
   const all = await getCollection('events');
-  return all
-    .filter((e) => new Date(e.data.eventDate) >= sentDate)
-    .sort((a, b) => new Date(a.data.eventDate) - new Date(b.data.eventDate))
-    .slice(0, 4)
+  return selectNewsletterEvents(all, (e) => e.data.eventDate, sentDate)
     .map((e) => ({
       slug: e.slug, title: e.data.title, eventDate: e.data.eventDate,
       dateOverride: e.data.dateOverride ?? null, location: e.data.location ?? null,

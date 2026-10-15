@@ -104,6 +104,10 @@ send: only a genuine inbox shows you how Gmail and Outlook will treat it.
 
 ### Things worth knowing
 
+- **Which events appear.** Every upcoming event in the next 6 weeks, soonest first,
+  capped at 8. If fewer than 2 fall in that window, the next 2 are shown regardless of
+  date. The rule lives in `src/lib/newsletter-events.js` and is shared by the send
+  script, the CMS preview, and the archive, so they always agree.
 - **Files are linked, not attached.** Resend broadcasts can't carry attachments. Anything in
   "Files & Downloads" is uploaded to the site and linked; the send script warns if a linked
   file is missing from `/public`.
