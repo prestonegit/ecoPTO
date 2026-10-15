@@ -31,7 +31,7 @@ import React from 'react';
 import { Resend } from 'resend';
 import Newsletter from '../src/emails/Newsletter.jsx';
 import { ORG, hasPostalAddress } from '../src/config/org.js';
-import { selectNewsletterEvents } from '../src/lib/newsletter-events.js';
+import { selectNewsletterEvents, MAX_EVENTS } from '../src/lib/newsletter-events.js';
 import { contentFingerprint } from '../src/utils/newsletter-fingerprint.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -66,7 +66,8 @@ async function readCollection(dir) {
 async function loadEvents() {
   const all = await readCollection(EVENTS_DIR);
   const now = Date.now();
-  return selectNewsletterEvents(all, (e) => e.data.eventDate, now)
+  return selectNewsletterEvents(all, (e) => e.data.eventDate, now,
+    (dropped) => console.warn(`  ⚠ ${dropped.length} event(s) beyond the ${MAX_EVENTS}-event cap were left out: ${dropped.map((e) => e.data.title).join(', ')}`))
     .map((e) => ({
       slug: e.slug,
       title: e.data.title,

@@ -14,8 +14,9 @@ export const MIN_EVENTS = 2;     // quiet stretch: still show the next couple, e
 /**
  * @param items  any array; `getDate(item)` must return the event date (Date | string)
  * @param now    the issue's reference time (send time, or now for previews)
+ * @param onTruncate  optional; called with the events dropped by MAX_EVENTS
  */
-export function selectNewsletterEvents(items, getDate, now = Date.now()) {
+export function selectNewsletterEvents(items, getDate, now = Date.now(), onTruncate) {
   const t = (x) => new Date(getDate(x)).getTime();
   const start = new Date(now).getTime();
   const end = start + WINDOW_DAYS * 86_400_000;
@@ -26,5 +27,8 @@ export function selectNewsletterEvents(items, getDate, now = Date.now()) {
 
   const inWindow = upcoming.filter((x) => t(x) <= end);
   const chosen = inWindow.length >= MIN_EVENTS ? inWindow : upcoming.slice(0, MIN_EVENTS);
+  // Report what the cap trims, so a busy stretch can't silently drop an event the way
+  // the old "next 4" rule did.
+  if (chosen.length > MAX_EVENTS && onTruncate) onTruncate(chosen.slice(MAX_EVENTS));
   return chosen.slice(0, MAX_EVENTS);
 }

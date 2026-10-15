@@ -13,7 +13,7 @@ import { render } from '@react-email/render';
 import React from 'react';
 import Newsletter from '../src/emails/Newsletter.jsx';
 import { ORG } from '../src/config/org.js';
-import { selectNewsletterEvents } from '../src/lib/newsletter-events.js';
+import { selectNewsletterEvents, MAX_EVENTS } from '../src/lib/newsletter-events.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -45,7 +45,8 @@ const main = async () => {
     cardDescription: e.data.cardDescription ?? e.data.description ?? '',
     externalUrl: e.data.externalUrl ?? null,
   })));
-  const events = selectNewsletterEvents(allEvents, (e) => e.eventDate, now);
+  const events = selectNewsletterEvents(allEvents, (e) => e.eventDate, now,
+    (dropped) => console.warn(`  ⚠ ${dropped.length} event(s) beyond the ${MAX_EVENTS}-event cap were left out: ${dropped.map((e) => e.title).join(', ')}`));
 
   const news = (await readAll(path.join(REPO_ROOT, 'src/content/news'), (n) => ({
     slug: n.slug, title: n.data.title, author: n.data.author,
