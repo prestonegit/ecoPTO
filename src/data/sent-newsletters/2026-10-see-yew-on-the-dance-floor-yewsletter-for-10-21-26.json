@@ -1,0 +1,70 @@
+{
+  "slug": "2026-10-see-yew-on-the-dance-floor-yewsletter-for-10-21-26",
+  "data": {
+    "subject": "See YEW on the dance floor: YEWsletter Bonus 10/21/26",
+    "preheader": "Get your tickets for Friday's Dance Nite fundraiser and check out other upcoming events",
+    "sendDate": "2026-10-21T17:00:00.000Z",
+    "intro": "We're prepping for [Dance Nite at the  Hopewell Train Station](https://ecopto.org/events/2026-09-21-dance-nite/) this Friday from 7 to 10pm - [get your tickets](https://www.zeffy.com/en-US/ticketing/autumn-dance-party) and join us for this fundraiser as we raise money to support projects and initiatives this school year, including outdoor learning opportunities!  (And if you haven't had the chance to play around with the full interactive flyer with real working puzzle, record player, and train... [click (and scroll) here!)](https://ecopto.org/dance/)\n\nAnd read on for upcoming events, details on our [October meeting on 10/28](https://ecopto.org/events/2026-08-26-ecopto-meeting/), and ways to help as we bring our district together to work for social and ecological justice and Youth and Earth Wellbeing (Y.E.W.).",
+    "includeEvents": true,
+    "includeNews": false,
+    "closing": "With gratitude for all of YEW, \n\nKaren Le Morvan\n\necoPTO communications",
+    "lastTestSentAt": "2026-10-21T13:42:55.314Z",
+    "lastTestHash": "sha256-c76b0e9a76adcf3cfc76a4871125c8950641467dd8d1ed517a55447f030c8dea",
+    "testEmail": "karen.lemorvan@gmail.com",
+    "status": "send-now-confirmed",
+    "confirmSend": false
+  },
+  "broadcastId": "452480e6-7ca7-4a37-9b41-7004ce133cfd",
+  "sentAt": "2026-10-21T19:30:14.665Z",
+  "events": [
+    {
+      "slug": "2026-09-21-dance-nite",
+      "title": "Dance Nite!",
+      "eventDate": "2026-10-23T23:00:00.000Z",
+      "dateOverride": null,
+      "location": "Hopewell Train Station",
+      "cardDescription": "It's FALL. School is BACK. \nLet's DANCE.\nand/or CHAT and CHILL in the puzzle lounge.\nDRANK$ and SNACKS available.\nit's 21+ this time, Friends.",
+      "image": "/assets/images/ecoptodance10.23.jpg",
+      "externalUrl": ""
+    },
+    {
+      "slug": "2026-10-02-fall-garden-clean-ups-at-hes",
+      "title": "Fall Garden Clean Ups at HES ",
+      "eventDate": "2026-10-25T12:00:00.000Z",
+      "dateOverride": "Sundays October 25, November 1, and November 8",
+      "location": "Hopewell Elementary School",
+      "cardDescription": "Come help with the garden spaces at HES these Sundays: October 25, November 1, and November 8, from 8am to 11am.",
+      "image": "/assets/images/green-artsy-community-garden-poster_fall-work-days.png",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-08-26-ecopto-meeting",
+      "title": "ecoPTO Monthly Meeting",
+      "eventDate": "2026-10-28T22:00:00.000Z",
+      "dateOverride": null,
+      "location": "Broderick residence, 90 Crusher Road (park  on the driveway of BeechTree Farm/105 Crusher Road  across the street; park on the grass on the right side of the gravel road and walk up the driveway. )",
+      "cardDescription": "Mark your calendar for our monthly general meeting on Wednesday October 28 at 6pm at 90 Crusher Rd (park on the right hand side of BeechTree Farm driveway across the street.)",
+      "image": "/assets/images/chatgpt-image-sep-10-2025-05_04_33-pm.png",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-06-15-arboretum-clean-up-at-toll-gate",
+      "title": "Arboretum Clean Up at Toll Gate",
+      "eventDate": "2026-10-31T14:00:00.000Z",
+      "dateOverride": "Saturday October 24 9am to 11am",
+      "location": "Curliss Ave. Entrance to the Eileen M. Heinzel Memorial Arboretum at Toll Gate",
+      "cardDescription": "Join our partners from the Pennington Borough Environmental Commission for Arboretum Clean-up by Toll Gate at the Eileen M. Heinzel Memorial Arboretum, Curliss Ave. Entrance - Saturday October 24",
+      "image": "/assets/images/arboretum-cropped.jpg",
+      "externalUrl": null
+    }
+  ],
+  "news": [
+    {
+      "slug": "2025-08-07-welcome-from-the-ecoPTO-president",
+      "title": "Welcome from the ecoPTO President",
+      "author": "ecoPTO President",
+      "pubDate": "2025-08-07T00:00:00.000Z",
+      "description": "A warm welcome to all our new and returning families from the ecoPTO President."
+    }
+  ]
+}
