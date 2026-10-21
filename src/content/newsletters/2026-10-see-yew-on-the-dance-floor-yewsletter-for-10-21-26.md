@@ -27,6 +27,8 @@ closing: |-
 lastTestSentAt: 2026-10-21T13:07:14.230Z
 lastTestHash: sha256-6b7390210cd7a1e5c1b80acd0742c439c1ae9b24c849ae56d3938cc88f50a7dd
 testEmail: karen.lemorvan@gmail.com
-status: send-now-confirmed
+status: draft
 confirmSend: false
+lastError: "Not sent. Resend said: Field `name` has a maximum of 70 items."
+lastErrorAt: 2026-10-21T13:24:56.284Z
 ---
