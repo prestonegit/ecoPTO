@@ -1,5 +1,5 @@
 ---
-subject: "See YEW on the dance floor: YEWsletter Bonus Edition  for  10/21/26"
+subject: "See YEW on the dance floor: YEWsletter Bonus Edition 10/21/26"
 preheader: Get your tickets for Friday's Dance Nite fundraiser and check out
   other upcoming events
 sendDate: 2026-10-21T17:00:00.000Z
@@ -26,9 +26,9 @@ closing: |-
   ecoPTO communications
 lastTestSentAt: 2026-10-21T13:07:14.230Z
 lastTestHash: sha256-6b7390210cd7a1e5c1b80acd0742c439c1ae9b24c849ae56d3938cc88f50a7dd
+lastError: "Not sent. Resend said: Field `name` has a maximum of 70 items."
+lastErrorAt: 2026-10-21T13:24:56.284Z
 testEmail: karen.lemorvan@gmail.com
 status: draft
 confirmSend: false
-lastError: "Not sent. Resend said: Field `name` has a maximum of 70 items."
-lastErrorAt: 2026-10-21T13:24:56.284Z
 ---
