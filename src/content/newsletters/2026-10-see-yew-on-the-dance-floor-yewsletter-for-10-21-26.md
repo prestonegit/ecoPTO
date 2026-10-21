@@ -23,5 +23,6 @@ closing: |-
   Karen Le Morvan
 
   ecoPTO communications
-status: draft
+testEmail: karen.lemorvan@gmail.com
+status: send-test
 ---
