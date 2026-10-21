@@ -33,6 +33,7 @@ import Newsletter from '../src/emails/Newsletter.jsx';
 import { ORG, hasPostalAddress } from '../src/config/org.js';
 import { selectNewsletterEvents, MAX_EVENTS } from '../src/lib/newsletter-events.js';
 import { contentFingerprint } from '../src/utils/newsletter-fingerprint.js';
+import { broadcastName as boundedBroadcastName } from './newsletter-broadcast-name.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const REPO_ROOT = path.resolve(__dirname, '..');
@@ -100,7 +101,7 @@ const ACTIONABLE = new Set(['ready-to-send', 'send-test', 'send-now', 'send-now-
 // Resend itself the durable record of what has gone out. Git cannot be trusted for this:
 // a workflow run can check out a stale commit, the status commit-back can fail, and a
 // Decap save can revert the bot's edit — each of which would otherwise re-blast an issue.
-const broadcastName = (slug) => `${ORG.newsletterName} — ${slug}`;
+const broadcastName = (slug) => boundedBroadcastName(ORG.newsletterName, slug);
 
 async function findExistingBroadcast(resend, slug) {
   const wanted = broadcastName(slug);
