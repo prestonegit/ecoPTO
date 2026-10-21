@@ -24,9 +24,9 @@ closing: |-
   Karen Le Morvan
 
   ecoPTO communications
-lastTestSentAt: 2026-10-21T13:07:14.230Z
-lastTestHash: sha256-6b7390210cd7a1e5c1b80acd0742c439c1ae9b24c849ae56d3938cc88f50a7dd
+lastTestSentAt: 2026-10-21T13:39:32.185Z
+lastTestHash: sha256-2e66303ebc6c145b10c725dccca03769162380c8cc38aa2e9e0f1439f0c03ed4
 testEmail: karen.lemorvan@gmail.com
-status: send-test
+status: draft
 confirmSend: false
 ---
