@@ -6,11 +6,12 @@ sendDate: 2026-10-21T17:00:00.000Z
 intro: >-
   We're prepping for [Dance Nite at the  Hopewell Train
   Station](https://ecopto.org/events/2026-09-21-dance-nite/) this Friday from 7
-  to 10pm - [get your tickets](https://ecopto.org/events/2026-09-21-dance-nite/)
-  and join us for this fundraiser as we raise money to support projects and
-  initiatives this school year, including outdoor learning opportunities!  (And
-  if you haven't had the chance to play around with the full interactive flyer
-  with real working puzzle, record player, and train... [click (and scroll)
+  to 10pm - [get your
+  tickets](https://www.zeffy.com/en-US/ticketing/autumn-dance-party) and join us
+  for this fundraiser as we raise money to support projects and initiatives this
+  school year, including outdoor learning opportunities!  (And if you haven't
+  had the chance to play around with the full interactive flyer with real
+  working puzzle, record player, and train... [click (and scroll)
   here!)](https://ecopto.org/dance/)
 
 
