@@ -10,7 +10,7 @@ const sortedEvents = [...allEvents].sort(sortByEventDateAscending);
 const initialVisibleEvents = sortedEvents
   .filter((event) => isUpcomingEventDate(event.data.eventDate))
   .slice(0, 4);
-const initialVisibleSlugs = new Set(initialVisibleEvents.map((event) => event.slug));
+const initialVisibleSlugs = new Set(initialVisibleEvents.map((event) => event.id));
 // Our own pages (e.g. a custom event site like /dance) open in the same tab; other hosts open a new one.
 const isOffsite = (url?: string) => !!url && !url.startsWith('https://ecopto.org');
 ---
@@ -26,14 +26,14 @@ const isOffsite = (url?: string) => !!url && !url.startsWith('https://ecopto.org
       <div data-upcoming-events-list class="grid md:grid-cols-2 gap-8 lg:gap-12">
         {sortedEvents.map(event => (
           <a
-            href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
+            href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.id}`}
             target={isOffsite(event.data.externalUrl) ? '_blank' : '_self'}
             rel={isOffsite(event.data.externalUrl) ? 'noopener noreferrer' : undefined}
             data-event-card
             data-event-date={event.data.eventDate.toISOString()}
             class:list={[
               'flex flex-col rounded-xl shadow-sm overflow-hidden group bg-bg-primary',
-              !initialVisibleSlugs.has(event.slug) && 'hidden',
+              !initialVisibleSlugs.has(event.id) && 'hidden',
             ]}
           >
             <div class="md:flex flex-grow">

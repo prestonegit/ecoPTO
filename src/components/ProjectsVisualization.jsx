@@ -80,7 +80,7 @@ const ProjectsVisualization = ({ projects }) => {
     const rootNode = { id: 'ecopto', title: 'ecoPTO', type: 'root', r: 50 };
 
     const projectNodes = projects.map(p => ({
-      id: p.slug,
+      id: p.id,
       title: p.data.title,
       data: p.data,
       type: 'project',
@@ -100,7 +100,7 @@ const ProjectsVisualization = ({ projects }) => {
               projects: []
             });
           }
-          peopleMap.get(participant.name).projects.push(p.slug);
+          peopleMap.get(participant.name).projects.push(p.id);
         });
       }
     });

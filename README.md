@@ -4,7 +4,7 @@ This website is built with Astro, Tailwind CSS, and Decap CMS to be fast, secure
 
 ## Prerequisites
 
--   Node.js (version 18 or higher)
+-   Node.js 24.22.1 or newer in the 24.x LTS line (`nvm use` reads `.nvmrc`)
 -   A GitHub account
 -   A Netlify account
 

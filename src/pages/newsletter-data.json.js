@@ -8,7 +8,7 @@ export async function GET() {
 
   const upcomingEvents = selectNewsletterEvents(events, (e) => e.data.eventDate, now)
     .map(e => ({
-      slug: e.slug,
+      slug: e.id,
       title: e.data.title,
       eventDate: e.data.eventDate,
       dateOverride: e.data.dateOverride ?? null,
@@ -22,7 +22,7 @@ export async function GET() {
     .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
     .slice(0, 3)
     .map(n => ({
-      slug: n.slug,
+      slug: n.id,
       title: n.data.title,
       author: n.data.author,
       pubDate: n.data.pubDate,

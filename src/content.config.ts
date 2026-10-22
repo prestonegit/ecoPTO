@@ -1,7 +1,9 @@
-import { z, defineCollection } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
+import { glob } from 'astro/loaders';
 
 const pagesCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/pages' }),
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
@@ -45,7 +47,7 @@ const pagesCollection = defineCollection({
 });
 
 const aboutUsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/aboutUs' }),
   schema: z.object({
     title: z.string(),
     history_title: z.string().optional(),
@@ -56,7 +58,7 @@ const aboutUsCollection = defineCollection({
 });
 
 const leadershipCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/leadership' }),
   schema: z.object({
     name: z.string(),
     title: z.string(),
@@ -67,7 +69,7 @@ const leadershipCollection = defineCollection({
 });
 
 const settingsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/[^_]*.json', generateId: ({ entry }) => entry.replace(/\.json$/, ''), base: './src/content/settings' }),
   schema: z.object({
     site_name: z.string(),
     theme: z.string(),
@@ -95,12 +97,12 @@ const settingsCollection = defineCollection({
 });
 
 const eventsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/events' }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
     cardDescription: z.string().optional(),
-    eventDate: z.date(),
+    eventDate: z.coerce.date(),
     dateOverride: z.string().optional(),
     location: z.string().optional(),
     image: z.string().nullable().optional(),
@@ -112,7 +114,7 @@ const eventsCollection = defineCollection({
 });
 
 const getInvolvedCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/get-involved' }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -121,7 +123,7 @@ const getInvolvedCollection = defineCollection({
 });
 
 const homepageCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/[^_]*.json', generateId: ({ entry }) => entry.replace(/\.json$/, ''), base: './src/content/homepage' }),
   schema: z.object({
     hero_title: z.string().optional(),
     hero_subtitle: z.string().optional(),
@@ -145,28 +147,28 @@ const homepageCollection = defineCollection({
 });
 
 const transparencyCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/transparency' }),
   schema: z.object({
     title: z.string(),
     subtitle: z.string().optional(),
     link: z.string().url(),
-    pubDate: z.date(),
+    pubDate: z.coerce.date(),
   }),
 });
 
 const newsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/news' }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
     author: z.string(),
-    pubDate: z.date(),
+    pubDate: z.coerce.date(),
     image: z.string().optional(),
   }),
 });
 
 const projectsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
     goal: z.string().optional(),
@@ -181,7 +183,7 @@ const projectsCollection = defineCollection({
 });
 
 const researchCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/research' }),
   schema: z.object({
     title: z.string(),
     description: z.string().optional(),
@@ -212,11 +214,11 @@ const researchCollection = defineCollection({
 });
 
 const newslettersCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/newsletters' }),
   schema: z.object({
     subject: z.string(),
     preheader: z.string().optional(),
-    sendDate: z.date(),
+    sendDate: z.coerce.date(),
     heroImage: z.string().optional(),
     intro: z.string().optional(),
     includeEvents: z.boolean().default(true),
@@ -252,7 +254,11 @@ export const collections = {
   leadership: leadershipCollection,
   settings: settingsCollection,
   events: eventsCollection,
-  getInvolved: getInvolvedCollection,
+  'get-involved': getInvolvedCollection,
+  signup: defineCollection({
+    loader: glob({ pattern: '*.json', base: './src/content/signup', generateId: ({ entry }) => entry.replace(/\.json$/, '') }),
+    schema: z.object({}).passthrough(),
+  }),
   news: newsCollection,
   transparency: transparencyCollection,
   projects: projectsCollection,

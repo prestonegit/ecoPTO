@@ -16,12 +16,12 @@ const snapshotFor = (slug) =>
 
 export async function getStaticPaths() {
   const issues = (await getCollection('newsletters')).filter((i) => i.data.status === 'sent');
-  return issues.map((i) => ({ params: { slug: i.slug }, props: { issue: i } }));
+  return issues.map((i) => ({ params: { slug: i.id }, props: { issue: i } }));
 }
 
 const { issue } = Astro.props;
 const d = issue.data;
-const snapshot = snapshotFor(issue.slug);
+const snapshot = snapshotFor(issue.id);
 const sentDate = new Date(snapshot?.sentAt ?? d.sendDate);
 const sentDateIsExact = Boolean(snapshot?.sentAt);
 
@@ -37,7 +37,7 @@ const fallbackEvents = async () => {
     .sort((a, b) => new Date(a.data.eventDate) - new Date(b.data.eventDate))
     .slice(0, 4)
     .map((e) => ({
-      slug: e.slug, title: e.data.title, eventDate: e.data.eventDate,
+      slug: e.id, title: e.data.title, eventDate: e.data.eventDate,
       dateOverride: e.data.dateOverride ?? null, location: e.data.location ?? null,
       cardDescription: e.data.cardDescription ?? e.data.description ?? '',
       externalUrl: e.data.externalUrl ?? null,
@@ -51,7 +51,7 @@ const fallbackNews = async () => {
     .sort((a, b) => new Date(b.data.pubDate) - new Date(a.data.pubDate))
     .slice(0, 3)
     .map((n) => ({
-      slug: n.slug, title: n.data.title, author: n.data.author,
+      slug: n.id, title: n.data.title, author: n.data.author,
       pubDate: n.data.pubDate, description: n.data.description ?? '',
     }));
 };

@@ -13,5 +13,5 @@ const { news } = Astro.props;
   <span class="mt-auto inline-flex items-center text-sm font-bold text-primary group-hover:text-green-700">
     Read Full Story <span class="ml-1 transform group-hover:translate-x-1 transition-transform">&rarr;</span>
   </span>
-  <a href={`/news/${news.slug}/`} class="absolute inset-0 z-10"><span class="sr-only">Read {news.data.title}</span></a>
+  <a href={`/news/${news.id}/`} class="absolute inset-0 z-10"><span class="sr-only">Read {news.data.title}</span></a>
 </div>

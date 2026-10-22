@@ -13,8 +13,8 @@ const eventsAscending = [...allEvents].sort(sortByEventDateAscending);
 const eventsDescending = [...allEvents].sort(sortByEventDateDescending);
 const initialUpcomingEvents = eventsAscending.filter((event) => isUpcomingEventDate(event.data.eventDate));
 const initialPastEvents = eventsDescending.filter((event) => !isUpcomingEventDate(event.data.eventDate));
-const initialUpcomingSlugs = new Set(initialUpcomingEvents.map((event) => event.slug));
-const initialPastSlugs = new Set(initialPastEvents.map((event) => event.slug));
+const initialUpcomingSlugs = new Set(initialUpcomingEvents.map((event) => event.id));
+const initialPastSlugs = new Set(initialPastEvents.map((event) => event.id));
 // Our own pages (e.g. a custom event site like /dance) open in the same tab; other hosts open a new one.
 const isOffsite = (url?: string) => !!url && !url.startsWith('https://ecopto.org');
 ---
@@ -42,14 +42,14 @@ const isOffsite = (url?: string) => !!url && !url.startsWith('https://ecopto.org
           <div data-upcoming-events-list class="grid lg:grid-cols-2 gap-10">
             {eventsAscending.map(event => (
               <a
-                href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
+                href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.id}`}
                 target={isOffsite(event.data.externalUrl) ? '_blank' : '_self'}
                 rel={isOffsite(event.data.externalUrl) ? 'noopener noreferrer' : undefined}
                 data-upcoming-event-card
                 data-event-date={event.data.eventDate.toISOString()}
                 class:list={[
                   'flex flex-col bg-white rounded-[2rem] border border-gray-100 shadow-md overflow-hidden hover-spring group relative',
-                  !initialUpcomingSlugs.has(event.slug) && 'hidden',
+                  !initialUpcomingSlugs.has(event.id) && 'hidden',
                 ]}
               >
                 <div class="absolute inset-0 bg-primary opacity-0 group-hover:opacity-5 transition-opacity duration-300 pointer-events-none"></div>
@@ -96,14 +96,14 @@ const isOffsite = (url?: string) => !!url && !url.startsWith('https://ecopto.org
           <div data-past-events-list class="grid lg:grid-cols-2 gap-8 lg:gap-10 opacity-80 mix-blend-multiply">
             {eventsDescending.map(event => (
               <a
-                href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.slug}`}
+                href={event.data.externalUrl ? event.data.externalUrl : `/events/${event.id}`}
                 target={isOffsite(event.data.externalUrl) ? '_blank' : '_self'}
                 rel={isOffsite(event.data.externalUrl) ? 'noopener noreferrer' : undefined}
                 data-past-event-card
                 data-event-date={event.data.eventDate.toISOString()}
                 class:list={[
                   'flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden hover:shadow-md transition-shadow group',
-                  !initialPastSlugs.has(event.slug) && 'hidden',
+                  !initialPastSlugs.has(event.id) && 'hidden',
                 ]}
               >
                 <div class="md:flex flex-grow grayscale group-hover:grayscale-0 transition-all duration-500">

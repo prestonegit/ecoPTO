@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import { marked } from 'marked';
 
 const researchEntries = await getCollection('research');
-const researchPage = researchEntries.find(entry => entry.slug === 'research');
+const researchPage = researchEntries.find(entry => entry.id === 'research');
 
 if (!researchPage) {
   return Astro.redirect('/404');

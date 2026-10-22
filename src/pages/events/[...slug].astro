@@ -1,5 +1,5 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 import { marked } from 'marked';
 import Layout from '../../layouts/Layout.astro';
 import EventDate from '../../components/EventDate.astro';
@@ -8,7 +8,7 @@ import { buildGoogleCalendarUrl } from '../../utils/events';
 export async function getStaticPaths() {
   const events = await getCollection('events');
   return events.map(event => ({
-    params: { slug: event.slug },
+    params: { slug: event.id },
     props: { event },
   }));
 }
@@ -20,7 +20,7 @@ if (event.data.externalUrl) {
   return Astro.redirect(event.data.externalUrl);
 }
 
-const { Content } = await event.render();
+const { Content } = await render(event);
 const descriptionHTML = event.data.description ? marked.parse(event.data.description) : null;
 const cardDescriptionHTML = event.data.cardDescription ? marked.parse(event.data.cardDescription) : null;
 const calendarUrl = buildGoogleCalendarUrl({

@@ -1,5 +1,4 @@
 import { defineConfig } from 'astro/config';
-import tailwind from "@astrojs/tailwind";
 import mdx from "@astrojs/mdx";
 import react from "@astrojs/react";
 import sitemap from "@astrojs/sitemap";
@@ -18,8 +17,9 @@ const EXTERNAL_EVENTS = new Set(
 export default defineConfig({
   // Required for sitemap generation and absolute canonical URLs.
   site: 'https://ecopto.org',
+  // Preserve inline spacing when upgrading from Astro 4.
+  compressHTML: true,
   integrations: [
-    tailwind(),
     mdx(),
     react(),
     sitemap({

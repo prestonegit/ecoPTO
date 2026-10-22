@@ -1,19 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import TimelineItem from "../components/TimelineItem.astro";
 
 
 
 const allPages = await getCollection("pages");
-const impactPage = allPages.find(page => page.slug === "impact");
+const impactPage = allPages.find(page => page.id === "impact");
 
 if (!impactPage) {
   return Astro.redirect("/404"); // Or render a fallback message
 }
 
 const { data } = impactPage;
-const { Content } = await impactPage.render();
+const { Content } = await render(impactPage);
 const { title, subtitle, achievements_title, achievements } = data;
 ---
 <Layout title={title}>

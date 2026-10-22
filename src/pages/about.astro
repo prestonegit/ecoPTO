@@ -4,7 +4,7 @@ import { getCollection } from 'astro:content';
 import { marked } from 'marked';
 
 const allAboutUsEntries = await getCollection('aboutUs');
-const aboutContent = allAboutUsEntries.find(entry => entry.slug === 'about-us');
+const aboutContent = allAboutUsEntries.find(entry => entry.id === 'about-us');
 
 if (!aboutContent) {
   // This should ideally not happen now that the collection is found

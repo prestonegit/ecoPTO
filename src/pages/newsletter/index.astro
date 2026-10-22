@@ -20,7 +20,7 @@ const issues = (await getCollection('newsletters'))
 
       <div class="space-y-6">
         {issues.map((i) => (
-          <a href={`/newsletter/${i.slug}/`} class="block p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover-spring transition-all group">
+          <a href={`/newsletter/${i.id}/`} class="block p-6 bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover-spring transition-all group">
             <div class="text-sm text-text-secondary mb-2">
               {new Date(i.data.sendDate).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}
             </div>
