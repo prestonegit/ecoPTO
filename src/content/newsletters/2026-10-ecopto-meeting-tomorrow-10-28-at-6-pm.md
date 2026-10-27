@@ -1,5 +1,5 @@
 ---
-subject: ecoPTO meeting tomorrow (10/28) at 6 pm
+subject: ecoPTO meeting tomorrow (10/28) at 6pm
 preheader: Join us for our October general meeting!
 sendDate: 2026-10-27T17:00:00.000Z
 intro: >-
