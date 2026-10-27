@@ -14,9 +14,9 @@ intro: >-
   See YEW there!
 includeEvents: false
 includeNews: false
-lastTestSentAt: 2026-10-27T11:36:20.023Z
-lastTestHash: sha256-bada1f4879713621898638f631731c4cc05511ff1d21d2b25725ad3bc5ab4bfb
+lastTestSentAt: 2026-10-27T16:04:35.298Z
+lastTestHash: sha256-dc9cc5992e24ad57e535119c9ba8b62e394860f14059e7e1aa25fb5e3dfb82a8
 testEmail: karen.lemorvan@gmail.com
-status: send-test
+status: draft
 confirmSend: false
 ---
