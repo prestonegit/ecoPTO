@@ -17,6 +17,6 @@ includeNews: false
 lastTestSentAt: 2026-10-27T16:04:35.298Z
 lastTestHash: sha256-dc9cc5992e24ad57e535119c9ba8b62e394860f14059e7e1aa25fb5e3dfb82a8
 testEmail: karen.lemorvan@gmail.com
-status: draft
+status: send-now-confirmed
 confirmSend: false
 ---
