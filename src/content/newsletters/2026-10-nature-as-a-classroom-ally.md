@@ -38,5 +38,8 @@ intro: >-
 includeEvents: false
 includeNews: false
 testEmail: prestonbroderick@gmail.com
-status: send-test
+status: draft
+confirmSend: false
+lastTestSentAt: 2026-10-30T00:18:08.351Z
+lastTestHash: sha256-46e1722fcd66e20300e6d53ef867ceb8f5a4af2fad2c86a033f4695a54c0bb08
 ---
