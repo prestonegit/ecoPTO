@@ -39,6 +39,7 @@ includeNews: false
 lastTestSentAt: 2026-10-30T00:39:31.507Z
 lastTestHash: sha256-05094730ddd1199afac2c98c345489317855975ad637979bb44df2c70582599c
 testEmail: prestonbroderick@gmail.com
-status: send-now-confirmed
+status: sent
 confirmSend: false
+resendBroadcastId: 76b91d50-3703-4a3a-82e5-6166fcd0b392
 ---
