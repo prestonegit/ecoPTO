@@ -36,9 +36,9 @@ intro: >-
   100% of funds raised will go directly towards our gift box initiative. Thank you for your generosity and ongoing dedication to connecting our students and educators to the natural world!
 includeEvents: false
 includeNews: false
-lastTestSentAt: 2026-10-30T00:18:08.351Z
-lastTestHash: sha256-46e1722fcd66e20300e6d53ef867ceb8f5a4af2fad2c86a033f4695a54c0bb08
+lastTestSentAt: 2026-10-30T00:39:31.507Z
+lastTestHash: sha256-05094730ddd1199afac2c98c345489317855975ad637979bb44df2c70582599c
 testEmail: prestonbroderick@gmail.com
-status: send-test
+status: draft
 confirmSend: false
 ---
