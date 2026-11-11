@@ -32,7 +32,7 @@ closing: >-
   Karen Le Morvan
 
 
-  ecoPTO Communications
+  ecoPTO communications
 lastTestSentAt: 2026-11-11T18:15:28.163Z
 lastTestHash: sha256-268095edd1cf702f835033cf4c1069f3a3c1c61e6c7a1bd3b740de999e8e6ecc
 testEmail: karen.lemorvan@gmail.com
