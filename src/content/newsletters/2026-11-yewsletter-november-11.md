@@ -23,7 +23,7 @@ closing: >-
   so far!  Check out the [interactive version
   here](https://ecopto.org/petition/) and add your name, pass it on, and  join
   us at this Monday's school board meeting as we advocate for 5 common-sense
-  instructonal tech milestones across all grade levels.
+  instructional tech milestones across all grade levels.
 
 
   Count and be counted,
