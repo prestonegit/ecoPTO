@@ -1,7 +1,7 @@
 ---
 subject: YEWsletter - November 11
 preheader: Join us at Monday's board meeting
-sendDate: 2026-11-11T17:00:00.000Z
+sendDate: 2026-11-11T18:00:00.000Z
 intro: >-
   Hello YEW Crew,
 
