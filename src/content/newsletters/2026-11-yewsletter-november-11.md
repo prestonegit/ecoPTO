@@ -36,6 +36,6 @@ closing: >-
 lastTestSentAt: 2026-11-11T15:50:50.868Z
 lastTestHash: sha256-76e9561d704d7b8abb0b237b2ca13b1775802f86f2a71ec871f378afdf1ce51c
 testEmail: karen.lemorvan@gmail.com
-status: draft
+status: send-test
 confirmSend: false
 ---
