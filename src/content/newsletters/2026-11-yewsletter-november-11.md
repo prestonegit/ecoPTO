@@ -33,9 +33,9 @@ closing: >-
 
 
   ecoPTO communications
-lastTestSentAt: 2026-11-11T18:15:28.163Z
-lastTestHash: sha256-268095edd1cf702f835033cf4c1069f3a3c1c61e6c7a1bd3b740de999e8e6ecc
+lastTestSentAt: 2026-11-11T18:22:17.265Z
+lastTestHash: sha256-548e44f8c07ac6a05837b17a4530128c5fe6142277f79d04b6436abcfd48a940
 testEmail: karen.lemorvan@gmail.com
-status: send-test
+status: draft
 confirmSend: false
 ---
