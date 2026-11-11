@@ -22,7 +22,7 @@ closing: >-
   tech](https://sites.google.com/view/intentional-tech-hvrsd/parent-petition-for-intentional-tech)
   so far!  Check out the [interactive version
   here](https://ecopto.org/petition/) and add your name, pass it on, and  join
-  us at this Monday's board meeting as we advocate for 5 common-sense
+  us at this Monday's school board meeting as we advocate for 5 common-sense
   instructonal tech milestones across all grade levels.
 
 
