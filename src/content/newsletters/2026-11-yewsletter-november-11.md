@@ -1,9 +1,9 @@
 ---
 includeEvents: true
 confirmSend: false
-subject: YEWsletter - November 11
+subject: YEWsletter - November 12
 preheader: Join us at Monday's board meeting
-sendDate: 2026-11-11T18:00:00.000Z
+sendDate: 2026-11-13T00:00:00.000Z
 intro: >-
   Hello YEW Crew,
 
@@ -31,8 +31,8 @@ closing: >-
 
 
   Karen Le Morvan, ecoPTO communications
-lastTestSentAt: 2026-11-13T00:09:39.681Z
-lastTestHash: sha256-1adf34390ed48e2c01981df749a821f7a63fdb05bd35b3d8f9256f6a8631d2a2
+lastTestSentAt: 2026-11-13T00:04:05.715Z
+lastTestHash: sha256-1224f7c445dd8c28e6a10ae192008e76aeebaee3f395ec2be8c297b4b5f53640
 testEmail: karen.lemorvan@gmail.com
-status: draft
+status: send-test
 ---
