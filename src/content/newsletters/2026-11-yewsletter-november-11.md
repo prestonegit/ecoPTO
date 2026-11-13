@@ -30,12 +30,9 @@ closing: >-
   Count and be counted,
 
 
-  Karen Le Morvan
-
-
-  ecoPTO communications
+  Karen Le Morvan, ecoPTO communications
 lastTestSentAt: 2026-11-13T00:04:05.715Z
 lastTestHash: sha256-1224f7c445dd8c28e6a10ae192008e76aeebaee3f395ec2be8c297b4b5f53640
 testEmail: karen.lemorvan@gmail.com
-status: draft
+status: send-test
 ---
