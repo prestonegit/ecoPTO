@@ -1,0 +1,49 @@
+{
+  "slug": "2026-10-ecopto-meeting-tomorrow-10-28-at-6-pm",
+  "data": {
+    "subject": "ecoPTO meeting tomorrow (10/28) at 6pm",
+    "preheader": "Join us for our October general meeting!",
+    "sendDate": "2026-10-27T17:00:00.000Z",
+    "intro": "Join us for our monthly meeting on Wednesday, October 28 at 6pm. Bring your ideas and enthusiasm as we continue to plan programs and initiatives in support of Youth and Earth Wellbeing (Y.E.W.)!\n\nWe are meeting at the Broderick residence, 90 Crusher Road (park on the driveway of BeechTree Farm/105 Crusher Road across the street; park on the grass on the right side of the gravel road and walk up the driveway. )\n\nSee YEW there!",
+    "includeEvents": false,
+    "includeNews": false,
+    "lastTestSentAt": "2026-10-27T16:04:35.298Z",
+    "lastTestHash": "sha256-dc9cc5992e24ad57e535119c9ba8b62e394860f14059e7e1aa25fb5e3dfb82a8",
+    "testEmail": "karen.lemorvan@gmail.com",
+    "status": "send-now-confirmed",
+    "confirmSend": false
+  },
+  "broadcastId": "93f835d9-6d0c-4646-9fce-4a9cd5a46a39",
+  "sentAt": "2026-10-27T16:12:32.658Z",
+  "events": [
+    {
+      "slug": "2026-08-26-ecopto-meeting",
+      "title": "ecoPTO Monthly Meeting",
+      "eventDate": "2026-10-28T22:00:00.000Z",
+      "dateOverride": null,
+      "location": "Broderick residence, 90 Crusher Road (park  on the driveway of BeechTree Farm/105 Crusher Road  across the street; park on the grass on the right side of the gravel road and walk up the driveway. )",
+      "cardDescription": "Mark your calendar for our monthly general meeting on Wednesday October 28 at 6pm at 90 Crusher Rd (park on the right hand side of BeechTree Farm driveway across the street.)",
+      "image": "/assets/images/chatgpt-image-sep-10-2025-05_04_33-pm.png",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-10-02-fall-garden-clean-ups-at-hes",
+      "title": "Fall Garden Clean Ups at HES ",
+      "eventDate": "2026-11-08T16:00:00.000Z",
+      "dateOverride": "Sundays October 25, November 1, and November 8",
+      "location": "Hopewell Elementary School",
+      "cardDescription": "Come help with the garden spaces at HES these Sundays: October 25, November 1, and November 8, from 8am to 11am.",
+      "image": "/assets/images/green-artsy-community-garden-poster_fall-work-days.png",
+      "externalUrl": null
+    }
+  ],
+  "news": [
+    {
+      "slug": "2025-08-07-welcome-from-the-ecoPTO-president",
+      "title": "Welcome from the ecoPTO President",
+      "author": "ecoPTO President",
+      "pubDate": "2025-08-07T00:00:00.000Z",
+      "description": "A warm welcome to all our new and returning families from the ecoPTO President."
+    }
+  ]
+}

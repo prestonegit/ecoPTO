@@ -1,0 +1,45 @@
+---
+subject: Nature - A Classroom Ally
+preheader: Gift  Box
+sendDate: 2026-10-29T23:52:00.000Z
+intro: >-
+  When we invite nature in as a classroom ally, the outdoors becomes a built-in
+  teaching partner. Nature as a classroom ally calms young nervous systems,
+  sparks creativity and curiosity, and brings everyday lessons to life.
+
+
+  This coming January 2027, ecoPTO aims to gift a curated **Nature Ally Gift Box** to every Kindergarten and 1st-grade classroom across all four HVRSD elementary schools. Each collection is filled with nature-based books and hands-on resources grounded in **gratitude, reciprocity, exploration, and wonder**. Together, they give teachers and young learners an easy, inviting way to weave nature into every school day, both indoors and out!
+
+
+  Our goal is to bring this project to life at **zero cost to school or district budgets**. To help us reach our goal, we are partnering with local photographer and Bear Tavern parent **Brianna Gosselin**, who is offering a special thank-you mini photo session for donors who contribute $75 or more.
+
+
+  **Mini Photo Session Details:**
+
+
+  - **When:** Saturday, November 14 &amp; Sunday, November 15
+
+  - **Where:** Baldpate Mountain (relaxed, open meadow setting)
+
+  - **What:** A candid, playful 20-minute session including at least 5 edited digital images (no stiff posing required!)
+
+
+  **How You Can Support:**
+
+
+  **Step 1:** Make your donation [here](https://ecopto.org/donate/) *(every contribution helps, and $75 sponsors a full classroom box).* 
+
+
+  **Step 2:** Contributing $75 or more? Book your thank you photo session [here](https://briannagosselin.pixieset.com/booking/ecopto-kindergarten-book-boxes). Spots are limited, don't delay!
+
+
+  100% of funds raised will go directly towards our gift box initiative. Thank you for your generosity and ongoing dedication to connecting our students and educators to the natural world!
+includeEvents: false
+includeNews: false
+lastTestSentAt: 2026-10-30T00:39:31.507Z
+lastTestHash: sha256-05094730ddd1199afac2c98c345489317855975ad637979bb44df2c70582599c
+testEmail: prestonbroderick@gmail.com
+status: sent
+confirmSend: false
+resendBroadcastId: 76b91d50-3703-4a3a-82e5-6166fcd0b392
+---
