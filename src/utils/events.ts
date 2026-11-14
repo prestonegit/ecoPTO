@@ -83,3 +83,60 @@ export function buildGoogleCalendarUrl({
 
   return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }
+
+function escapeIcsText(value: string): string {
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/\r?\n/g, '\\n')
+    .replace(/([,;])/g, '\\$1');
+}
+
+// RFC 5545 caps lines at 75 octets; continuation lines start with a space.
+function foldIcsLine(line: string): string {
+  const out: string[] = [];
+  let current = '';
+  let bytes = 0;
+  for (const char of line) {
+    const size = new TextEncoder().encode(char).length;
+    if (bytes + size > 75) {
+      out.push(current);
+      current = ' ';
+      bytes = 1;
+    }
+    current += char;
+    bytes += size;
+  }
+  out.push(current);
+  return out.join('\r\n');
+}
+
+export function buildIcsFile({
+  uid,
+  title,
+  startDate,
+  endDate = getDefaultEventEndDate(startDate),
+  description = '',
+  location = '',
+  url = '',
+}: GoogleCalendarEvent & { uid: string; url?: string }): string {
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//ecoPTO//Events//EN',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${uid}`,
+    `DTSTAMP:${formatGoogleCalendarDateTime(new Date())}`,
+    `DTSTART:${formatGoogleCalendarDateTime(startDate)}`,
+    `DTEND:${formatGoogleCalendarDateTime(endDate)}`,
+    `SUMMARY:${escapeIcsText(title)}`,
+    description && `DESCRIPTION:${escapeIcsText(description)}`,
+    location && `LOCATION:${escapeIcsText(location)}`,
+    url && `URL:${url}`,
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].filter(Boolean) as string[];
+
+  return lines.map(foldIcsLine).join('\r\n') + '\r\n';
+}
