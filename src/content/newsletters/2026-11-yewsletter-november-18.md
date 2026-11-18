@@ -13,10 +13,10 @@ intro: >-
   (starting at about 1 hour 55 minutes you will find the public comment section,
   with comments about intentional tech beginning at about the 2 hour mark -- and
   also ecoPTO Pres. Gabe Dominguez wraps up with an additional public comment at
-  the end of the meeting (at the 4:02:25 mark - yes, it was a long night!)
+  the end of the meeting, at the 4:02:25 mark. Yes, it was a long night!)
 
 
-  Thank you to ALL those who came out and especially to those who spoke , eloquently and from the heart, about their experiences and concerns about intentional tech. 
+  Thank you to ALL those who came out and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about intentional tech. 
 
 
   If you weren't able to come and would like to attend a future board meeting and voice your support, shoot an email to [ecoptohvrsd@gmail.com](mailto:ecoptohvrsd@gmail.com) as we plan our next steps.
