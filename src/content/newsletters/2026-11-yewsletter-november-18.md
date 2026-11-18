@@ -8,7 +8,7 @@ intro: >-
   community members spoke out in favor of the [intentional tech
   petition](https://sites.google.com/view/intentional-tech-hvrsd/parent-petition-for-intentional-tech)
   (now signed by over 200 parents), and dozens of other parents and friends were
-  there to give their support and solidarity and to hear the board's
+  there to show their support and solidarity and to hear the board's
   response.  If you missed it, [check out the recording
   here](https://www.youtube.com/watch?v=0tKiU_6oCU0&list=PLqHK2EJ9pPbZXSWdETQg5AVj7UZzrA9QE&index=1&pp=iAQB)
   (starting at about 1 hour 55 minutes you will find the public comment section,
@@ -17,7 +17,7 @@ intro: >-
   the end of the meeting, at the 4:02:25 mark. Yes, it was a long night!)
 
 
-  Thank you to ALL those who came out and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about screen time and AI. 
+  Thank you to ALL those who came out, and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about screen time and AI. 
 
 
   If you weren't able to come and would like to attend a future board meeting and voice your support of the petition and Schools Beyond Screens, shoot an email to [ecoptohvrsd@gmail.com](mailto:ecoptohvrsd@gmail.com) as we plan our next steps.
