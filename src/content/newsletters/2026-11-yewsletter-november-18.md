@@ -30,7 +30,7 @@ closing: >-
   this movement.
 
 
-  With a heart full of thanksgiving,
+  Grateful for you and our work on YEW,
 
 
   Karen Le Morvan, ecoPTO communications
