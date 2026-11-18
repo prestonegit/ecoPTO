@@ -1,6 +1,8 @@
 ---
+includeEvents: true
+confirmSend: false
 subject: YEWsletter - November 18
-preheader: Oh, what a night!
+preheader: Oh, what a night!     Thank you!
 sendDate: 2026-11-18T18:00:00.000Z
 intro: >-
   Friends, ecoPTO and allies **showed up** on Monday for the district Board of
@@ -17,27 +19,34 @@ intro: >-
   the end of the meeting, at the 4:02:25 mark. Yes, it was a long night!)
 
 
-  Thank you to ALL those who came out, and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about screen time and AI. 
+  **THANK YOU** to **ALL** those who came out, and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about screen time and AI. 
 
 
   If you weren't able to come and would like to attend a future board meeting and voice your support of the petition and Schools Beyond Screens, shoot an email to [ecoptohvrsd@gmail.com](mailto:ecoptohvrsd@gmail.com) as we plan our next steps.
 
 
   And read on for upcoming events as we continue to work together for YEW!
-includeEvents: true
 includeNews: false
 closing: >-
-  YEW crew, thank you for showing up, for speaking out, and for being part of
-  this movement.
+  To see the minutes from our last general meeting, click
+  [here](https://docs.google.com/document/d/18PEliw50-lkrsc87auT7QzOX5DHQo55IEFfX3FgvOSU/edit?usp=sharing).
+  And if you have an agenda item to submit for our upcoming meeting 12/9 at Bear
+  Tavern, email it to ecoptohvrsd@gmail.com with "agenda item" in the subject
+  line.
+
+
+  \*\*\*\*
+
+
+  YEW crew, thank you for showing up, for speaking out, and for being part of this movement.
 
 
   Grateful for you and our work for Y.E.W,
 
 
   Karen Le Morvan, ecoPTO communications
-testEmail: karen.lemorvan@gmail.com
-status: draft
-confirmSend: false
 lastTestSentAt: 2026-11-18T02:22:05.146Z
 lastTestHash: sha256-9ba3018757951213b5e266be91d25dcb07971ad614626a329b966b92264fe58e
+testEmail: karen.lemorvan@gmail.com
+status: draft
 ---
