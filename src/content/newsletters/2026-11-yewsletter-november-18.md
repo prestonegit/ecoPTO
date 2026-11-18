@@ -31,8 +31,8 @@ closing: >-
   To see the minutes from our last general meeting, click
   [here](https://docs.google.com/document/d/18PEliw50-lkrsc87auT7QzOX5DHQo55IEFfX3FgvOSU/edit?usp=sharing).
   And if you have an agenda item to submit for our upcoming meeting 12/9 at Bear
-  Tavern, email it to ecoptohvrsd@gmail.com with "agenda item" in the subject
-  line.
+  Tavern, email it to [ecoptohvrsd@gmail.com](mailto:ecoptohvrsd@gmail.com) with
+  "agenda item" in the subject line.
 
 
   \*\*\*\*
@@ -41,7 +41,7 @@ closing: >-
   YEW crew, thank you for showing up, for speaking out, and for being part of this movement.
 
 
-  Grateful for you and our work for Y.E.W,
+  Grateful for you and our work for Y.E.W.,
 
 
   Karen Le Morvan, ecoPTO communications
