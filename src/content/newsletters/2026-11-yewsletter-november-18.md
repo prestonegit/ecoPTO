@@ -4,9 +4,10 @@ preheader: Oh, what a night!
 sendDate: 2026-11-18T18:00:00.000Z
 intro: >-
   Friends, ecoPTO and allies **showed up** on Monday for the district Board of
-  Education meeting! Over the course of an hour, students, parents, and
-  community members spoke out in favor of the intentional tech petition (now
-  signed by over 200 parents), and dozens of other parents and friends were
+  Education meeting! Over the course of an hour, 18 students, parents, and
+  community members spoke out in favor of the [intentional tech
+  petition](https://sites.google.com/view/intentional-tech-hvrsd/parent-petition-for-intentional-tech)
+  (now signed by over 200 parents), and dozens of other parents and friends were
   there to give their support and solidarity and to hear the board's
   response.  If you missed it, [check out the recording
   here](https://www.youtube.com/watch?v=0tKiU_6oCU0&list=PLqHK2EJ9pPbZXSWdETQg5AVj7UZzrA9QE&index=1&pp=iAQB)
@@ -16,10 +17,10 @@ intro: >-
   the end of the meeting, at the 4:02:25 mark. Yes, it was a long night!)
 
 
-  Thank you to ALL those who came out and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about intentional tech. 
+  Thank you to ALL those who came out and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about screen time and AI. 
 
 
-  If you weren't able to come and would like to attend a future board meeting and voice your support, shoot an email to [ecoptohvrsd@gmail.com](mailto:ecoptohvrsd@gmail.com) as we plan our next steps.
+  If you weren't able to come and would like to attend a future board meeting and voice your support of the petition and Schools Beyond Screens, shoot an email to [ecoptohvrsd@gmail.com](mailto:ecoptohvrsd@gmail.com) as we plan our next steps.
 
 
   And read on for upcoming events as we continue to work together for YEW!
@@ -30,7 +31,7 @@ closing: >-
   this movement.
 
 
-  Grateful for you and our work on YEW,
+  Grateful for you and our work for Y.E.W,
 
 
   Karen Le Morvan, ecoPTO communications
