@@ -1,9 +1,9 @@
 ---
 includeEvents: true
 confirmSend: false
-subject: YEWsletter - November 18
-preheader: Oh, what a night!     Thank you!
-sendDate: 2026-11-18T18:00:00.000Z
+subject: YEWsletter - November 19
+preheader: Oh, what a night!      Thank you!
+sendDate: 2026-11-19T15:00:00.000Z
 intro: >-
   Friends, ecoPTO and allies **showed up** on Monday for the district Board of
   Education meeting! Over the course of an hour, 18 students, parents, and
@@ -14,9 +14,7 @@ intro: >-
   response.  If you missed it, [check out the recording
   here](https://www.youtube.com/watch?v=0tKiU_6oCU0&list=PLqHK2EJ9pPbZXSWdETQg5AVj7UZzrA9QE&index=1&pp=iAQB)
   (starting at about 1 hour 55 minutes you will find the public comment section,
-  with comments about intentional tech beginning at about the 2 hour mark -- and
-  also ecoPTO Pres. Gabe Dominguez wraps up with an additional public comment at
-  the end of the meeting, at the 4:02:25 mark. Yes, it was a long night!)
+  with comments about intentional tech beginning at about the 2 hour mark). 
 
 
   **THANK YOU** to **ALL** those who came out, and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about screen time and AI. 
@@ -44,9 +42,9 @@ closing: >-
   Grateful for you and our work for Y.E.W.,
 
 
-  Karen Le Morvan, ecoPTO communications
+  Karen (for the ecoPTO communications circle)
 lastTestSentAt: 2026-11-18T02:22:05.146Z
 lastTestHash: sha256-9ba3018757951213b5e266be91d25dcb07971ad614626a329b966b92264fe58e
 testEmail: karen.lemorvan@gmail.com
-status: draft
+status: send-test
 ---
