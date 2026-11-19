@@ -1,0 +1,50 @@
+{
+  "slug": "2026-11-yewsletter-november-18",
+  "data": {
+    "includeEvents": true,
+    "confirmSend": false,
+    "subject": "YEWsletter - November 19",
+    "preheader": "Oh, what a night!      Thank you!",
+    "sendDate": "2026-11-19T15:00:00.000Z",
+    "intro": "Friends, ecoPTO and allies **showed up** on Monday for the district Board of Education meeting! Over the course of an hour, 18 students, parents, and community members spoke out in favor of the [intentional tech petition](https://sites.google.com/view/intentional-tech-hvrsd/parent-petition-for-intentional-tech) (now signed by over 200 parents), and dozens of other parents and friends were there to show their support and solidarity and to hear the board's response.  If you missed it, [check out the recording here](https://www.youtube.com/watch?v=0tKiU_6oCU0&list=PLqHK2EJ9pPbZXSWdETQg5AVj7UZzrA9QE&index=1&pp=iAQB) (starting at about 1 hour 55 minutes you will find the public comment section, with comments about intentional tech beginning at about the 2 hour mark). \n\n**THANK YOU** to **ALL** those who came out, and especially to those who spoke, eloquently and from the heart, about their experiences and concerns about screen time and AI. \n\nIf you weren't able to come and would like to attend a future board meeting and voice your support of the petition and Schools Beyond Screens, shoot an email to [ecoptohvrsd@gmail.com](mailto:ecoptohvrsd@gmail.com) as we plan our next steps.\n\nAnd read on for upcoming events as we continue to work together for YEW!",
+    "includeNews": false,
+    "closing": "To see the minutes from our last general meeting, click [here](https://docs.google.com/document/d/18PEliw50-lkrsc87auT7QzOX5DHQo55IEFfX3FgvOSU/edit?usp=sharing). And if you have an agenda item to submit for our upcoming meeting 12/9 at Bear Tavern, email it to [ecoptohvrsd@gmail.com](mailto:ecoptohvrsd@gmail.com) with \"agenda item\" in the subject line.\n\n\\*\\*\\*\\*\n\nYEW crew, thank you for showing up, for speaking out, and for being part of this movement.\n\nGrateful for you and our work for Y.E.W.,\n\nKaren (for the ecoPTO communications circle)",
+    "lastTestSentAt": "2026-11-19T14:44:45.474Z",
+    "lastTestHash": "sha256-2b63a7d08d1de966624df9ef283f61e91890be76bd0f1f56437d2f691f5af839",
+    "testEmail": "karen.lemorvan@gmail.com",
+    "status": "send-now-confirmed"
+  },
+  "broadcastId": "5878460e-d12a-4b6f-8314-66f3998ee710",
+  "sentAt": "2026-11-19T14:47:32.226Z",
+  "events": [
+    {
+      "slug": "2026-11-09-family-hike-for-december-save-the-date",
+      "title": "Family Hike #9 at Herrontown Woods",
+      "eventDate": "2026-12-06T14:00:00.000Z",
+      "dateOverride": null,
+      "location": "Herrontown Woods",
+      "cardDescription": "Join us 12/6 for the ninth hike in our monthly Family Hikes series! (Gather at 9 am for 11 am hike start)",
+      "image": "/assets/images/fam-hike-9.jpg",
+      "externalUrl": null
+    },
+    {
+      "slug": "2026-11-18-ecopto-monthly-meeting",
+      "title": "ecoPTO Monthly Meeting",
+      "eventDate": "2026-12-09T23:00:00.000Z",
+      "dateOverride": null,
+      "location": "Bear Tavern (media center)",
+      "cardDescription": "Mark your calendar for our monthly general meeting on Wednesday December 9 at 6pm at Bear Tavern (media center).",
+      "image": "/assets/images/bt.jpg",
+      "externalUrl": null
+    }
+  ],
+  "news": [
+    {
+      "slug": "2025-08-07-welcome-from-the-ecoPTO-president",
+      "title": "Welcome from the ecoPTO President",
+      "author": "ecoPTO President",
+      "pubDate": "2025-08-07T00:00:00.000Z",
+      "description": "A warm welcome to all our new and returning families from the ecoPTO President."
+    }
+  ]
+}
