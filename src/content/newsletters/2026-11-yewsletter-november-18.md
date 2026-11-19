@@ -43,8 +43,8 @@ closing: >-
 
 
   Karen (for the ecoPTO communications circle)
-lastTestSentAt: 2026-11-19T14:38:35.305Z
+lastTestSentAt: 2026-11-19T14:44:45.474Z
 lastTestHash: sha256-2b63a7d08d1de966624df9ef283f61e91890be76bd0f1f56437d2f691f5af839
 testEmail: karen.lemorvan@gmail.com
-status: send-test
+status: draft
 ---
