@@ -17,6 +17,20 @@
   to = "/#contact"
   status = 301
 
+# The transparency page is hidden until real minutes/budgets are posted in the CMS.
+# To publish it: delete this redirect and the /transparency filter in astro.config.mjs.
+[[redirects]]
+  from = "/transparency"
+  to = "/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/transparency/"
+  to = "/"
+  status = 302
+  force = true
+
 # Baseline headers for every page. Rules below add stricter ones for /admin and uploads.
 # Framing is limited with CSP frame-ancestors rather than X-Frame-Options: when several
 # rules match, a second X-Frame-Options value (DENY on /admin) could combine into an

@@ -28,7 +28,7 @@ export default defineConfig({
       // those noindex; listing a redirect in a sitemap is just noise for crawlers.
       filter: (page) => {
         const { pathname } = new URL(page);
-        if (/\/(admin|unsubscribe)(\/|$)/.test(pathname)) return false;
+        if (/\/(admin|unsubscribe|transparency)(\/|$)/.test(pathname)) return false;
         const slug = pathname.replace(/^\/events\/|\/$/g, '');
         return !(pathname.startsWith('/events/') && EXTERNAL_EVENTS.has(slug));
       },
