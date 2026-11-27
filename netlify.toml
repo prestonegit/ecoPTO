@@ -19,6 +19,20 @@
 
 # The transparency page is hidden until real minutes/budgets are posted in the CMS.
 # To publish it: delete this redirect and the /transparency filter in astro.config.mjs.
+# News section removed for now (Nov 2026). The collection and newsletter hooks remain,
+# empty, so it can come back by restoring src/pages/news and the CMS entry.
+[[redirects]]
+  from = "/news"
+  to = "/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/news/*"
+  to = "/"
+  status = 302
+  force = true
+
 [[redirects]]
   from = "/transparency"
   to = "/"

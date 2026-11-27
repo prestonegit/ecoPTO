@@ -4,6 +4,8 @@ const { title, description, image, link_text, link_url, link_file } = achievemen
 const isEven = index % 2 === 0;
 const link = link_file || link_url;
 const buttonText = link_text || "Learn More";
+// Site pages open in the same tab; PDFs and outside links open in a new one.
+const newTab = link && !(link.startsWith('/') && !/\.[a-z0-9]+$/i.test(link));
 ---
 
 <div class="relative mb-8 flex flex-col md:flex-row items-center w-full">
@@ -17,8 +19,8 @@ const buttonText = link_text || "Learn More";
           {link && (
             <a 
               href={link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
+              target={newTab ? "_blank" : undefined}
+              rel={newTab ? "noopener noreferrer" : undefined}
               class="inline-block bg-accent text-white font-bold py-2.5 px-6 rounded-full hover-spring shadow-sm text-sm"
             >
               {buttonText}
@@ -39,8 +41,8 @@ const buttonText = link_text || "Learn More";
           {link && (
             <a 
               href={link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
+              target={newTab ? "_blank" : undefined}
+              rel={newTab ? "noopener noreferrer" : undefined}
               class="inline-block bg-accent text-white font-bold py-2.5 px-6 rounded-full hover-spring shadow-sm text-sm"
             >
               {buttonText}
