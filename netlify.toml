@@ -11,6 +11,53 @@
 # Netlify Forms is no longer used — every form POSTs to /api/forms, routed by the
 # `config.path` export in netlify/functions/forms.mjs. See FORM_SUBMISSION.md.
 
+# /contact used to be a placeholder page; the real contact form lives on the homepage.
+[[redirects]]
+  from = "/contact"
+  to = "/#contact"
+  status = 301
+
+# The transparency page is hidden until real minutes/budgets are posted in the CMS.
+# To publish it: delete this redirect and the /transparency filter in astro.config.mjs.
+# News section removed for now (Nov 2026). The collection and newsletter hooks remain,
+# empty, so it can come back by restoring src/pages/news and the CMS entry.
+[[redirects]]
+  from = "/news"
+  to = "/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/news/*"
+  to = "/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/transparency"
+  to = "/"
+  status = 302
+  force = true
+
+[[redirects]]
+  from = "/transparency/"
+  to = "/"
+  status = 302
+  force = true
+
+# Baseline headers for every page. Rules below add stricter ones for /admin and uploads.
+# Framing is limited with CSP frame-ancestors rather than X-Frame-Options: when several
+# rules match, a second X-Frame-Options value (DENY on /admin) could combine into an
+# invalid header, whereas two CSP policies are simply both enforced.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Strict-Transport-Security = "max-age=31536000"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Content-Security-Policy = "frame-ancestors 'self'"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
 # Uploaded media is served from ecopto.org itself — the same origin as /admin, where an
 # editor's Netlify Identity session is kept in localStorage. A script-capable file uploaded
 # through Decap's media library (which has no file-type filter) would run as ecopto.org when

@@ -376,30 +376,6 @@ export const config = {
       ]
     },
     {
-      name: "news",
-      label: "News posts",
-      summary: "{{title}} · {{pubDate | date('MMM D, YYYY')}} · {{author | default('no author')}}",
-      sortable_fields: [
-        { field: "pubDate", label: "Publish date", default_sort: "desc" },
-        { field: "title", label: "Title" },
-        { field: "author", label: "Author" },
-      ],
-      folder: "src/content/news",
-      create: true,
-      slug: "{{year}}-{{month}}-{{day}}-{{slug}}",
-      extension: "mdx",
-      format: "frontmatter",
-      frontmatter_format: 'yaml',
-      fields: [
-        { label: "Title", name: "title", widget: "string" },
-        { label: "Description", name: "description", widget: "text", required: false },
-        { label: "Author", name: "author", widget: "string" },
-        { label: "Publish Date", name: "pubDate", widget: "datetime" },
-        { label: "Featured Image", name: "image", widget: "image", required: false },
-        { label: "Body", name: "body", widget: "rich-text", mdx: true, required: false }
-      ]
-    },
-    {
       name: "projects",
       label: "Projects",
       summary: "{{title}}",

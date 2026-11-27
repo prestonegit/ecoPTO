@@ -110,7 +110,7 @@ const themeClass = globalSettings.data.theme; // Force rebuild
         }
 
         .theme-ecopto .bg-primary .text-secondary,
-        .theme-ecopto [class*="bg-primary"] .text-secondary {
+        .theme-ecopto [class*="bg-primary"]:not([class*="bg-bg-primary"]) .text-secondary {
             color: #FFFFFF;
         }
 
@@ -159,21 +159,24 @@ const themeClass = globalSettings.data.theme; // Force rebuild
 	<GetInvolvedModal />
 	<PetitionFloatingDock />
 
-	<script is:inline src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 	<script is:inline>
-		window.netlifyIdentity.on("init", user => {
-			// Handle invite tokens
-			const match = window.location.hash.match(/invite_token=([^&]+)/);
-			if (match) {
-				window.netlifyIdentity.open('signup', { token: match[1] });
-			}
-
-			if (!user) {
-				window.netlifyIdentity.on("login", () => {
-					document.location.href = "/admin/";
+		// Netlify Identity's emails (editor invites, password resets, confirmations) link to
+		// the site root with a token in the hash. Only then is the widget needed, so public
+		// visitors don't download a third-party script, and an ad blocker that stops it can't
+		// throw an error on every page.
+		if (/(invite|recovery|confirmation|email_change)_token=/.test(window.location.hash)) {
+			const s = document.createElement('script');
+			s.src = 'https://identity.netlify.com/v1/netlify-identity-widget.js';
+			s.onload = () => {
+				window.netlifyIdentity.on('init', (user) => {
+					const match = window.location.hash.match(/invite_token=([^&]+)/);
+					if (match) window.netlifyIdentity.open('signup', { token: match[1] });
+					if (!user) window.netlifyIdentity.on('login', () => { document.location.href = '/admin/'; });
 				});
-			}
-		});
+				window.netlifyIdentity.init();
+			};
+			document.head.appendChild(s);
+		}
 	</script>
 	<script is:inline>
 		document.addEventListener('astro:page-load', () => {

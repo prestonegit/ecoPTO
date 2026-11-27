@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Page not found" description="That page wandered off. Here's where to find the ecoPTO petition, events and how to join.">
+  <section class="bg-[#FAF7F2] min-h-[70vh] flex items-center py-20">
+    <div class="container mx-auto px-6 max-w-2xl text-center">
+      <img src="/logo-icon.svg" alt="" width="96" height="96" class="mx-auto mb-8 w-24 h-24" />
+      <p class="text-sm font-bold uppercase tracking-[0.18em] text-text-secondary mb-3">404 &middot; Page not found</p>
+      <h1 class="font-serif font-bold text-primary text-4xl sm:text-5xl leading-tight mb-5">
+        This trail doesn&rsquo;t go anywhere.
+      </h1>
+      <p class="text-lg text-text-secondary leading-relaxed mb-10">
+        The page may have moved, or the link had a typo. Here are the places most people are looking for:
+      </p>
+      <div class="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3">
+        <a href="/petition" class="w-full sm:w-auto bg-primary hover:bg-[#8A3E22] text-white font-bold px-6 py-3 rounded-full shadow-md transition-colors">Read the petition</a>
+        <a href="/events" class="w-full sm:w-auto bg-white border border-[#E5D6C7] hover:border-primary text-primary font-bold px-6 py-3 rounded-full transition-colors">Upcoming events</a>
+        <button type="button" class="get-involved-trigger w-full sm:w-auto bg-white border border-[#E5D6C7] hover:border-primary text-primary font-bold px-6 py-3 rounded-full transition-colors" data-target-tab="form-join">Join ecoPTO</button>
+        <a href="/" class="w-full sm:w-auto text-text-secondary hover:text-primary font-bold px-4 py-3 transition-colors">Home &rarr;</a>
+      </div>
+    </div>
+  </section>
+</Layout>

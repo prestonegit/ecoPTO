@@ -36,3 +36,17 @@
   animation: gentle-sway 3s ease-in-out infinite;
   cursor: pointer;
 }
+
+/* Above-the-fold entrance. Pure CSS, so it starts with first paint instead of waiting
+   for page-load and an IntersectionObserver (which left the hero blank for ~3s on phones). */
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+.hero-enter { animation: hero-rise 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+.hero-enter-2 { animation-delay: 0.08s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-enter { animation: none; }
+  .animate-on-scroll { opacity: 1; transform: none; transition: none; }
+}

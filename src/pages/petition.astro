@@ -2,7 +2,11 @@
 import Layout from '../layouts/Layout.astro';
 ---
 
-<Layout title="Parent Petition: Intentional Tech">
+<Layout
+  title="Parent Petition: Screens Down, Pencils Up"
+  description="Hopewell Valley parents are asking HVRSD for five clear limits on classroom tech: analog-first learning, screen-time tracking, grade-level limits, no routine take-home Chromebooks, and a working group within 60 days."
+  image="/assets/images/og-petition.jpg"
+>
 
   <!-- ========================================== -->
   <!-- Big & Bold Hero Section                    -->
@@ -17,6 +21,17 @@ import Layout from '../layouts/Layout.astro';
       <p class="text-lg sm:text-xl text-text-primary font-normal leading-relaxed max-w-3xl mb-6">
         We applaud Superintendent Treece&rsquo;s vision to curb classroom device use. Now, let&rsquo;s back that vision with five actionable, common-sense district milestones.
       </p>
+
+      <!-- Where things stand (update as the district moves) -->
+      <div class="max-w-3xl mb-7 rounded-2xl border border-[#E5D6C7] bg-white px-5 py-4 text-left">
+        <div class="text-[11px] font-bold uppercase tracking-wider text-[#B05B3B] mb-2">Where things stand &middot; November 2026</div>
+        <ul class="space-y-1.5 text-sm sm:text-base text-text-primary leading-relaxed list-disc pl-5">
+          <li>On Nov 16, parents and students packed the Board of Education meeting to speak about screen time.</li>
+          <li>The board adopted 2026&ndash;27 goals that include setting maximum screen-time expectations.</li>
+          <li>Dr. Treece told the board the district expects to have limits around January, when the board gets its next update.</li>
+        </ul>
+        <a href="#src-6" class="inline-block mt-2 text-sm font-bold text-primary hover:underline">Read the coverage &rarr;</a>
+      </div>
 
       <!-- CTA Row -->
       <div class="flex flex-col sm:flex-row items-center gap-3 pt-1">
@@ -71,7 +86,7 @@ import Layout from '../layouts/Layout.astro';
 
             <!-- Analog Scenarios (0 - 3) -->
             <img src="/images/analog-morning-book.jpg" alt="8:00 AM Morning Class Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-0" loading="eager" />
-            <img src="/images/analog-afternoon-postits-hands.webp" alt="1:15 PM students collaborating with Post-it notes and paper" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-1" loading="eager" />
+            <img src="/images/analog-afternoon-postits-hands.webp" alt="1:15 PM Afternoon Inquiry Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-1" loading="eager" />
             <img src="/images/analog-evening-dinner.jpg" alt="6:00 PM Dinner Table Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-2" loading="eager" />
             <img src="/images/analog-bedtime-sleep.jpg" alt="8:30 PM Bedtime Analog" class="stage-slide absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ease-in-out opacity-0 pointer-events-none" data-scenario="analog-3" loading="eager" />
           </div>
@@ -82,18 +97,16 @@ import Layout from '../layouts/Layout.astro';
           <!-- Notification in Top Right Corner of Photo (Digital Mode Only) -->
           <aside 
             id="stage-notification" 
-            class="absolute top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 max-w-[200px] sm:max-w-xs bg-black/80 backdrop-blur-md border border-white/20 rounded-xl p-2 sm:p-2.5 text-white shadow-xl pointer-events-auto transition-opacity duration-300 z-20"
+            class="absolute top-2.5 right-2.5 sm:top-3.5 sm:right-3.5 w-[220px] sm:w-[300px] bg-white/95 backdrop-blur-sm rounded-lg px-3 py-2.5 text-[#202124] shadow-[0_2px_10px_rgba(0,0,0,0.35)] pointer-events-auto transition-opacity duration-300 z-20 font-sans"
           >
-            <div class="flex items-center justify-between gap-2 mb-0.5">
-              <span id="notif-source" class="text-[10px] sm:text-[11px] font-bold text-amber-300 uppercase tracking-wider truncate">
-                Educational Games
-              </span>
-              <span id="notif-time" class="text-[9px] sm:text-[10px] text-white/60 font-mono flex-shrink-0">
-                now
-              </span>
+            <div class="flex items-center gap-1.5 mb-1 text-[10px] sm:text-[11px] text-[#5f6368]">
+              <span class="w-3.5 h-3.5 rounded-full bg-[#1a73e8] flex-shrink-0" aria-hidden="true"></span>
+              <span id="notif-source" class="truncate">Math Practice</span>
+              <span aria-hidden="true">&middot;</span>
+              <span id="notif-time" class="flex-shrink-0">now</span>
             </div>
-            <p id="notif-msg" class="text-xs text-white/95 leading-snug m-0 font-sans">
-              Daily math puzzle unlocked in background tab.
+            <p id="notif-msg" class="text-xs sm:text-[13px] leading-snug m-0">
+              You&rsquo;re on a 4-day streak! Play 3 more levels to keep it going.
             </p>
           </aside>
 
@@ -255,8 +268,11 @@ import Layout from '../layouts/Layout.astro';
             <div class="font-bold text-text-primary text-base sm:text-lg">Dr. Rosetta Treece</div>
             <div class="text-xs sm:text-sm text-text-secondary mt-0.5">Superintendent, Hopewell Valley Regional School District</div>
             <div class="text-xs text-text-secondary/80 font-mono mt-4 pt-2 border-t border-[#E5D6C7]/60">
-              Welcome Back Address to Families &middot; August 27, 2026
+              Welcome Back Address to Families &middot; August 27, 2026 <a href="#src-5" class="text-primary hover:underline">[source]</a>
             </div>
+            <p class="text-sm text-text-secondary mt-3 max-w-xl leading-relaxed">
+              At the November 16 board meeting she went further: &ldquo;We have gotten too dependent on these devices,&rdquo; adding that the district is &ldquo;pretty darn close to setting screen limits for our students.&rdquo; <a href="#src-6" class="text-primary hover:underline">[source]</a>
+            </p>
           </div>
 
           <a 
@@ -303,7 +319,7 @@ import Layout from '../layouts/Layout.astro';
           </p>
           <div class="text-sm text-text-secondary leading-relaxed space-y-2 border-t border-[#E5D6C7]/60 pt-4">
             <p>
-              Reading physical books and writing by hand significantly increases comprehension, memory retention, and mental focus.
+              Research links reading on paper to better comprehension than reading the same text on screen,<sup><a href="#src-1" class="text-primary font-bold no-underline hover:underline" aria-label="Source 1">[1]</a></sup> and handwriting to brain activity associated with memory that typing doesn&rsquo;t produce.<sup><a href="#src-2" class="text-primary font-bold no-underline hover:underline" aria-label="Source 2">[2]</a></sup> Students who report being distracted by devices in class score lower in math.<sup><a href="#src-3" class="text-primary font-bold no-underline hover:underline" aria-label="Source 3">[3]</a></sup>
             </p>
           </div>
         </article>
@@ -321,7 +337,7 @@ import Layout from '../layouts/Layout.astro';
           </p>
           <div class="text-sm text-text-secondary leading-relaxed border-t border-[#E5D6C7]/60 pt-4">
             <p>
-              Modeled after the Los Angeles Unified School District: we currently have no data on students&rsquo; total daily exposure to school-issued devices&mdash;online or offline, in class or at home.
+              Modeled on the Los Angeles Unified School District, whose board voted in April 2026 to track and report student screen time to parents.<sup><a href="#src-4" class="text-primary font-bold no-underline hover:underline" aria-label="Source 4">[4]</a></sup> We currently have no data on students&rsquo; total daily exposure to school-issued devices&mdash;online or offline, in class or at home.
             </p>
           </div>
         </article>
@@ -343,7 +359,7 @@ import Layout from '../layouts/Layout.astro';
             <div class="text-left sm:text-center">
               <div class="text-xs uppercase tracking-wider font-bold text-text-secondary mb-1">PreK &ndash; 2nd Grade</div>
               <div class="font-serif text-2xl font-bold text-primary mb-1">0 Minutes</div>
-              <div class="text-xs text-text-secondary">Fully screen-free primary learning</div>
+              <div class="text-xs text-text-secondary">Fully screen-free primary learning<sup><a href="#src-4" class="text-primary font-bold no-underline hover:underline" aria-label="Source 4">[4]</a></sup></div>
             </div>
             <div class="text-left sm:text-center sm:border-l sm:border-r sm:border-[#E5D6C7]/60 sm:px-4">
               <div class="text-xs uppercase tracking-wider font-bold text-text-secondary mb-1">3rd &ndash; 5th Grade</div>
@@ -407,6 +423,24 @@ import Layout from '../layouts/Layout.astro';
 
     </div>
   </section>
+
+  <!-- ========================================== -->
+  <!-- Sources                                    -->
+  <!-- ========================================== -->
+  <section id="sources" class="py-12 sm:py-16 bg-white border-t border-[#E5D6C7]">
+    <div class="container mx-auto px-6 max-w-4xl">
+      <h2 class="font-serif font-bold text-text-primary text-2xl sm:text-3xl mb-6">Sources</h2>
+      <ol class="space-y-4 text-sm text-text-secondary leading-relaxed list-decimal pl-5">
+        <li id="src-1" class="scroll-mt-24">Delgado, P., Vargas, C., Ackerman, R., &amp; Salmer&oacute;n, L. (2018). &ldquo;Don&rsquo;t throw away your printed books: A meta-analysis on the effects of reading media on reading comprehension.&rdquo; <em>Educational Research Review</em>, 25, 23&ndash;38. Across 54 studies, readers understood text better on paper than on screen. <a class="text-primary underline" href="https://www.uv.es/lasalgon/papers/Delgado%202018%20dont%20throw%20away%20your%20printed%20books.pdf" target="_blank" rel="noopener noreferrer">Read the paper</a></li>
+        <li id="src-2" class="scroll-mt-24">Van der Weel, F. R., &amp; Van der Meer, A. L. H. (2024). &ldquo;Handwriting but not typewriting leads to widespread brain connectivity: a high-density EEG study with implications for the classroom.&rdquo; <em>Frontiers in Psychology</em>, 14. <a class="text-primary underline" href="https://www.frontiersin.org/articles/10.3389/fpsyg.2023.1219945/full" target="_blank" rel="noopener noreferrer">Read the study</a></li>
+        <li id="src-3" class="scroll-mt-24">OECD (2023). <em>PISA 2022 Results</em>. Across OECD countries, students distracted by classmates&rsquo; devices in at least some math lessons scored 15 points lower in math. The OECD reports this as an association, not proof of cause. <a class="text-primary underline" href="https://www.oecd.org/en/about/news/press-releases/2023/12/decline-in-educational-performance-only-partly-attributable-to-the-covid-19-pandemic.html" target="_blank" rel="noopener noreferrer">OECD summary</a></li>
+        <li id="src-4" class="scroll-mt-24">Los Angeles Unified School District Board of Education, Resolution 048-25/26, &ldquo;Using Technology with Intention&rdquo; (April 2026): requires screen-time tracking and regular reports to parents, and bars device use in first grade and below. <a class="text-primary underline" href="https://www.nbcnews.com/news/education/los-angeles-school-district-require-screen-time-limits-rcna332173" target="_blank" rel="noopener noreferrer">NBC News coverage</a></li>
+        <li id="src-5" class="scroll-mt-24">Dr. Rosetta Treece, Welcome Back Address to Families, Hopewell Valley Regional School District, August 27, 2026.</li>
+        <li id="src-6" class="scroll-mt-24">&ldquo;HVRSD plans screen-time limits as parents push for more intentional technology use,&rdquo; <em>MercerMe</em>, coverage of the November 16, 2026 Board of Education meeting, where the board adopted 2026&ndash;27 goals that include maximum screen-time expectations. <a class="text-primary underline" href="https://mercerme.com/hvrsd-plans-screen-time-limits-as-parents-push-for-more-intentional-technology-use/" target="_blank" rel="noopener noreferrer">Read the article</a></li>
+      </ol>
+    </div>
+  </section>
+
 
   <!-- ========================================== -->
   <!-- Grand Call to Action                       -->
@@ -503,9 +537,9 @@ import Layout from '../layouts/Layout.astro';
         desc: 'Students open school-issued screens for basic reading. Multi-tab browsing, passive notification checking, and digital eye strain fragment deep comprehension.',
         problem: 'District screen time is currently unmeasured — opening browser tabs displaces deep, physical book reading.',
         notification: {
-          source: 'Educational Games',
+          source: 'Math Practice',
           time: 'now',
-          msg: 'Daily math puzzle unlocked in background tab.'
+          msg: 'You’re on a 4-day streak! Play 3 more levels to keep it going.'
         }
       },
       analog: {
@@ -524,9 +558,9 @@ import Layout from '../layouts/Layout.astro';
         desc: 'Instead of struggling through problem-solving or engaging in classroom discussion, students prompt generative tools for instant answers, eroding cognitive stamina.',
         problem: 'No grade-level daily limits exist — hours of screen isolation replace face-to-face teaching and pen-and-paper reasoning.',
         notification: {
-          source: 'AI Writing Assistant',
-          time: 'just now',
-          msg: 'Want me to draft this analysis section for you?'
+          source: 'Writing Assistant',
+          time: 'now',
+          msg: 'Stuck? I can write the next paragraph for you.'
         }
       },
       analog: {
@@ -545,9 +579,9 @@ import Layout from '../layouts/Layout.astro';
         desc: 'Routine take-home Chromebooks bring digital homework into family spaces. Open-ended browsing and games can distract from dinner and shared evening time.',
         problem: 'Routine take-home Chromebooks can interrupt family dinners, screen-free time, and evening routines.',
         notification: {
-          source: 'District Portal',
-          time: '5m ago',
-          msg: 'Reminder: Today’s digital homework assignment is due tomorrow at 8:00 AM.'
+          source: 'Classroom',
+          time: '2m ago',
+          msg: 'New assignment: Chapter 7 Reading Response. Due tomorrow, 8:00 AM.'
         }
       },
       analog: {
@@ -566,9 +600,9 @@ import Layout from '../layouts/Layout.astro';
         desc: 'School devices in bedrooms extend the school day through homework reminders, deadline alerts, and blue-light exposure, making it harder to wind down for sleep.',
         problem: 'School devices can keep kids connected to schoolwork at bedtime—notifications and blue light can make it harder to wind down.',
         notification: {
-          source: 'OnCourse Alert',
+          source: 'Classroom',
           time: 'now',
-          msg: 'Assignment deadline in 3 hours 29 minutes.'
+          msg: 'Reminder: Chapter 7 Reading Response is due tomorrow at 8:00 AM.'
         }
       },
       analog: {

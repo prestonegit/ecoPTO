@@ -17,7 +17,8 @@ const pagesCollection = defineCollection({
       link_text: z.string().optional(),
       link_url: z.preprocess(
         (val) => (val === '' ? undefined : val),
-        z.string().url().optional()
+        // A full URL, or a path on this site such as /petition.
+        z.union([z.string().url(), z.string().startsWith('/')]).optional()
       ),
       link_file: z.string().optional(),
     })).optional(),

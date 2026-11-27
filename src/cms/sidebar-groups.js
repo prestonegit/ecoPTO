@@ -20,7 +20,7 @@ export const SIDEBAR_GROUPS = [
   { label: 'Pages', collections: ['about-us', 'impact-page', 'research-page', 'pages'] },
   {
     label: 'Content',
-    collections: ['events', 'get-involved', 'leaders', 'news', 'projects', 'transparency'],
+    collections: ['events', 'get-involved', 'leaders', 'projects', 'transparency'],
   },
   { label: 'Settings', collections: ['settings'] },
 ];
